@@ -1,0 +1,172 @@
+analysis_crs: "EPSG:32118"
+regional_analysis_crs: "EPSG:26918"
+storage_crs: "EPSG:4326"
+h3_resolution: 10
+nyc_bbox:
+  west: -74.25909
+  south: 40.477399
+  east: -73.700272
+  north: 40.917577
+nyc_counties:
+  "005": Bronx
+  "047": Brooklyn
+  "061": Manhattan
+  "081": Queens
+  "085": Staten Island
+greater_nyc:
+  csa_code: "408"
+  name: New York-Newark, NY-NJ-CT-PA Combined Statistical Area
+  definition_vintage: 2023
+  state_fips:
+    - "09"
+    - "34"
+    - "36"
+    - "42"
+  bbox:
+    west: -75.40
+    south: 39.45
+    east: -71.75
+    north: 42.20
+  counties:
+    "09120":
+      state: CT
+      name: Greater Bridgeport Planning Region
+      subregion: Connecticut commuter region
+    "09190":
+      state: CT
+      name: Western Connecticut Planning Region
+      subregion: Connecticut commuter region
+    "34003":
+      state: NJ
+      name: Bergen County
+      subregion: Northern and central New Jersey
+    "34013":
+      state: NJ
+      name: Essex County
+      subregion: Northern and central New Jersey
+    "34017":
+      state: NJ
+      name: Hudson County
+      subregion: Northern and central New Jersey
+    "34019":
+      state: NJ
+      name: Hunterdon County
+      subregion: Northern and central New Jersey
+    "34021":
+      state: NJ
+      name: Mercer County
+      subregion: Northern and central New Jersey
+    "34023":
+      state: NJ
+      name: Middlesex County
+      subregion: Northern and central New Jersey
+    "34025":
+      state: NJ
+      name: Monmouth County
+      subregion: Northern and central New Jersey
+    "34027":
+      state: NJ
+      name: Morris County
+      subregion: Northern and central New Jersey
+    "34029":
+      state: NJ
+      name: Ocean County
+      subregion: Northern and central New Jersey
+    "34031":
+      state: NJ
+      name: Passaic County
+      subregion: Northern and central New Jersey
+    "34035":
+      state: NJ
+      name: Somerset County
+      subregion: Northern and central New Jersey
+    "34037":
+      state: NJ
+      name: Sussex County
+      subregion: Northern and central New Jersey
+    "34039":
+      state: NJ
+      name: Union County
+      subregion: Northern and central New Jersey
+    "36005":
+      state: NY
+      name: Bronx County
+      subregion: New York City
+    "36027":
+      state: NY
+      name: Dutchess County
+      subregion: Hudson Valley
+    "36047":
+      state: NY
+      name: Kings County
+      subregion: New York City
+    "36059":
+      state: NY
+      name: Nassau County
+      subregion: Long Island
+    "36061":
+      state: NY
+      name: New York County
+      subregion: New York City
+    "36071":
+      state: NY
+      name: Orange County
+      subregion: Hudson Valley
+    "36079":
+      state: NY
+      name: Putnam County
+      subregion: Hudson Valley
+    "36081":
+      state: NY
+      name: Queens County
+      subregion: New York City
+    "36085":
+      state: NY
+      name: Richmond County
+      subregion: New York City
+    "36087":
+      state: NY
+      name: Rockland County
+      subregion: Hudson Valley
+    "36103":
+      state: NY
+      name: Suffolk County
+      subregion: Long Island
+    "36105":
+      state: NY
+      name: Sullivan County
+      subregion: Hudson Valley
+    "36111":
+      state: NY
+      name: Ulster County
+      subregion: Hudson Valley
+    "36119":
+      state: NY
+      name: Westchester County
+      subregion: Hudson Valley
+    "42103":
+      state: PA
+      name: Pike County
+      subregion: Pennsylvania commuter region
+catchments:
+  - id: 250m
+    kind: radial
+    distance_m: 250
+  - id: 500m
+    kind: radial
+    distance_m: 500
+  - id: 1km
+    kind: radial
+    distance_m: 1000
+  - id: 5min_walk
+    kind: walk_network
+    travel_minutes: 5
+    distance_m: 400
+  - id: 10min_walk
+    kind: walk_network
+    travel_minutes: 10
+    distance_m: 800
+  - id: 15min_walk
+    kind: walk_network
+    travel_minutes: 15
+    distance_m: 1200

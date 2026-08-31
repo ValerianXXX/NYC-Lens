@@ -1,0 +1,814 @@
+version: "0.1.0"
+metrics:
+  resident_population:
+    label_zh: 常住人口
+    source: acs_2024_5yr
+    variable: B01003_001
+    measure_type: survey_estimate
+    aggregation: area_weighted
+    moe_required: true
+  decennial_population_2020:
+    label_zh: 2020年十年人口普查人口
+    source: census_decennial_2020_pl
+    variable: P0010001
+    measure_type: area_weighted_decennial_enumeration_count
+    aggregation: area_weighted_census_block
+    moe_required: false
+    caveat_zh: 2020-04-01时点的区块级公布计数，经面积分配到商圈；不是当前人口估计。
+  median_household_income:
+    label_zh: 家庭收入中位数
+    source: acs_2024_5yr
+    variable: B19013_001
+    measure_type: survey_estimate
+    aggregation: population_weighted
+    moe_required: true
+  median_age:
+    label_zh: 年龄中位数
+    source: acs_2024_5yr
+    variable: B01002_001
+    measure_type: survey_estimate
+    aggregation: population_weighted
+    moe_required: true
+  daytime_jobs:
+    label_zh: 白天岗位数
+    source: lodes_2023
+    variable: C000
+    measure_type: administrative_estimate
+    aggregation: point_sum
+    caveat_zh: LODES统计工作岗位，不等于独立自然人数。
+  direct_competitor_count:
+    label_zh: 直接竞争者数量
+    source: dohmh_restaurants
+    measure_type: classified_administrative_location_count
+    aggregation: business_taxonomy_filtered_distinct_location_count
+  subway_entries_2025:
+    label_zh: 2025年地铁进站客流
+    source: mta_hourly_2025
+    measure_type: administrative_estimate
+    aggregation: annual_entries_sum_for_station_complexes_in_catchment
+  subway_entrance_exit_count:
+    label_zh: 地铁出入口物理点数量
+    source: mta_subway_entrances_2024
+    measure_type: deduplicated_administrative_point_count
+    aggregation: coordinate_type_permission_deduplicated_points_in_catchment
+    caveat_zh: 2024静态清单；同一出入口服务多个站点复合体时按物理点去重，不代表当前施工、电梯运行、开放时间或无障碍路径状态。
+  subway_entry_allowed_count:
+    label_zh: 允许进站的地铁入口点数量
+    source: mta_subway_entrances_2024
+    measure_type: deduplicated_administrative_point_count
+    aggregation: entry_allowed_points_after_physical_deduplication
+    caveat_zh: 来源字段为2024清单中的Entry Allowed；不保证当前开放或实时可用。
+  visitor_proxy_index:
+    label_zh: 游客代理指数
+    source: derived
+    measure_type: model_proxy
+    components: [hotel_count, legal_short_term_rental_count, attraction_count, culture_and_library_count, subway_entries_2025, tlc_pickup_trips_average_daily_area_weighted, tlc_dropoff_trips_average_daily_area_weighted]
+    caveat_zh: 代理指标，不是游客人数或精确占比。
+  alcohol_license_count:
+    label_zh: 现行酒牌数量
+    source: nysla_active_licenses
+    measure_type: administrative_record_count
+    aggregation: licensed_point_count
+    caveat_zh: 当前有效牌照清单，不代表销量或完整历史。
+  legal_short_term_rental_count:
+    label_zh: 合法短租登记数量
+    source: nyc_str_registration
+    measure_type: administrative_record_count
+    aggregation: registered_building_point_count
+    caveat_zh: 仅反映2026-01-07发布状态；登记不证明每次住宿均合规。
+  public_facility_count:
+    label_zh: 公共及规划设施数量
+    source: nyc_facilities
+    measure_type: compiled_administrative_record_count
+    aggregation: deduplicated_facility_point_count
+  school_count:
+    label_zh: 学校与教育设施数量
+    source: nyc_facilities
+    measure_type: compiled_administrative_record_count
+    aggregation: deduplicated_facility_point_count
+  health_facility_count:
+    label_zh: 医疗健康设施数量
+    source: nyc_facilities
+    measure_type: compiled_administrative_record_count
+    aggregation: deduplicated_facility_point_count
+  park_facility_count:
+    label_zh: 公园与休闲设施数量
+    source: nyc_facilities
+    measure_type: compiled_administrative_record_count
+    aggregation: deduplicated_facility_point_count
+  culture_and_library_count:
+    label_zh: 文化与图书馆设施数量
+    source: nyc_facilities
+    measure_type: compiled_administrative_record_count
+    aggregation: deduplicated_facility_point_count
+  parcel_count:
+    label_zh: 相交税地块数量
+    source: mappluto_26v2
+    measure_type: intersecting_administrative_record_count
+    aggregation: exact_geometry_intersection_count
+    caveat_zh: 边界上仅部分相交的地块仍计为一个；面积、建筑面积和单元数则按地块相交比例分配。
+  intersecting_lot_area_sqft:
+    label_zh: 相交地块面积
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  building_floor_area_sqft:
+    label_zh: 建筑总楼面面积
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  residential_floor_area_sqft:
+    label_zh: 住宅楼面面积
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  office_floor_area_sqft:
+    label_zh: 办公楼面面积
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  retail_floor_area_sqft:
+    label_zh: 零售楼面面积
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  residential_units:
+    label_zh: 住宅单元数
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  total_units:
+    label_zh: 全部单元数
+    source: mappluto_26v2
+    measure_type: parcel_overlap_weighted_administrative_sum
+    aggregation: parcel_overlap_weighted_sum
+  building_floor_area_density:
+    label_zh: 建筑楼面面积密度
+    source: derived
+    measure_type: derived_spatial_density
+    aggregation: gross_floor_area_divided_by_total_catchment_area
+    caveat_zh: 分母包含道路、公园和水域，不等同于单一地块容积率。
+  residential_floor_area_density:
+    label_zh: 住宅楼面面积密度
+    source: derived
+    measure_type: derived_spatial_density
+    aggregation: residential_floor_area_divided_by_total_catchment_area
+  office_floor_area_density:
+    label_zh: 办公楼面面积密度
+    source: derived
+    measure_type: derived_spatial_density
+    aggregation: office_floor_area_divided_by_total_catchment_area
+  retail_floor_area_density:
+    label_zh: 零售楼面面积密度
+    source: derived
+    measure_type: derived_spatial_density
+    aggregation: retail_floor_area_divided_by_total_catchment_area
+  building_footprint_count:
+    label_zh: 相交建筑轮廓数量
+    source: nyc_building_footprints
+    measure_type: intersecting_administrative_record_count
+    aggregation: exact_geometry_intersection_count
+  rolling_sale_record_count:
+    label_zh: 近十二个月成交记录数
+    source: nyc_rolling_sales
+    measure_type: administrative_transaction_record_count
+    aggregation: records_linked_to_intersecting_bbls
+    caveat_zh: 是滚动成交记录而非当前估值；零价和非市场转让仍计入记录数。
+  rolling_sale_price_median:
+    label_zh: 近十二个月正价成交中位数
+    source: nyc_rolling_sales
+    measure_type: median_positive_recorded_sale_price
+    aggregation: median_positive_amount
+    caveat_zh: 不含零价成交，且不同物业类型不能直接等同比较。
+  rolling_sales_per_100_parcels:
+    label_zh: 每百地块近十二个月成交记录数
+    source: derived
+    measure_type: derived_transaction_density
+    aggregation: sale_records_divided_by_intersecting_parcel_count
+  acris_document_record_count_24m:
+    label_zh: 近24个月ACRIS文书-地块记录数
+    source: acris_real_property_master_recent
+    measure_type: administrative_property_document_count
+    aggregation: selected_documents_locally_joined_to_intersecting_bbls
+    caveat_zh: 同一文书涉及多个地块时按文书-地块分别计数；只含DEED、RPTT&RET、MTGE、SAT及ASST，且不保存当事人、姓名、地址或单元字段。
+  acris_deed_document_count_24m:
+    label_zh: 近24个月ACRIS契据文书-地块记录数
+    source: acris_real_property_master_recent
+    measure_type: administrative_property_document_count
+    aggregation: deed_documents_locally_joined_to_intersecting_bbls
+    caveat_zh: 是公开登记文书记录，不等于独立成交、当前产权结论或估值。
+  acris_mortgage_document_count_24m:
+    label_zh: 近24个月ACRIS抵押文书-地块记录数
+    source: acris_real_property_master_recent
+    measure_type: administrative_property_document_count
+    aggregation: mortgage_documents_locally_joined_to_intersecting_bbls
+    caveat_zh: 是公开登记文书记录，不代表当前未偿余额、融资可得性或法律意见。
+  acris_document_records_per_100_parcels_24m:
+    label_zh: 每百地块近24个月ACRIS文书记录数
+    source: derived
+    measure_type: derived_property_document_density
+    aggregation: document_lot_records_divided_by_intersecting_parcel_count
+  historical_transaction_case_count:
+    label_zh: 历史公开交易案例数量
+    source: derived_public_transaction_cases
+    measure_type: privacy_minimized_public_case_count
+    aggregation: deduplicated_cases_linked_to_intersecting_tax_lots
+    caveat_zh: 仅为公开房地产成交和契据案例，不是企业并购、估值、法律结论或经过物业类型匹配的可比案例。
+  historical_transaction_amount_median:
+    label_zh: 历史公开交易案例金额中位数
+    source: derived_public_transaction_cases
+    measure_type: median_positive_public_case_amount
+    aggregation: median_positive_amount_of_cases_linked_to_intersecting_tax_lots
+    caveat_zh: 不同物业类型、权益范围和记录口径不可直接比较；金额不代表当前价值。
+  building_permit_issued_24m_count:
+    label_zh: 近24个月建筑许可记录数
+    source: derived
+    measure_type: combined_administrative_record_count
+    aggregation: bis_and_dob_now_records_linked_to_intersecting_bbls
+    caveat_zh: 包括续期和多工种记录，不等于独立项目数；不含另行发布的电气、电梯和LAA许可系统。
+  active_dob_violation_count:
+    label_zh: 现行DOB违规记录数
+    source: derived
+    measure_type: deduplicated_administrative_record_count
+    aggregation: legacy_and_dob_now_active_records_by_bbl_and_violation_number
+    caveat_zh: 行政记录筛查事实，不是安全结论、法律意见或合规认定。
+  active_dob_violations_per_100_parcels:
+    label_zh: 每百地块现行DOB违规记录数
+    source: derived
+    measure_type: deduplicated_administrative_record_density
+    aggregation: active_records_divided_by_intersecting_parcel_count
+  active_ecb_violation_count:
+    label_zh: 现行DOB-ECB传票记录数
+    source: dob_ecb_violations_active
+    measure_type: deduplicated_administrative_record_count
+    aggregation: active_records_by_bbl_and_ecb_number
+    caveat_zh: 传票状态可能变化；记录不代表NYC Lens作出的法律判断。
+  active_ecb_violations_per_100_parcels:
+    label_zh: 每百地块现行DOB-ECB传票记录数
+    source: derived
+    measure_type: deduplicated_administrative_record_density
+    aggregation: active_records_divided_by_intersecting_parcel_count
+  regulatory_risk_signal:
+    label_zh: 监管记录密度筛查信号
+    source: derived_citywide_benchmark
+    measure_type: benchmark_classification
+    aggregation: median_component_percentile_with_33_67_bands
+    caveat_zh: 仅依据公开行政记录密度作筛查，不是安全结论、法律意见、尽调或合规认定；没有记录也不证明没有风险。
+  certificate_of_occupancy_issued_24m_count:
+    label_zh: 近24个月使用证书记录数
+    source: derived
+    measure_type: combined_administrative_record_count
+    aggregation: bis_and_dob_now_records_linked_to_intersecting_bbls
+    caveat_zh: 是证书记录数，不等于独立建筑数，也不证明当前实际用途。
+  311_request_count_24m:
+    label_zh: 近24个月311请求数
+    source: nyc_311_recent_aggregates
+    measure_type: server_aggregated_administrative_request_sum
+    aggregation: bbl_problem_agency_aggregate_sum
+    caveat_zh: 仅下载地块、问题类别、机构和数量的服务端聚合；请求不是经独立核实的事件、现行状态或法律结论。
+  311_noise_request_count_24m:
+    label_zh: 近24个月311噪音请求数
+    source: nyc_311_recent_aggregates
+    measure_type: server_aggregated_administrative_request_sum
+    aggregation: aggregate_sum_where_problem_contains_noise
+    caveat_zh: 是按来源问题名称筛选的报告数量，不是实测分贝、独立事件或噪音违规认定。
+  311_requests_per_100_parcels_24m:
+    label_zh: 每百地块近24个月311请求数
+    source: derived
+    measure_type: derived_request_density
+    aggregation: aggregate_requests_divided_by_intersecting_parcel_count
+  311_noise_requests_per_100_parcels_24m:
+    label_zh: 每百地块近24个月311噪音请求数
+    source: derived
+    measure_type: derived_request_density
+    aggregation: aggregate_noise_requests_divided_by_intersecting_parcel_count
+  vehicle_volume_monitor_count:
+    label_zh: 附近车流监测路段数
+    source: nyc_dot_traffic_counts
+    measure_type: observed_site_count
+    aggregation: distinct_monitored_segment_count
+  bus_stop_count:
+    label_zh: 公交计划站点数
+    source: mta_bus_gtfs_static
+    measure_type: scheduled_transit_record_count
+    aggregation: exact_name_and_rounded_coordinate_deduplicated_points_in_catchment
+    caveat_zh: 静态GTFS不代表实时到站、可靠性、实际客流或临时绕行。
+  citibike_station_count:
+    label_zh: Citi Bike站点数
+    source: citibike_gbfs_current
+    measure_type: published_bikeshare_station_count
+    aggregation: station_points_in_catchment
+    caveat_zh: 当前网络站点位置不代表站点使用量、骑行需求或历史稳定覆盖。
+  citibike_bikes_available_current:
+    label_zh: Citi Bike当前可借车辆
+    source: citibike_gbfs_current
+    measure_type: real_time_station_status_sum
+    aggregation: station_status_sum_in_catchment
+    caveat_zh: 点时快照可在数秒内变化，不是完成行程、独立骑手或需求预测。
+  citibike_docks_available_current:
+    label_zh: Citi Bike当前可还空位
+    source: citibike_gbfs_current
+    measure_type: real_time_station_status_sum
+    aggregation: station_status_sum_in_catchment
+    caveat_zh: 点时快照可在数秒内变化，不是服务可靠性或未来可用性保证。
+  hurricane_evacuation_overlap_pct:
+    label_zh: 飓风疏散区覆盖率
+    source: nyc_hurricane_evacuation_zones
+    measure_type: exact_projected_area_overlap
+    aggregation: numbered_evacuation_zone_union_intersection_divided_by_catchment_area
+    caveat_zh: 仅用于风暴潮疏散规划筛查；不是FEMA保险洪水区、实时疏散命令、工程判断或地块法律结论。
+  future_2050_floodplain_overlap_pct:
+    label_zh: 2050年代百年一遇洪泛区覆盖率
+    source: nyc_future_floodplain_2050s
+    measure_type: exact_projected_area_overlap
+    aggregation: projected_floodplain_union_intersection_divided_by_catchment_area
+    caveat_zh: 长期规划情景使用较早的初步FEMA和NPCC模型假设，不适用于当前保险费率、监管认定、场地设计或地块工程结论。
+  sea_level_2100_floodplain_overlap_pct:
+    label_zh: 2100年百年一遇洪泛区覆盖率
+    source: nyc_sea_level_rise_2100_floodplain
+    measure_type: exact_projected_area_overlap
+    aggregation: projected_floodplain_union_intersection_divided_by_catchment_area
+    caveat_zh: 使用90百分位75英寸海平面上升情景；不是特定事件预测、当前风险图、保险或法律结论。
+  environmental_exposure_profile:
+    label_zh: 环境暴露画像
+    source: derived
+    measure_type: transparent_threshold_classification
+    aggregation: maximum_catchment_overlap_across_hurricane_and_planning_flood_layers
+    caveat_zh: 只描述商圈与当前图层的几何重叠，不是实时预报、FEMA保险判定、工程评估、法律意见或地块尽调。
+  tlc_taxi_zone_count:
+    label_zh: 相交出租车分区数
+    source: tlc_taxi_zones
+    measure_type: exact_geometry_intersection_count
+    aggregation: taxi_zone_polygon_intersection_count
+    caveat_zh: 出租车分区是粗粒度运营地理，不是社区、地块或精确上下车点。
+  tlc_pickup_trips_monthly_area_weighted:
+    label_zh: TLC月度上车行程估计
+    source: tlc_trip_record_monthly_aggregates
+    measure_type: privacy_guarded_area_weighted_mobility_proxy
+    aggregation: yellow_green_zone_hour_counts_weighted_by_catchment_share_of_taxi_zone
+    caveat_zh: 假定每个出租车分区内均匀分布，且已抑制低于5次的单元；不是精确门店客流、独立人数或需求预测。
+  tlc_dropoff_trips_monthly_area_weighted:
+    label_zh: TLC月度下车行程估计
+    source: tlc_trip_record_monthly_aggregates
+    measure_type: privacy_guarded_area_weighted_mobility_proxy
+    aggregation: yellow_green_zone_hour_counts_weighted_by_catchment_share_of_taxi_zone
+    caveat_zh: 假定每个出租车分区内均匀分布，且已抑制低于5次的单元；不是精确门店客流、独立人数或需求预测。
+  tlc_pickup_trips_average_daily_area_weighted:
+    label_zh: TLC日均上车行程估计
+    source: tlc_trip_record_monthly_aggregates
+    measure_type: derived_daily_area_weighted_mobility_proxy
+    aggregation: area_weighted_monthly_pickups_divided_by_calendar_days
+    caveat_zh: 基于单月黄车与绿车聚合，不含其他网约车、公共交通、步行、自行车或私家车。
+  tlc_dropoff_trips_average_daily_area_weighted:
+    label_zh: TLC日均下车行程估计
+    source: tlc_trip_record_monthly_aggregates
+    measure_type: derived_daily_area_weighted_mobility_proxy
+    aggregation: area_weighted_monthly_dropoffs_divided_by_calendar_days
+    caveat_zh: 基于单月黄车与绿车聚合，不含其他网约车、公共交通、步行、自行车或私家车。
+  vehicle_volume_median_15min:
+    label_zh: 车流15分钟观测中位数
+    source: nyc_dot_traffic_counts
+    measure_type: median_of_road_segment_time_medians
+    aggregation: median
+    caveat_zh: 稀疏监测路段的中位数，不是街区车辆总量或独立车辆数。
+  pedestrian_monitor_count:
+    label_zh: 附近行人监测点数
+    source: nyc_dot_pedestrian_counts
+    measure_type: observed_site_count
+    aggregation: distinct_fixed_site_count
+  pedestrian_count_latest_median:
+    label_zh: 最新行人时段计数中位数
+    source: nyc_dot_pedestrian_counts
+    measure_type: median_published_count
+    aggregation: median
+    caveat_zh: 仅覆盖114个固定点的AM、午间和PM发布时段，不等于日客流。
+  traffic_speed_link_count:
+    label_zh: 附近实时速度监测链路数
+    source: nyc_dot_traffic_speed_current
+    measure_type: sensor_link_count
+    aggregation: distinct_monitored_link_count
+  traffic_speed_current_median_mph:
+    label_zh: 当前道路速度中位数
+    source: nyc_dot_traffic_speed_current
+    measure_type: median_real_time_sensor_estimate
+    aggregation: median
+    caveat_zh: 当前快照且主要覆盖干道和高速，不代表典型街区车速。
+  resident_population_density_per_sq_mile:
+    label_zh: 常住人口密度
+    source: acs_2024_5yr
+    variable: B01003_001
+    measure_type: derived_area_weighted_survey_density
+    aggregation: area_weighted_population_divided_by_projected_catchment_area
+    moe_required: true
+    caveat_zh: 区域调查估计，不代表地块实际入住或任何个人。
+  per_capita_income:
+    label_zh: 人均收入
+    source: acs_2024_5yr
+    variable: B19301_001
+    measure_type: survey_estimate
+    aggregation: population_weighted
+    moe_required: true
+  age_under_25:
+    label_zh: 25岁以下人口
+    source: acs_2024_5yr
+    variable_group: B01001
+    measure_type: survey_estimate
+    aggregation: selected_age_lines_area_weighted_sum
+    moe_required: true
+  age_25_44:
+    label_zh: 25至44岁人口
+    source: acs_2024_5yr
+    variable_group: B01001
+    measure_type: survey_estimate
+    aggregation: selected_age_lines_area_weighted_sum
+    moe_required: true
+  age_45_64:
+    label_zh: 45至64岁人口
+    source: acs_2024_5yr
+    variable_group: B01001
+    measure_type: survey_estimate
+    aggregation: selected_age_lines_area_weighted_sum
+    moe_required: true
+  age_65_plus:
+    label_zh: 65岁及以上人口
+    source: acs_2024_5yr
+    variable_group: B01001
+    measure_type: survey_estimate
+    aggregation: selected_age_lines_area_weighted_sum
+    moe_required: true
+  bachelors_or_higher_share:
+    label_zh: 学士及以上学历占比
+    source: acs_2024_5yr
+    variables: [B15003_022, B15003_023, B15003_024, B15003_025, B15003_001]
+    measure_type: derived_survey_estimate
+    aggregation: component_sum_divided_by_population_25_plus
+    moe_required: true
+  foreign_born_share:
+    label_zh: 外国出生人口占比
+    source: acs_2024_5yr
+    variables: [B05002_013, B05002_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total
+    moe_required: true
+  family_household_share:
+    label_zh: 家庭住户占比
+    source: acs_2024_5yr
+    variables: [B11001_002, B11001_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total_households
+    moe_required: true
+  nonfamily_household_share:
+    label_zh: 非家庭住户占比
+    source: acs_2024_5yr
+    variables: [B11001_007, B11001_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total_households
+    moe_required: true
+  civilian_labor_force_employment_rate:
+    label_zh: 民用劳动力就业率
+    source: acs_2024_5yr
+    variables: [B23025_004, B23025_003]
+    measure_type: derived_survey_estimate
+    aggregation: employed_divided_by_civilian_labor_force
+    moe_required: true
+  civilian_labor_force_unemployment_rate:
+    label_zh: 民用劳动力失业率
+    source: acs_2024_5yr
+    variables: [B23025_005, B23025_003]
+    measure_type: derived_survey_estimate
+    aggregation: unemployed_divided_by_civilian_labor_force
+    moe_required: true
+  non_hispanic_white_share:
+    label_zh: 非西语裔白人占比
+    source: acs_2024_5yr
+    variables: [B03002_003, B03002_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total_population
+    moe_required: true
+    caveat_zh: 区域统计仅用于市场描述，不代表个人，也不得用于差别待遇。
+  non_hispanic_black_share:
+    label_zh: 非西语裔黑人占比
+    source: acs_2024_5yr
+    variables: [B03002_004, B03002_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total_population
+    moe_required: true
+    caveat_zh: 区域统计仅用于市场描述，不代表个人，也不得用于差别待遇。
+  non_hispanic_asian_share:
+    label_zh: 非西语裔亚裔占比
+    source: acs_2024_5yr
+    variables: [B03002_006, B03002_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total_population
+    moe_required: true
+    caveat_zh: 区域统计仅用于市场描述，不代表个人，也不得用于差别待遇。
+  hispanic_or_latino_share:
+    label_zh: 西语裔或拉丁裔占比
+    source: acs_2024_5yr
+    variables: [B03002_012, B03002_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_total_population
+    moe_required: true
+    caveat_zh: 区域统计仅用于市场描述，不代表个人，也不得用于差别待遇。
+  english_only_language_share:
+    label_zh: 仅使用英语人口占比
+    source: acs_2024_5yr
+    variables: [C16001_002, C16001_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_population_age_5_plus
+    moe_required: true
+  spanish_language_share:
+    label_zh: 使用西班牙语人口占比
+    source: acs_2024_5yr
+    variables: [C16001_003, C16001_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_population_age_5_plus
+    moe_required: true
+  other_indo_european_language_share:
+    label_zh: 使用其他印欧语言人口占比
+    source: acs_2024_5yr
+    variables: [C16001_006, C16001_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_population_age_5_plus
+    moe_required: true
+  asian_pacific_language_share:
+    label_zh: 使用亚洲及太平洋语言人口占比
+    source: acs_2024_5yr
+    variables: [C16001_009, C16001_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_population_age_5_plus
+    moe_required: true
+  drove_alone_commute_share:
+    label_zh: 独自驾车通勤占比
+    source: acs_2024_5yr
+    variables: [B08301_003, B08301_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_workers_commute_total
+    moe_required: true
+  public_transit_commute_share:
+    label_zh: 公共交通通勤占比
+    source: acs_2024_5yr
+    variables: [B08301_010, B08301_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_workers_commute_total
+    moe_required: true
+  walked_commute_share:
+    label_zh: 步行通勤占比
+    source: acs_2024_5yr
+    variables: [B08301_019, B08301_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_workers_commute_total
+    moe_required: true
+  worked_from_home_share:
+    label_zh: 居家工作占比
+    source: acs_2024_5yr
+    variables: [B08301_021, B08301_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_workers_commute_total
+    moe_required: true
+  no_vehicle_household_share:
+    label_zh: 无车辆住户占比
+    source: acs_2024_5yr
+    variables: [B08201_002, B08201_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_households_vehicle_total
+    moe_required: true
+  owner_occupied_share:
+    label_zh: 自有住房占比
+    source: acs_2024_5yr
+    variables: [B25003_002, B25003_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_occupied_housing_units
+    moe_required: true
+  renter_occupied_share:
+    label_zh: 租赁住房占比
+    source: acs_2024_5yr
+    variables: [B25003_003, B25003_001]
+    measure_type: derived_survey_estimate
+    aggregation: numerator_divided_by_occupied_housing_units
+    moe_required: true
+  management_business_science_arts_occupation_share:
+    label_zh: 管理商业科学与艺术职业占比
+    source: acs_2024_5yr
+    variable_group: C24010
+    measure_type: derived_survey_estimate
+    aggregation: male_and_female_broad_occupation_sum_divided_by_employed_total
+    moe_required: true
+  service_occupation_share:
+    label_zh: 服务职业占比
+    source: acs_2024_5yr
+    variable_group: C24010
+    measure_type: derived_survey_estimate
+    aggregation: male_and_female_broad_occupation_sum_divided_by_employed_total
+    moe_required: true
+  sales_office_occupation_share:
+    label_zh: 销售与办公室职业占比
+    source: acs_2024_5yr
+    variable_group: C24010
+    measure_type: derived_survey_estimate
+    aggregation: male_and_female_broad_occupation_sum_divided_by_employed_total
+    moe_required: true
+  natural_resources_construction_maintenance_occupation_share:
+    label_zh: 自然资源建筑与维修职业占比
+    source: acs_2024_5yr
+    variable_group: C24010
+    measure_type: derived_survey_estimate
+    aggregation: male_and_female_broad_occupation_sum_divided_by_employed_total
+    moe_required: true
+  production_transport_material_moving_occupation_share:
+    label_zh: 生产运输与物料搬运职业占比
+    source: acs_2024_5yr
+    variable_group: C24010
+    measure_type: derived_survey_estimate
+    aggregation: male_and_female_broad_occupation_sum_divided_by_employed_total
+    moe_required: true
+  top_workplace_industries:
+    label_zh: 主要工作地行业
+    source: lodes_2023
+    variables: [CNS01-CNS20]
+    measure_type: administrative_estimate
+    aggregation: top_five_industry_job_counts
+    caveat_zh: LODES统计岗位，不等于独立自然人数。
+  competitors_per_1000_residents:
+    label_zh: 每千名居民直接竞争者数
+    source: derived
+    measure_type: derived_ratio
+    aggregation: direct_competitors_divided_by_acs_population
+  competitors_per_1000_jobs:
+    label_zh: 每千个岗位直接竞争者数
+    source: derived
+    measure_type: derived_ratio
+    aggregation: direct_competitors_divided_by_lodes_jobs
+  substitute_count:
+    label_zh: 替代品数量
+    source: overture_places
+    measure_type: classified_location_count
+    aggregation: business_taxonomy_filtered_point_count
+  demand_complement_count:
+    label_zh: 需求补充设施数量
+    source: overture_places
+    measure_type: classified_location_count
+    aggregation: business_taxonomy_filtered_point_count
+  attraction_count:
+    label_zh: 景点与吸引物数量
+    source: overture_places
+    measure_type: classified_location_count
+    aggregation: attraction_point_count
+  hotel_count:
+    label_zh: 酒店物业数量
+    source: nyc_hotels
+    measure_type: administrative_record_count
+    aggregation: hotel_points_in_catchment
+  nightlife_location_count:
+    label_zh: 夜生活场所数量
+    source: derived
+    measure_type: classified_location_count
+    aggregation: nightlife_category_points_in_catchment
+  closed_competitor_count:
+    label_zh: 已关闭直接竞争者数量
+    source: dohmh_restaurants
+    measure_type: classified_administrative_location_count
+    aggregation: source_status_closed_direct_competitors
+  subway_complex_count:
+    label_zh: 地铁站群数量
+    source: mta_subway_stations
+    measure_type: administrative_record_count
+    aggregation: distinct_station_complexes_in_catchment
+  regional_rail_station_count:
+    label_zh: 区域铁路站点数量
+    source: regional_mta_rail_gtfs_static
+    measure_type: scheduled_transit_record_count
+    aggregation: distinct_parent_station_points_in_catchment
+    caveat_zh: 仅表示当前静态时刻表中的站点，不代表实际班次、可靠性、客流或 NJ Transit/PATH 完整覆盖。
+  regional_transit_poi_count:
+    label_zh: 区域交通设施代理数量
+    source: overture_places
+    measure_type: compiled_place_proxy_count
+    aggregation: transit_category_place_points_in_catchment
+    caveat_zh: Overture 编译地点代理，不是运营机构权威站点清单，可能重复、过时或遗漏。
+  regional_hotel_poi_count:
+    label_zh: 区域住宿设施代理数量
+    source: overture_places
+    measure_type: compiled_place_proxy_count
+    aggregation: selected_lodging_category_points_in_catchment
+    caveat_zh: Overture编译地点代理，不是酒店执照、营业状态或房间数权威清单，可能重复、过时、遗漏或误分类。
+  regional_school_poi_count:
+    label_zh: 区域学校代理数量
+    source: overture_places
+    measure_type: compiled_place_proxy_count
+    aggregation: selected_school_category_points_in_catchment
+    caveat_zh: Overture编译地点代理，不是教育主管机关权威名册，可能重复、过时、遗漏或误分类。
+  regional_healthcare_poi_count:
+    label_zh: 区域医疗设施代理数量
+    source: overture_places
+    measure_type: compiled_place_proxy_count
+    aggregation: selected_healthcare_category_points_in_catchment
+    caveat_zh: Overture编译地点代理，不是医疗许可、服务能力或质量权威清单，可能重复、过时、遗漏或误分类。
+  regional_park_poi_count:
+    label_zh: 区域公园代理数量
+    source: overture_places
+    measure_type: compiled_place_proxy_count
+    aggregation: selected_park_category_points_in_catchment
+    caveat_zh: Overture编译地点代理，不表示面积、入口、开放状态或设施质量，可能重复、过时、遗漏或误分类。
+  regional_library_poi_count:
+    label_zh: 区域图书馆代理数量
+    source: overture_places
+    measure_type: compiled_place_proxy_count
+    aggregation: library_category_points_in_catchment
+    caveat_zh: Overture编译地点代理，不是图书馆系统权威名册，可能重复、过时、遗漏或误分类。
+  pm25_indicator:
+    label_zh: PM2.5区域指标
+    source: air_quality_health
+    measure_type: model_or_observation_as_published
+    aggregation: latest_borough_published_value
+    caveat_zh: 行政区级区域指标，不是地址或个人暴露量。
+  asthma_health_indicator:
+    label_zh: 哮喘急诊区域指标
+    source: air_quality_health
+    measure_type: area_health_estimate
+    aggregation: latest_borough_published_value
+    caveat_zh: 区域健康统计，不代表任何个人、住户或建筑。
+  cdc_places_current_asthma_pct:
+    label_zh: CDC PLACES成人当前哮喘估计
+    source: cdc_places_2025_tract
+    measure_type: population_weighted_small_area_model_estimate
+    aggregation: tract_overlap_and_acs_total_population_weighted_mean
+    caveat_zh: 优先使用2023模型估计；若当前普查区发布值全部缺失，才显示明确标注的2022估计/2024发布回退。仅用于区域筛查，不是个人或地址属性，商圈置信区间为本地近似传播。
+  cdc_places_diagnosed_diabetes_pct:
+    label_zh: CDC PLACES成人糖尿病估计
+    source: cdc_places_2025_tract
+    measure_type: population_weighted_small_area_model_estimate
+    aggregation: tract_overlap_and_acs_total_population_weighted_mean
+    caveat_zh: 优先使用2023模型估计；若当前普查区发布值全部缺失，才显示明确标注的2022估计/2024发布回退。仅用于区域筛查，不是个人或地址属性，商圈置信区间为本地近似传播。
+  cdc_places_obesity_pct:
+    label_zh: CDC PLACES成人肥胖估计
+    source: cdc_places_2025_tract
+    measure_type: population_weighted_small_area_model_estimate
+    aggregation: tract_overlap_and_acs_total_population_weighted_mean
+    caveat_zh: 优先使用2023模型估计；若当前普查区发布值全部缺失，才显示明确标注的2022估计/2024发布回退。仅用于区域筛查，不是个人或地址属性，商圈置信区间为本地近似传播。
+  cdc_places_uninsured_pct:
+    label_zh: CDC PLACES成人无医保估计
+    source: cdc_places_2025_tract
+    measure_type: population_weighted_small_area_model_estimate
+    aggregation: tract_overlap_and_acs_total_population_weighted_mean
+    caveat_zh: 优先使用2023模型估计；若当前普查区发布值全部缺失，才显示明确标注的2022估计/2024发布回退。仅用于区域筛查，不是个人或地址属性，商圈置信区间为本地近似传播。
+  cdc_places_food_insecurity_pct:
+    label_zh: CDC PLACES成人食物不安全估计
+    source: cdc_places_2025_tract
+    measure_type: population_weighted_small_area_model_estimate
+    aggregation: tract_overlap_and_acs_total_population_weighted_mean
+    caveat_zh: 优先使用2023模型估计；若当前普查区发布值全部缺失，才显示明确标注的2022估计/2024发布回退。仅用于区域筛查，不是个人或地址属性，商圈置信区间为本地近似传播。
+  resident_index:
+    label_zh: 居民指数
+    source: derived
+    measure_type: model_proxy
+    aggregation: transparent_uncalibrated_proxy
+    caveat_zh: 0至100代理指数，不是人口占比或校准评分。
+  worker_index:
+    label_zh: 工作者指数
+    source: derived
+    measure_type: model_proxy
+    aggregation: transparent_uncalibrated_proxy
+    caveat_zh: 0至100代理指数，不是独立工作人口占比或校准评分。
+  nightlife_index:
+    label_zh: 夜生活指数
+    source: derived
+    measure_type: model_proxy
+    aggregation: transparent_uncalibrated_proxy
+    caveat_zh: 0至100代理指数，不是人群占比或校准评分。
+  transit_hub_index:
+    label_zh: 交通换乘指数
+    source: derived
+    measure_type: model_proxy
+    aggregation: transparent_uncalibrated_proxy
+    caveat_zh: 0至100代理指数，不是实际换乘人数或校准评分。
+  fema_special_flood_hazard_overlap_pct:
+    label_zh: FEMA特殊洪水危险区覆盖率
+    source: fema_nfhl_special_flood_hazard_areas
+    measure_type: projected_area_overlap_from_service_simplified_geometry
+    aggregation: unioned_sfha_intersection_area_divided_by_catchment_area
+    caveat_zh: 几何下载采用约一米容差后进行本地精确相交；仅为当前 NFHL 图层筛查，不是保险分区确认、工程评估、法律意见、预期损失或单一地块结论。
+  audience_type:
+    label_zh: 客群类型判断
+    source: derived
+    measure_type: model_classification
+    aggregation: highest_transparent_proxy_with_evidence_threshold
+    caveat_zh: 只输出离散类别，不输出虚假精确客群占比。
+  demand_support_signal:
+    label_zh: 需求支撑信号
+    source: derived_citywide_benchmark
+    measure_type: benchmark_classification
+    aggregation: median_component_percentile_with_33_67_bands
+    caveat_zh: 透明区域百分位信号，不是预测销量或综合评分。
+  competition_pressure_signal:
+    label_zh: 竞争压力信号
+    source: derived_citywide_benchmark
+    measure_type: benchmark_classification
+    aggregation: median_component_percentile_with_33_67_bands
+    caveat_zh: 竞争压力高不等于不可进入，低也不证明存在需求。
+  market_opportunity_profile:
+    label_zh: 市场机会双轴画像
+    source: derived_citywide_benchmark
+    measure_type: benchmark_classification
+    aggregation: demand_support_and_competition_pressure_profile
+    caveat_zh: 透明双轴画像，不是未经校准的综合满分。

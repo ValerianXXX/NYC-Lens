@@ -1,0 +1,33 @@
+version: "0.1.0"
+business_types:
+  full_service_restaurant:
+    label_zh: 正式餐饮
+    direct:
+      dohmh_cuisines:
+        - American
+        - Asian/Asian Fusion
+        - Chinese
+        - French
+        - Indian
+        - Italian
+        - Japanese
+        - Korean
+        - Latin American
+        - Mediterranean
+        - Mexican
+        - Seafood
+        - Spanish
+        - Steakhouse
+        - Thai
+      overture_basic_categories: [restaurant]
+    secondary:
+      overture_basic_categories: [fast_food_restaurant, food_court]
+    substitutes:
+      overture_basic_categories: [cafe, coffee_shop, bakery, bar, grocery_store, supermarket]
+    complements:
+      overture_basic_categories: [hotel, cinema, theatre, museum, tourist_attraction, office]
+    decay_m:
+      direct: 500
+      secondary: 750
+      substitute: 800
+      complement: 1000

@@ -1,0 +1,58 @@
+version: "0.2.0"
+adapter_type: aggregate_commercial_mobility
+activation_policy: blocked_until_user_supplies_and_approves_a_provider_license_gate
+required_license_flags:
+  - long_term_storage_allowed
+  - derived_metrics_allowed
+  - paid_client_reporting_allowed
+  - historical_retention_allowed
+  - map_combination_allowed
+  - privacy_review_completed
+  - user_authorized_activation
+required_gate_metadata:
+  - provider
+  - contract_or_license_reference
+  - effective_date
+  - minimum_cohort_size
+privacy:
+  minimum_period_hours: 24
+  default_minimum_cohort_size: 50
+  allowed_geography_types: [h3_r8, h3_r9, census_tract, block_group, vendor_aggregate_zone]
+  prohibited_field_fragments:
+    - device_id
+    - advertising_id
+    - mobile_ad_id
+    - idfa
+    - gaid
+    - imei
+    - phone
+    - email
+    - person_name
+    - home_address
+    - precise_latitude
+    - precise_longitude
+    - event_timestamp
+  required_aggregate_fields:
+    - provider_record_id
+    - geography_type
+    - geography_id
+    - period_start
+    - period_end
+    - measure
+    - value
+    - unit
+    - cohort_size
+    - suppression_status
+providers:
+  foursquare_movement:
+    status: BLOCKED_LICENSE
+    note: No license, credentials, retention rights, paid-report rights or privacy minimums were supplied.
+  placer_ai:
+    status: BLOCKED_LICENSE
+    note: No license, credentials, retention rights, paid-report rights or privacy minimums were supplied.
+  data_axle:
+    status: BLOCKED_LICENSE
+    note: No license, credentials, retention rights, paid-report rights or privacy minimums were supplied.
+  generic_licensed_aggregate_file:
+    status: BLOCKED_LICENSE
+    note: Local validation interface is ready, but activation requires a user-supplied gate affirming every required right and privacy control.

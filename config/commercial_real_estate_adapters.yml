@@ -1,0 +1,55 @@
+version: "0.2.0"
+adapter_type: commercial_real_estate_and_development_project_files
+activation_policy: blocked_until_user_supplies_a_local_file_and_approves_a_complete_license_gate
+required_license_flags:
+  - long_term_storage_allowed
+  - derived_metrics_allowed
+  - paid_client_reporting_allowed
+  - historical_retention_allowed
+  - location_level_use_allowed
+  - privacy_review_completed
+  - user_authorized_activation
+required_gate_metadata:
+  - provider
+  - dataset_type
+  - contract_or_license_reference
+  - effective_date
+privacy:
+  prohibited_field_fragments:
+    - owner_name
+    - owner_contact
+    - tenant_name
+    - tenant_contact
+    - broker_name
+    - broker_contact
+    - person_name
+    - personal_address
+    - apartment
+    - unit_number
+    - phone
+    - email
+  supported_dataset_types:
+    property_market_aggregate:
+      required_fields: [provider_record_id, geography_type, geography_id, period_start, period_end, measure, value, unit, suppression_status]
+      allowed_geography_types: [county, census_tract, block_group, zcta, h3_r8, h3_r9, vendor_aggregate_zone]
+    development_project:
+      required_fields: [provider_record_id, project_type, project_status, longitude, latitude, source_reference]
+providers:
+  costar:
+    status: BLOCKED_LICENSE
+    note: No contract, export rights, storage rights, paid-report rights, credentials or user activation were supplied.
+  compstak:
+    status: BLOCKED_LICENSE
+    note: No contract, export rights, storage rights, paid-report rights, credentials or user activation were supplied.
+  crexi:
+    status: BLOCKED_LICENSE
+    note: No bulk archival or downstream reporting rights were established; no scraping or account use is attempted.
+  reonomy:
+    status: BLOCKED_LICENSE
+    note: No contract, export rights, storage rights, paid-report rights, credentials or user activation were supplied.
+  municipal_development_project_file:
+    status: READY_FOR_USER_SUPPLIED_FILE_AND_LICENSE_GATE
+    note: Validation is available for a local official/public project file, but NYC Lens does not infer a license or download fragmented municipal portals automatically.
+  generic_licensed_local_file:
+    status: READY_FOR_USER_SUPPLIED_FILE_AND_LICENSE_GATE
+    note: Validation only; no file is ingested until all license and privacy gates are affirmatively supplied by the user.

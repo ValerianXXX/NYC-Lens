@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NYC Lens｜{{ result.standardized_address }}</title>
+  <style>
+    :root { --ink:#16324f; --teal:#18a999; --paper:#f6f8fb; --muted:#5f6f7f; --warn:#fff4d6; }
+    * { box-sizing:border-box; }
+    body { margin:0; font:15px/1.55 "Segoe UI","Microsoft YaHei",sans-serif; color:#1f2933; background:var(--paper); }
+    header { padding:36px max(5vw,28px); color:white; background:linear-gradient(125deg,var(--ink),#205d75 62%,var(--teal)); }
+    h1 { margin:0 0 8px; font-size:30px; }
+    main { max-width:1180px; margin:0 auto; padding:26px; }
+    .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:14px; }
+    .card, section { background:white; border:1px solid #dce4ea; border-radius:12px; padding:18px; box-shadow:0 5px 18px rgba(22,50,79,.06); }
+    .card strong { display:block; color:var(--muted); font-size:12px; text-transform:uppercase; letter-spacing:.06em; }
+    .card span { display:block; margin-top:5px; color:var(--ink); font-size:20px; font-weight:650; }
+    section { margin-top:20px; overflow:auto; }
+    h2 { color:var(--ink); margin:0 0 14px; }
+    table { width:100%; border-collapse:collapse; min-width:920px; }
+    th { text-align:left; padding:10px; color:white; background:var(--ink); position:sticky; top:0; }
+    td { padding:9px 10px; border-bottom:1px solid #e5ebef; vertical-align:top; }
+    tr:nth-child(even) td { background:#f8fbfc; }
+    .notice { margin-top:20px; padding:16px 18px; border-left:5px solid #e5a925; background:var(--warn); border-radius:8px; }
+    .small { color:var(--muted); font-size:13px; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>NYC Lens｜商圈分析报告</h1>
+    <div>{{ result.standardized_address }}</div>
+  </header>
+  <main>
+    <div class="grid">
+      <div class="card"><strong>行政区</strong><span>{{ result.borough }}</span></div>
+      <div class="card"><strong>坐标</strong><span>{{ "%.5f"|format(result.coordinates.latitude) }}, {{ "%.5f"|format(result.coordinates.longitude) }}</span></div>
+      <div class="card"><strong>地块 BBL</strong><span>{{ result.parcel.bbl if result.parcel else "未匹配" }}</span></div>
+      <div class="card"><strong>H3 Resolution 10</strong><span>{{ result.h3_resolution_10 }}</span></div>
+    </div>
+    <div class="notice">
+      ACS 是区域调查估计并保留 Margin of Error；LODES 统计岗位而非独立自然人；游客及客群判断是模型代理，不是精确人数或占比。健康、收入、语言与族裔数据仅描述公开地理范围，不代表具体个人、家庭或建筑。
+    </div>
+    <section>
+      <h2>指标与证据</h2>
+      <table>
+        <thead><tr><th>商圈</th><th>指标</th><th>数值</th><th>单位</th><th>NYC百分位</th><th>来源</th><th>年份</th><th>类型</th><th>置信度</th><th>MOE</th><th>说明</th></tr></thead>
+        <tbody>
+        {% for row in metric_rows %}
+          <tr>
+            <td>{{ row.catchment }}</td><td>{{ row.label_zh }}<div class="small">{{ row.metric_id }}</div></td>
+            <td>{% if row.text_value is not none %}{{ row.text_value }}{% elif row.value is none %}{% elif row.unit == "share" %}{{ "%.1f%%"|format(row.value * 100) }}{% elif row.unit == "USD" %}${{ "{:,.0f}".format(row.value) }}{% else %}{{ "{:,.2f}".format(row.value) }}{% endif %}</td><td>{{ row.unit or "" }}</td><td>{{ "%.1f"|format(row.percentile) if row.percentile is not none else "" }}</td>
+            <td>{{ row.source_id or "" }}<div class="small">{{ row.snapshot_id or "" }}</div></td>
+            <td>{{ row.source_year or "" }}</td><td>{{ row.measure_type }}</td>
+            <td>{{ "%.0f%%"|format(row.confidence * 100) if row.confidence is not none else "" }}</td>
+            <td>{% if row.margin_of_error is not none and row.unit == "share" %}±{{ "%.1f"|format(row.margin_of_error * 100) }} 个百分点{% elif row.margin_of_error is not none %}±{{ "{:,.2f}".format(row.margin_of_error) }}{% endif %}</td><td>{{ row.warnings }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    </section>
+  </main>
+</body>
+</html>

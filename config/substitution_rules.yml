@@ -1,0 +1,10 @@
+version: "0.1.0"
+rules:
+  - business_type: full_service_restaurant
+    relation: substitute
+    rationale_zh: 可满足相邻的即食、社交或外带需求，但服务方式不同。
+    categories: [cafe, coffee_shop, bakery, bar, grocery_store, supermarket]
+  - business_type: full_service_restaurant
+    relation: complement
+    rationale_zh: 可能带来用餐需求，不作为竞争者计数。
+    categories: [hotel, cinema, theatre, museum, tourist_attraction, office]

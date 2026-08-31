@@ -1,0 +1,20 @@
+Copyright (c) 2026. All rights reserved.
+
+This repository is source-available for inspection. No permission is granted to
+copy, modify, distribute, sublicense, or sell the original NYC Lens source code
+unless the copyright holder provides separate written permission.
+
+Third-party datasets, libraries, map tiles, specifications, trademarks, and
+other upstream materials are not covered by this notice. They remain subject to
+their respective licenses, terms, attribution requirements, and use
+limitations. See docs/licensing.md for the project's source-by-source register.
+
+No dataset is licensed merely because its adapter, schema, metadata, or source
+URL appears in this repository.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER
+LIABILITY ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE
+OR OTHER DEALINGS IN THE SOFTWARE.

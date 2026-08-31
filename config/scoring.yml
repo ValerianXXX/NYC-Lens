@@ -1,0 +1,26 @@
+version: "0.2.0"
+status: BLOCKED_CALIBRATION
+policy: no_composite_score_without_real_labeled_project_outcomes_and_holdout_validation
+minimum_requirements:
+  labeled_completed_projects: 30
+  minimum_distinct_markets: 5
+  minimum_holdout_projects: 8
+  minimum_outcome_period_months: 6
+  required_outcome_definition: user_approved_business_specific_success_measure
+  protected_attributes_forbidden: true
+  personal_data_forbidden: true
+  temporal_holdout_required: true
+  calibration_report_required: true
+  model_card_required: true
+permitted_before_calibration:
+  - raw_metrics
+  - source_year_confidence_and_missingness
+  - citywide_or_batch_percentiles_with_scope_labels
+  - transparent_proxy_indices
+  - non_composite_opportunity_and_risk_profiles
+forbidden_before_calibration:
+  - composite_site_score
+  - predicted_revenue
+  - predicted_success_probability
+  - automated_recommendation
+  - ranking_described_as_better_or_worse

@@ -1,0 +1,928 @@
+version: "0.2.0"
+sources:
+  nyc_geoservice:
+    name: NYC Geoservice / Geosupport
+    steward: NYC Department of City Planning
+    url: https://geoservice.planning.nyc.gov/
+    api_url: https://geoservice.planning.nyc.gov/geoservice/geoservice.svc
+    dataset_id: geosupport
+    update_frequency: rolling
+    geographic_precision: address, BBL, BIN
+    temporal_precision: current service
+    license: NYC public service terms; subscription key required
+    estimated_size: API only
+    incremental_method: query on demand
+    last_successful_update: null
+    known_limitations: Requires subscription key; public placeholder returned HTTP 401 on 2026-08-29.
+  census_geocoder:
+    name: U.S. Census Geocoder
+    steward: U.S. Census Bureau
+    url: https://geocoding.geo.census.gov/geocoder/
+    api_url: https://geocoding.geo.census.gov/geocoder/geographies/onelineaddress
+    dataset_id: census_geocoder_current
+    update_frequency: service
+    geographic_precision: matched address / coordinates / Census geography
+    temporal_precision: current benchmark
+    license: U.S. Government public data
+    estimated_size: API only
+    incremental_method: query on demand with local cache
+    last_successful_update: null
+    known_limitations: Official fallback does not return NYC BBL or BIN; parcel is added by spatial join.
+  tiger_bg_2024:
+    name: 2024 TIGER/Line Block Groups - Greater NYC states
+    steward: U.S. Census Bureau
+    url: https://www2.census.gov/geo/tiger/TIGER2024/BG/
+    api_url: null
+    dataset_id: tl_2024_09_34_36_42_bg
+    update_frequency: annual
+    geographic_precision: Census block group
+    temporal_precision: boundaries as of 2024-01-01
+    license: U.S. Government public data
+    estimated_size: about 61 MB compressed across CT, NJ, NY and PA; locally filtered to the 30 CSA 408 county equivalents
+    incremental_method: replace annual standardized layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Boundary file contains no demographic measures.
+  omb_2023_cbsa_delineation:
+    name: 2023 Census/OMB Core Based Statistical Area Delineation File
+    steward: U.S. Office of Management and Budget / U.S. Census Bureau
+    url: https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx
+    api_url: null
+    dataset_id: list1_2023
+    update_frequency: after OMB delineation revisions
+    geographic_precision: county and county-equivalent membership in metropolitan, micropolitan and combined statistical areas
+    temporal_precision: July 2023 delineation
+    license: U.S. Government public data
+    estimated_size: under 1 MB
+    incremental_method: immutable-vintage snapshot; rebuild the region definition only after an official revision
+    last_successful_update: null
+    known_limitations: Defines statistical-area membership, not a market-performance boundary; Connecticut uses planning-region county equivalents.
+  tiger_county_2024:
+    name: 2024 TIGER/Line Counties and County Equivalents
+    steward: U.S. Census Bureau
+    url: https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/tl_2024_us_county.zip
+    api_url: null
+    dataset_id: tl_2024_us_county
+    update_frequency: annual
+    geographic_precision: county and county equivalent
+    temporal_precision: boundaries as of 2024-01-01
+    license: U.S. Government public data
+    estimated_size: about 80 MB compressed nationally; locally filtered to 30 CSA 408 county equivalents
+    incremental_method: replace annual standardized layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: General-purpose statistical boundaries may include water and do not represent a commercial catchment.
+  tiger_tract_2024:
+    name: 2024 TIGER/Line Census Tracts - Greater NYC states
+    steward: U.S. Census Bureau
+    url: https://www2.census.gov/geo/tiger/TIGER2024/TRACT/
+    api_url: null
+    dataset_id: tl_2024_09_34_36_42_tract
+    update_frequency: annual
+    geographic_precision: Census tract
+    temporal_precision: boundaries as of 2024-01-01
+    license: U.S. Government public data
+    estimated_size: about 34 MB compressed across CT, NJ, NY and PA; locally filtered to the 30 CSA 408 county equivalents
+    incremental_method: replace annual standardized layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Boundary file contains no demographic measures.
+  acs_2024_5yr:
+    name: 2020-2024 ACS 5-Year Detailed Tables
+    steward: U.S. Census Bureau
+    url: https://api.census.gov/data/2024/acs/acs5
+    api_url: https://api.census.gov/data/2024/acs/acs5
+    dataset_id: 2024_acs_acs5
+    update_frequency: annual
+    geographic_precision: block group where published; tract fallback for B05002 and C16001
+    temporal_precision: 2020-2024 pooled survey period
+    license: U.S. Government public data
+    estimated_size: about 0.85 GB for the selected national table files; rows for the 30 CSA 408 county equivalents are filtered locally
+    incremental_method: new vintage snapshot
+    last_successful_update: null
+    known_limitations: Survey estimates; margins of error mandatory; table availability differs by summary level; public API required a key during this build.
+  census_decennial_2020_pl:
+    name: 2020 Census P.L. 94-171 Redistricting Summary File - New York
+    steward: U.S. Census Bureau
+    url: https://www2.census.gov/programs-surveys/decennial/2020/data/01-Redistricting_File--PL_94-171/New_York/ny2020.pl.zip
+    api_url: null
+    dataset_id: ny2020_pl_94_171
+    update_frequency: decennial
+    geographic_precision: 2020 Census block
+    temporal_precision: Census Day 2020-04-01
+    license: U.S. Government public data
+    estimated_size: 69 MB compressed data plus under 1 MB official field definitions
+    incremental_method: immutable vintage snapshot; rebuild only if Census publishes a corrected file
+    last_successful_update: null
+    known_limitations: Disclosure-avoidance methods apply; local standardization keeps NYC shoreline-clipped blocks that exist in the official NYC planning boundary layer and stores no survey MOE because this is a decennial enumeration product.
+  lodes_2023:
+    name: LEHD Origin-Destination Employment Statistics 8
+    steward: U.S. Census Bureau
+    url: https://lehd.ces.census.gov/data/lodes/LODES8/
+    api_url: null
+    dataset_id: LODES8_CT_NJ_NY_PA_2023
+    update_frequency: annual
+    geographic_precision: 2020 Census block
+    temporal_precision: 2023
+    license: U.S. Government public data
+    estimated_size: about 160 MB for S000 WAC/RAC, main/aux OD and crosswalk across CT, NJ, NY and PA
+    incremental_method: new year snapshot
+    last_successful_update: null
+    known_limitations: Counts jobs and job flows, not necessarily distinct natural persons.
+  mappluto_26v2:
+    name: Primary Land Use Tax Lot Output / MapPLUTO
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/Primary-Land-Use-Tax-Lot-Output-PLUTO-/64uk-42ks
+    api_url: https://services5.arcgis.com/GfwWNkhOj9bNBqoJ/arcgis/rest/services/MAPPLUTO/FeatureServer/0/query
+    dataset_id: 64uk-42ks
+    update_frequency: multiple releases per year
+    geographic_precision: tax lot; geometry supplied by official MapPLUTO service/download
+    temporal_precision: 26v2
+    license: NYC Open Data Terms of Use and DCP use limitations
+    estimated_size: about 1.4 GB published service size; about 1.9 GB as partitioned non-personal GeoJSON
+    incremental_method: replace citywide standardized layer when the official service edit timestamp changes; retain partitioned raw snapshots
+    last_successful_update: null
+    known_limitations: Informational use; some condominium and unmapped lots need special handling; OwnerName is intentionally excluded from the local mirror under the project privacy rules.
+  nyc_building_footprints:
+    name: NYC Building Footprints
+    steward: NYC Office of Technology and Innovation
+    url: https://data.cityofnewyork.us/City-Government/BUILDING/5zhs-2jue
+    api_url: https://data.cityofnewyork.us/resource/5zhs-2jue.geojson
+    dataset_id: 5zhs-2jue
+    update_frequency: weekly
+    geographic_precision: building footprint
+    temporal_precision: current published snapshot
+    license: NYC Open Data Terms of Use
+    estimated_size: about 0.9 GB as partitioned citywide GeoJSON
+    incremental_method: replace citywide standardized layer when dataset update timestamp changes; retain raw snapshots
+    last_successful_update: null
+    known_limitations: BIN may be unassigned for some footprints; building names are sparsely populated and not actively maintained.
+  nyc_census_blocks_2020:
+    name: NYC 2020 Census Blocks
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/2020-Census-Blocks/wmsu-5muw
+    api_url: https://data.cityofnewyork.us/resource/wmsu-5muw.geojson
+    dataset_id: wmsu-5muw
+    update_frequency: quarterly publication check
+    geographic_precision: 2020 Census block
+    temporal_precision: 2020 geography
+    license: NYC Open Data Terms of Use; underlying U.S. Census geography
+    estimated_size: under 250 MB
+    incremental_method: replace published boundary layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Shoreline-clipped NYC planning geography; not a demographic fact table.
+  nyc_census_tracts_2020:
+    name: NYC 2020 Census Tracts
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/2020-Census-Tracts/63ge-mke6
+    api_url: https://data.cityofnewyork.us/resource/63ge-mke6.geojson
+    dataset_id: 63ge-mke6
+    update_frequency: quarterly publication check
+    geographic_precision: 2020 Census tract
+    temporal_precision: 2020 geography
+    license: NYC Open Data Terms of Use; underlying U.S. Census geography
+    estimated_size: under 100 MB
+    incremental_method: replace published boundary layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Boundary geometry contains no demographic measures.
+  nyc_nta_2020:
+    name: NYC 2020 Neighborhood Tabulation Areas
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/2020-Neighborhood-Tabulation-Areas-NTAs-/9nt8-h7nd
+    api_url: https://data.cityofnewyork.us/resource/9nt8-h7nd.geojson
+    dataset_id: 9nt8-h7nd
+    update_frequency: quarterly
+    geographic_precision: NTA
+    temporal_precision: 2020 geography
+    license: NYC Open Data Terms of Use
+    estimated_size: under 50 MB
+    incremental_method: replace published boundary layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Statistical reporting geography; includes non-residential special-area types.
+  nyc_cdta_2020:
+    name: NYC 2020 Community District Tabulation Areas
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/2020-Community-District-Tabulation-Areas-CDTAs/xn3r-zk6y
+    api_url: https://data.cityofnewyork.us/resource/xn3r-zk6y.geojson
+    dataset_id: xn3r-zk6y
+    update_frequency: quarterly
+    geographic_precision: CDTA
+    temporal_precision: 2020 geography
+    license: NYC Open Data Terms of Use
+    estimated_size: under 25 MB
+    incremental_method: replace published boundary layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Approximates Community Districts for ACS reporting and is not identical to every administrative boundary.
+  nyc_community_districts:
+    name: NYC Community Districts
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/Community-Districts/6ak9-vek3
+    api_url: https://data.cityofnewyork.us/resource/6ak9-vek3.geojson
+    dataset_id: 6ak9-vek3
+    update_frequency: quarterly
+    geographic_precision: community district and joint interest area
+    temporal_precision: current published boundary
+    license: NYC Open Data Terms of Use
+    estimated_size: under 25 MB
+    incremental_method: replace published boundary layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Includes 59 districts and 12 joint interest areas; JIAs are not community districts.
+  nyc_borough_boundaries:
+    name: NYC Borough Boundaries
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/Borough-Boundaries/gthc-hcne
+    api_url: https://data.cityofnewyork.us/resource/gthc-hcne.geojson
+    dataset_id: gthc-hcne
+    update_frequency: quarterly
+    geographic_precision: borough / county
+    temporal_precision: current published boundary
+    license: NYC Open Data Terms of Use
+    estimated_size: under 10 MB
+    incremental_method: replace published boundary layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Shoreline-clipped land boundaries; county records are derived aliases of the five borough geometries.
+  census_zcta_2020:
+    name: 2020 Census ZIP Code Tabulation Areas via TIGERweb
+    steward: U.S. Census Bureau
+    url: https://tigerweb.geo.census.gov/tigerwebmain/TIGERweb_restmapservice.html
+    api_url: https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/PUMA_TAD_TAZ_UGA_ZCTA/MapServer/1/query
+    dataset_id: TIGERweb_2020_ZCTA
+    update_frequency: service release
+    geographic_precision: ZCTA
+    temporal_precision: 2020 Census geography
+    license: U.S. Government public data
+    estimated_size: under 25 MB for the NYC intersecting extract
+    incremental_method: replace bounded NYC extract when TIGERweb vintage changes; retain raw snapshots
+    last_successful_update: null
+    known_limitations: ZCTAs are Census statistical approximations of ZIP delivery areas and are not USPS ZIP boundaries.
+  derived_h3_grid:
+    name: NYC H3 Resolution 10 Analysis Grid
+    steward: NYC Lens derived from official borough boundaries using H3
+    url: https://h3geo.org/
+    api_url: null
+    dataset_id: nyc_h3_r10
+    update_frequency: when borough geometry or H3 method changes
+    geographic_precision: H3 resolution 10
+    temporal_precision: derived snapshot
+    license: H3 Apache-2.0; source boundary license retained through lineage
+    estimated_size: under 100 MB
+    incremental_method: deterministic rebuild from the latest local borough boundary snapshot
+    last_successful_update: null
+    known_limitations: Model grid cells do not follow administrative boundaries and edge cells intersect NYC only partially.
+  derived_citywide_benchmark:
+    name: NYC Lens Citywide Radial Benchmark
+    steward: NYC Lens derived from locally versioned public datasets
+    url: https://h3geo.org/
+    api_url: null
+    dataset_id: nyc_radial_benchmark_v1
+    update_frequency: after relevant source refreshes
+    geographic_precision: deterministic H3 resolution 10 center sample, stratified by borough
+    temporal_precision: mixed source snapshots recorded per run
+    license: Derived analysis; each component retains its upstream source license and snapshot
+    estimated_size: under 100 MB
+    incremental_method: deterministic full rebuild when the snapshot set or method changes
+    last_successful_update: null
+    known_limitations: Benchmarks cover 250m, 500m and 1km radial catchments only; they are empirical spatial reference distributions, not calibrated site scores.
+  nysla_active_licenses:
+    name: Current Liquor Authority Active Licenses - NYC extract
+    steward: New York State Liquor Authority / Alcoholic Beverage Control
+    url: https://data.ny.gov/Economic-Development/Current-Liquor-Authority-Active-Licenses/9s3h-dpkz
+    api_url: https://data.ny.gov/resource/9s3h-dpkz.csv
+    dataset_id: 9s3h-dpkz
+    update_frequency: daily
+    geographic_precision: licensed premises point where geocoded by the publisher
+    temporal_precision: current active license and permit inventory
+    license: License unspecified in NY Open Data portal; attribution and source terms retained
+    estimated_size: under 20 MB for selected non-personal fields in the five NYC counties
+    incremental_method: replace NYC active-license extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: The source is an active inventory rather than a history; the local extract intentionally excludes legal names and all fields not needed for site analysis.
+  nyc_str_registration:
+    name: NYC Short-Term Rental Registration Dataset
+    steward: NYC Mayor's Office of Special Enforcement
+    url: https://www.nyc.gov/site/specialenforcement/registration-law/registration-and-listing-data.page
+    api_url: https://www.nyc.gov/assets/specialenforcement/downloads/excel/January_7_2026_STR_Registration_Dataset.xlsx
+    dataset_id: ose_str_registration_2026_01_07
+    update_frequency: periodic
+    geographic_precision: registered dwelling unit in source; standardized locally to building point
+    temporal_precision: status as of 2026-01-07
+    license: Official NYC.gov public release and NYC website Terms of Use
+    estimated_size: under 1 MB
+    incremental_method: replace published registration inventory when report link changes; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Latest published report found is dated 2026-01-07; unit numbers, booking-service names, and listing identifiers are excluded from the standardized layer, and a registration does not prove every stay is lawful.
+  nyc_facilities:
+    name: NYC City Planning Facilities Database
+    steward: NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/Facilities-Database/ji82-xba5
+    api_url: https://data.cityofnewyork.us/resource/ji82-xba5.csv
+    dataset_id: ji82-xba5
+    update_frequency: at least quarterly where upstream sources permit
+    geographic_precision: facility or program-site point
+    temporal_precision: current compiled publication
+    license: NYC Open Data Terms of Use; upstream source attribution retained in each record
+    estimated_size: under 50 MB
+    incremental_method: replace citywide compiled facility layer; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Compiles many upstream systems with different update cycles; co-located services may represent separate programs and capacity fields are not comparable across types.
+  dohmh_restaurants:
+    name: DOHMH New York City Restaurant Inspection Results
+    steward: NYC Department of Health and Mental Hygiene
+    url: https://data.cityofnewyork.us/resource/43nn-pn8j.csv
+    api_url: https://data.cityofnewyork.us/resource/43nn-pn8j.csv
+    dataset_id: 43nn-pn8j
+    update_frequency: daily
+    geographic_precision: establishment point where coordinates are present
+    temporal_precision: inspection date; active-establishment extract
+    license: NYC Open Data Terms of Use
+    estimated_size: under 200 MB citywide CSV
+    incremental_method: full snapshot then inspection_date watermark
+    last_successful_update: null
+    known_limitations: Multiple violation rows per inspection; 1900-01-01 means not yet inspected.
+  overture_places:
+    name: Overture Maps Places
+    steward: Overture Maps Foundation
+    url: https://docs.overturemaps.org/guides/places/
+    api_url: https://stac.overturemaps.org/catalog.json
+    dataset_id: overture_places_latest
+    update_frequency: monthly
+    geographic_precision: place point
+    temporal_precision: release vintage
+    license: Per-source attribution; principally CDLA-Permissive-2.0, Apache-2.0 and CC0; retain source fields and NOTICE
+    estimated_size: expected under 2 GB for the configured Greater NYC bounding-box GeoParquet extract
+    incremental_method: current release spatial extract; retain release and source arrays
+    last_successful_update: null
+    known_limitations: Mixed upstream freshness and confidence; public releases retained for a limited time.
+  overture_buildings:
+    name: Overture Maps Building Footprints
+    steward: Overture Maps Foundation
+    url: https://docs.overturemaps.org/guides/buildings/
+    api_url: https://stac.overturemaps.org/catalog.json
+    dataset_id: overture_buildings_latest
+    update_frequency: monthly
+    geographic_precision: building footprint
+    temporal_precision: release vintage
+    license: Overture Buildings theme ODbL-1.0; retain upstream source arrays and required attribution
+    estimated_size: expected under 2 GB for the configured Greater NYC bounding-box GeoParquet extract
+    incremental_method: current release spatial extract into external Parquet storage; retain release and source arrays
+    last_successful_update: null
+    known_limitations: Coverage and attributes vary by upstream provider; footprints are not authoritative parcels and may overlap NYC authoritative building footprints.
+  mta_gtfs_static:
+    name: MTA New York City Transit Subway GTFS
+    steward: Metropolitan Transportation Authority
+    url: https://www.mta.info/developers
+    api_url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_subway.zip
+    dataset_id: gtfs_subway
+    update_frequency: periodic
+    geographic_precision: stop and scheduled trip
+    temporal_precision: current schedule feed
+    license: MTA Developer Resources Terms
+    estimated_size: under 50 MB
+    incremental_method: replace current standardized feed; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Static schedule is not observed service.
+  regional_mta_rail_gtfs_static:
+    name: MTA Long Island Rail Road and Metro-North Railroad GTFS
+    steward: Metropolitan Transportation Authority
+    url: https://www.mta.info/developers
+    api_url: https://rrgtfsfeeds.s3.amazonaws.com/
+    dataset_id: gtfslirr_and_gtfsmnr
+    update_frequency: frequent current-timetable updates
+    geographic_precision: parent station point and scheduled route association
+    temporal_precision: current schedule feed
+    license: MTA Developer Resources Terms; data feeds are free to use; no MTA logos, maps, symbols, or other brand assets retained
+    estimated_size: under 100 MB across two ZIP feeds
+    incremental_method: replace current standardized station inventory; retain every Raw ZIP snapshot and hash
+    last_successful_update: null
+    known_limitations: Static schedules are not observed service or ridership; MTA states Port Jervis and Pascack Valley schedules are in the separately restricted NJ TRANSIT feed and are therefore not included here.
+    feeds:
+      - key: lirr
+        mode: commuter_rail
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfslirr.zip
+      - key: mnr
+        mode: commuter_rail
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfsmnr.zip
+  mta_bus_gtfs_static:
+    name: MTA New York City Bus GTFS - six current schedule feeds
+    steward: Metropolitan Transportation Authority
+    url: https://www.mta.info/developers
+    api_url: https://rrgtfsfeeds.s3.amazonaws.com/
+    dataset_id: gtfs_bus_six_feeds
+    update_frequency: quarterly
+    geographic_precision: scheduled bus stop
+    temporal_precision: current quarterly schedule
+    license: MTA Developer Resources Terms
+    estimated_size: under 150 MB across the six current ZIP feeds
+    incremental_method: replace current standardized stops and route associations; retain all six Raw ZIP snapshots
+    last_successful_update: null
+    known_limitations: Static schedules omit most temporary detours and do not represent observed service; borough feed labels have documented route exceptions.
+    feeds:
+      - key: bronx
+        borough: Bronx
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_bx.zip
+      - key: brooklyn
+        borough: Brooklyn
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_b.zip
+      - key: manhattan
+        borough: Manhattan
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_m.zip
+      - key: queens
+        borough: Queens
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_q.zip
+      - key: staten_island
+        borough: Staten Island
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_si.zip
+      - key: mta_bus_company
+        borough: Multiple
+        url: https://rrgtfsfeeds.s3.amazonaws.com/gtfs_busco.zip
+  mta_realtime_feed_catalog:
+    name: MTA GTFS Realtime public feed catalog metadata
+    steward: Metropolitan Transportation Authority
+    url: https://www.mta.info/developers
+    api_url: https://raw.githubusercontent.com/nymta/gtfs-documentation/main/README.md
+    dataset_id: mta_gtfs_realtime_catalog
+    update_frequency: periodic documentation check
+    geographic_precision: feed metadata only
+    temporal_precision: retrieval time
+    license: MTA Developer Resources Terms
+    estimated_size: under 1 MB
+    incremental_method: retain the MTA-linked official GTFS documentation snapshot and a versioned local endpoint catalog
+    last_successful_update: null
+    known_limitations: Metadata is not a service-performance observation; endpoint availability can change between snapshots.
+  mta_bus_realtime:
+    name: MTA Bus Time realtime API access status
+    steward: Metropolitan Transportation Authority
+    url: https://www.mta.info/developers
+    api_url: https://bustime.mta.info/wiki/Developers/Index
+    dataset_id: mta_bus_time_api
+    update_frequency: realtime when credentials are operator-provided
+    geographic_precision: vehicle, trip and stop depending on endpoint
+    temporal_precision: realtime
+    license: MTA Bus Time API terms
+    estimated_size: no payload downloaded without an operator-provided API key
+    incremental_method: credentials gate; never create an account automatically
+    last_successful_update: null
+    known_limitations: MTA states that Bus Time APIs require an account and API key; NYC Lens records BLOCKED_CREDENTIALS when none is supplied.
+  citibike_gbfs_current:
+    name: Citi Bike GBFS current station information and station status
+    steward: Citi Bike / Lyft
+    url: https://citibikenyc.com/system-data
+    api_url: https://gbfs.citibikenyc.com/gbfs/2.3/gbfs.json
+    dataset_id: citibike_gbfs_2_3
+    update_frequency: realtime feed; local refresh is operator-triggered
+    geographic_precision: bike-share station point
+    temporal_precision: feed retrieval and station last-reported timestamp
+    license: NYCBS Data Use Policy; attribution retained
+    estimated_size: under 5 MB for root, system, station-information and station-status snapshots
+    incremental_method: replace current station and station-status standard layer; retain Raw JSON snapshots
+    last_successful_update: null
+    known_limitations: Availability is a point-in-time operational state and can change within seconds; stations include the regional Citi Bike system, including New Jersey locations.
+  citibike_monthly_operating_report:
+    name: Citi Bike Monthly Operating Report - latest published report
+    steward: Citi Bike / Lyft, provided to NYC Department of Transportation
+    url: https://citibikenyc.com/system-data/operating-reports
+    api_url: https://citibikenyc.com/system-data/operating-reports
+    dataset_id: citibike_monthly_operating_report
+    update_frequency: monthly
+    geographic_precision: system-wide aggregate
+    temporal_precision: calendar month
+    license: Citi Bike published operating report and NYCBS Data Use Policy; attribution retained
+    estimated_size: under 5 MB for index HTML and latest PDF
+    incremental_method: discover latest linked PDF, retain Raw page and PDF, replace current system-level aggregate metrics
+    last_successful_update: null
+    known_limitations: System-wide operating metrics cannot be attributed to a neighborhood, station, trip, rider or individual; revenue figures are preliminary and unaudited where the report says so.
+  mta_subway_stations:
+    name: MTA Subway Stations
+    steward: Metropolitan Transportation Authority
+    url: https://data.ny.gov/Transportation/MTA-Subway-Stations/39hk-dx4f
+    api_url: https://data.ny.gov/resource/39hk-dx4f.csv
+    dataset_id: 39hk-dx4f
+    update_frequency: as needed
+    geographic_precision: station centroid
+    temporal_precision: current
+    license: License unspecified in portal; attribution retained
+    estimated_size: under 2 MB
+    incremental_method: full snapshot
+    last_successful_update: null
+    known_limitations: Centroid does not represent every entrance.
+  mta_subway_entrances_2024:
+    name: MTA Subway Entrances and Exits 2024
+    steward: Metropolitan Transportation Authority
+    url: https://data.ny.gov/Transportation/MTA-Subway-Entrances-and-Exits-2024/i9wp-a4ja
+    api_url: https://data.ny.gov/resource/i9wp-a4ja.csv
+    dataset_id: i9wp-a4ja
+    update_frequency: static, as published
+    geographic_precision: individual entrance or exit point with station and complex association
+    temporal_precision: 2024 inventory, portal data updated 2025-12-05
+    license: License unspecified in portal; MTA attribution and source link retained
+    estimated_size: under 5 MB
+    incremental_method: replace standardized 2024 inventory while retaining every Raw snapshot
+    last_successful_update: null
+    known_limitations: A physical entrance serving multiple station complexes can appear more than once; physical point metrics deduplicate coordinate, type and entry/exit permissions while retaining every source association row.
+  mta_hourly_2025:
+    name: MTA Subway Hourly Ridership - Beginning 2025
+    steward: Metropolitan Transportation Authority
+    url: https://data.ny.gov/Transportation/MTA-Subway-Hourly-Ridership-Beginning-2025/5wq4-mkjj
+    api_url: https://data.ny.gov/resource/5wq4-mkjj.csv
+    dataset_id: 5wq4-mkjj
+    update_frequency: weekly
+    geographic_precision: station complex
+    temporal_precision: hour, beginning 2025
+    license: License unspecified in portal; attribution retained
+    estimated_size: under 100 MB for station-hour aggregate extract
+    incremental_method: transit_timestamp watermark and revision window
+    last_successful_update: null
+    known_limitations: Entries only; late records revise history; portal describes ridership as estimates.
+  nyc_dot_traffic_counts:
+    name: NYC DOT Automated Traffic Volume Counts - 2025 onward
+    steward: NYC Department of Transportation
+    url: https://data.cityofnewyork.us/Transportation/Automated-Traffic-Volume-Counts/7ym2-wayt
+    api_url: https://data.cityofnewyork.us/resource/7ym2-wayt.csv
+    dataset_id: 7ym2-wayt
+    update_frequency: periodic
+    geographic_precision: observed roadway segment point
+    temporal_precision: 15-minute count interval
+    license: NYC Open Data Terms of Use
+    estimated_size: under 50 MB for 2025 onward selected fields
+    incremental_method: replace 2025-onward extract with revision-safe source snapshot; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Sampled roadway locations are not a complete street census; counts at different sites and periods must not be summed as unique vehicles.
+  nyc_dot_pedestrian_counts:
+    name: NYC DOT Bi-Annual Pedestrian Counts
+    steward: NYC Department of Transportation
+    url: https://data.cityofnewyork.us/Transportation/Bi-Annual-Pedestrian-Counts/cqsj-cfgu
+    api_url: https://data.cityofnewyork.us/resource/cqsj-cfgu.csv
+    dataset_id: cqsj-cfgu
+    update_frequency: every six months
+    geographic_precision: 114 fixed observation points
+    temporal_precision: published seasonal AM, midday, and PM count periods
+    license: NYC Open Data Terms of Use
+    estimated_size: under 1 MB
+    incremental_method: replace wide history and standardize latest published seasonal period; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Sparse fixed sites concentrated on selected corridors; standardized timestamps are labels for the published month/time band, not exact field-observation timestamps.
+  nyc_dot_traffic_speed_current:
+    name: NYC DOT Traffic Speeds - latest link snapshot
+    steward: NYC Department of Transportation
+    url: https://data.cityofnewyork.us/Transportation/DOT-Traffic-Speeds/i4gi-tjb9
+    api_url: https://data.cityofnewyork.us/resource/i4gi-tjb9.csv
+    dataset_id: i4gi-tjb9
+    update_frequency: several times per minute
+    geographic_precision: monitored arterial or highway link centroid
+    temporal_precision: latest observation per link within 30 minutes of the source maximum timestamp
+    license: NYC Open Data Terms of Use
+    estimated_size: under 5 MB per latest-timestamp extract; the 111-million-row history is intentionally not mirrored
+    incremental_method: query source maximum timestamp and replace current-link snapshot; retain raw query results
+    last_successful_update: null
+    known_limitations: Point-in-time sensor coverage is concentrated on major arterials and highways; link centroid is a spatial proxy and speed is not a neighborhood-wide value.
+  nyc_rolling_sales:
+    name: NYC Citywide Rolling Calendar Sales
+    steward: NYC Department of Finance
+    url: https://data.cityofnewyork.us/dataset/NYC-Citywide-Rolling-Calendar-Sales/usep-8jbt
+    api_url: https://data.cityofnewyork.us/resource/usep-8jbt.csv
+    dataset_id: usep-8jbt
+    update_frequency: monthly
+    geographic_precision: tax lot
+    temporal_precision: recorded sales in the preceding rolling twelve months
+    license: NYC Open Data Terms of Use
+    estimated_size: under 50 MB for selected non-personal fields
+    incremental_method: replace current rolling-year extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Recorded sale price can be zero or non-market; apartment number is intentionally excluded, and a tax-lot sale record is not a current valuation.
+  derived_public_transaction_cases:
+    name: NYC Lens Privacy-Minimized Public Real-Property Transaction Cases
+    steward: NYC Lens derived from NYC Department of Finance rolling sales and ACRIS
+    url: https://data.cityofnewyork.us/dataset/NYC-Citywide-Rolling-Calendar-Sales/usep-8jbt
+    api_url: local://nyc-lens/derived/public-transaction-cases
+    dataset_id: derived_public_transaction_cases_v1
+    update_frequency: after NYC rolling sales or ACRIS refresh
+    geographic_precision: tax lot
+    temporal_precision: transaction or recorded-document date
+    license: Derived from NYC Open Data Terms of Use sources; upstream source, snapshot and license lineage retained
+    estimated_size: under 250 MB for the current local public-source history
+    incremental_method: deterministic rebuild from current standardized non-personal property records; retain a versioned derivation manifest Raw snapshot
+    last_successful_update: null
+    known_limitations: Cases describe public real-property records, not business acquisitions, current valuations, legal conclusions or matched-market comparables; names, parties, unit addresses and contact details are excluded.
+  acris_real_property_master_recent:
+    name: ACRIS Real Property Master - selected document types recorded 2021 onward
+    steward: NYC Department of Finance / Office of the City Register
+    url: https://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Master/bnx9-e6tj
+    api_url: https://data.cityofnewyork.us/resource/bnx9-e6tj.csv
+    dataset_id: bnx9-e6tj
+    update_frequency: weekly
+    geographic_precision: document joined locally to tax lot through ACRIS Legals
+    temporal_precision: recorded documents from 2021 onward
+    license: NYC Open Data Terms of Use
+    estimated_size: under 250 MB for selected non-personal document fields
+    incremental_method: replace filtered 2021-onward extract; retain raw snapshots and locally join to selected legal-lot fields
+    last_successful_update: null
+    known_limitations: Only DEED, RPTT&RET, MTGE, SAT and ASST document types are retained; parties, names, addresses and unit fields are never requested. Document amount semantics vary by document type and do not equal a current valuation.
+  acris_real_property_legals_recent:
+    name: ACRIS Real Property Legals - 2021 onward non-personal lot links
+    steward: NYC Department of Finance / Office of the City Register
+    url: https://data.cityofnewyork.us/City-Government/ACRIS-Real-Property-Legals/8h5j-fqxa
+    api_url: https://data.cityofnewyork.us/resource/8h5j-fqxa.csv
+    dataset_id: 8h5j-fqxa
+    update_frequency: weekly
+    geographic_precision: tax lot
+    temporal_precision: documents whose ACRIS document id begins in 2021 or later
+    license: NYC Open Data Terms of Use
+    estimated_size: approximately 0.8 GB for selected non-personal fields at the 2026 snapshot
+    incremental_method: replace filtered 2021-onward extract; retain raw snapshots and locally join only to selected Master document types
+    last_successful_update: null
+    known_limitations: The document-id year prefix is used as a bounded extraction key; the standardized layer is restricted by a local join to the Master recorded-date filter. Street, unit and all party datasets are intentionally excluded.
+  nyc_311_recent_aggregates:
+    name: NYC 311 Service Requests - rolling 24-month BBL and problem aggregates
+    steward: NYC 311
+    url: https://data.cityofnewyork.us/Social-Services/311-Service-Requests-from-2020-to-Present/erm2-nwe9
+    api_url: https://data.cityofnewyork.us/resource/erm2-nwe9.csv
+    dataset_id: erm2-nwe9
+    update_frequency: daily
+    geographic_precision: tax lot where NYC 311 publishes a valid BBL
+    temporal_precision: rolling 24 months through refresh date
+    license: NYC Open Data Terms of Use
+    estimated_size: under 100 MB after server-side aggregation
+    incremental_method: replace server-side BBL x problem x agency aggregate; retain only aggregate raw snapshots
+    last_successful_update: null
+    known_limitations: Individual service-request rows, incident addresses, coordinates, descriptors, free text and customer-related fields are never requested or retained. Counts reflect requests, not independently verified conditions, unique incidents or legal findings.
+  dob_permit_issuance_recent:
+    name: DOB Permit Issuance - BIS records issued 2021 onward
+    steward: NYC Department of Buildings
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-Permit-Issuance/ipu4-2q9a
+    api_url: https://data.cityofnewyork.us/resource/ipu4-2q9a.csv
+    dataset_id: ipu4-2q9a
+    update_frequency: daily
+    geographic_precision: tax lot / building
+    temporal_precision: BIS permits issued 2021 onward
+    license: NYC Open Data Terms of Use
+    estimated_size: under 150 MB for selected non-personal fields
+    incremental_method: replace filtered 2021-onward extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: BIS is a legacy permitting system and most current permits are issued through DOB NOW; permittee, owner, site-safety, license and telephone fields are intentionally never requested.
+  dob_now_approved_permits_recent:
+    name: DOB NOW Build Approved Permits - issued 2021 onward
+    steward: NYC Department of Buildings
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-NOW-Build-Approved-Permits/rbx6-tga4
+    api_url: https://data.cityofnewyork.us/resource/rbx6-tga4.csv
+    dataset_id: rbx6-tga4
+    update_frequency: daily
+    geographic_precision: tax lot / building / published point
+    temporal_precision: permits issued 2021 onward
+    license: NYC Open Data Terms of Use
+    estimated_size: under 300 MB for selected non-personal fields
+    incremental_method: replace filtered 2021-onward extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Excludes electrical, elevator and LAA systems; applicant, filing representative, permittee and owner identity/address/license fields are intentionally never requested.
+  dob_violations_active:
+    name: Active legacy DOB Violations
+    steward: NYC Department of Buildings
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-Violations/3h2n-5cm9
+    api_url: https://data.cityofnewyork.us/resource/3h2n-5cm9.csv
+    dataset_id: 3h2n-5cm9
+    update_frequency: every weekday
+    geographic_precision: tax lot / building
+    temporal_precision: records without a disposition date at refresh time
+    license: NYC Open Data Terms of Use
+    estimated_size: under 150 MB for selected non-personal fields
+    incremental_method: replace active extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: This is the older BIS civil-penalty system; some records may overlap the DOB Safety Violations source, and absence of a disposition date is a source-state proxy rather than a legal conclusion.
+  dob_safety_violations_active:
+    name: Active DOB Safety Violations
+    steward: NYC Department of Buildings
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-Safety-Violations/855j-jady
+    api_url: https://data.cityofnewyork.us/resource/855j-jady.csv
+    dataset_id: 855j-jady
+    update_frequency: daily
+    geographic_precision: tax lot / building / published point
+    temporal_precision: records published with Active status at refresh time
+    license: NYC Open Data Terms of Use
+    estimated_size: under 150 MB for selected non-personal fields
+    incremental_method: replace active extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Newer DOB NOW civil penalties may overlap legacy DOB Violations; record counts are operational signals, not findings about safety or legal compliance.
+  dob_ecb_violations_active:
+    name: Active DOB ECB Violations
+    steward: NYC Department of Buildings / OATH
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-ECB-Violations/6bgk-3dad
+    api_url: https://data.cityofnewyork.us/resource/6bgk-3dad.csv
+    dataset_id: 6bgk-3dad
+    update_frequency: every weekday
+    geographic_precision: tax lot / building
+    temporal_precision: records published with ACTIVE status at refresh time
+    license: NYC Open Data Terms of Use
+    estimated_size: under 200 MB for selected non-personal fields
+    incremental_method: replace active extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Summons status and balances can change; respondent names and addresses are intentionally never requested, and a record is not an independent legal determination by NYC Lens.
+  dob_certificate_occupancy_legacy:
+    name: DOB Certificate of Occupancy - BIS history
+    steward: NYC Department of Buildings
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-Certificate-Of-Occupancy/bs8b-p36w
+    api_url: https://data.cityofnewyork.us/resource/bs8b-p36w.csv
+    dataset_id: bs8b-p36w
+    update_frequency: daily publication check
+    geographic_precision: tax lot / building / published point
+    temporal_precision: BIS certificate records issued since 2012-07-12, including later issuances for legacy BIS jobs
+    license: NYC Open Data Terms of Use
+    estimated_size: under 50 MB for selected non-personal fields
+    incremental_method: replace published historical extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Publisher documentation directs users to DOB NOW for post-March-2021 coverage, but the BIS extract still contains later issuances for legacy jobs; combine both sources, and treat dates after snapshot retrieval as invalid source anomalies.
+  dob_now_certificate_occupancy:
+    name: DOB NOW Certificate of Occupancy
+    steward: NYC Department of Buildings
+    url: https://data.cityofnewyork.us/Housing-Development/DOB-NOW-Certificate-of-Occupancy/pkdm-hqz6
+    api_url: https://data.cityofnewyork.us/resource/pkdm-hqz6.csv
+    dataset_id: pkdm-hqz6
+    update_frequency: daily
+    geographic_precision: tax lot / building / published point
+    temporal_precision: issued through DOB NOW since March 2021
+    license: License unspecified in NYC Open Data portal; attribution and source terms retained
+    estimated_size: under 50 MB for selected non-personal fields
+    incremental_method: replace issued-certificate extract; retain raw snapshots
+    last_successful_update: null
+    known_limitations: Complements rather than replaces the local historical BIS extract; NYC Lens stores only non-personal property and filing fields.
+  air_quality_health:
+    name: Air Quality and Health Impacts
+    steward: NYC Department of Health and Mental Hygiene
+    url: https://data.cityofnewyork.us/Environment/Air-Quality-and-Health-Impacts/c3uy-2p5r
+    api_url: https://data.cityofnewyork.us/resource/c3uy-2p5r.csv
+    dataset_id: c3uy-2p5r
+    update_frequency: periodic
+    geographic_precision: borough, UHF and other published geographies
+    temporal_precision: indicator-dependent
+    license: NYC Open Data Terms of Use
+    estimated_size: under 10 MB
+    incremental_method: full snapshot
+    last_successful_update: null
+    known_limitations: Mixed modeled and observed indicators; never assign an area value to an individual or building.
+  nyc_hotels:
+    name: NYC Hotels
+    steward: NYC Office of Special Enforcement
+    url: https://data.cityofnewyork.us/resource/tjus-cn27.csv
+    api_url: https://data.cityofnewyork.us/resource/tjus-cn27.csv
+    dataset_id: tjus-cn27
+    update_frequency: periodic
+    geographic_precision: property/address; coordinate coverage varies
+    temporal_precision: current published snapshot
+    license: NYC Open Data Terms of Use
+    estimated_size: under 10 MB
+    incremental_method: full snapshot
+    last_successful_update: null
+    known_limitations: Confirm active/status semantics from metadata before interpretation.
+  osm_walk_network:
+    name: OpenStreetMap walking network extract
+    steward: OpenStreetMap contributors
+    url: https://www.openstreetmap.org/copyright
+    api_url: https://overpass-api.de/api/interpreter
+    dataset_id: overpass_walk_extract
+    update_frequency: query-time cached snapshot
+    geographic_precision: mapped pedestrian network
+    temporal_precision: retrieval time
+    license: ODbL 1.0; attribution and derivative-database obligations apply
+    estimated_size: under 25 MB per sample-area extract
+    incremental_method: refresh cache by retrieval date
+    last_successful_update: null
+    known_limitations: Completeness and access tags vary; routing result is a modeled network reach, not observed travel time.
+  nyc_hurricane_evacuation_zones:
+    name: NYC Hurricane Evacuation Zones
+    steward: NYC Emergency Management and NYC Department of City Planning
+    url: https://data.cityofnewyork.us/City-Government/Hurricane-Evacuation-Zones/epne-qv9x
+    api_url: https://data.cityofnewyork.us/resource/epne-qv9x.geojson
+    dataset_id: epne-qv9x
+    update_frequency: as needed; quarterly publication check
+    geographic_precision: published evacuation-zone multipolygons
+    temporal_precision: current published planning layer
+    license: License unspecified on NYC Open Data; source attribution and NYC Open Data terms retained
+    estimated_size: under 25 MB
+    incremental_method: replace current standardized boundary layer; retain raw and metadata snapshots
+    last_successful_update: null
+    known_limitations: Evacuation zones communicate storm-surge evacuation planning and are not FEMA flood-insurance zones, parcel engineering determinations, or live evacuation orders.
+  nyc_future_floodplain_2050s:
+    name: Future Floodplain 2050s - 100-year floodplain
+    steward: NYC Mayor's Office of Climate and Environmental Justice / CUNY / NPCC
+    url: https://data.cityofnewyork.us/Environment/Future-Floodplain-2050s/27ya-gqtm
+    api_url: https://data.cityofnewyork.us/resource/27ya-gqtm.geojson
+    dataset_id: 27ya-gqtm
+    update_frequency: as needed; quarterly publication check
+    geographic_precision: published modeled floodplain polygons
+    temporal_precision: 2050s scenario based on preliminary FEMA mapping and NPCC high sea-level-rise projection
+    license: License unspecified on NYC Open Data; source attribution and NYC Open Data terms retained
+    estimated_size: under 250 MB
+    incremental_method: replace current standardized projection layer; retain raw and metadata snapshots
+    last_successful_update: null
+    known_limitations: Long-range planning scenario based on older underlying model inputs; not appropriate for current insurance ratings, regulatory determinations, site-scale design, or parcel-level engineering.
+  nyc_sea_level_rise_2100_floodplain:
+    name: Sea Level Rise Maps - 2100 100-year Floodplain
+    steward: NYC Mayor's Office of Climate and Environmental Justice / CUNY / NPCC
+    url: https://data.cityofnewyork.us/Environment/Sea-Level-Rise-Maps-2100-100-year-Floodplain-/rf9r-c4pz
+    api_url: https://data.cityofnewyork.us/resource/rf9r-c4pz.geojson
+    dataset_id: rf9r-c4pz
+    update_frequency: as needed; quarterly publication check
+    geographic_precision: published modeled floodplain multipolygon
+    temporal_precision: 2100 scenario based on preliminary FEMA mapping and NPCC 90th-percentile 75-inch sea-level-rise projection
+    license: License unspecified on NYC Open Data; source attribution and NYC Open Data terms retained
+    estimated_size: under 100 MB
+    incremental_method: replace current standardized projection layer; retain raw and metadata snapshots
+    last_successful_update: null
+    known_limitations: Long-range planning scenario, not a forecast of a specific event and not appropriate for insurance, regulatory, legal, or site-design determinations.
+  fema_nfhl_special_flood_hazard_areas:
+    name: FEMA National Flood Hazard Layer Special Flood Hazard Areas
+    steward: Federal Emergency Management Agency
+    url: https://www.fema.gov/flood-maps/national-flood-hazard-layer
+    api_url: https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query
+    dataset_id: NFHL_MapServer_28_SFHA_T
+    update_frequency: periodic as effective NFHL studies change
+    geographic_precision: effective flood-hazard polygon clipped to the official 2023 CSA 408 county union
+    temporal_precision: current service snapshot at retrieval time
+    license: U.S. federal public data; FEMA attribution and source/disclaimer retained
+    estimated_size: preflight envelope count was 169587 for all flood-zone records; filtered SFHA Raw pages and standardized geometry are expected under 2 GB
+    incremental_method: county-envelope count preflight, stable OBJECTID pagination, exact CSA-union clipping and GlobalID/FLD_AR_ID deduplication; retain every Raw response and hash
+    last_successful_update: null
+    known_limitations: NFHL coverage and effective-study dates vary; overlap is a screening fact, not an insurance, engineering, legal, regulatory, expected-loss or parcel-level determination.
+  cdc_places_2025_tract:
+    name: "PLACES: Census Tract Data (GIS Friendly Format), 2025 release"
+    steward: Centers for Disease Control and Prevention, Division of Population Health
+    url: https://data.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2025/yjkw-uj5s
+    api_url: https://data.cdc.gov/resource/yjkw-uj5s.csv
+    dataset_id: yjkw-uj5s
+    update_frequency: annual release; quarterly publication check
+    geographic_precision: 2023 census tract model-based estimates, filtered to the 30 official CSA 408 county equivalents
+    temporal_precision: 2025 release using 2023 BRFSS for selected measures
+    license: U.S. federal public-domain dataset; CDC attribution and model-estimate limitations retained
+    estimated_size: under 25 MB for the selected 30-county fields and metadata
+    incremental_method: replace current standardized selected-measure layer; retain immutable metadata and filtered Raw CSV snapshots with query and hash
+    last_successful_update: null
+    known_limitations: Small-area model estimates derived from survey, Census and ACS inputs; values are population-level tract estimates and must never be assigned to an individual, household, address, parcel or building.
+  cdc_places_2024_tract_fallback:
+    name: "PLACES: Census Tract Data (GIS Friendly Format), 2024 release — missing-value fallback"
+    steward: Centers for Disease Control and Prevention, Division of Population Health
+    url: https://data.cdc.gov/500-Cities-Places/PLACES-Census-Tract-Data-GIS-Friendly-Format-2024/k9zj-b28y
+    api_url: https://data.cdc.gov/resource/k9zj-b28y.csv
+    dataset_id: k9zj-b28y
+    update_frequency: refresh after the 2025 layer; only counties whose current tract estimates are entirely unavailable
+    geographic_precision: 2022 census tract model-based estimates used only as an explicitly labeled fallback
+    temporal_precision: 2024 release using 2022 BRFSS for the selected measures
+    license: U.S. federal public-domain dataset; CDC attribution and model-estimate limitations retained
+    estimated_size: under 5 MB because retrieval is limited to current-release missing counties and selected fields
+    incremental_method: replace fallback standardized rows; retain immutable metadata and bounded Raw CSV snapshots with query and hash
+    last_successful_update: null
+    known_limitations: Older release and model inputs; used only when the 2025 tract release has no usable selected estimates for the catchment, never mixed invisibly with current values and never assigned to a person or site.
+  tlc_taxi_zones:
+    name: NYC TLC Taxi Zones
+    steward: NYC Taxi and Limousine Commission
+    url: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+    api_url: https://d37ci6vzurychx.cloudfront.net/misc/taxi_zones.zip
+    dataset_id: tlc_taxi_zones
+    update_frequency: as needed; quarterly publication check
+    geographic_precision: published taxi-zone polygon
+    temporal_precision: current published boundary package
+    license: NYC TLC public trip-record-data terms and source attribution retained
+    estimated_size: under 5 MB compressed
+    incremental_method: replace current standardized boundary layer; retain raw ZIP snapshot
+    last_successful_update: null
+    known_limitations: Taxi zones are coarse operating geographies and are not neighborhoods, parcels, exact pickup points, or exact dropoff points.
+  tlc_trip_record_monthly_aggregates:
+    name: NYC TLC Yellow and Green Taxi monthly zone-hour aggregates
+    steward: NYC Taxi and Limousine Commission
+    url: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+    api_url: https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
+    dataset_id: tlc_yellow_green_monthly_zone_hour_aggregate
+    update_frequency: monthly with typical publication delay
+    geographic_precision: taxi zone, separately for pickup and dropoff; no origin-destination linkage retained
+    temporal_precision: calendar month by day of week and hour
+    license: NYC TLC public trip-record-data terms and source attribution retained
+    estimated_size: latest yellow and green source Parquet objects are checked before scanning; local retained aggregate is expected under 100 MB
+    incremental_method: discover latest common month, remotely project and aggregate, suppress cells under five trips, retain only aggregate Raw and standardized snapshots
+    last_successful_update: null
+    known_limitations: Area-weighted site estimates assume trips are uniformly distributed within each taxi zone; source files can contain anomalies and do not represent all mobility, unique people, exact footfall, or future demand.
+
+excluded_sources:
+  google_places:
+    status: BLOCKED_LICENSE
+    reason: Bulk permanent storage is outside the approved local open-data scope.
+  yelp:
+    status: BLOCKED_LICENSE
+    reason: No bulk archival permission was established.
+  commercial_mobile_movement:
+    status: BLOCKED_LICENSE
+    reason: Vendor licensing, paid-report rights, retention, and privacy terms require user-led review before any adapter is activated.
+  commercial_real_estate_vendors:
+    status: BLOCKED_LICENSE
+    reason: CoStar, CompStak, CREXi and Reonomy data require user-supplied contracts, credentials, archival and paid-report rights; no account, scrape, contact, download or purchase was attempted.
+  regional_development_projects:
+    status: INDETERMINATE_FRAGMENTED
+    reason: No single authoritative CSA-wide project feed exists in scope; a gated local-file adapter is available for user-supplied official municipal datasets without treating absence as zero.
+  nj_transit_gtfs:
+    status: BLOCKED_CREDENTIALS
+    reason: The official NJ TRANSIT developer portal requires an account and token, and its terms require user-led legal review before commercial reliance; no account was created and no data was downloaded.
+  cttransit_gtfs:
+    status: BLOCKED_LICENSE
+    reason: CTtransit requires the downloader to affirmatively accept its license agreement; NYC Lens did not accept terms or submit a form on the user's behalf.
+  path_gtfs:
+    status: INDETERMINATE
+    reason: No current official, credential-free PATH GTFS download with confirmed archival and reporting rights was established; Overture transit-place records remain a disclosed proxy.
+  individual_mobility_traces:
+    status: BLOCKED_LICENSE
+    reason: Personal-level device trajectories are outside the privacy boundary.
+  full_historical_tlc_trips:
+    status: SKIPPED_NOT_DUE
+    reason: NYC Lens retains only the selected 2026-05 monthly zone-hour aggregate; downloading and storing the full individual-trip history remains outside scope.

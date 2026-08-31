@@ -1,0 +1,49 @@
+sites:
+  - id: times_square
+    label_zh: 时代广场
+    address: "1501 Broadway, New York, NY 10036"
+    borough: Manhattan
+  - id: downtown_flushing
+    label_zh: 法拉盛市中心
+    address: "41-17 Main Street, Flushing, NY 11355"
+    borough: Queens
+  - id: downtown_brooklyn
+    label_zh: 布鲁克林市中心
+    address: "1 MetroTech Center, Brooklyn, NY 11201"
+    borough: Brooklyn
+regional_sites:
+  - id: mineola_nassau
+    label_zh: 长岛拿骚县中心
+    address: "100 Supreme Court Drive, Mineola, NY 11501"
+    state_abbr: NY
+    county_geoid: "36059"
+  - id: white_plains_westchester
+    label_zh: 西彻斯特白原市中心
+    address: "255 Main Street, White Plains, NY 10601"
+    state_abbr: NY
+    county_geoid: "36119"
+  - id: jersey_city_hudson
+    label_zh: 新泽西泽西市中心
+    address: "280 Grove Street, Jersey City, NJ 07302"
+    state_abbr: NJ
+    county_geoid: "34017"
+  - id: newark_essex
+    label_zh: 新泽西纽瓦克市中心
+    address: "920 Broad Street, Newark, NJ 07102"
+    state_abbr: NJ
+    county_geoid: "34013"
+  - id: stamford_western_ct
+    label_zh: 康州斯坦福市中心
+    address: "888 Washington Boulevard, Stamford, CT 06901"
+    state_abbr: CT
+    county_geoid: "09190"
+  - id: bridgeport_greater_bridgeport
+    label_zh: 康州布里奇波特市中心
+    address: "45 Lyon Terrace, Bridgeport, CT 06604"
+    state_abbr: CT
+    county_geoid: "09120"
+  - id: milford_pike
+    label_zh: 宾州派克县米尔福德
+    address: "412 Broad Street, Milford, PA 18337"
+    state_abbr: PA
+    county_geoid: "42103"

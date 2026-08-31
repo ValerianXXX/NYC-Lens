@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="NYC Lens local trade-area and commercial-intelligence workspace">
+  <title>NYC Lens | Commercial Location Intelligence</title>
+  <link rel="icon" href="data:,">
+  <script>
+    try {
+      const savedTheme = localStorage.getItem("nyc-lens-theme");
+      const preferredTheme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      document.documentElement.dataset.theme = savedTheme || preferredTheme;
+    } catch (_) {}
+  </script>
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@5.7.3/dist/maplibre-gl.css">
+  <link rel="stylesheet" href="/static/styles.css?v=0.3.5-ui">
+</head>
+<body>
+  <a class="skip-link" href="#workspace" data-i18n="accessibility.skip">Skip to analysis workspace</a>
+
+  <header class="app-header">
+    <a class="brand" href="#single-analysis" aria-label="NYC Lens">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>NYC Lens</span>
+    </a>
+    <nav class="primary-nav" aria-label="Primary navigation" data-i18n-aria="accessibility.primaryNav">
+      <a class="nav-link active" href="#single-analysis" data-i18n="nav.single">Site analysis</a>
+      <a class="nav-link" href="#multi-comparison" data-i18n="nav.compare">Compare sites</a>
+      <a class="nav-link" href="#data-guidance" data-i18n="nav.evidence">Data guidance</a>
+    </nav>
+    <div class="header-actions">
+      <span class="local-badge"><i aria-hidden="true"></i><span data-i18n="header.local">Local only</span></span>
+      <nav id="exports" class="export-links" aria-label="Export analysis" data-i18n-aria="accessibility.export" hidden></nav>
+      <button class="utility-button language-toggle" id="language-toggle" type="button" aria-label="切换到中文">中文</button>
+      <button class="utility-button theme-toggle" id="theme-toggle" type="button" aria-label="Toggle color theme" data-i18n-aria="accessibility.theme">
+        <span class="theme-glyph" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </header>
+
+  <section class="command-shell" id="single-analysis" aria-labelledby="analysis-title">
+    <div class="command-heading">
+      <p class="eyebrow" data-i18n="header.eyebrow">LOCAL · TRACEABLE · GREATER NYC</p>
+      <h1 id="analysis-title" data-i18n="header.title">Commercial Location Intelligence</h1>
+    </div>
+    <form id="analysis-form" class="command-bar">
+      <label class="command-field command-address">
+        <span data-i18n="form.address">Address</span>
+        <span class="field-control"><i aria-hidden="true">⌖</i><input id="address" name="address" value="1501 Broadway, New York, NY 10036" autocomplete="street-address" required data-i18n-placeholder="form.addressPlaceholder"></span>
+      </label>
+      <label class="command-field">
+        <span data-i18n="form.businessType">Business type</span>
+        <span class="field-control"><i aria-hidden="true">▣</i><select id="business-type" name="business_type"><option value="full_service_restaurant" data-i18n="business.fullService">Full-service restaurant</option></select></span>
+      </label>
+      <label class="command-field">
+        <span data-i18n="form.focusArea">Trade area in view</span>
+        <span class="field-control"><i aria-hidden="true">◎</i><select id="catchment-select" aria-label="Trade area in view" data-i18n-aria="form.focusArea"></select></span>
+      </label>
+      <button class="primary-button" type="submit" id="analyze-button"><span data-i18n="form.analyze">Analyze site</span><b aria-hidden="true">→</b></button>
+    </form>
+    <p id="status" class="status-banner" role="status"><span class="status-dot" aria-hidden="true"></span><span data-status-text data-i18n="status.ready">The system uses the local database. A first-time walking area may read the public OSM network.</span></p>
+  </section>
+
+  <main class="dashboard-shell" id="workspace">
+    <details class="filter-panel panel-surface" open>
+      <summary><span data-i18n="filters.summary">Filters &amp; trade areas</span><small id="filter-summary">500 m · 1 km · 10-minute walk</small></summary>
+      <div class="filter-content">
+        <div class="panel-heading compact-heading">
+          <div><p class="eyebrow" data-i18n="filters.eyebrow">ANALYSIS SETTINGS</p><h2 data-i18n="filters.title">Trade-area scope</h2></div>
+          <span class="info-chip" data-i18n="filters.multi">Multi-select</span>
+        </div>
+        <fieldset class="choice-group">
+          <legend><span data-i18n="filters.distance">Distance bands</span><small data-i18n="filters.radiusNote">Projected radial buffers</small></legend>
+          <div class="choice-grid">
+            <label class="choice-chip"><input type="checkbox" name="catchment" value="250m"><span data-catchment-label="250m">250 m</span></label>
+            <label class="choice-chip"><input type="checkbox" name="catchment" value="500m" checked><span data-catchment-label="500m">500 m</span></label>
+            <label class="choice-chip"><input type="checkbox" name="catchment" value="1km" checked><span data-catchment-label="1km">1 km</span></label>
+          </div>
+        </fieldset>
+        <fieldset class="choice-group">
+          <legend><span data-i18n="filters.walk">Walking areas</span><small data-i18n="filters.walkNote">Street-network based</small></legend>
+          <div class="choice-grid">
+            <label class="choice-chip"><input type="checkbox" name="catchment" value="5min_walk"><span data-catchment-label="5min_walk">5-minute walk</span></label>
+            <label class="choice-chip"><input type="checkbox" name="catchment" value="10min_walk" checked><span data-catchment-label="10min_walk">10-minute walk</span></label>
+            <label class="choice-chip"><input type="checkbox" name="catchment" value="15min_walk"><span data-catchment-label="15min_walk">15-minute walk</span></label>
+          </div>
+        </fieldset>
+        <div class="method-note">
+          <strong data-i18n="filters.methodTitle">Method note</strong>
+          <p data-i18n="filters.methodBody">Distance bands use a suitable projected CRS for New York. Walking areas are generated from the locally stored street network, never represented as simple circles.</p>
+        </div>
+        <button class="secondary-button" id="reset-filters" type="button"><span aria-hidden="true">↻</span><span data-i18n="filters.reset">Restore default scope</span></button>
+      </div>
+    </details>
+
+    <div class="map-column">
+      <section class="map-card panel-surface" aria-labelledby="map-title">
+        <div class="panel-heading map-heading">
+          <div><p class="eyebrow" data-i18n="map.eyebrow">SPATIAL VIEW</p><h2 id="map-title" data-i18n="map.title">Site &amp; trade areas</h2></div>
+          <span id="map-context" class="scope-badge" data-i18n="map.awaiting">Awaiting analysis</span>
+        </div>
+        <div id="map" aria-label="New York map and trade areas" data-i18n-aria="map.aria"></div>
+        <p class="map-note"><span data-i18n="map.attribution">Basemap © OpenStreetMap contributors. Trade-area geometry and results remain local.</span></p>
+      </section>
+
+      <section class="insight-card panel-surface" aria-labelledby="detail-title">
+        <div class="tab-bar" role="tablist" aria-label="Analysis sections" data-i18n-aria="accessibility.tabs">
+          <button class="tab-button active" type="button" role="tab" aria-selected="true" aria-controls="panel-overview" data-panel="overview" data-i18n="tabs.overview">Overview</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-demographics" data-panel="demographics" data-i18n="tabs.audience">Audience</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-competition" data-panel="competition" data-i18n="tabs.competition">Competition</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-mobility" data-panel="mobility" data-i18n="tabs.mobility">Mobility</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-property" data-panel="property" data-i18n="tabs.property">Property &amp; risk</button>
+          <button class="tab-button" type="button" role="tab" aria-selected="false" aria-controls="panel-evidence" data-panel="evidence" data-i18n="tabs.evidence">Data evidence</button>
+        </div>
+        <h2 id="detail-title" class="sr-only" data-i18n="details.title">Metrics and evidence</h2>
+        <div id="identity" class="identity empty" data-i18n="details.empty">Run an analysis to show the standardized address, parcel, trade area, and data version.</div>
+        <div id="kpis" class="kpi-grid empty-kpis">
+          <div class="kpi-placeholder"></div><div class="kpi-placeholder"></div><div class="kpi-placeholder"></div><div class="kpi-placeholder"></div>
+        </div>
+        <div class="tab-panels">
+          <div class="tab-panel active" id="panel-overview" role="tabpanel" data-tab-panel="overview">
+            <article><h3 data-i18n="details.audience">Audience profile</h3><div id="audience" class="empty-copy" data-i18n="details.noData">Current trade-area data appears after analysis.</div></article>
+            <article><h3 data-i18n="details.visitorHealth">Visitors, health &amp; environment</h3><div id="visitor-health" class="empty-copy" data-i18n="details.noData">Current trade-area data appears after analysis.</div></article>
+          </div>
+          <div class="tab-panel" id="panel-demographics" role="tabpanel" data-tab-panel="demographics" hidden>
+            <article><h3 data-i18n="details.demographics">Residents, income &amp; demographics</h3><div id="demographics"></div></article>
+          </div>
+          <div class="tab-panel" id="panel-competition" role="tabpanel" data-tab-panel="competition" hidden>
+            <article><h3 data-i18n="details.competition">Competition, substitutes &amp; demand complements</h3><div id="competition"></div></article>
+          </div>
+          <div class="tab-panel" id="panel-mobility" role="tabpanel" data-tab-panel="mobility" hidden>
+            <article><h3 data-i18n="details.mobility">Mobility &amp; daytime workforce</h3><div id="mobility"></div></article>
+          </div>
+          <div class="tab-panel" id="panel-property" role="tabpanel" data-tab-panel="property" hidden>
+            <article><h3 data-i18n="details.property">Real estate, development &amp; regulation</h3><div id="real-estate"></div></article>
+          </div>
+          <div class="tab-panel" id="panel-evidence" role="tabpanel" data-tab-panel="evidence" hidden>
+            <article><h3 data-i18n="details.sources">Sources, years &amp; confidence</h3><div id="sources"></div></article>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <aside class="decision-panel panel-surface" aria-labelledby="decision-title">
+      <div class="panel-heading decision-heading">
+        <div><p class="eyebrow" data-i18n="decision.eyebrow">DECISION READING</p><h2 id="decision-title" data-i18n="decision.title">Site decision summary</h2></div>
+        <span class="no-score" data-i18n="decision.noScore">No composite score</span>
+      </div>
+      <div id="decision-empty" class="decision-empty">
+        <span class="empty-orbit" aria-hidden="true">◎</span>
+        <strong data-i18n="decision.emptyTitle">Awaiting site analysis</strong>
+        <p data-i18n="decision.emptyBody">After analysis, real metrics will be summarized into site context, opportunities, risks, and evidence coverage.</p>
+      </div>
+      <div id="decision-content" hidden>
+        <section class="decision-section location-section"><div class="decision-section-title"><span class="decision-icon">⌖</span><h3 data-i18n="decision.location">Site context</h3></div><div id="location-summary"></div></section>
+        <section class="decision-section opportunity-section"><div class="decision-section-title"><span class="decision-icon">✓</span><h3 data-i18n="decision.opportunities">Key opportunities</h3></div><div id="opportunities"></div></section>
+        <section class="decision-section risk-section"><div class="decision-section-title"><span class="decision-icon">!</span><h3 data-i18n="decision.risks">Key risks</h3></div><div id="risks"></div></section>
+        <section class="decision-section evidence-section"><div class="decision-section-title"><span class="decision-icon">◇</span><h3 data-i18n="decision.evidence">Evidence coverage</h3></div><div id="evidence-summary"></div></section>
+      </div>
+    </aside>
+  </main>
+
+  <section class="comparison-section panel-surface" id="multi-comparison" aria-labelledby="comparison-title">
+    <div class="panel-heading comparison-heading">
+      <div><p class="eyebrow" data-i18n="comparison.eyebrow">SEPARATE WORKFLOW</p><h2 id="comparison-title" data-i18n="comparison.title">Comparable multi-site analysis</h2></div>
+      <span class="no-score" data-i18n="comparison.noScore">Ranks raw metrics without judging quality</span>
+    </div>
+    <form id="comparison-form" class="comparison-form">
+      <label class="comparison-addresses"><span data-i18n="comparison.addresses">One public address per line (2–20)</span><textarea id="comparison-addresses" rows="4" required>100 Supreme Court Drive, Mineola, NY 11501
+920 Broad Street, Newark, NJ 07102</textarea></label>
+      <label><span data-i18n="comparison.scope">Comparison trade area</span><select id="comparison-catchment"><option value="500m" data-i18n="catchment.500m">500 m</option><option value="1km" data-i18n="catchment.1km">1 km</option></select></label>
+      <button class="primary-button" type="submit" id="compare-button"><span data-i18n="comparison.action">Compare sites</span><b aria-hidden="true">→</b></button>
+    </form>
+    <p id="comparison-status" class="status-banner" role="status"><span class="status-dot" aria-hidden="true"></span><span data-i18n="comparison.ready">The comparison displays like-for-like raw values and order only. It does not generate an uncalibrated composite score.</span></p>
+    <nav id="comparison-exports" class="comparison-exports export-links" aria-label="Comparison exports" data-i18n-aria="accessibility.comparisonExport" hidden></nav>
+    <div id="comparison-result" class="comparison-result empty"><span data-i18n="comparison.empty">Run a comparison to display like-for-like population, jobs, competition, mobility, and real-estate case metrics.</span></div>
+  </section>
+
+  <aside class="privacy-note" id="data-guidance">
+    <strong data-i18n="privacy.title">Data-use boundary</strong>
+    <p data-i18n="privacy.body">Area statistics do not describe specific people. ACS values are survey estimates with margins of error; LODES counts jobs; visitor and audience outputs are model proxies. Composite scoring remains disabled until calibrated against real projects.</p>
+  </aside>
+
+  <footer class="app-footer"><span>NYC Lens</span><span data-i18n="footer.copy">Local commercial-intelligence database · Traceable data and calculations</span></footer>
+
+  <script src="https://unpkg.com/maplibre-gl@5.7.3/dist/maplibre-gl.js"></script>
+  <script src="/static/app.js?v=0.3.5-ui"></script>
+</body>
+</html>
