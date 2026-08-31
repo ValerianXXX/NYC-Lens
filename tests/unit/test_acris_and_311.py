@@ -1,4 +1,5 @@
 from datetime import datetime, timezone
+from pathlib import PureWindowsPath
 
 import pandas as pd
 
@@ -67,8 +68,12 @@ def test_311_month_windows_cover_exact_rolling_interval() -> None:
     assert all(left[1] == right[0] for left, right in zip(windows, windows[1:]))
 
 
-def test_wsl_fallback_is_narrow_and_preserves_space_in_path(tmp_path) -> None:
-    converted = _windows_path_to_wsl(tmp_path / "file with space.csv")
+def test_wsl_fallback_is_narrow_and_preserves_space_in_path() -> None:
+    class WindowsPathStub:
+        def resolve(self) -> PureWindowsPath:
+            return PureWindowsPath(r"C:\Temp\file with space.csv")
+
+    converted = _windows_path_to_wsl(WindowsPathStub())  # type: ignore[arg-type]
     assert converted.startswith("/mnt/")
     assert converted.endswith("file with space.csv")
     assert _is_windows_ephemeral_port_exhaustion(OSError("[WinError 10048] socket exhausted"))
