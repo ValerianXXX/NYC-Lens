@@ -13,6 +13,7 @@ from pydantic import BaseModel, Field
 from shapely import from_wkt
 
 from ..analyze import analyze_site, get_site
+from ..assistant import PlanningRequest, ConfirmedComparison, interpret, execute_comparison
 from ..adapters.commercial_mobility import inspect_commercial_mobility_adapters
 from ..adapters.commercial_real_estate import inspect_commercial_real_estate_adapters
 from ..comparison import compare_sites, get_comparison
@@ -62,6 +63,25 @@ def index() -> FileResponse:
 @app.get("/api/health")
 def health() -> dict[str, str]:
     return {"status": "ok", "mode": "local"}
+
+
+@app.post("/api/assistant/interpret")
+def assistant_interpret(request: PlanningRequest):
+    try:
+        return interpret(request)
+    except (ValueError, httpx.HTTPError, KeyError, TypeError):
+        raise HTTPException(422, "Interpretation unavailable. Use the editable address comparison form; no analysis has run.") from None
+
+
+@app.post("/api/assistant/compare")
+def assistant_compare(request: ConfirmedComparison):
+    try:
+        with db_session() as conn:
+            return execute_comparison(conn, request)
+    except ValueError as exc:
+        raise HTTPException(422, str(exc)) from exc
+    except httpx.HTTPError:
+        raise HTTPException(503, "Public data service unavailable; the confirmed request can be retried manually.") from None
 
 
 @app.get("/api/adapters/commercial-mobility")

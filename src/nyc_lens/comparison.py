@@ -148,6 +148,7 @@ def compare_sites(
         snapshot_set = _snapshot_union(results)
         result = {
             "comparison_id": comparison_id,
+            "data_mode": "SYNTHETIC_DEMO" if any(item.get("data_mode") == "SYNTHETIC_DEMO" for item in results) else "LOCAL_SOURCE_DATA",
             "business_type": business_type,
             "catchments": requested,
             "comparison_catchment": comparison_catchment,

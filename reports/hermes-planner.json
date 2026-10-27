@@ -1,0 +1,38 @@
+{
+  "verified_on": "2026-10-27",
+  "integration": "REAL_HERMES_SYNTHETIC_PLANNING_ONLY",
+  "model": "gpt-5.6-sol",
+  "provider": "openai-codex",
+  "elapsed_ms": 11828,
+  "tool_calls": 0,
+  "cost_usd": null,
+  "request": "为餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米范围内的竞争、人口和租金，不要给未经校准的综合评分。",
+  "proposal": {
+    "status": "AWAITING_CONFIRMATION",
+    "intent": {
+      "addresses": [
+        "100 Demo Avenue, Newark, NJ",
+        "200 Demo Avenue, Newark, NJ"
+      ],
+      "business_type": "full_service_restaurant",
+      "catchment": "500m",
+      "priorities": [
+        "competition",
+        "population",
+        "rent"
+      ],
+      "unmodeled_requirements": [
+        "不要给未经校准的综合评分"
+      ]
+    },
+    "language": "zh",
+    "interpretation": "MODEL_PROPOSAL",
+    "missing": [],
+    "warnings": [],
+    "elapsed_ms": 0,
+    "cost_usd": null,
+    "original_request": "为餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米范围内的竞争、人口和租金，不要给未经校准的综合评分。",
+    "automatic_execution": false
+  },
+  "execution": "Not executed by model; same validated intent consumed by the local engine in integration tests."
+}

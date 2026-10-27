@@ -118,6 +118,11 @@ def _analyze_site_impl(
     catchments: list[str] | None = None,
 ) -> dict[str, Any]:
     requested = list(dict.fromkeys(catchments or DEFAULT_CATCHMENTS))
+    synthetic = conn.execute("SELECT count(*) FROM information_schema.tables WHERE table_name='synthetic_demo_guard'").fetchone()[0] > 0
+    if synthetic and (any(name.endswith('_walk') for name in requested) or not conn.execute(
+        "SELECT 1 FROM address WHERE original_input=? AND geocoder='synthetic_demo'", [address]
+    ).fetchone()):
+        raise ValueError("Synthetic demo supports only the two seeded addresses and radial catchments; no external queries are allowed")
     unknown = sorted(set(requested) - set(CATCHMENT_SPECS))
     if unknown:
         raise ValueError(f"Unknown catchments: {', '.join(unknown)}")
@@ -126,6 +131,8 @@ def _analyze_site_impl(
     address_record = geocode_address(conn, address)
     is_nyc = bool(address_record.get("borough"))
     warnings: list[str] = []
+    if synthetic:
+        warnings.append("SYNTHETIC DEMO: all records and differences are fictional, not real trade-area conclusions.")
     missing: list[str] = []
     parcel = fetch_parcel_for_address(conn, address_record)
     if parcel:
@@ -242,6 +249,18 @@ def _analyze_site_impl(
             acs_context=context,
             decennial_context=decennial_context,
         )
+        for metric in metric_values:
+            if metric.source_id and metric.source_id != "derived" and not metric.snapshot_id:
+                metric.value = None
+                metric.text_value = None
+                metric.confidence = None
+                metric.warnings = [*(metric.warnings or []), "No completed source snapshot; absent records are not observed zero."]
+            if synthetic:
+                metric.warnings = [*(metric.warnings or []), "SYNTHETIC_DEMO"]
+                if metric.snapshot_id:
+                    metric.source_year = "SYNTHETIC 2026"
+                    metric.measure_type = "synthetic_fixture"
+                    metric.confidence = None
         if is_nyc:
             attach_benchmark_percentiles(conn, catchment_type, metric_values)
         metric_values.extend(derive_market_signals(conn, catchment_type, metric_values))
@@ -296,6 +315,7 @@ def _analyze_site_impl(
     )
     result = {
         "site_id": site_id,
+        "data_mode": "SYNTHETIC_DEMO" if synthetic else "LOCAL_SOURCE_DATA",
         "input_address": address,
         "standardized_address": address_record.get("standardized_address"),
         "coordinates": {"longitude": longitude, "latitude": latitude},

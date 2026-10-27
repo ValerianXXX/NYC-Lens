@@ -40,6 +40,26 @@
     </div>
   </header>
 
+  <section class="command-shell assistant-shell" aria-labelledby="assistant-title">
+    <h2 id="assistant-title" data-i18n="assistant.title">Describe a two-address comparison</h2>
+    <p data-i18n="assistant.hint">Put each address in quotes. Confirm the full-service restaurant type and radial scope before querying data. Optional AI is off by default.</p>
+    <form id="assistant-form">
+      <label for="assistant-text" data-i18n="assistant.request">Requirements</label>
+      <textarea id="assistant-text" rows="3" maxlength="4000" required>Compare "100 Demo Avenue, Newark, NJ" and "200 Demo Avenue, Newark, NJ" for a restaurant within 500m, focusing on competition, population and rent.</textarea>
+      <button class="secondary-button" type="submit" data-i18n="assistant.interpret">Prepare comparison</button>
+    </form>
+    <p id="assistant-notice" role="status" data-i18n="assistant.notice">The quoted Demo Avenue addresses work only in the synthetic demo. Use actual addresses with your local data.</p>
+    <form id="assistant-draft" hidden>
+      <div class="assistant-fields">
+        <label><span data-i18n="assistant.first">First address</span><input id="assistant-first" minlength="5" maxlength="200" required></label>
+        <label><span data-i18n="assistant.second">Second address</span><input id="assistant-second" minlength="5" maxlength="200" required></label>
+        <label><span data-i18n="form.businessType">Business type</span><select id="assistant-business" required><option value="" data-i18n="assistant.choose">Choose supported type</option><option value="full_service_restaurant" data-i18n="business.fullService">Full-service restaurant</option></select></label>
+        <label><span data-i18n="assistant.scope">Radial scope</span><select id="assistant-radius"><option value="250m">250 m</option><option value="500m">500 m</option><option value="1km">1 km</option></select></label>
+      </div>
+      <button class="primary-button" type="submit" data-i18n="assistant.confirm">Confirm and compare</button>
+    </form>
+  </section>
+
   <section class="command-shell" id="single-analysis" aria-labelledby="analysis-title">
     <div class="command-heading">
       <p class="eyebrow" data-i18n="header.eyebrow">LOCAL · TRACEABLE · GREATER NYC</p>
@@ -170,7 +190,7 @@
     <form id="comparison-form" class="comparison-form">
       <label class="comparison-addresses"><span data-i18n="comparison.addresses">One public address per line (2–20)</span><textarea id="comparison-addresses" rows="4" required>100 Supreme Court Drive, Mineola, NY 11501
 920 Broad Street, Newark, NJ 07102</textarea></label>
-      <label><span data-i18n="comparison.scope">Comparison trade area</span><select id="comparison-catchment"><option value="500m" data-i18n="catchment.500m">500 m</option><option value="1km" data-i18n="catchment.1km">1 km</option></select></label>
+      <label><span data-i18n="comparison.scope">Comparison trade area</span><select id="comparison-catchment"><option value="250m" data-i18n="catchment.250m">250 m</option><option value="500m" selected data-i18n="catchment.500m">500 m</option><option value="1km" data-i18n="catchment.1km">1 km</option></select></label>
       <button class="primary-button" type="submit" id="compare-button"><span data-i18n="comparison.action">Compare sites</span><b aria-hidden="true">→</b></button>
     </form>
     <p id="comparison-status" class="status-banner" role="status"><span class="status-dot" aria-hidden="true"></span><span data-i18n="comparison.ready">The comparison displays like-for-like raw values and order only. It does not generate an uncalibrated composite score.</span></p>
@@ -187,5 +207,6 @@
 
   <script src="https://unpkg.com/maplibre-gl@5.7.3/dist/maplibre-gl.js"></script>
   <script src="/static/app.js?v=0.3.5-ui"></script>
+  <script src="/static/assistant.js?v=0.3.0"></script>
 </body>
 </html>

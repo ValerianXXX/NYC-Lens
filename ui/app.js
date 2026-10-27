@@ -1,5 +1,10 @@
 const COPY = {
-  zh: {
+  zh: { "assistant.title": '用自然语言比较两个地址',
+  "assistant.hint": '将两个地址分别放在引号内。查询前确认正式餐饮业态和直线半径；可选 AI 默认关闭。',
+  "assistant.request": '选址要求', "assistant.interpret": '准备比较',
+  "assistant.notice": 'Demo Avenue 为合成演示地址，仅在演示模式可用。使用本地真实数据时请填写实际地址。',
+  "assistant.first": '第一地址', "assistant.second": '第二地址', "assistant.choose": '请选择支持的业态',
+  "assistant.scope": '直线半径', "assistant.confirm": '确认并比较',
     "accessibility.skip": "跳到分析工作台",
     "accessibility.primaryNav": "主要导航",
     "accessibility.export": "导出分析",
@@ -129,7 +134,12 @@ const COPY = {
     "catchment.10min_walk": "10分钟步行",
     "catchment.15min_walk": "15分钟步行"
   },
-  en: {
+  en: { "assistant.title": 'Describe a two-address comparison',
+  "assistant.hint": 'Put each address in quotes. Confirm the full-service restaurant type and radial scope before querying data. Optional AI is off by default.',
+  "assistant.request": 'Requirements', "assistant.interpret": 'Prepare comparison',
+  "assistant.notice": 'The quoted Demo Avenue addresses work only in the synthetic demo. Use actual addresses with your local data.',
+  "assistant.first": 'First address', "assistant.second": 'Second address', "assistant.choose": 'Choose supported type',
+  "assistant.scope": 'Radial scope', "assistant.confirm": 'Confirm and compare',
     "accessibility.skip": "Skip to analysis workspace",
     "accessibility.primaryNav": "Primary navigation",
     "accessibility.export": "Export analysis",
@@ -912,6 +922,7 @@ function renderComparison(payload) {
   exports.innerHTML = ["json", "csv", "xlsx"].map((format) => (
     "<a href=\"/api/comparison/" + encodeURIComponent(payload.comparison_id) + "/report?format=" + format + "\">" + format.toUpperCase() + "</a>"
   )).join("");
+  if (typeof renderAssistantBrief === "function") renderAssistantBrief(payload);
 }
 
 document.querySelectorAll(".tab-button").forEach((tab) => {
