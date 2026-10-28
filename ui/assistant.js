@@ -3,7 +3,6 @@ const assistantForm = document.querySelector('#assistant-form');
 const assistantDraft = document.querySelector('#assistant-draft');
 const assistantNotice = document.querySelector('#assistant-notice');
 let assistantProposal = null;
-const assistantMarkers = [];
 const assistantCopy = (en, zh) => currentLanguage === 'zh' ? zh : en;
 
 
@@ -54,16 +53,7 @@ assistantDraft.addEventListener('submit', async (event) => {
     renderComparison(payload);
     setComparisonStatus('comparison.success', { sites: payload.sites.length, metrics: Object.keys(payload.metric_comparisons).length }, 'ready');
     assistantNotice.textContent = assistantCopy('Comparison ready. Review evidence and unresolved requirements below.', '比较已完成。请查看下方证据及待补资料。');
-    for (const marker of assistantMarkers) marker.remove();
-    assistantMarkers.length = 0;
-    const bounds = new maplibregl.LngLatBounds();
-    for (const [index, site] of payload.sites.entries()) {
-      const point = [site.coordinates.longitude, site.coordinates.latitude];
-      const popup = new maplibregl.Popup().setText(`${index + 1}. ${site.standardized_address}`);
-      assistantMarkers.push(new maplibregl.Marker({ color: index ? '#805ad5' : '#0b9f92' }).setLngLat(point).setPopup(popup).addTo(map));
-      bounds.extend(point);
-    }
-    map.fitBounds(bounds, { padding: 70, maxZoom: 14 });
+    renderComparisonMap(payload);
     document.querySelector('#multi-comparison').scrollIntoView({ behavior: 'smooth' });
   } catch (error) { assistantNotice.textContent = error.message; }
   finally { button.disabled = false; }
