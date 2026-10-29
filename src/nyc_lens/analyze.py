@@ -284,6 +284,7 @@ def _analyze_site_impl(
                 "measure_type": metric.measure_type,
                 "confidence": metric.confidence,
                 "margin_of_error": metric.margin_of_error,
+                "calculation_version_id": calculation_id,
                 "geography_type": metric.geography_type,
                 "geography_id": metric.geography_id,
                 "evidence_count": len(metric.evidence_ids or []),

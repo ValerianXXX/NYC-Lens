@@ -2,6 +2,8 @@
 
 NYC Lens is a local-first, auditable trade-area and commercial-location intelligence system for Greater New York. It converts public datasets into address-level catchments, traceable metrics, site comparisons, maps, and exportable reports without sending the working database to a hosted service.
 
+**2026-10-29 correctness milestone:** comparisons now withhold ranks and differences unless units, source snapshots, years and calculation versions agree. Evidence stays bound to the saved analysis after later ingestion. The frozen synthetic boundary set improved from 5/14 to 14/14 passing cases; one test-helper correction is disclosed, and this is not a model-quality or real-location benchmark. [Results, reproduction and limits](docs/comparison-evidence-boundaries-2026-10-29.md).
+
 **2026-10-28 upgrade:** bilingual requirements → editable two-address confirmation → existing analysis → map and sourced differences → report export. Try `pip install -e ".[dev,agent]"` then `python -m nyc_lens.demo --port 8766` for an isolated **synthetic** demonstration without the 17 GB dataset. AI interpretation is optional and disabled by default; no composite score is invented. Standard local MCP tools preserve requirements and return focused metrics with exact evidence-query arguments. A real Hermes model completed one bounded synthetic comparison/evidence/report flow after an initial failed attempt. [Configuration, both attempts and remaining limits](docs/natural-language-comparison-2026-10-27.md) distinguish this client acceptance from full-data analysis, customer outcomes and MCP Apps map integration, which remain unverified.
 
 The current release covers the five boroughs of New York City and the 30 county or county-equivalent areas in OMB New York–Newark CSA 408 across New York, New Jersey, Connecticut, and Pennsylvania.
@@ -142,7 +144,7 @@ Primary endpoints include:
 pytest
 ```
 
-The current suite contains 67 passing tests. Tests do not download the complete dataset. A fully populated local build should also run `nyc-lens qa`, sample analyses, regional samples, and storage checks.
+The 2026-10-29 local milestone ran 91 tests: 88 passed and three populated-database checks skipped. UI-only copy, layout and asset-version changes were checked separately afterward. Tests do not download the complete dataset. A fully populated local build should also run `nyc-lens qa`, sample analyses, regional samples, and storage checks. See the dated verification record above for the exact scope; a passing synthetic suite does not validate source coverage or real commercial conclusions.
 
 ## Evidence and interpretation boundaries
 

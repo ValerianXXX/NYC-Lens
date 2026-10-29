@@ -724,6 +724,7 @@ html[data-theme="dark"] .maplibregl-ctrl-icon { filter:invert(1); }
 .comparison-result.empty { padding:14px; color:var(--muted); border:1px dashed var(--line-strong); border-radius:9px; background:var(--surface-soft); font-size:12px; }
 .comparison-table { width:100%; border-collapse:separate; border-spacing:0; font-size:11px; }
 .comparison-table th,.comparison-table td { padding:10px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); text-align:right; vertical-align:top; }
+.comparison-table th:not(:first-child),.comparison-table td:not(:first-child) { min-width:120px; }
 .comparison-table th:first-child,.comparison-table td:first-child { min-width:260px; text-align:left; border-left:1px solid var(--line); }
 .comparison-table thead th { position:sticky; top:0; color:white; background:var(--nav-soft); }
 .comparison-table thead th:first-child { border-radius:8px 0 0 0; }

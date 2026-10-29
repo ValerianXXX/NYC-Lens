@@ -1,0 +1,45 @@
+{
+  "observedAt": "2026-10-29T22:59:02.689Z",
+  "syntheticOnly": true,
+  "finalEdgeMobile": {
+    "width": 390,
+    "height": 843,
+    "document": 371,
+    "columns": [
+      220,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120,
+      120
+    ],
+    "markers": 2,
+    "keyboardActivation": "PASS",
+    "pointerActivation": "Unconfirmed: emulated viewport click did not activate the button; Enter did"
+  },
+  "finalEdgeDesktop": {
+    "columns": [
+      260,
+      139.3359375,
+      139.3359375,
+      120,
+      139.3359375,
+      120,
+      139.3359375,
+      139.39453125
+    ],
+    "document": 1261,
+    "height": 900,
+    "markers": 2,
+    "width": 1280
+  },
+  "compactInApp": {
+    "width": 499,
+    "document": 484,
+    "metricColumnWidth": 120,
+    "viewportOverride": "No observed effect"
+  },
+  "visualLimits": "Edge screenshot capture timed out; final compact in-app screenshots captured. No physical phone or independent human acceptance."
+}

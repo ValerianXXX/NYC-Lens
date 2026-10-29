@@ -1,0 +1,17 @@
+{
+  "observedAt": "2026-10-29T22:37:45.878888+00:00",
+  "initialFixtureCommit": "8fd4797",
+  "initialFixtureLFHash": "663506d847931e59e5c51f2c661729e073b36e00c82bf2a4efac42e67b25ee85",
+  "amendedFixtureLFHash": "b1f7d23127eb182f8df57abda77e1711d4396e6cdc10693226061e6362b3b14e",
+  "correction": "Pass required addresses=[] to the ComparisonIntent used only to test difference presentation. The initial ranking assertion previously failed first and hid this fixture-construction error. No expected result, metric value, scenario or denominator changed.",
+  "firstRepairFailures": [
+    "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_UNIT]",
+    "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_YEAR]",
+    "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_SOURCE]",
+    "test_incomparable_values_are_not_ranked_or_subtracted[MISSING_PROVENANCE]",
+    "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_METHOD]"
+  ],
+  "firstRepairFailureCause": "Missing required addresses in test fixture construction after ranking assertions passed.",
+  "firstRepairLogLFHash": "64813e86c8a6b1da2c2fa0ef944913724fe549d950821f94f1a8c91bdf8134b1",
+  "finalSemanticAccuracyClaim": false
+}
