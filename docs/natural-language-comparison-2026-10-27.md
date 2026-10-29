@@ -79,6 +79,12 @@ disposable test directory and removed during cleanup; it was not uploaded.
 [Success receipt](../reports/hermes-agent-attempt-2.json).
 The [source/environment receipt](../reports/hermes-agent-source.json) records the
 tested file hashes, server versions and offline payload-size comparison.
+The successful model call used the source now committed as `47d8739`. A subsequent
+boundary review aligned each unsupported-requirement limit with the interpreter's
+4,000-character input limit; protocol tests forward a request longer than 500
+characters unchanged and reject values above 4,000. This follow-up was covered
+by offline tests, without another model call. Historical receipt hashes remain
+bound to the version actually exercised.
 
 | Observation | Initial attempt | After tool/prompt repair |
 |---|---:|---:|

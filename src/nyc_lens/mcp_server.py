@@ -15,7 +15,9 @@ from .util import sha256_file
 server = MCPServer("NYC Lens", version="0.2.0",
     instructions="Confirm the two addresses, full-service restaurant business type and radial scope with the user before compare_addresses. Preserve missing sources, years and warnings. Never infer a composite score. Synthetic demo data is not real trade-area evidence.")
 
-RequirementText = Annotated[str, Field(min_length=1, max_length=500)]
+# The offline interpreter retains the entire bounded original request here.
+# Match PlanningRequest's limit so its valid output can be forwarded unchanged.
+RequirementText = Annotated[str, Field(min_length=1, max_length=4000)]
 
 
 def _comparison_response(result: dict[str, Any], view: str) -> dict[str, Any]:

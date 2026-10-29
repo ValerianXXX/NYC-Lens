@@ -123,14 +123,19 @@ def test_mcp_current_and_legacy_client_business_flow(demo_home):
             assert {"analyze_address", "compare_addresses", "query_evidence", "generate_report"} <= {tool.name for tool in listed.tools}
             denied = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES})
             assert denied.is_error
-            original = 'Compare the two synthetic restaurant sites, including population and rent; no overall score.'
+            original = (f'Compare "{DEMO_ADDRESSES[0]}" and "{DEMO_ADDRESSES[1]}" for a restaurant, population, rent and competition. '
+                        + 'Preserve the evidence and do not invent a score. ' * 15)
+            planned = await client.call_tool("interpret_requirements", {"text": original})
+            assert not planned.is_error
+            assert len(original) > 500
             compared = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES, "confirmed": True,
                 "original_request": original, "priorities": ["competition", "population", "rent"],
-                "unmodeled_requirements": ["No calibrated overall score is available"]})
+                "unmodeled_requirements": planned.structured_content["intent"]["unmodeled_requirements"]})
             assert not compared.is_error
             result = compared.structured_content
             assert result["data_mode"] == "SYNTHETIC_DEMO"
             assert result["assistant"]["original_request"] == original
+            assert result["assistant"]["confirmed_intent"]["unmodeled_requirements"] == [original]
             assert result["assistant"]["confirmed_intent"]["priorities"] == ["competition", "population", "rent"]
             assert {row["priority"] for row in result["assistant"]["brief"]["missing"]} == {"rent", "population"}
             assert result["response_view"] == "summary"
@@ -155,7 +160,7 @@ def test_mcp_current_and_legacy_client_business_flow(demo_home):
             assert not full.is_error
             assert set(full.structured_content["metric_comparisons"]) == set(saved["metric_comparisons"])
             for invalid_context in [{"priorities": ["SELECT * FROM address"]}, {"original_request": "x" * 4001},
-                                    {"unmodeled_requirements": ["x" * 501]}, {"response_view": "sql"}]:
+                                    {"unmodeled_requirements": ["x" * 4001]}, {"response_view": "sql"}]:
                 rejected = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES, "confirmed": True, **invalid_context})
                 assert rejected.is_error
             invalid = await client.call_tool("analyze_address", {"address": DEMO_ADDRESSES[0], "catchment": "SELECT * FROM address"})
