@@ -4,6 +4,8 @@
 
 Base: `46239288de18e2562b234229c5b2ea746c7fa3d8`. The existing engine, 62 source definitions, DuckDB schema, MapLibre map, comparisons and exports remain in use. The roughly 17 GB local dataset was unavailable in this checkout. No real trade-area conclusion is claimed from this validation.
 
+Follow-up on 2026-10-28: a targeted search of likely Windows project/download locations and the existing WSL workspace did not locate the full NYC-Lens DuckDB/Parquet catalogue. Unrelated datasets were not reused. This does not prove the data is absent from every drive or backup. Real-data acceptance still requires the matching catalogue directory, configured through `NYC_LENS_HOME` / `NYC_LENS_DATABASE`, or a separately reviewed source refresh.
+
 The new flow is: enter requirements → review/edit two addresses, restaurant type and radial scope → explicitly confirm → run existing spatial calculations → compare sourced differences and missing requirements → inspect evidence → download JSON/CSV/XLSX. English and Chinese UI are supported. No generated SQL or composite score is exposed.
 
 Absent source snapshots now produce nulls and warnings instead of misleading zero counts. Differences require matching source year, unit and measure type. The original request and confirmed intent remain in the JSON report; unsupported requirements remain visible. The original uncalibrated-scoring gate still returns HTTP 409.
