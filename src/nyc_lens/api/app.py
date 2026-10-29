@@ -18,6 +18,7 @@ from ..adapters.commercial_mobility import inspect_commercial_mobility_adapters
 from ..adapters.commercial_real_estate import inspect_commercial_real_estate_adapters
 from ..comparison import compare_sites, get_comparison
 from ..db import db_session, initialize_database
+from ..evidence import query_metric_evidence
 from ..geocoding.service import geocode_address
 from ..paths import project_home
 from ..reporting.export import export_csv, export_html, export_json, export_xlsx
@@ -403,66 +404,18 @@ def transactions(
 def evidence(
     site_id: str,
     catchment: str = Query(min_length=2),
-    metric_id: str = Query(min_length=2),
+    metric_id: str = Query(min_length=2, max_length=100),
     limit: int = Query(default=50, ge=1, le=250),
-    offset: int = Query(default=0, ge=0),
+    offset: int = Query(default=0, ge=0, le=1_000_000),
 ):
     with db_session(read_only=True) as conn:
-        metric = conn.execute(
-            """
-            SELECT m.evidence_record_ids_json
-            FROM site_metric m
-            JOIN catchment c ON c.catchment_id=m.catchment_id
-            WHERE m.site_id=? AND c.catchment_type=? AND m.metric_id=?
-            ORDER BY m.created_at DESC
-            LIMIT 1
-            """,
-            [site_id, catchment, metric_id],
-        ).fetchone()
-        if metric is None:
-            raise HTTPException(404, "Site metric not found")
-        total = conn.execute(
-            "SELECT count(DISTINCT json_extract_string(value, '$')) FROM json_each(?::JSON)",
-            [metric[0]],
-        ).fetchone()[0]
-        rows = conn.execute(
-            """
-            WITH evidence_ids AS (
-                SELECT DISTINCT json_extract_string(value, '$') AS entity_id
-                FROM json_each(?::JSON)
-            ), resolved AS (
-                SELECT e.entity_id, s.entity_type, s.source_record_id,
-                       s.source_id, s.snapshot_id, d.vintage, d.retrieved_at,
-                       d.source_url, d.license,
-                       r.original_filename, r.sha256 AS raw_sha256,
-                       row_number() OVER (
-                           PARTITION BY e.entity_id, s.source_id, s.snapshot_id
-                           ORDER BY r.original_filename NULLS LAST
-                       ) AS raw_rank
-                FROM evidence_ids e
-                LEFT JOIN standardized_record s ON s.entity_id=e.entity_id
-                LEFT JOIN dataset_snapshot d ON d.snapshot_id=s.snapshot_id
-                LEFT JOIN raw_file r ON r.snapshot_id=d.snapshot_id
-            )
-            SELECT entity_id, entity_type, source_record_id, source_id, snapshot_id,
-                   vintage, retrieved_at, source_url, license,
-                   original_filename, raw_sha256
-            FROM resolved
-            WHERE raw_rank=1 OR raw_rank IS NULL
-            ORDER BY entity_id, source_id, snapshot_id
-            LIMIT ? OFFSET ?
-            """,
-            [metric[0], limit, offset],
-        ).fetchdf().to_dict("records")
-    return {
-        "site_id": site_id,
-        "catchment": catchment,
-        "metric_id": metric_id,
-        "total_evidence_ids": total,
-        "offset": offset,
-        "limit": limit,
-        "evidence": rows,
-    }
+        try:
+            return query_metric_evidence(conn, site_id=site_id, catchment=catchment,
+                                         metric_id=metric_id, limit=limit, offset=offset)
+        except KeyError:
+            raise HTTPException(404, "Site metric not found") from None
+        except ValueError:
+            raise HTTPException(422, "Invalid bounded evidence query") from None
 
 
 @app.get("/api/site/{site_id}/report")

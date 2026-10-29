@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import json
+import math
+from numbers import Real
 from typing import Any
 
 import duckdb
@@ -13,6 +15,25 @@ from .util import json_dumps, new_id, utc_now
 
 DEFAULT_COMPARISON_CATCHMENTS = ["500m", "1km"]
 MAX_COMPARISON_SITES = 20
+COMPARISON_METHOD_VERSION = "comparable-basis-2026-10-29-v1"
+
+
+def comparison_basis(values: list[dict[str, Any]]) -> dict[str, Any]:
+    """A relative rank needs at least two finite values on one verified basis."""
+    available = [row for row in values if isinstance(row.get("value"), Real)
+                 and not isinstance(row["value"], bool) and math.isfinite(row["value"])]
+    reasons = []
+    if len(available) < 2:
+        reasons.append("INSUFFICIENT_NUMERIC_DATA")
+    for field in ("unit", "source_id", "snapshot_id", "source_year", "measure_type", "calculation_version_id"):
+        observed = [row.get(field) for row in available]
+        if any(value is None or not str(value).strip() or str(value).casefold() == "unknown" for value in observed):
+            reasons.append(f"MISSING_{field.upper()}")
+        elif len(set(observed)) > 1:
+            reasons.append(f"MISMATCHED_{field.upper()}")
+    return {"status": "INCOMPARABLE" if reasons else "COMPARABLE" if len(available) == len(values) else "PARTIAL_COMPARABLE",
+            "reasons": reasons, "available_sites": len(available), "total_sites": len(values),
+            "method_version": COMPARISON_METHOD_VERSION}
 
 
 def _snapshot_union(results: list[dict[str, Any]]) -> dict[str, list[str]]:
@@ -53,24 +74,31 @@ def _metric_comparisons(
                     "measure_type": metric.get("measure_type"),
                     "confidence": metric.get("confidence"),
                     "margin_of_error": metric.get("margin_of_error"),
+                    "calculation_version_id": metric.get("calculation_version_id") or result.get("calculation_version_id"),
                     "warnings": metric.get("warnings") or [],
                 }
             )
-        numeric_values = sorted(
-            {float(item["value"]) for item in values if item["value"] is not None},
-            reverse=True,
-        )
-        rank_lookup = {value: index + 1 for index, value in enumerate(numeric_values)}
-        available = len([item for item in values if item["value"] is not None])
+        basis = comparison_basis(values)
+        numeric_values = [float(item["value"]) for item in values
+                          if isinstance(item["value"], Real) and not isinstance(item["value"], bool)
+                          and math.isfinite(item["value"])]
+        available = len(numeric_values)
         for item in values:
-            if item["value"] is None:
+            valid = isinstance(item["value"], Real) and not isinstance(item["value"], bool) and math.isfinite(item["value"])
+            if not valid and item["value"] is not None:
+                item["value"] = None
+                item["warnings"] = [*item["warnings"], "INVALID_NUMERIC_VALUE"]
+            if not valid or basis["reasons"]:
                 item["high_to_low_rank"] = None
                 item["within_batch_high_value_percentile"] = None
                 continue
-            rank = rank_lookup[float(item["value"])]
-            item["high_to_low_rank"] = rank
+            value = float(item["value"])
+            # Competition rank preserves gaps after ties. Percentile compares
+            # with other sites and gives half weight to equal-valued peers.
+            item["high_to_low_rank"] = 1 + sum(other > value for other in numeric_values)
             item["within_batch_high_value_percentile"] = (
-                100.0 * (available - rank) / (available - 1)
+                100.0 * (sum(other < value for other in numeric_values)
+                         + 0.5 * (sum(other == value for other in numeric_values) - 1)) / (available - 1)
                 if available > 1
                 else None
             )
@@ -79,6 +107,8 @@ def _metric_comparisons(
             "unit": next((item["unit"] for item in values if item["unit"]), None),
             "available_sites": available,
             "rank_semantics": "raw_numeric_high_to_low_not_better_or_worse",
+            "comparability": basis,
+            "percentile_semantics": "other_comparable_sites_below_plus_half_equal_percent",
             "values": values,
         }
     return comparisons
@@ -144,6 +174,7 @@ def compare_sites(
             "No composite site score is produced because NYC Lens has no approved real-project calibration set.",
             "Mixed jurisdictions can have different source coverage; each value retains its source, year, confidence, missingness and warnings.",
             "Within-batch percentiles describe only this small submitted address set and are not citywide or regional benchmarks.",
+            "Ranks and differences are withheld when source snapshots, units, years, measure types or calculation versions are missing or inconsistent.",
         ]
         snapshot_set = _snapshot_union(results)
         result = {
@@ -153,6 +184,7 @@ def compare_sites(
             "catchments": requested,
             "comparison_catchment": comparison_catchment,
             "calculation_version_id": calculation_id,
+            "comparison_method_version": COMPARISON_METHOD_VERSION,
             "snapshot_set": snapshot_set,
             "sites": [
                 {

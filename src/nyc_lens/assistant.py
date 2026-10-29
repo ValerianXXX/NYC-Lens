@@ -5,12 +5,12 @@ import json
 import os
 import re
 import time
-from typing import Literal
+from typing import Annotated, Literal
 
 import httpx
 from pydantic import BaseModel, ConfigDict, Field
 
-from .comparison import compare_sites
+from .comparison import compare_sites, comparison_basis
 from .util import json_dumps
 
 Priority = Literal["population", "jobs", "competition", "transit", "income", "rent"]
@@ -27,11 +27,11 @@ class PlanningRequest(BaseModel):
 
 class ComparisonIntent(BaseModel):
     model_config = ConfigDict(extra="forbid", strict=True)
-    addresses: list[str] = Field(max_length=2)
+    addresses: list[Annotated[str, Field(min_length=5, max_length=200)]] = Field(max_length=2)
     business_type: Literal["full_service_restaurant"] | None = None
     catchment: Literal["250m", "500m", "1km"] = "500m"
     priorities: list[Priority] = Field(default_factory=lambda: ["population", "competition", "transit"], max_length=6)
-    unmodeled_requirements: list[str] = Field(default_factory=list, max_length=12)
+    unmodeled_requirements: list[Annotated[str, Field(min_length=1, max_length=4000)]] = Field(default_factory=list, max_length=12)
 
 
 class ConfirmedComparison(BaseModel):
@@ -128,7 +128,7 @@ def interpret(request: PlanningRequest, *, model_call=None) -> dict:
             intent.addresses = []
             warnings.append("First version compares exactly two addresses; choose two explicitly.")
     missing = []
-    if len(intent.addresses) != 2:
+    if len(intent.addresses) != 2 or len({value.strip().casefold() for value in intent.addresses}) != 2:
         missing.append("two_addresses")
     if not intent.business_type:
         missing.append("supported_business_type")
@@ -144,11 +144,11 @@ def decision_brief(result: dict, intent: ComparisonIntent, language: str) -> dic
         metric_id = METRICS[priority]
         metric = result.get("metric_comparisons", {}).get(metric_id, {})
         values = metric.get("values", [])
-        usable = len(values) == 2 and all(row.get("value") is not None and row.get("snapshot_id") for row in values)
-        same_basis = usable and len({(row.get("unit"), row.get("source_year"), row.get("measure_type")) for row in values}) == 1
+        basis = comparison_basis(values)
+        same_basis = len(values) == 2 and basis["status"] == "COMPARABLE"
         if not same_basis:
             missing.append({"priority": priority, "metric_id": metric_id,
-                            "reason": "MISSING_OR_INCOMPARABLE_SOURCE_DATA", "values": values})
+                            "reason": "MISSING_OR_INCOMPARABLE_SOURCE_DATA", "comparability": basis, "values": values})
             continue
         differences.append({"priority": priority, "metric_id": metric_id,
                             "first_minus_second": values[0]["value"] - values[1]["value"],

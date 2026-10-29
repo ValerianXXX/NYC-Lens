@@ -20,6 +20,13 @@ def test_batch_rank_is_raw_high_to_low_not_a_preference_score() -> None:
             "catchments": {"500m": {"metrics": {"resident_population": {"value": 200.0, "unit": "people"}}}},
         },
     ]
+    # Ranking needs an explicitly comparable synthetic basis, not two bare values.
+    for result in results:
+        result["calculation_version_id"] = "synthetic-calculation"
+        result["catchments"]["500m"]["metrics"]["resident_population"].update(
+            source_id="synthetic-census", snapshot_id="synthetic-snapshot",
+            source_year="SYNTHETIC 2024", measure_type="synthetic_fixture",
+        )
     compared = _metric_comparisons(results, "500m")["resident_population"]
     assert compared["rank_semantics"] == "raw_numeric_high_to_low_not_better_or_worse"
     assert [item["high_to_low_rank"] for item in compared["values"]] == [2, 1]

@@ -1,5 +1,15 @@
 # Changelog
 
+## Unreleased — 2026-10-29
+
+- Require matching units, source snapshots, years, measure types and calculation versions before ranking or subtracting site metrics; retain raw values and explicit missingness.
+- Use competition ranks for ties and define within-batch percentiles against other comparable sites. Reject non-finite and boolean numeric values.
+- Share bounded evidence lookup between Web and MCP, bound to the stored analysis snapshot. Expose unresolved lineage and snapshot status rather than silently substituting later data.
+- Preserve comparison basis and calculation versions in CSV/XLSX exports; leave old stored results unchanged and suppress unverified legacy ranks in the Web UI.
+- Reject duplicate and oversized natural-language requests before analysis. Keep unsupported requirements for confirmation.
+- Improve bilingual comparison copy and narrow-screen column readability; version changed assets so cached styles refresh.
+- Preserve the original 5/14 boundary result, a disclosed test-helper correction and the final 14/14 result. Full local check: 88 passed, three data-dependent skips. This is synthetic verification, not new model or customer evidence.
+
 ## Unreleased — 2026-10-28
 
 - Preserve original requirements, requested priorities and unsupported conditions through MCP comparisons and exported reports.

@@ -9,6 +9,7 @@ from mcp.server.mcpserver.exceptions import ToolError
 from .analyze import analyze_site
 from .assistant import METRICS, ComparisonIntent, ConfirmedComparison, PlanningRequest, Priority, execute_comparison, interpret
 from .db import db_session, initialize_database
+from .evidence import query_metric_evidence
 from .reporting.comparison_export import export_comparison_csv, export_comparison_json, export_comparison_xlsx
 from .util import sha256_file
 
@@ -99,8 +100,12 @@ def query_evidence(site_id: Annotated[str, Field(min_length=1, max_length=100)],
                    limit: Annotated[int, Field(ge=1, le=100)] = 25) -> dict[str, Any]:
     """Read source/snapshot lineage using an exact entry from compare_addresses.evidence_queries.
     Metric IDs are canonical identifiers, not labels or guessed names. No SQL input."""
-    from .api.app import evidence
-    return evidence(site_id=site_id, metric_id=metric_id, catchment=catchment, limit=limit, offset=0)
+    with db_session(read_only=True) as conn:
+        try:
+            return query_metric_evidence(conn, site_id=site_id, metric_id=metric_id,
+                                         catchment=catchment, limit=limit, offset=0)
+        except (KeyError, ValueError):
+            raise ToolError("Evidence query is invalid or its saved site metric is unavailable") from None
 
 
 @server.tool()

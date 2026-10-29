@@ -107,9 +107,11 @@ const COPY = {
     "comparison.invalidCount": "请输入 2 至 20 个地址，每行一个。",
     "comparison.loading": "正在以 {scope} 同口径分析 {count} 个地址……",
     "comparison.failure": "比较失败，请稍后重试。",
-    "comparison.success": "比较完成：{sites} 个地址、{metrics} 个同口径指标；未生成综合分数。",
+    "comparison.success": "比较完成：{sites} 个地址、{metrics} 项指标；可比性及缺失信息见下方。未生成综合评分。",
     "comparison.address": "地址",
     "comparison.rank": "高到低第 {rank}",
+    "comparison.noRank": "来源或计算口径不完整或不一致，未排序。",
+    "comparison.legacyRank": "此结果早于当前口径检查；重新分析后可排序。",
     "comparison.missing": "缺失 {count}",
     "comparison.warning": "排序仅描述当前快照中的原始值，不代表更优，也不是投资建议。",
     "privacy.title": "数据使用边界",
@@ -244,9 +246,11 @@ const COPY = {
     "comparison.invalidCount": "Enter 2 to 20 addresses, one per line.",
     "comparison.loading": "Analyzing {count} addresses using the same {scope} trade area…",
     "comparison.failure": "Comparison failed. Please try again.",
-    "comparison.success": "Comparison complete: {sites} sites and {metrics} like-for-like metrics. No composite score was generated.",
+    "comparison.success": "Comparison complete: {sites} sites and {metrics} metric rows. Check comparability and missingness below; no composite score.",
     "comparison.address": "Address",
     "comparison.rank": "Rank {rank}, high to low",
+    "comparison.noRank": "Ranking unavailable: incomplete or different data bases.",
+    "comparison.legacyRank": "This saved result predates basis checks; recalculate to rank.",
     "comparison.missing": "{count} missing",
     "comparison.warning": "Ordering describes raw values in the current snapshot. It does not mean better and is not investment advice.",
     "privacy.title": "Data-use boundary",
@@ -942,7 +946,11 @@ function renderComparison(payload) {
   const body = payload.sites.map((site) => {
     const cells = metricIds.map((id) => {
       const item = valuesByMetricAndSite.get(id + "|" + site.site_id);
-      const rank = item && item.high_to_low_rank != null ? "<small>" + escapeHtml(t("comparison.rank", { rank: item.high_to_low_rank })) + "</small>" : "";
+      const basis = payload.metric_comparisons[id].comparability;
+      const rankable = basis && ["COMPARABLE", "PARTIAL_COMPARABLE"].includes(basis.status);
+      const rank = "<small>" + escapeHtml(rankable && item && item.high_to_low_rank != null
+        ? t("comparison.rank", { rank: item.high_to_low_rank })
+        : t(basis ? "comparison.noRank" : "comparison.legacyRank")) + "</small>";
       return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank + "</td>";
     }).join("");
     return "<tr><td><strong>" + escapeHtml(site.standardized_address) + "</strong><br><small>"
@@ -955,7 +963,8 @@ function renderComparison(payload) {
     "Rows are raw same-metric comparisons. High-to-low rank does not mean better, recommended, causal, or suitable.": "各行仅比较同一指标的原始值；高低排序不代表更优、推荐、因果关系或适用性。",
     "No composite site score is produced because NYC Lens has no approved real-project calibration set.": "由于缺少经批准的真实项目校准集，NYC Lens 不生成综合选址评分。",
     "Mixed jurisdictions can have different source coverage; each value retains its source, year, confidence, missingness and warnings.": "不同辖区的数据覆盖可能不同；每个值均保留来源、年份、置信信息、缺失项和警示。",
-    "Within-batch percentiles describe only this small submitted address set and are not citywide or regional benchmarks.": "批内百分位只描述本次提交的少量地址，不是全市或区域基准。"
+    "Within-batch percentiles describe only this small submitted address set and are not citywide or regional benchmarks.": "批内百分位只描述本次提交的少量地址，不是全市或区域基准。",
+    "Ranks and differences are withheld when source snapshots, units, years, measure types or calculation versions are missing or inconsistent.": "来源快照、单位、年份、测量口径或计算版本缺失或不一致时，不进行排序和差值计算。"
   };
   const warning = payload.warnings?.length
     ? payload.warnings.map(value => currentLanguage === "zh" ? translatedWarnings[value] || value : value).join(" ")

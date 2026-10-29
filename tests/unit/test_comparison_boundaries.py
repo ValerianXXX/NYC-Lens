@@ -66,7 +66,7 @@ def test_incomparable_values_are_not_ranked_or_subtracted(field, value):
     metric = _metric_comparisons(sites, '500m')['resident_population']
     assert all(row['high_to_low_rank'] is None for row in metric['values'])
     brief = decision_brief({'metric_comparisons': {'resident_population': metric}},
-                           ComparisonIntent(priorities=['population']), 'en')
+                           ComparisonIntent(addresses=[], priorities=['population']), 'en')
     assert not brief['differences']
     assert brief['missing'][0]['reason'] == 'MISSING_OR_INCOMPARABLE_SOURCE_DATA'
     assert [row['value'] for row in metric['values']] == [100.0, 200.0]

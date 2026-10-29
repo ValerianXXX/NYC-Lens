@@ -1,0 +1,143 @@
+{
+  "observedAt": "2026-10-29T22:59:21.930745+00:00",
+  "baseCommit": "c4138ba5676c932160e9e036dfe557eafd04eb4f",
+  "protocol": "COMPARISON_BOUNDARIES_V1",
+  "syntheticOnly": true,
+  "initialBoundary": {
+    "passed": 5,
+    "failed": 9,
+    "errors": 0
+  },
+  "testFixtureCorrection": "comparison-boundaries-fixture-correction-2026-10-29.json",
+  "finalBoundary": {
+    "passed": 14,
+    "failed": 0,
+    "errors": 0,
+    "cases": [
+      "test_planning_boundary[NL_EN]",
+      "test_planning_boundary[NL_ZH]",
+      "test_planning_boundary[NL_AMBIGUOUS]",
+      "test_planning_boundary[NL_DUPLICATE]",
+      "test_planning_boundary[NL_UNSUPPORTED]",
+      "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_UNIT]",
+      "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_YEAR]",
+      "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_SOURCE]",
+      "test_incomparable_values_are_not_ranked_or_subtracted[MISSING_PROVENANCE]",
+      "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_METHOD]",
+      "test_tied_values_use_competition_ranks_and_other_site_midrank",
+      "test_missing_source_is_unknown_not_zero",
+      "test_later_source_refresh_cannot_rebind_saved_metric_evidence",
+      "test_unconfirmed_or_oversized_requests_never_start_analysis"
+    ]
+  },
+  "originalFullSuite": {
+    "passed": 70,
+    "skipped": 3
+  },
+  "finalFullSuite": {
+    "total": 91,
+    "passed": 88,
+    "skipped": 3,
+    "failed": 0,
+    "errors": 0,
+    "durationSeconds": 35.022
+  },
+  "afterFullSuite": "UI-only copy, minimum column width and asset-version changes; three UI contracts and browser interactions checked afterward. Backend source unchanged.",
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "packages": {
+      "duckdb": "1.5.6",
+      "fastapi": "0.162.0",
+      "mcp": "2.3.0",
+      "pytest": "8.4.2",
+      "shapely": "2.2.0"
+    }
+  },
+  "sourceLFHashes": {
+    "src/nyc_lens/analyze.py": "26736c8a15c83105a10e4b5205eeaaeb81e8b5448141881598b872876be99058",
+    "src/nyc_lens/api/app.py": "7f0ea8446d0e59bf698e8d3cc520c4f84bd17adc797f299935a4256d833780c2",
+    "src/nyc_lens/assistant.py": "94926c06ffb4cc6ba46fe741d5ea44d2fc8f0497b171139b408ed5788dd746e8",
+    "src/nyc_lens/comparison.py": "127ec0c95b1819735e1460f7d2241614f072a66e7520b26718568ce5b84bb394",
+    "src/nyc_lens/db.py": "d3d5f6cee311b92dc5745b5f098ad98a6ec8f219cbe18fcd3ee468c40f8209bd",
+    "src/nyc_lens/evidence.py": "b31cd0a150bcdf26c72abfab5e340227f86106491e79dfb45b1f3b29852e0f1a",
+    "src/nyc_lens/mcp_server.py": "322a75f390f2d7ec0f6a65cd0325083b9ca1a663d65f8a3efedf5d15853f7a2e",
+    "src/nyc_lens/reporting/comparison_export.py": "b10f620622c495de08b9443ac451f4a262d30a701770066370bd2702c7bfcec6",
+    "tests/unit/test_comparison_and_scoring.py": "a35d22a9f555bab305ccbfa226e3fcf8b03fa6a13e04bf02bf203999dc5b2f1f",
+    "tests/unit/test_comparison_boundaries.py": "b1f7d23127eb182f8df57abda77e1711d4396e6cdc10693226061e6362b3b14e",
+    "tests/unit/test_evidence_snapshot_contract.py": "98cf2e9c6deffe08962f13a00356f3b5fddbced609ff5f224866fb24d6a25964",
+    "ui/app.js": "8775ec46115fbad1812815e78a5f556914058d861acd0d57341559f928cdf4f8",
+    "ui/index.html": "58488fadac9099ace4f4d8b9afc33e1d6c46f57cb00e1dea01b123abb87b060c",
+    "ui/styles.css": "5739a96470c44d6e773ecf2052893e0d87f3141a6225ad54ca07f39a09bdeeb9"
+  },
+  "localLogLFHashes": {
+    "reports/m3-baseline-2026-10-29.log": "b0ea6b31ede0bc8e20541640cad68e7c2182f1013f07ef9c60faaae32f2b61bb",
+    "reports/m3-boundaries-before.log": "0578a8a4da14ca6643fdc8b4090b13e4891c32b84982e6bca1b65d9e9095b7f4",
+    "reports/m3-boundaries-first-repair.log": "64813e86c8a6b1da2c2fa0ef944913724fe549d950821f94f1a8c91bdf8134b1",
+    "reports/m3-complete-final.log": "a086484af427b75785b771f34897fbb29f67635ed157c5606954c0e1366028d2",
+    "reports/m3-ui-final.log": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236"
+  },
+  "browser": {
+    "entry": "Disposable synthetic database, quoted addresses, editable confirmation, real local engine, map, evidence link and download",
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "mapMarkers": 2,
+    "competitorCounts": [
+      1,
+      3
+    ],
+    "difference": -2,
+    "missingPopulationAndRentPreserved": true,
+    "evidenceLinkObserved": {
+      "snapshot": "synthetic-places-v1",
+      "year": "SYNTHETIC 2026",
+      "source": "synthetic://nyc-lens/demo-v1",
+      "license": "Original synthetic fixture; no actual businesses",
+      "binding": "METRIC_SNAPSHOT",
+      "unresolved": 0
+    },
+    "responsiveDetails": "See browser-layout JSON captured from rendered DOM. Edge screenshots timed out; in-app viewport overrides had no effect. Compact screenshots are not desktop/physical-phone proof.",
+    "postFixInAppConsoleErrors": [],
+    "jsonDownload": {
+      "filename": "comparison_85d462d89e694414bb8ff8fc997ca712.json",
+      "sha256": "1f0b54ac852596a28bcc7e5b8a3aefc90cec6961610e8c79d98995688a41833f",
+      "bytes": 368490,
+      "checkedSyntheticMode": true,
+      "checkedCountsAndMissingness": true,
+      "checkedSnapshot": true
+    },
+    "screenshots": {
+      "reports/comparison-boundaries-compact-en-2026-10-29.jpg": {
+        "sha256": "caaaee8d411b86531f10a511c54be37d42a8dc3b716c623b8b17cae091402efe",
+        "bytes": 64871
+      },
+      "reports/comparison-boundaries-compact-zh-2026-10-29.jpg": {
+        "sha256": "b4aedb270c3d84079feed0303c5a0f5fa7d50312f3283ed6d66c8135c836fb41",
+        "bytes": 65300
+      }
+    }
+  },
+  "integrationLevels": {
+    "localComponents": "PASS synthetic DuckDB/spatial/FastAPI/report engine",
+    "mcpProtocolAndStdio": "PASS in final full suite with existing pinned SDK",
+    "newRealHermesModelRun": false,
+    "newMcpAppsClientRun": false,
+    "independentHumanAcceptance": false,
+    "realCommercialWorkflow": false
+  },
+  "liveModelRequests": 0,
+  "newModelQualityBenefitMeasured": false,
+  "productionActions": 0,
+  "schemaMigrationRequired": false,
+  "milestoneM3Complete": false,
+  "remaining": [
+    "Full source catalog and real-data acceptance",
+    "Cancellation and interruption recovery",
+    "Cache invalidation and freshness policy",
+    "Broader query resource limits",
+    "Independent human and physical-phone acceptance",
+    "Additional real client environments"
+  ]
+}

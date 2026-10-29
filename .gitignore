@@ -33,4 +33,5 @@ reports/qa/**
 !reports/qa/.gitkeep
 ui/vendor/
 reports/*.log
+reports/*.xml
 =
