@@ -1,0 +1,20 @@
+{
+  "protocol": "COMPARISON_BOUNDARIES_V1",
+  "frozenBeforeProductChanges": true,
+  "baseCommit": "c4138ba5676c932160e9e036dfe557eafd04eb4f",
+  "source": "tests/unit/test_comparison_boundaries.py",
+  "expectedCases": 14,
+  "scope": "Authored synthetic contracts and actual local DuckDB/FastAPI/report computations; no live LLM, public-data geocoding, real commercial conclusion or independent human acceptance.",
+  "checks": [
+    "NL_EN", "NL_ZH", "NL_AMBIGUOUS", "NL_DUPLICATE", "NL_UNSUPPORTED",
+    "DIFFERENT_UNIT", "DIFFERENT_YEAR", "DIFFERENT_SOURCE", "MISSING_PROVENANCE", "DIFFERENT_METHOD",
+    "TIED_VALUES", "MISSING_SOURCE", "REFRESH_EVIDENCE_AND_REPORT", "UNCONFIRMED_AND_OVERSIZED"
+  ],
+  "acceptance": "Keep all values and provenance visible; suppress ranking/subtraction on incomparable or unverified bases; preserve source binding after later ingestion; never equate missing source with zero; reject unconfirmed or oversized analysis before writes.",
+  "percentileDefinition": "Among other available comparable sites, fraction strictly below plus half of equal-valued sites, multiplied by 100; null when fewer than two are available.",
+  "limits": [
+    "Two-address synthetic data does not validate full-data coverage or real location suitability.",
+    "The explicit text helper is not semantic AI and supports only the declared restaurant scope.",
+    "Cancellation, interruption recovery, real data freshness policy and further client environments remain separate work."
+  ]
+}

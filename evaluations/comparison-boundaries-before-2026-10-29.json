@@ -1,0 +1,85 @@
+{
+  "observedAt": "2026-10-29T22:32:50.474258+00:00",
+  "sourceCommit": "c4138ba5676c932160e9e036dfe557eafd04eb4f",
+  "productCodeUnchanged": true,
+  "originalSuite": {
+    "passed": 70,
+    "skipped": 3,
+    "exitCode": 0,
+    "logLFHash": "b0ea6b31ede0bc8e20541640cad68e7c2182f1013f07ef9c60faaae32f2b61bb"
+  },
+  "frozenBoundaryCases": [
+    {
+      "id": "test_planning_boundary[NL_EN]",
+      "status": "PASS"
+    },
+    {
+      "id": "test_planning_boundary[NL_ZH]",
+      "status": "PASS"
+    },
+    {
+      "id": "test_planning_boundary[NL_AMBIGUOUS]",
+      "status": "PASS"
+    },
+    {
+      "id": "test_planning_boundary[NL_DUPLICATE]",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_planning_boundary[NL_UNSUPPORTED]",
+      "status": "PASS"
+    },
+    {
+      "id": "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_UNIT]",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_YEAR]",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_SOURCE]",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_incomparable_values_are_not_ranked_or_subtracted[MISSING_PROVENANCE]",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_incomparable_values_are_not_ranked_or_subtracted[DIFFERENT_METHOD]",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_tied_values_use_competition_ranks_and_other_site_midrank",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_missing_source_is_unknown_not_zero",
+      "status": "PASS"
+    },
+    {
+      "id": "test_later_source_refresh_cannot_rebind_saved_metric_evidence",
+      "status": "FAIL"
+    },
+    {
+      "id": "test_unconfirmed_or_oversized_requests_never_start_analysis",
+      "status": "FAIL"
+    }
+  ],
+  "passed": 5,
+  "failed": 9,
+  "errors": 0,
+  "sourceLFHashes": {
+    "tests/unit/test_comparison_boundaries.py": "663506d847931e59e5c51f2c661729e073b36e00c82bf2a4efac42e67b25ee85",
+    "evaluations/comparison-boundaries-plan-2026-10-29.json": "7e6de3877d43518635430f25c39b033e580c13d014e5eaa9df208e78fcb9649f",
+    "src/nyc_lens/comparison.py": "ea10bba82caa4d7f8d990cdf3e2f1d8e3e2fd3045e400ddd6d7f40b989065fd1",
+    "src/nyc_lens/assistant.py": "8fdb29c1238cc49a7fa2844b7161b51b4026f156fb95e8c8b995c5453e2fe314",
+    "src/nyc_lens/api/app.py": "5a8da06be152fbbe4ccfbada6ee074700b15ae8ba4b8b12284a5c82d76189cd7"
+  },
+  "boundaryLogLFHash": "0578a8a4da14ca6643fdc8b4090b13e4891c32b84982e6bca1b65d9e9095b7f4",
+  "syntheticOnly": true,
+  "liveModelRequests": 0,
+  "productionActions": 0,
+  "independentHumanAcceptance": false,
+  "fullDatasetAvailable": false
+}
