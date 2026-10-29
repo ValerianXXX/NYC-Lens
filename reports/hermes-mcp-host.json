@@ -1,0 +1,28 @@
+{
+  "host": "Hermes",
+  "hermesRevision": "afe53708ee7400919ae3e17a6dde9b02629e5c87",
+  "hostMcpSdkVersion": "1.26.0",
+  "synthetic": true,
+  "modelCalls": 0,
+  "persistentConfigurationChanged": false,
+  "status": "PASS",
+  "verifiedOn": "2026-10-27",
+  "mode": "ACTUAL_HERMES_TOOL_REGISTRY_DISPATCH",
+  "serverMcpSdkVersion": "2.3.0",
+  "platform": "existing WSL Ubuntu client to Windows stdio server",
+  "limitations": [
+    "No model-driven tool selection",
+    "No production or customer data",
+    "No persistent plugin installation"
+  ],
+  "checks": [
+    "NYC_INTENT_PRESERVED",
+    "NYC_UNCONFIRMED_CALL_REJECTED",
+    "NYC_SYNTHETIC_COMPARISON_1_VS_3",
+    "NYC_SOURCE_TRACE",
+    "NYC_REPORT_CREATED"
+  ],
+  "toolCount": 5,
+  "reportCreated": true,
+  "reportUploaded": false
+}

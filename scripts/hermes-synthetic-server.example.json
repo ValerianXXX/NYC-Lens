@@ -1,0 +1,5 @@
+{
+  "command": "/absolute/path/to/NYC-Lens/.venv/bin/python",
+  "args": ["/absolute/path/to/NYC-Lens/scripts/synthetic_mcp_server.py"],
+  "env": {"NYC_LENS_AI_PROVIDER": "disabled"}
+}

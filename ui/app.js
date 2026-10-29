@@ -1,5 +1,10 @@
 const COPY = {
-  zh: {
+  zh: { "assistant.title": '用自然语言比较两个地址',
+  "assistant.hint": '将两个地址分别放在引号内。查询前确认正式餐饮业态和直线半径；可选 AI 默认关闭。',
+  "assistant.request": '选址要求', "assistant.interpret": '准备比较',
+  "assistant.notice": 'Demo Avenue 为合成演示地址，仅在演示模式可用。使用本地真实数据时请填写实际地址。',
+  "assistant.first": '第一地址', "assistant.second": '第二地址', "assistant.choose": '请选择支持的业态',
+  "assistant.scope": '直线半径', "assistant.confirm": '确认并比较',
     "accessibility.skip": "跳到分析工作台",
     "accessibility.primaryNav": "主要导航",
     "accessibility.export": "导出分析",
@@ -40,6 +45,8 @@ const COPY = {
     "map.eyebrow": "空间视图",
     "map.title": "地址与商圈",
     "map.awaiting": "等待分析",
+    "map.comparison": "比较 {count} 个地址 · {scope}",
+    "map.synthetic": "合成演示",
     "map.aria": "纽约地图与商圈范围",
     "map.attribution": "底图 © OpenStreetMap contributors；商圈几何与结果仅保存在本机。",
     "tabs.overview": "概览",
@@ -129,7 +136,12 @@ const COPY = {
     "catchment.10min_walk": "10分钟步行",
     "catchment.15min_walk": "15分钟步行"
   },
-  en: {
+  en: { "assistant.title": 'Describe a two-address comparison',
+  "assistant.hint": 'Put each address in quotes. Confirm the full-service restaurant type and radial scope before querying data. Optional AI is off by default.',
+  "assistant.request": 'Requirements', "assistant.interpret": 'Prepare comparison',
+  "assistant.notice": 'The quoted Demo Avenue addresses work only in the synthetic demo. Use actual addresses with your local data.',
+  "assistant.first": 'First address', "assistant.second": 'Second address', "assistant.choose": 'Choose supported type',
+  "assistant.scope": 'Radial scope', "assistant.confirm": 'Confirm and compare',
     "accessibility.skip": "Skip to analysis workspace",
     "accessibility.primaryNav": "Primary navigation",
     "accessibility.export": "Export analysis",
@@ -170,6 +182,8 @@ const COPY = {
     "map.eyebrow": "SPATIAL VIEW",
     "map.title": "Site & trade areas",
     "map.awaiting": "Awaiting analysis",
+    "map.comparison": "Comparing {count} sites · {scope}",
+    "map.synthetic": "Synthetic demo",
     "map.aria": "New York map and trade areas",
     "map.attribution": "Basemap © OpenStreetMap contributors. Trade-area geometry and results remain local.",
     "tabs.overview": "Overview",
@@ -262,6 +276,7 @@ const COPY = {
 };
 
 const METRIC_LABELS = {
+  asking_rent: ["挂牌租金", "Asking rent"],
   resident_population: ["常住人口", "Resident population"],
   resident_population_density_per_sq_mile: ["人口密度（每平方英里）", "Population density (per sq mi)"],
   median_household_income: ["家庭收入中位数", "Median household income"],
@@ -427,6 +442,8 @@ let currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : 
 let currentResult = null;
 let currentComparison = null;
 let marker = null;
+const comparisonMarkers = [];
+let mapView = "site";
 let pendingMapRender = null;
 let statusState = { key: "status.ready", params: {}, tone: "ready", raw: null };
 let comparisonStatusState = { key: "comparison.ready", params: {}, tone: "ready", raw: null };
@@ -614,8 +631,9 @@ const applyLanguage = () => {
   setComparisonStatus(comparisonStatusState.key, comparisonStatusState.params, comparisonStatusState.tone, comparisonStatusState.raw);
   applyTheme();
   renderExports();
-  if (currentResult) renderResult(currentResult, catchmentSelect.value);
+  if (currentResult) renderResult(currentResult, catchmentSelect.value, mapView === "site");
   if (currentComparison) renderComparison(currentComparison);
+  if (mapView === "comparison" && currentComparison) renderComparisonMapContext(currentComparison);
 };
 
 const readApiPayload = async (response) => {
@@ -742,6 +760,9 @@ const updateMapPaint = () => {
 };
 
 const renderMap = (result, selectedCatchment) => {
+  mapView = "site";
+  for (const comparisonMarker of comparisonMarkers) comparisonMarker.remove();
+  comparisonMarkers.length = 0;
   if (!map.isStyleLoaded()) {
     pendingMapRender = { result, selectedCatchment };
     return;
@@ -782,7 +803,33 @@ const renderMap = (result, selectedCatchment) => {
   }
 };
 
-function renderResult(result, selectedCatchment) {
+function renderComparisonMapContext(payload) {
+  document.querySelector("#map-context").textContent = t("map.comparison", {
+    count: payload.sites.length, scope: catchmentLabel(payload.comparison_catchment)
+  }) + (payload.data_mode === "SYNTHETIC_DEMO" ? " · " + t("map.synthetic") : "");
+}
+
+function renderComparisonMap(payload) {
+  mapView = "comparison";
+  pendingMapRender = null;
+  if (marker) { marker.remove(); marker = null; }
+  for (const comparisonMarker of comparisonMarkers) comparisonMarker.remove();
+  comparisonMarkers.length = 0;
+  // A previous single-site catchment must not appear to describe both sites.
+  if (map.getSource("catchments")) map.getSource("catchments").setData({ type: "FeatureCollection", features: [] });
+  const bounds = new maplibregl.LngLatBounds();
+  for (const [index, site] of payload.sites.entries()) {
+    const point = [site.coordinates.longitude, site.coordinates.latitude];
+    const popup = new maplibregl.Popup().setText(`${index + 1}. ${site.standardized_address}`);
+    comparisonMarkers.push(new maplibregl.Marker({ color: index ? "#805ad5" : "#0b9f92" })
+      .setLngLat(point).setPopup(popup).addTo(map));
+    bounds.extend(point);
+  }
+  map.fitBounds(bounds, { padding: 70, maxZoom: 14 });
+  renderComparisonMapContext(payload);
+}
+
+function renderResult(result, selectedCatchment, updateMap = true) {
   if (!result.catchments[selectedCatchment]) selectedCatchment = Object.keys(result.catchments)[0];
   catchmentSelect.value = selectedCatchment;
   const catchment = result.catchments[selectedCatchment];
@@ -874,9 +921,11 @@ function renderResult(result, selectedCatchment) {
   )).join("");
   document.querySelector("#sources").innerHTML = "<ul class=\"metric-list\">" + (sourceRows || "<li>" + escapeHtml(t("metric.noData")) + "</li>") + "</ul>";
 
-  document.querySelector("#map-context").textContent = catchmentLabel(selectedCatchment) + " · " + result.standardized_address;
+  if (updateMap) {
+    document.querySelector("#map-context").textContent = catchmentLabel(selectedCatchment) + " · " + result.standardized_address;
+    renderMap(result, selectedCatchment);
+  }
   renderDecisionSummary(result, selectedCatchment, metrics);
-  renderMap(result, selectedCatchment);
   renderExports();
 }
 
@@ -902,8 +951,14 @@ function renderComparison(payload) {
   }).join("");
   const result = document.querySelector("#comparison-result");
   result.classList.remove("empty");
-  const warning = currentLanguage === "zh" && payload.warnings && payload.warnings.length
-    ? payload.warnings.join(" ")
+  const translatedWarnings = {
+    "Rows are raw same-metric comparisons. High-to-low rank does not mean better, recommended, causal, or suitable.": "各行仅比较同一指标的原始值；高低排序不代表更优、推荐、因果关系或适用性。",
+    "No composite site score is produced because NYC Lens has no approved real-project calibration set.": "由于缺少经批准的真实项目校准集，NYC Lens 不生成综合选址评分。",
+    "Mixed jurisdictions can have different source coverage; each value retains its source, year, confidence, missingness and warnings.": "不同辖区的数据覆盖可能不同；每个值均保留来源、年份、置信信息、缺失项和警示。",
+    "Within-batch percentiles describe only this small submitted address set and are not citywide or regional benchmarks.": "批内百分位只描述本次提交的少量地址，不是全市或区域基准。"
+  };
+  const warning = payload.warnings?.length
+    ? payload.warnings.map(value => currentLanguage === "zh" ? translatedWarnings[value] || value : value).join(" ")
     : t("comparison.warning");
   result.innerHTML = "<table class=\"comparison-table\"><thead><tr><th>" + escapeHtml(t("comparison.address"))
     + "</th>" + header + "</tr></thead><tbody>" + body + "</tbody></table><p class=\"map-note\">" + escapeHtml(warning) + "</p>";
@@ -912,6 +967,7 @@ function renderComparison(payload) {
   exports.innerHTML = ["json", "csv", "xlsx"].map((format) => (
     "<a href=\"/api/comparison/" + encodeURIComponent(payload.comparison_id) + "/report?format=" + format + "\">" + format.toUpperCase() + "</a>"
   )).join("");
+  if (typeof renderAssistantBrief === "function") renderAssistantBrief(payload);
 }
 
 document.querySelectorAll(".tab-button").forEach((tab) => {
@@ -1047,6 +1103,7 @@ comparisonForm.addEventListener("submit", async (event) => {
     if (!response.ok) throw new Error(apiErrorMessage(payload, t("comparison.failure")));
     currentComparison = payload;
     renderComparison(payload);
+    renderComparisonMap(payload);
     setComparisonStatus("comparison.success", {
       sites: payload.sites.length,
       metrics: Object.keys(payload.metric_comparisons).length

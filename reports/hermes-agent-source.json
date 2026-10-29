@@ -1,0 +1,39 @@
+{
+  "recorded_at": "2026-10-29T00:38:40.574277+00:00",
+  "base_commit": "b21f00d5f4d085b2958e50d7c4607b2cec7d6b9c",
+  "scope": "Tested source of successful attempt 2; file hashes identify pre-commit working-tree content",
+  "server_python": "3.11.3",
+  "server_packages": {
+    "mcp": "2.3.0",
+    "duckdb": "1.5.6",
+    "pydantic": "2.14.1",
+    "shapely": "2.2.0"
+  },
+  "files_sha256": {
+    "src/nyc_lens/mcp_server.py": "43f3d68e658062df1c0b5ef30985e843568318e7f7e06854ab2a1368ea4fdf24",
+    "src/nyc_lens/assistant.py": "8fdb29c1238cc49a7fa2844b7161b51b4026f156fb95e8c8b995c5453e2fe314",
+    "src/nyc_lens/comparison.py": "ea10bba82caa4d7f8d990cdf3e2f1d8e3e2fd3045e400ddd6d7f40b989065fd1",
+    "src/nyc_lens/demo.py": "bb7eae510e460e0215c24303734c93166b8fddb3732c92b101b139d37376ebf3",
+    "scripts/probe_hermes_agent.py": "96a2270006f1b5e9408574ba079567198db7af5d2ab8f2801f044dafccb96526",
+    "scripts/synthetic_mcp_server.py": "4caa8b7323a7c4dcdf372c180d389083fb72b4ed8bea3f6c63cb44878e96356c"
+  },
+  "same_result_payload_measurement": {
+    "json_ensure_ascii": false,
+    "full_chars": 222796,
+    "summary_chars": 8893,
+    "reduction_percent": 96.01,
+    "full_metric_count": 126,
+    "summary_metric_count": 2,
+    "requested_but_unavailable": [
+      "asking_rent"
+    ]
+  },
+  "regression": {
+    "passed": 70,
+    "skipped": 3,
+    "skip_reason": "Populated catalogue unavailable",
+    "warnings": 102,
+    "duration_seconds": 21.8
+  },
+  "hash_normalization": "UTF-8 source with LF line endings"
+}

@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-29T00:26:25.937410+00:00",
+  "mode": "MODEL_SELECTED_HERMES_MCP_SYNTHETIC",
+  "synthetic": true,
+  "persistent_configuration_changed": false,
+  "trace": [
+    {
+      "tool": "interpret_requirements",
+      "arguments": {
+        "text": "为全服务餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米径向范围内的竞争、人口和租金，不要给未经校准的综合评分。这是隔离合成验收；测试夹具已确认上述两个地址、全服务餐厅与500米径向范围，允许执行本地比较。先解释要求，再比较，查询竞争数量的来源并生成JSON报告。将原始要求、关注项和不支持的要求带入比较工具。不得用缺失数据推断真实商圈优劣。",
+        "language": "zh"
+      },
+      "is_error": false
+    },
+    {
+      "tool": "compare_addresses",
+      "arguments": {
+        "addresses": [
+          "100 Demo Avenue, Newark, NJ",
+          "200 Demo Avenue, Newark, NJ"
+        ],
+        "confirmed": true,
+        "catchment": "500m",
+        "language": "zh",
+        "original_request": "为全服务餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米径向范围内的竞争、人口和租金，不要给未经校准的综合评分。这是隔离合成验收；测试夹具已确认上述两个地址、全服务餐厅与500米径向范围，允许执行本地比较。先解释要求，再比较，查询竞争数量的来源并生成JSON报告。将原始要求、关注项和不支持的要求带入比较工具。不得用缺失数据推断真实商圈优劣。",
+        "priorities": [
+          "population",
+          "competition",
+          "rent"
+        ],
+        "unmodeled_requirements": [
+          "不要给未经校准的综合评分",
+          "查询竞争数量的来源并生成JSON报告",
+          "不得用缺失数据推断真实商圈优劣"
+        ]
+      },
+      "is_error": false
+    },
+    {
+      "tool": "analyze_address",
+      "arguments": {
+        "address": "100 Demo Avenue, Newark, NJ",
+        "catchment": "500m"
+      },
+      "is_error": false
+    },
+    {
+      "tool": "analyze_address",
+      "arguments": {
+        "address": "200 Demo Avenue, Newark, NJ",
+        "catchment": "500m"
+      },
+      "is_error": false
+    },
+    {
+      "tool": "query_evidence",
+      "arguments": {
+        "site_id": "site_e75f44d8b4b6435cab87bfe06f8e5a48",
+        "metric_id": "competitor_count",
+        "catchment": "500m",
+        "limit": 25
+      },
+      "is_error": true
+    },
+    {
+      "tool": "query_evidence",
+      "arguments": {
+        "site_id": "site_2a37c0d112f14b28a330cf6bc23bff16",
+        "metric_id": "competitor_count",
+        "catchment": "500m",
+        "limit": 25
+      },
+      "is_error": true
+    },
+    {
+      "tool": "query_evidence",
+      "arguments": {
+        "catchment": "500m",
+        "limit": 25,
+        "metric_id": "competitor_place_count",
+        "site_id": "site_e75f44d8b4b6435cab87bfe06f8e5a48"
+      },
+      "is_error": true
+    },
+    {
+      "tool": "query_evidence",
+      "arguments": {
+        "catchment": "500m",
+        "limit": 25,
+        "metric_id": "competitor_place_count",
+        "site_id": "site_2a37c0d112f14b28a330cf6bc23bff16"
+      },
+      "is_error": true
+    }
+  ],
+  "hermes_revision": "afe53708ee7400919ae3e17a6dde9b02629e5c87",
+  "model": "gpt-5.6-sol",
+  "provider": "openai-codex",
+  "hermes_mcp_sdk": "1.26.0",
+  "tools": [
+    "mcp_nyc_synthetic_analyze_address",
+    "mcp_nyc_synthetic_compare_addresses",
+    "mcp_nyc_synthetic_generate_report",
+    "mcp_nyc_synthetic_interpret_requirements",
+    "mcp_nyc_synthetic_query_evidence"
+  ],
+  "status": "FAILED_CHECKS",
+  "checks": {
+    "model_selected_required_tools": false,
+    "real_engine_synthetic_counts": true,
+    "original_request_retained": false,
+    "priorities_retained": true,
+    "source_trace": false,
+    "report_matches_comparison": false,
+    "report_bytes_verified": false,
+    "final_counts_grounded": false,
+    "final_missingness_preserved": false,
+    "final_synthetic_scope": true,
+    "final_source_and_report": false
+  },
+  "usage": {
+    "api_calls": 7,
+    "prompt_tokens": 36654,
+    "completion_tokens": 1794,
+    "total_tokens": 38448,
+    "cost_status": "included",
+    "cost_source": "none",
+    "estimated_cost_usd": 0.0
+  },
+  "answer": {
+    "data_mode": "SYNTHETIC_DEMO",
+    "competitor_counts": [
+      {
+        "address": "100 Demo Avenue, Newark, NJ",
+        "count": null
+      },
+      {
+        "address": "200 Demo Avenue, Newark, NJ",
+        "count": null
+      }
+    ],
+    "missing_priorities": [
+      "population",
+      "competition",
+      "rent"
+    ],
+    "source_url": null,
+    "composite_score": null,
+    "report_generated": false,
+    "summary_zh": "要求已解释并按确认范围执行：比较顺序为100 Demo Avenue、200 Demo Avenue，业态为全服务餐厅，采用500米径向范围，关注竞争、人口和租金，并禁止输出未经校准的综合评分。比较工具确认数据模式为SYNTHETIC_DEMO，地点及差异均为虚构演示数据；其数据快照标识为Overture Places synthetic-places-v1。竞争数量证据查询失败，未能取得可核验的数量或来源URL；JSON报告生成也因SYNTHETIC_TOOL_BOUNDARY失败。由于工具输出被截断且人口、租金及竞争数量均未获得可核验值，本报告将相关值保留为缺失，不据此判断任何真实商圈的优劣，综合评分亦明确为null。"
+  },
+  "source_metric": {
+    "label_zh": "直接竞争者数量",
+    "unit": "locations",
+    "available_sites": 2,
+    "rank_semantics": "raw_numeric_high_to_low_not_better_or_worse",
+    "values": [
+      {
+        "site_id": "site_f97bbe2503484eeb93b4f789c429a547",
+        "address": "100 Demo Avenue, Newark, NJ",
+        "value": 1.0,
+        "text_value": null,
+        "unit": "locations",
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-v1",
+        "source_year": "SYNTHETIC 2026",
+        "measure_type": "synthetic_fixture",
+        "confidence": null,
+        "margin_of_error": null,
+        "warnings": [
+          "Regional direct categories: [\"restaurant\"].",
+          "Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.",
+          "SYNTHETIC_DEMO"
+        ],
+        "high_to_low_rank": 2,
+        "within_batch_high_value_percentile": 0.0
+      },
+      {
+        "site_id": "site_19e413a8e8af4daca82876da92d0609d",
+        "address": "200 Demo Avenue, Newark, NJ",
+        "value": 3.0,
+        "text_value": null,
+        "unit": "locations",
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-v1",
+        "source_year": "SYNTHETIC 2026",
+        "measure_type": "synthetic_fixture",
+        "confidence": null,
+        "margin_of_error": null,
+        "warnings": [
+          "Regional direct categories: [\"restaurant\"].",
+          "Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.",
+          "SYNTHETIC_DEMO"
+        ],
+        "high_to_low_rank": 1,
+        "within_batch_high_value_percentile": 100.0
+      }
+    ]
+  },
+  "report_sha256": null,
+  "duration_ms": 52439
+}

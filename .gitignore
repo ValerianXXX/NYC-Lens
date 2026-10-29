@@ -32,4 +32,5 @@ reports/qa/**
 !reports/comparisons/.gitkeep
 !reports/qa/.gitkeep
 ui/vendor/
+reports/*.log
 =

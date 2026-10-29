@@ -899,3 +899,12 @@ html[data-theme="dark"] .maplibregl-ctrl-icon { filter:invert(1); }
   html { scroll-behavior:auto; }
   *,*::before,*::after { animation-duration:.01ms !important; animation-iteration-count:1 !important; transition-duration:.01ms !important; }
 }
+/* Natural-language intent remains editable before execution. */
+.assistant-shell { margin-bottom: 16px; }
+.assistant-shell textarea { width: 100%; resize: vertical; min-height: 90px; padding: 12px; font: inherit; color: inherit; background: transparent; border: 1px solid #8796aa; border-radius: 8px; margin: 8px 0 12px; }
+.assistant-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+.assistant-fields label { display: flex; flex-direction: column; gap: 6px; }
+.assistant-fields input, .assistant-fields select { padding: 10px; min-width: 0; font: inherit; border: 1px solid #8796aa; border-radius: 7px; }
+#assistant-brief { padding: 16px; overflow-wrap: anywhere; }
+#assistant-brief a { text-decoration: underline; margin-right: 8px; }
+@media (max-width: 700px) { .assistant-fields { grid-template-columns: 1fr; } }
