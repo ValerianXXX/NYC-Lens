@@ -2,6 +2,7 @@ import asyncio
 import json
 import sys
 from importlib import import_module
+from pathlib import Path
 
 import pytest
 from fastapi.testclient import TestClient
@@ -122,16 +123,41 @@ def test_mcp_current_and_legacy_client_business_flow(demo_home):
             assert {"analyze_address", "compare_addresses", "query_evidence", "generate_report"} <= {tool.name for tool in listed.tools}
             denied = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES})
             assert denied.is_error
-            compared = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES, "confirmed": True})
+            original = 'Compare the two synthetic restaurant sites, including population and rent; no overall score.'
+            compared = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES, "confirmed": True,
+                "original_request": original, "priorities": ["competition", "population", "rent"],
+                "unmodeled_requirements": ["No calibrated overall score is available"]})
             assert not compared.is_error
             result = compared.structured_content
             assert result["data_mode"] == "SYNTHETIC_DEMO"
-            evidence = await client.call_tool("query_evidence", {"site_id": result["sites"][0]["site_id"], "metric_id": "direct_competitor_count"})
+            assert result["assistant"]["original_request"] == original
+            assert result["assistant"]["confirmed_intent"]["priorities"] == ["competition", "population", "rent"]
+            assert {row["priority"] for row in result["assistant"]["brief"]["missing"]} == {"rent", "population"}
+            assert result["response_view"] == "summary"
+            assert set(result["metric_comparisons"]) == {"direct_competitor_count", "resident_population"}
+            assert result["response_scope"]["unavailable_metric_ids"] == ["asking_rent"]
+            assert len(result["evidence_queries"]) == 2
+            assert {row["metric_id"] for row in result["evidence_queries"]} == {"direct_competitor_count"}
+            evidence = await client.call_tool("query_evidence", result["evidence_queries"][0])
             assert not evidence.is_error
             assert evidence.structured_content["evidence"][0]["source_url"].startswith("synthetic:")
-            report = await client.call_tool("generate_report", {"comparison_id": result["comparison_id"]})
+            report = await client.call_tool("generate_report", result["report_arguments"])
             assert not report.is_error
             assert report.structured_content["uploaded"] is False
+            saved = json.loads(Path(report.structured_content["path"]).read_text(encoding="utf-8"))
+            assert saved["assistant"] == result["assistant"]
+            assert saved["warnings"] == result["warnings"]
+            assert len(saved["metric_comparisons"]) == len(result["metric_comparisons"]) + result["response_scope"]["omitted_metric_count"]
+            assert all(saved["metric_comparisons"][key] == value for key, value in result["metric_comparisons"].items())
+            assert all(site["missing_data"] for site in saved["sites"])
+            assert len(json.dumps(result)) < len(json.dumps(saved)) / 10
+            full = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES, "confirmed": True, "response_view": "full"})
+            assert not full.is_error
+            assert set(full.structured_content["metric_comparisons"]) == set(saved["metric_comparisons"])
+            for invalid_context in [{"priorities": ["SELECT * FROM address"]}, {"original_request": "x" * 4001},
+                                    {"unmodeled_requirements": ["x" * 501]}, {"response_view": "sql"}]:
+                rejected = await client.call_tool("compare_addresses", {"addresses": DEMO_ADDRESSES, "confirmed": True, **invalid_context})
+                assert rejected.is_error
             invalid = await client.call_tool("analyze_address", {"address": DEMO_ADDRESSES[0], "catchment": "SELECT * FROM address"})
             assert invalid.is_error
     for mode in ["2026-07-28", "legacy"]:

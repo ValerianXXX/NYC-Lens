@@ -1,0 +1,182 @@
+{
+  "schema_version": 1,
+  "verified_at": "2026-10-29T00:36:08.512189+00:00",
+  "mode": "MODEL_SELECTED_HERMES_MCP_SYNTHETIC",
+  "synthetic": true,
+  "persistent_configuration_changed": false,
+  "protocol_revision": 2,
+  "trace": [
+    {
+      "tool": "interpret_requirements",
+      "arguments": {
+        "text": "为全服务餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米径向范围内的竞争、人口和租金，不要给未经校准的综合评分。",
+        "language": "zh"
+      },
+      "is_error": false,
+      "envelope_chars": 1785,
+      "structured_result_chars": 778
+    },
+    {
+      "tool": "compare_addresses",
+      "arguments": {
+        "addresses": [
+          "100 Demo Avenue, Newark, NJ",
+          "200 Demo Avenue, Newark, NJ"
+        ],
+        "confirmed": true,
+        "catchment": "500m",
+        "language": "zh",
+        "original_request": "为全服务餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米径向范围内的竞争、人口和租金，不要给未经校准的综合评分。",
+        "priorities": [
+          "population",
+          "competition",
+          "rent"
+        ],
+        "unmodeled_requirements": [
+          "为全服务餐厅比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，关注500米径向范围内的竞争、人口和租金，不要给未经校准的综合评分。"
+        ],
+        "response_view": "summary"
+      },
+      "is_error": false,
+      "envelope_chars": 22223,
+      "structured_result_chars": 9088
+    },
+    {
+      "tool": "query_evidence",
+      "arguments": {
+        "catchment": "500m",
+        "limit": 25,
+        "metric_id": "direct_competitor_count",
+        "site_id": "site_2fb26aea48304b908b075e05a68d2e86"
+      },
+      "is_error": false,
+      "envelope_chars": 1371,
+      "structured_result_chars": 578
+    },
+    {
+      "tool": "query_evidence",
+      "arguments": {
+        "catchment": "500m",
+        "limit": 25,
+        "metric_id": "direct_competitor_count",
+        "site_id": "site_ad952b48f9da4f08ab958f24ee1f1331"
+      },
+      "is_error": false,
+      "envelope_chars": 3229,
+      "structured_result_chars": 1378
+    },
+    {
+      "tool": "generate_report",
+      "arguments": {
+        "comparison_id": "comparison_fb32c183662a44bb9fe7f71a6ad064aa",
+        "format": "json"
+      },
+      "is_error": false,
+      "envelope_chars": 809,
+      "structured_result_chars": 360,
+      "report_sha256_verified": true,
+      "uploaded": false
+    }
+  ],
+  "rejected_tool_calls": [],
+  "hermes_revision": "afe53708ee7400919ae3e17a6dde9b02629e5c87",
+  "model": "gpt-5.6-sol",
+  "provider": "openai-codex",
+  "hermes_mcp_sdk": "1.26.0",
+  "tools": [
+    "mcp_nyc_synthetic_analyze_address",
+    "mcp_nyc_synthetic_compare_addresses",
+    "mcp_nyc_synthetic_generate_report",
+    "mcp_nyc_synthetic_interpret_requirements",
+    "mcp_nyc_synthetic_query_evidence"
+  ],
+  "status": "PASS",
+  "checks": {
+    "model_selected_required_tools": true,
+    "tool_boundary_respected": true,
+    "real_engine_synthetic_counts": true,
+    "original_request_retained": true,
+    "priorities_retained": true,
+    "source_trace": true,
+    "report_matches_comparison": true,
+    "report_bytes_verified": true,
+    "final_counts_grounded": true,
+    "final_missingness_preserved": true,
+    "final_synthetic_scope": true,
+    "final_source_and_report": true
+  },
+  "usage": {
+    "api_calls": 4,
+    "prompt_tokens": 26245,
+    "completion_tokens": 785,
+    "total_tokens": 27030,
+    "cost_status": "included",
+    "cost_source": "none",
+    "estimated_cost_usd": 0.0
+  },
+  "answer": {
+    "data_mode": "SYNTHETIC_DEMO",
+    "competitor_counts": [
+      1,
+      3
+    ],
+    "missing_priorities": [
+      "population",
+      "rent"
+    ],
+    "source_url": "synthetic://nyc-lens/demo-v1",
+    "composite_score": null,
+    "report_generated": true,
+    "summary_zh": "在500米径向范围内，按地址顺序记录到的直接竞争者数量分别为1和3；来源为Overture Places合成夹具（synthetic-places-v1，SYNTHETIC 2026），仅作筛查代理，并非权威商业登记。人口数据缺少已完成的来源快照，租金数据缺失，因此不能据此推断两个真实商圈的优劣。未生成未经校准的综合评分。JSON报告已生成。"
+  },
+  "source_metric": {
+    "label_zh": "直接竞争者数量",
+    "unit": "locations",
+    "available_sites": 2,
+    "rank_semantics": "raw_numeric_high_to_low_not_better_or_worse",
+    "values": [
+      {
+        "site_id": "site_2fb26aea48304b908b075e05a68d2e86",
+        "address": "100 Demo Avenue, Newark, NJ",
+        "value": 1.0,
+        "text_value": null,
+        "unit": "locations",
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-v1",
+        "source_year": "SYNTHETIC 2026",
+        "measure_type": "synthetic_fixture",
+        "confidence": null,
+        "margin_of_error": null,
+        "warnings": [
+          "Regional direct categories: [\"restaurant\"].",
+          "Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.",
+          "SYNTHETIC_DEMO"
+        ],
+        "high_to_low_rank": 2,
+        "within_batch_high_value_percentile": 0.0
+      },
+      {
+        "site_id": "site_ad952b48f9da4f08ab958f24ee1f1331",
+        "address": "200 Demo Avenue, Newark, NJ",
+        "value": 3.0,
+        "text_value": null,
+        "unit": "locations",
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-v1",
+        "source_year": "SYNTHETIC 2026",
+        "measure_type": "synthetic_fixture",
+        "confidence": null,
+        "margin_of_error": null,
+        "warnings": [
+          "Regional direct categories: [\"restaurant\"].",
+          "Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.",
+          "SYNTHETIC_DEMO"
+        ],
+        "high_to_low_rank": 1,
+        "within_batch_high_value_percentile": 100.0
+      }
+    ]
+  },
+  "report_sha256": "52e3057b2da145dd7e6ffdbfc55bd5a8074ea17956c6b148db493be8e6c41d6d",
+  "duration_ms": 25236
+}

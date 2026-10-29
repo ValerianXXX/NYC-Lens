@@ -43,10 +43,85 @@ Official references verified 2026-10-27: [MCP versioning](https://modelcontextpr
 
 Follow-up actual-host validation used the existing Hermes revision `afe53708ee7400919ae3e17a6dde9b02629e5c87` and its MCP client 1.26.0 in WSL to launch the Windows server. Hermes discovered the tools, interpreted the synthetic request, rejected an unconfirmed comparison, calculated one versus three competitors, retrieved the synthetic source and generated a local report. The same Hermes tool registry/dispatch used by the Agent performed these calls; no model was asked to choose the tools and no persistent host configuration was changed. This verifies a real host tool flow, not a real-data business outcome or full model-driven conversation. [Receipt](../reports/hermes-mcp-host.json).
 
+### Model-selected Hermes acceptance — 2026-10-28 America/New_York
+
+The next check used the same installed Hermes revision, client MCP 1.26.0, server
+MCP 2.3.0 and configured `gpt-5.6-sol` / `openai-codex` model. No model upgrade,
+new account or service purchase was involved. A disposable Hermes home exposed
+exactly the five NYC-Lens tools, with a seven-model-iteration/eight-tool-call
+budget. The fixture explicitly confirmed the fictional addresses, restaurant
+type and 500 m scope. This is synthetic acceptance consent, not customer consent.
+
+The first real model-selected attempt failed. The engine calculated the fixture
+correctly, but the model reported truncated tool output, guessed two incorrect
+metric IDs, exhausted the tool budget and did not generate a report. It returned
+null counts instead of inventing numbers. A separate deterministic measurement
+found 126 metrics and 222,796 JSON characters in the full response. Requirements
+also mixed the task text with acceptance instructions; the exact original-text
+check correctly failed. [Unmodified failure receipt](../reports/hermes-agent-attempt-1.json).
+
+MCP now accepts bounded `original_request`, `priorities` and
+`unmodeled_requirements`, preserving them in the saved comparison/report. Its
+default `response_view=summary` returns requested metric rows with all source,
+year, unit, confidence, missingness and warning fields intact, plus canonical
+`evidence_queries` and `report_arguments`. Missing rent remains explicitly
+unavailable. For the identical offline comparison, the summary has 8,893 JSON
+characters (96.01% fewer); the complete 126-metric analysis remains in storage
+and report exports. `response_view=full` returns it inline. Consumers requiring
+every metric should request that option. No numerical calculation changed.
+
+The second real attempt completed interpretation → comparison → evidence for
+both sites → JSON report through model-selected calls. All 12 acceptance checks
+passed, including source lineage, exact original request, missing population/rent,
+null composite score and a SHA-256 check of the generated report bytes. The model
+returned the actual fixture counts `[1, 3]`. The report was generated inside the
+disposable test directory and removed during cleanup; it was not uploaded.
+[Success receipt](../reports/hermes-agent-attempt-2.json).
+The [source/environment receipt](../reports/hermes-agent-source.json) records the
+tested file hashes, server versions and offline payload-size comparison.
+
+| Observation | Initial attempt | After tool/prompt repair |
+|---|---:|---:|
+| Bounded task completed | No | Yes |
+| Model API calls | 7 | 4 |
+| Recorded tool calls | 8, then budget rejection | 5, no rejection |
+| Total reported tokens | 38,448 | 27,030 |
+| End-to-end elapsed time | 52.439 s | 25.236 s |
+| Report generated and bytes verified | No | Yes |
+
+Both used the same task, fixture, model and call limits. Protocol revision 2 also
+separates the original request from test instructions and specifies final JSON
+field types; this is **not a controlled test isolating the summary change**.
+One attempt per version does not estimate general completion rate or latency.
+Hermes reported `cost_status=included`, `cost_source=none` and estimated incremental
+cost `$0` for both calls; there is no independent dollar-cost measurement or claim
+that the model is free. No real catalogue, paid API-key endpoint, customer workflow
+or MCP Apps map was tested. UTC receipt timestamps fall on October 29.
+
+To reproduce with an existing Hermes installation, copy
+[`scripts/hermes-synthetic-server.example.json`](../scripts/hermes-synthetic-server.example.json)
+to a local file and replace the two absolute paths. Use the Hermes installation's
+own Python to run the probe, and the NYC-Lens virtual environment for the server:
+
+```sh
+/path/to/hermes/venv/bin/python -I scripts/probe_hermes_agent.py \
+  --hermes-root /path/to/hermes < /path/to/local-server.json
+# Explicit opt-in to a bounded call using the existing configured model/account:
+/path/to/hermes/venv/bin/python -I scripts/probe_hermes_agent.py \
+  --hermes-root /path/to/hermes --execute-model < /path/to/local-server.json
+```
+
+The first command discovers tools without model calls. The second sends only the
+synthetic task and real synthetic tool results to the already configured provider;
+ordinary Hermes/model account terms still apply. It does not change persistent
+Hermes configuration. A Windows server launched from WSL needs its executable
+path in WSL form and script argument in Windows form. Exit status is nonzero for
+failed acceptance. The standalone runner is opt-in and excluded from offline CI.
+
 ## Validation and operational limits
 
 - Baseline: 64 passed, 3 skipped. Final milestone: 70 passed, 3 skipped. Populated-database integration checks require the unavailable full dataset.
-- New checks cover bilingual interpretation, invented addresses/extra SQL rejection, cloud consent/transport contract, explicit confirmation, real DuckDB comparison, missing snapshots, source trace, scoring rejection and all three report formats.
+- New checks cover bilingual interpretation, invented addresses/extra SQL rejection, cloud consent/transport contract, explicit confirmation, real DuckDB comparison, missing snapshots, source trace, scoring rejection and all three report formats. The October 28 follow-up still passes 70 tests with three data-dependent skips; both protocol modes also verify requirement preservation, compact/full response equivalence, unavailable rent and unchanged full report contents. CI now installs `[agent]` so these MCP checks run instead of being skipped for a missing optional SDK.
 - Browser: English and Chinese two-address flows completed; both map markers and comparison data appeared. JSON was downloaded through its button and checked. Rent/population gaps were visible, not invented.
 - Browser follow-up: fixed the stale “awaiting analysis” comparison badge, cleared previous single/comparison markers and catchment geometry, and retained all standard warnings in both languages. Actual page actions verified comparison → single-site analysis → comparison with marker counts 2 → 1 → 2; English/Chinese switching retained the two-site map state. The exact synthetic addresses are required; an incomplete address was correctly rejected without external geocoding. [Browser capture](../reports/comparison-browser-2026-10-27.png). JavaScript syntax checks and three existing UI contract tests passed after this UI-only fix.
 - Python 3.11.3 on Windows; `pip check` passed. Existing Shapely deprecation warnings remain.
