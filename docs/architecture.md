@@ -42,6 +42,12 @@ site_metric
 
 Zero counts retain the calculation version, source snapshot, and queried catchment even when no contributing entity exists. Derived ratios, proxy indexes, and discrete classifications are labeled as `derived_ratio`, `model_proxy`, and `model_classification`.
 
+## Configuration consistency
+
+Each single-site analysis, multi-site comparison and database initialization captures a bounded set of configuration YAML bytes. Nested operations share that context; separate request contexts retain their own snapshots. The calculation configuration hash comes from these exact bytes, rather than rereading files after analysis has started. Parsed mappings are cached by path and content, then copied before returning to callers. The next operation observes file changes without a process restart.
+
+Capture checks two consecutive file sets and retries once if they differ. Limits are 64 `.yml` files, 2,000,000 bytes per file and 8,000,000 bytes per snapshot. This does not provide a transactional multi-file publishing mechanism: finish related edits while analysis is idle. Invalid files are reported rather than replaced with an older cached parse. Code deployments still require a restart; this feature does not hot-reload Python, version an entire database or bound general query execution. See [verification and recovery](configuration-snapshots-2026-10-29.md).
+
 ## Local-service boundary
 
 - Refreshes are isolated by source; one failure does not erase successful sources.

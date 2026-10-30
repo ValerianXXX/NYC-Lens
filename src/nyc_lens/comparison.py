@@ -8,7 +8,7 @@ from typing import Any
 import duckdb
 
 from .analyze import analyze_site
-from .config import metrics_config, taxonomy_config
+from .config import configuration_snapshot, metrics_config, taxonomy_config
 from .db import calculation_version
 from .util import json_dumps, new_id, utc_now
 
@@ -114,6 +114,7 @@ def _metric_comparisons(
     return comparisons
 
 
+@configuration_snapshot()
 def compare_sites(
     conn: duckdb.DuckDBPyConnection,
     *,
