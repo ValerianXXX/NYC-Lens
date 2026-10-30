@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "base": "8e27bdfe04a444dff61790f6b42da3357a43c8e8",
+  "code_commit": "0eff80ee05a8e33f0371b9c4b549e50b042af71f",
+  "scope": "Bounded Web job and MCP analysis; legacy synchronous HTTP/CLI, ingestion and export are not moved into workers",
+  "environment": {"platform": "Windows", "python": "3.11", "duckdb": "1.5.6", "mcp_sdk": "2.3.0", "data": "ORIGINAL_SYNTHETIC"},
+  "kernel": {
+    "frozen_commit": "c48df01", "before": {"passed": 0, "failed": 14},
+    "after": {"passed": 14, "failed": 0, "seconds": 3.29},
+    "guard_failure_frozen_commit": "9f48a4f", "guard_failure_before": "Owned waiting child remained after assignment error", "guard_failure_after": "Original contract passes after cleanup repair",
+    "parent_exit": "Native Windows handle confirms associated worker exit after owned supervisor termination",
+    "small_memory_probe": "512 MiB allocation refused under 96 MiB Job budget"
+  },
+  "synthetic_worker": {
+    "passed": 13, "seconds": 29.41,
+    "initial_fixture_failures": "Two test runs failed before cancellation due to missing required fixture columns; expected outcomes unchanged",
+    "competitor_values_before_and_after": [1, 3], "composite_score": null,
+    "effective_database_settings": {"memory_limit": "512.0 MiB", "threads": 2, "max_temp_directory_size": "1.0 GiB"},
+    "observed_cancel_and_timeout_states": ["SUCCEEDED", "CANCELLED_OR_TIMED_OUT", "CANCELLED_OR_TIMED_OUT"],
+    "unrelated_attempt_changed": false,
+    "manual_retry": "Fresh identities; original computed values and report/evidence lineage retained"
+  },
+  "full_local": {"status": "PASS", "head": "0eff80ee05a8e33f0371b9c4b549e50b042af71f", "passed": 162, "skipped": 3, "warnings": 160, "seconds": 110.69, "skip_reason": "Complete local dataset unavailable", "log": "reports/bounded-full-20261030.log"},
+  "javascript": "node --check passed for app.js, assistant.js and analysis-jobs.js",
+  "mcp": {
+    "in_process_client_cancellation": ["2026-07-28", "legacy (2025-11-25)"],
+    "real_stdio_business_flow": "Existing both-mode client tests passed using bounded analysis and saved reports",
+    "new_live_hermes_acceptance": "NOT_RUN"
+  },
+  "browser": {
+    "class": "AUTOMATED_BROWSER_SIMULATION",
+    "normal_job": "analysis_ee4952479f6a40f6a739202e70ed9a73",
+    "normal_process_seconds": 2.422,
+    "result": "comparison_a60cffd9506c420790a3fd183ca0cb09",
+    "download_sha256": "1c0752c9134a61a73dae45f19f66457125f0f4997ef91d4f0beb2a2987b9bc9f",
+    "refresh": "Same job ID and saved result; no second analysis",
+    "languages": ["en", "zh"],
+    "narrow_viewport": {"requested_width": 390, "requested_height": 844, "document_client_width": 375, "document_scroll_width": 375},
+    "cancel_job": "analysis_381a870adc124294a27bcdc05a33d6ef",
+    "cancel_fixture": "Second site held inside an actual long SQL query; test-only trusted worker override",
+    "cancel_receipt": {"status": "CANCELLED", "process_stopped": true, "database_cleanup_confirmed": true, "saved_states": ["SUCCEEDED", "CANCELLED", "CANCELLED"]},
+    "owned_servers": "STOPPED", "physical_device_or_independent_participant": false
+  },
+  "model_requests": 0, "production_actions": 0,
+  "hosted_checks": "PENDING_AT_RECEIPT_WRITE; see exact-head PR check results",
+  "remaining": ["Legacy direct-route migration", "Linux hosted validation", "macOS guard", "Full dataset/freshness", "Atomic dataset generations and external writer coordination", "Whole-database/report disk budgets", "Fresh live Hermes acceptance", "Independent participants"],
+  "milestone_is_full_M3_acceptance": false
+}

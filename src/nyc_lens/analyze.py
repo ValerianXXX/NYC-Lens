@@ -9,6 +9,7 @@ from shapely.geometry import Polygon, mapping
 
 from .config import configuration_snapshot, taxonomy_config
 from .analysis_state import record_site_failure
+from .execution_context import allocate_identity, result_json
 from .db import calculation_version
 from .entities.buildings import fetch_building_for_address
 from .entities.parcels import fetch_parcel_for_address
@@ -337,7 +338,7 @@ def _analyze_site_impl(
                status='SUCCEEDED', completed_at=? WHERE site_id=?
         """,
         [
-            json_dumps(result),
+            result_json(result),
             json_dumps(result["warnings"]),
             json_dumps(result["missing_data"]),
             json_dumps(result["snapshot_set"]),
@@ -357,7 +358,7 @@ def analyze_site(
     catchments: list[str] | None = None,
 ) -> dict[str, Any]:
     """Close only this attempt on failure or a propagated cancellation."""
-    site_id = new_id("site")
+    site_id = allocate_identity("site")
     try:
         return _analyze_site_impl(
             conn,

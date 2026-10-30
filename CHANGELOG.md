@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-30
 
+- Run Web task analysis and MCP address/comparison tools in owned processes with OS memory limits, deadlines, actual cancellation and bounded DuckDB settings. Persist task receipts and exact attempt IDs; refresh reconnects without resubmitting. Recover interrupted database states after supervisor exit without killing guessed PIDs or automatically rerunning work. Keep completed child results and distinguish database cleanup from observed process exit.
+- Add idempotent job start/status/cancel/result HTTP endpoints, a pre-JSON request limit and bilingual task controls. Restore the saved addresses along with results after refresh. Existing synchronous HTTP/CLI routes remain direct compatibility paths in this stage; resource coverage is not claimed for those routes, ingestion or export. See [validation and operating limits](docs/bounded-analysis-2026-10-30.md).
 - Bind failure cleanup to one preallocated site ID, share terminal-state handling with comparisons, preserve propagated cancellation and the original exception when cleanup cannot persist. Do not overwrite terminal rows or store arbitrary exception messages.
 - Withhold unsuccessful site results and transaction lookups; retain partial records for inspection and completed child sites after comparison interruption. Verify a separate manual retry against the real synthetic engine. Ten frozen contracts improve from 1/10 to 10/10; four additional checks pass after repairing the exposed transaction endpoint. This is a prerequisite for broader cancellation/resource work, not its completion. See [evidence and rollback](docs/analysis-failure-isolation-2026-10-30.md).
 

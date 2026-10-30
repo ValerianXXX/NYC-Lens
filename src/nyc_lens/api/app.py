@@ -7,9 +7,9 @@ from typing import Literal
 
 import httpx
 from fastapi import FastAPI, HTTPException, Query
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 from shapely import from_wkt
 
 from ..analyze import analyze_site, get_site
@@ -28,6 +28,9 @@ from ..reporting.comparison_export import (
     export_comparison_xlsx,
 )
 from ..scoring import ScoringNotCalibratedError, score_site, scoring_status
+from ..analysis_jobs import AnalysisJobs, JobUnavailableError, stop_active_jobs
+from ..database_admission import DatabaseBusyError
+from .request_limits import AnalysisBodyLimit
 
 
 class SiteAnalysisRequest(BaseModel):
@@ -48,12 +51,80 @@ class SiteComparisonRequest(BaseModel):
 @asynccontextmanager
 async def lifespan(_: FastAPI):
     initialize_database()
-    yield
+    try:
+        yield
+    finally:
+        import anyio
+        await anyio.to_thread.run_sync(stop_active_jobs)
 
 
 app = FastAPI(title="NYC Lens", version="0.2.0", docs_url="/docs", lifespan=lifespan)
+app.add_middleware(AnalysisBodyLimit)
 UI_DIR = project_home() / "ui"
 app.mount("/static", StaticFiles(directory=UI_DIR), name="static")
+
+
+@app.exception_handler(DatabaseBusyError)
+async def database_busy(_request, _error):
+    return JSONResponse(status_code=503, headers={"Retry-After": "1"}, content={"detail": {
+        "code": "DATABASE_BUSY", "message_en": "Another local operation is using the database. Wait for it to stop.",
+        "message_zh": "另一项本地任务正在使用数据库，请等待它停止。"}})
+
+
+@app.exception_handler(JobUnavailableError)
+async def job_unavailable(_request, error):
+    return JSONResponse(status_code=503, content={"detail": {"code": str(error),
+        "message_en": "Analysis is unavailable. Keep the task identifier and check its status before retrying.",
+        "message_zh": "分析暂不可用。请保留任务标识，并在重试前检查原任务状态。"}})
+
+
+class AnalysisJobRequest(BaseModel):
+    model_config = ConfigDict(extra="forbid", strict=True)
+    operation: Literal["site", "comparison", "assistant_comparison"]
+    request: dict
+    request_id: str = Field(pattern=r"^[0-9a-f]{32}$")
+
+
+@app.post("/api/analysis-jobs", status_code=202)
+def start_analysis_job(request: AnalysisJobRequest):
+    try:
+        return AnalysisJobs().start(request.operation, request.request, request_id=request.request_id)
+    except ValueError:
+        raise HTTPException(422, "Invalid bounded analysis input or request identifier already used") from None
+    except DatabaseBusyError:
+        return JSONResponse(status_code=503, content={"detail": {"code": "DATABASE_BUSY", "started": False,
+            "message_en": "Another local task is active. This new task was not started.",
+            "message_zh": "另一项本地任务仍在运行，本次新任务未启动。"}})
+    except JobUnavailableError as error:
+        if str(error) not in {"RESOURCE_GUARD_UNAVAILABLE", "JOB_HISTORY_CAPACITY_REQUIRES_ARCHIVE"}:
+            raise
+        return JSONResponse(status_code=503, content={"detail": {"code": str(error), "started": False,
+            "message_en": "The resource guard or job history is unavailable. No task was started.",
+            "message_zh": "资源保护或任务历史不可用，本次任务未启动。"}})
+
+
+@app.get("/api/analysis-jobs/{job_id}")
+def analysis_job(job_id: str):
+    try:
+        return AnalysisJobs().get(job_id)
+    except KeyError:
+        raise HTTPException(404, "Analysis job not found") from None
+
+
+@app.post("/api/analysis-jobs/{job_id}/cancel")
+def cancel_analysis_job(job_id: str):
+    try:
+        return AnalysisJobs().cancel(job_id)
+    except KeyError:
+        raise HTTPException(404, "Analysis job not found") from None
+
+
+@app.get("/api/analysis-jobs/{job_id}/result")
+def analysis_job_result(job_id: str):
+    try:
+        return AnalysisJobs().result(job_id)
+    except KeyError:
+        raise HTTPException(404, "Analysis job not found") from None
 
 
 @app.get("/")

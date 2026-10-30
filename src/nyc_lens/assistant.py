@@ -12,6 +12,7 @@ from pydantic import BaseModel, ConfigDict, Field
 
 from .comparison import compare_sites, comparison_basis
 from .util import json_dumps
+from .execution_context import result_json
 
 Priority = Literal["population", "jobs", "competition", "transit", "income", "rent"]
 METRICS = {"population": "resident_population", "jobs": "daytime_jobs",
@@ -160,7 +161,7 @@ def decision_brief(result: dict, intent: ComparisonIntent, language: str) -> dic
             else "Only sourced, comparable differences are shown. Higher is not necessarily better. Fill missing evidence before deciding; no composite score is produced."}
 
 
-def execute_comparison(conn, request: ConfirmedComparison) -> dict:
+def validate_confirmed_comparison(request: ConfirmedComparison) -> None:
     intent = request.intent
     if request.confirmed is not True:
         raise ValueError("Confirm addresses, business type and scope before analysis")
@@ -168,10 +169,15 @@ def execute_comparison(conn, request: ConfirmedComparison) -> dict:
         raise ValueError("Exactly two addresses and a supported business type are required")
     if len({x.strip().casefold() for x in intent.addresses}) != 2:
         raise ValueError("Choose two distinct addresses")
+
+
+def execute_comparison(conn, request: ConfirmedComparison) -> dict:
+    validate_confirmed_comparison(request)
+    intent = request.intent
     result = compare_sites(conn, addresses=intent.addresses, business_type=intent.business_type,
                            catchments=[intent.catchment], comparison_catchment=intent.catchment)
     result["assistant"] = {"confirmed_intent": intent.model_dump(), "original_request": request.original_request,
                            "brief": decision_brief(result, intent, request.language)}
     conn.execute("UPDATE site_comparison SET result_json=?::JSON WHERE comparison_id=?",
-                 [json_dumps(result), result["comparison_id"]])
+                 [result_json(result), result["comparison_id"]])
     return result

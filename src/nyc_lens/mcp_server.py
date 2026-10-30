@@ -12,6 +12,7 @@ from .db import db_session, initialize_database
 from .evidence import query_metric_evidence
 from .reporting.comparison_export import export_comparison_csv, export_comparison_json, export_comparison_xlsx
 from .util import sha256_file
+from .analysis_jobs import run_analysis_async
 
 server = MCPServer("NYC Lens", version="0.2.0",
     instructions="Confirm the two addresses, full-service restaurant business type and radial scope with the user before compare_addresses. Preserve missing sources, years and warnings. Never infer a composite score. Synthetic demo data is not real trade-area evidence.")
@@ -62,15 +63,14 @@ def interpret_requirements(text: Annotated[str, Field(min_length=5, max_length=4
 
 
 @server.tool()
-def analyze_address(address: Annotated[str, Field(min_length=5, max_length=200)],
+async def analyze_address(address: Annotated[str, Field(min_length=5, max_length=200)],
                     catchment: Literal["250m", "500m", "1km"] = "500m") -> dict[str, Any]:
     """Analyze a full-service restaurant using the existing local engine; may query public geocoding/parcel services."""
-    with db_session() as conn:
-        return analyze_site(conn, address=address, business_type="full_service_restaurant", catchments=[catchment])
+    return await run_analysis_async("site", {"address": address, "business_type": "full_service_restaurant", "catchments": [catchment]})
 
 
 @server.tool()
-def compare_addresses(addresses: Annotated[list[str], Field(min_length=2, max_length=2)],
+async def compare_addresses(addresses: Annotated[list[str], Field(min_length=2, max_length=2)],
                       confirmed: bool = False, catchment: Literal["250m", "500m", "1km"] = "500m",
                       language: Literal["en", "zh"] = "en",
                       original_request: Annotated[str, Field(max_length=4000)] = "",
@@ -87,9 +87,8 @@ def compare_addresses(addresses: Annotated[list[str], Field(min_length=2, max_le
                               unmodeled_requirements=unmodeled_requirements or [])
     if priorities is not None:
         intent = ComparisonIntent(**{**intent.model_dump(), "priorities": priorities})
-    with db_session() as conn:
-        result = execute_comparison(conn, ConfirmedComparison(intent=intent, confirmed=confirmed,
-            language=language, original_request=original_request))
+    result = await run_analysis_async("assistant_comparison", ConfirmedComparison(intent=intent, confirmed=confirmed,
+        language=language, original_request=original_request).model_dump())
     return _comparison_response(result, response_view)
 
 
