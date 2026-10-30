@@ -177,3 +177,20 @@ def test_missing_task_reports_a_structured_error_without_starting_one(home):
     result = invoke(['analysis-result','--job-id','analysis_' + 'a' * 32])
     assert result.exit_code == 1 and json.loads(result.stdout)['error']['code'] == 'ANALYSIS_JOB_NOT_FOUND'
     assert not list(AnalysisJobs().directory.glob('analysis_*.json'))
+
+
+@pytest.mark.parametrize('command', ['analyze', 'compare'])
+def test_default_export_after_worker_retains_report_files_and_saved_result(home, command):
+    key = uuid4().hex
+    args = arguments(command, key)
+    args.remove('--no-export')
+    result = invoke(args)
+    assert result.exit_code == 0, result.output
+    value = json.loads(result.stdout)
+    assert all(Path(path).is_file() for path in value['exports'].values())
+    saved = AnalysisJobs().result('analysis_' + key)
+    field = 'site_id' if command == 'analyze' else 'comparison_id'
+    assert value[field] == saved[field]
+    # Both commands already export JSON; comparison's CLI export set has no
+    # HTML key. Preserve its existing JSON/CSV/XLSX contract.
+    assert 'SYNTHETIC' in Path(value['exports']['json']).read_text(encoding='utf8')

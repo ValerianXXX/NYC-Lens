@@ -1,13 +1,18 @@
 from __future__ import annotations
 
 import json
+from contextlib import contextmanager
+import re
 import sys
 from pathlib import Path
 from typing import Annotated, Optional
+from uuid import uuid4
 
 import typer
 
-from .analyze import analyze_site
+from .analysis_contracts import normalized_request
+from .analysis_jobs import AnalysisFailedError, AnalysisJobs, JobUnavailableError, run_analysis_sync
+from .database_admission import DatabaseBusyError
 from .adapters.commercial_mobility import (
     inspect_commercial_mobility_adapters,
     read_and_validate_aggregate_file,
@@ -16,7 +21,6 @@ from .adapters.commercial_real_estate import (
     inspect_commercial_real_estate_adapters,
     read_and_validate_local_file as read_and_validate_real_estate_file,
 )
-from .comparison import compare_sites
 from .config import test_sites_config
 from .db import db_session, initialize_database
 from .geocoding.service import record_geoservice_status
@@ -61,7 +65,7 @@ from .ingest.tlc import refresh_taxi_zones, refresh_tlc_monthly_aggregates
 from .maintenance import repair_site_percentile_bounds
 from .metrics.benchmarks import refresh_citywide_benchmarks
 from .documentation import write_generated_docs
-from .paths import project_home
+from .paths import database_path, project_home
 from .qa.address_validation import validate_public_addresses
 from .qa.checks import run_qa
 from .qa.recovery import verify_clean_init
@@ -85,6 +89,76 @@ if hasattr(sys.stderr, "reconfigure"):
 
 def _print(value) -> None:
     typer.echo(json.dumps(value, ensure_ascii=False, indent=2, default=str))
+
+
+@contextmanager
+def _analysis_errors(identifier: str | None = None):
+    """Stable CLI errors without copying upstream exception text or user input."""
+    try:
+        yield
+    except AnalysisFailedError as error:
+        receipt = error.receipt
+        _print({"status": "error", "error": {
+            "code": receipt["error_code"], "status": receipt["status"],
+            "job_id": receipt["job_id"], "database_cleanup_confirmed": receipt["database_cleanup_confirmed"],
+            "message": "Analysis did not complete. Inspect the saved task before starting another request."}})
+        raise typer.Exit(1) from None
+    except (ValueError, KeyError, JobUnavailableError, DatabaseBusyError, KeyboardInterrupt) as error:
+        exit_code = 1
+        if isinstance(error, ValueError):
+            code, exit_code = "INVALID_ANALYSIS_INPUT", 2
+        elif isinstance(error, KeyError):
+            code = "ANALYSIS_JOB_NOT_FOUND"
+        elif isinstance(error, DatabaseBusyError):
+            code = "DATABASE_BUSY"
+        elif isinstance(error, KeyboardInterrupt):
+            code, exit_code = "ANALYSIS_INTERRUPTED", 130
+        else:
+            allowed = {"RESOURCE_GUARD_UNAVAILABLE", "JOB_HISTORY_CAPACITY_REQUIRES_ARCHIVE",
+                       "ANALYSIS_RESULT_NOT_READY", "JOB_RESULT_ID_MISMATCH", "SAVED_RESULT_UNAVAILABLE",
+                       "JOB_RECEIPT_INVALID", "JOB_START_UNCONFIRMED", "JOB_START_FAILED"}
+            code = str(error) if str(error) in allowed else "ANALYSIS_JOB_UNAVAILABLE"
+        detail = {"code": code, "message": "Check the input and saved task status before retrying. No automatic retry was performed."}
+        if identifier and re.fullmatch(r"analysis_[0-9a-f]{32}", identifier):
+            detail["job_id"] = identifier
+        _print({"status": "error", "error": detail})
+        raise typer.Exit(exit_code) from None
+
+
+def _run_cli_analysis(operation: str, request: dict, request_id: str | None = None) -> dict:
+    key = request_id if request_id is not None else uuid4().hex
+    identifier = "analysis_" + key
+    with _analysis_errors(identifier):
+        if not re.fullmatch(r"[0-9a-f]{32}", key):
+            raise ValueError("Invalid request identity")
+        normalized, _ = normalized_request(operation, request)
+        # Reattaching to an active worker must not initialize/open its database.
+        # Existing databases are initialized explicitly with `nyc-lens init`.
+        if not database_path().is_file():
+            initialize_database()
+        typer.echo(f"Analysis request: {identifier}", err=True)
+        return run_analysis_sync(operation, normalized, request_id=key)
+
+
+@app.command("analysis-status")
+def analysis_status_command(job_id: Annotated[str, typer.Option("--job-id")]) -> None:
+    """Read a durable task receipt without rerunning its analysis."""
+    with _analysis_errors(job_id):
+        _print(AnalysisJobs().get(job_id))
+
+
+@app.command("analysis-result")
+def analysis_result_command(job_id: Annotated[str, typer.Option("--job-id")]) -> None:
+    """Read a completed task result; incomplete attempts remain unavailable."""
+    with _analysis_errors(job_id):
+        _print(AnalysisJobs().result(job_id))
+
+
+@app.command("analysis-cancel")
+def analysis_cancel_command(job_id: Annotated[str, typer.Option("--job-id")]) -> None:
+    """Request cancellation; inspect status to verify process/DB cleanup."""
+    with _analysis_errors(job_id):
+        _print(AnalysisJobs().cancel(job_id))
 
 
 @app.command("init")
@@ -203,17 +277,15 @@ def analyze_command(
     business_type: Annotated[str, typer.Option("--business-type")] = "full_service_restaurant",
     catchments: Annotated[str, typer.Option("--catchments")] = "500m,1km,5min_walk,10min_walk,15min_walk",
     export: Annotated[bool, typer.Option("--export/--no-export")] = True,
+    request_id: Annotated[Optional[str], typer.Option("--request-id", help="32 lowercase hex characters; reuse for the identical analysis only")] = None,
 ) -> None:
     """Analyze one address and optionally export JSON, CSV, XLSX, and HTML."""
-    initialize_database()
-    with db_session() as conn:
-        result = analyze_site(
-            conn,
-            address=address,
-            business_type=business_type,
-            catchments=[item.strip() for item in catchments.split(",") if item.strip()],
-        )
-        if export:
+    result = _run_cli_analysis("site", {
+        "address": address, "business_type": business_type,
+        "catchments": [item.strip() for item in catchments.split(",") if item.strip()],
+    }, request_id)
+    if export:
+        with db_session() as conn:
             result["exports"] = export_all(conn, result["site_id"])
     _print(result)
 
@@ -223,34 +295,33 @@ def samples_command(
     sample: Annotated[Optional[str], typer.Option("--sample", help="Run one configured sample ID only")] = None,
 ) -> None:
     """Run the Times Square, Flushing, and Downtown Brooklyn samples end to end."""
-    initialize_database()
     outputs = []
-    with db_session() as conn:
-        configured_sites = test_sites_config()["sites"]
-        selected_sites = [site for site in configured_sites if sample is None or site["id"] == sample]
-        if sample and not selected_sites:
-            raise typer.BadParameter(f"Unknown sample id: {sample}")
-        for site in selected_sites:
-            typer.echo(f"[{site['id']}] analyzing...", err=True)
-            result = analyze_site(conn, address=site["address"])
+    configured_sites = test_sites_config()["sites"]
+    selected_sites = [site for site in configured_sites if sample is None or site["id"] == sample]
+    if sample and not selected_sites:
+        raise typer.BadParameter(f"Unknown sample id: {sample}")
+    for site in selected_sites:
+        typer.echo(f"[{site['id']}] analyzing...", err=True)
+        result = _run_cli_analysis("site", {"address": site["address"]})
+        with db_session() as conn:
             exports = export_all(conn, result["site_id"], include_xlsx=False)
-            preferred = result["catchments"].get("10min_walk") or next(iter(result["catchments"].values()))
-            metrics = preferred["metrics"]
-            outputs.append(
-                {
-                    "sample_id": site["id"],
-                    "site_id": result["site_id"],
-                    "address": result["standardized_address"],
-                    "bbl": (result.get("parcel") or {}).get("bbl"),
-                    "catchments": list(result["catchments"]),
-                    "resident_population_10min": metrics.get("resident_population", {}).get("value"),
-                    "daytime_jobs_10min": metrics.get("daytime_jobs", {}).get("value"),
-                    "competitors_10min": metrics.get("direct_competitor_count", {}).get("value"),
-                    "audience_type_10min": metrics.get("audience_type", {}).get("text_value"),
-                    "missing_data": result["missing_data"],
-                    "exports": exports,
-                }
-            )
+        preferred = result["catchments"].get("10min_walk") or next(iter(result["catchments"].values()))
+        metrics = preferred["metrics"]
+        outputs.append(
+            {
+                "sample_id": site["id"],
+                "site_id": result["site_id"],
+                "address": result["standardized_address"],
+                "bbl": (result.get("parcel") or {}).get("bbl"),
+                "catchments": list(result["catchments"]),
+                "resident_population_10min": metrics.get("resident_population", {}).get("value"),
+                "daytime_jobs_10min": metrics.get("daytime_jobs", {}).get("value"),
+                "competitors_10min": metrics.get("direct_competitor_count", {}).get("value"),
+                "audience_type_10min": metrics.get("audience_type", {}).get("text_value"),
+                "missing_data": result["missing_data"],
+                "exports": exports,
+            }
+        )
     index_path = project_home() / "reports" / "samples" / "latest_samples.json"
     index_path.write_text(
         json.dumps(outputs, ensure_ascii=False, indent=2, default=str),
@@ -271,7 +342,6 @@ def regional_samples_command(
     ),
 ) -> None:
     """Run one Greater New York sample per state and export complete reports."""
-    initialize_database()
     preferred_ids = {
         "mineola_nassau",
         "newark_essex",
@@ -289,41 +359,37 @@ def regional_samples_command(
         raise typer.BadParameter(f"Unknown regional sample id: {sample}")
     requested = [item.strip() for item in catchments.split(",") if item.strip()]
     outputs = []
-    with db_session() as conn:
-        for site in selected_sites:
-            typer.echo(f"[{site['id']}] analyzing...", err=True)
-            result = analyze_site(
-                conn,
-                address=site["address"],
-                catchments=requested,
-            )
+    for site in selected_sites:
+        typer.echo(f"[{site['id']}] analyzing...", err=True)
+        result = _run_cli_analysis("site", {"address": site["address"], "catchments": requested})
+        with db_session() as conn:
             exports = export_all(conn, result["site_id"])
-            preferred = result["catchments"].get("10min_walk") or next(
-                iter(result["catchments"].values())
-            )
-            metrics = preferred["metrics"]
-            outputs.append(
-                {
-                    "sample_id": site["id"],
-                    "site_id": result["site_id"],
-                    "address": result["standardized_address"],
-                    "state_abbr": result.get("state_abbr"),
-                    "county_geoid": result.get("county_geoid"),
-                    "catchments": list(result["catchments"]),
-                    "resident_population_10min": metrics.get("resident_population", {}).get("value"),
-                    "daytime_jobs_10min": metrics.get("daytime_jobs", {}).get("value"),
-                    "competitors_10min": metrics.get("direct_competitor_count", {}).get("value"),
-                    "fema_sfha_overlap_pct_10min": metrics.get(
-                        "fema_special_flood_hazard_overlap_pct", {}
-                    ).get("value"),
-                    "cdc_asthma_pct_10min": metrics.get(
-                        "cdc_places_current_asthma_pct", {}
-                    ).get("value"),
-                    "audience_type_10min": metrics.get("audience_type", {}).get("text_value"),
-                    "missing_data": result["missing_data"],
-                    "exports": exports,
-                }
-            )
+        preferred = result["catchments"].get("10min_walk") or next(
+            iter(result["catchments"].values())
+        )
+        metrics = preferred["metrics"]
+        outputs.append(
+            {
+                "sample_id": site["id"],
+                "site_id": result["site_id"],
+                "address": result["standardized_address"],
+                "state_abbr": result.get("state_abbr"),
+                "county_geoid": result.get("county_geoid"),
+                "catchments": list(result["catchments"]),
+                "resident_population_10min": metrics.get("resident_population", {}).get("value"),
+                "daytime_jobs_10min": metrics.get("daytime_jobs", {}).get("value"),
+                "competitors_10min": metrics.get("direct_competitor_count", {}).get("value"),
+                "fema_sfha_overlap_pct_10min": metrics.get(
+                    "fema_special_flood_hazard_overlap_pct", {}
+                ).get("value"),
+                "cdc_asthma_pct_10min": metrics.get(
+                    "cdc_places_current_asthma_pct", {}
+                ).get("value"),
+                "audience_type_10min": metrics.get("audience_type", {}).get("text_value"),
+                "missing_data": result["missing_data"],
+                "exports": exports,
+            }
+        )
     index_path = project_home() / "reports" / "samples" / "latest_regional_samples.json"
     index_path.write_text(
         json.dumps(outputs, ensure_ascii=False, indent=2, default=str),
@@ -341,18 +407,16 @@ def compare_command(
     catchments: Annotated[str, typer.Option("--catchments")] = "500m,1km",
     comparison_catchment: Annotated[str, typer.Option("--comparison-catchment")] = "500m",
     export: Annotated[bool, typer.Option("--export/--no-export")] = True,
+    request_id: Annotated[Optional[str], typer.Option("--request-id", help="32 lowercase hex characters; reuse for the identical analysis only")] = None,
 ) -> None:
     """Compare public addresses on the same basis without an uncalibrated score."""
-    initialize_database()
-    with db_session() as conn:
-        result = compare_sites(
-            conn,
-            addresses=address,
-            business_type=business_type,
-            catchments=[item.strip() for item in catchments.split(",") if item.strip()],
-            comparison_catchment=comparison_catchment,
-        )
-        if export:
+    result = _run_cli_analysis("comparison", {
+        "addresses": address, "business_type": business_type,
+        "catchments": [item.strip() for item in catchments.split(",") if item.strip()],
+        "comparison_catchment": comparison_catchment,
+    }, request_id)
+    if export:
+        with db_session() as conn:
             result["exports"] = export_comparison_all(conn, result["comparison_id"])
     _print(result)
 

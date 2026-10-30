@@ -219,6 +219,39 @@ class AnalysisJobs:
         return result
 
 
+def run_analysis_sync(operation: str, request: dict, *, request_id: str | None = None) -> dict:
+    """Bounded blocking entry point for CLI/library callers without a DB handle.
+
+    The same durable jobs own execution, admission and saved results. Reusing a
+    request ID reattaches, including to a failed attempt; it never retries it.
+    """
+    from uuid import uuid4
+    jobs = AnalysisJobs()
+    key = request_id if request_id is not None else uuid4().hex
+    identifier = "analysis_" + key
+    try:
+        receipt = jobs.start(operation, request, request_id=key)
+        while receipt["status"] not in TERMINAL:
+            time.sleep(.05)
+            receipt = jobs.get(identifier)
+        if receipt["status"] != "SUCCEEDED":
+            raise AnalysisFailedError(receipt)
+        return jobs.result(identifier)
+    except KeyboardInterrupt:
+        # Interruption can also arrive while the supervisor is creating its
+        # receipt. Wait only for this request, and never assume cleanup worked.
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            try:
+                receipt = jobs.cancel(identifier)
+                if receipt["status"] in TERMINAL:
+                    break
+            except (KeyError, JobUnavailableError, DatabaseBusyError):
+                pass
+            time.sleep(.05)
+        raise
+
+
 async def run_analysis_async(operation: str, request: dict, *, request_id: str | None = None) -> dict:
     """Transport cancellation requests cleanup; stable IDs reattach without reruns."""
     from uuid import uuid4
