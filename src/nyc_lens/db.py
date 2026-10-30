@@ -7,8 +7,8 @@ from typing import Any, Iterator
 
 import duckdb
 
-from .config import sources_config, taxonomy_config
-from .paths import config_dir, database_path, ensure_runtime_dirs
+from .config import configuration_fingerprint, configuration_snapshot, sources_config, taxonomy_config
+from .paths import database_path, ensure_runtime_dirs
 from .storage import ensure_external_storage, schema_sql_without_external_tables
 from .util import json_dumps, new_id, utc_now
 
@@ -18,6 +18,8 @@ CALCULATION_VERSION = "0.2.0"
 CALCULATION_CODE_FILES = (
     "analyze.py",
     "comparison.py",
+    "config.py",
+    "db.py",
     "evidence.py",
     "entities/buildings.py",
     "entities/parcels.py",
@@ -58,6 +60,7 @@ def db_session(*, read_only: bool = False) -> Iterator[duckdb.DuckDBPyConnection
         conn.close()
 
 
+@configuration_snapshot()
 def initialize_database() -> dict[str, Any]:
     ensure_runtime_dirs()
     schema_sql = schema_sql_without_external_tables(SCHEMA_PATH.read_text(encoding="utf-8"))
@@ -223,14 +226,14 @@ def finish_run(
         )
 
 
+@configuration_snapshot()
 def calculation_version(conn: duckdb.DuckDBPyConnection, name: str = "site_analysis") -> str:
     package_root = Path(__file__).resolve().parent
     code_hash = _content_hash(
         [package_root / relative for relative in CALCULATION_CODE_FILES],
         root=package_root,
     )
-    configuration_root = config_dir()
-    config_hash = _content_hash(list(configuration_root.glob("*.yml")), root=configuration_root)
+    config_hash = configuration_fingerprint()
     existing = conn.execute(
         """
         SELECT calculation_version_id FROM calculation_version
@@ -251,7 +254,7 @@ def calculation_version(conn: duckdb.DuckDBPyConnection, name: str = "site_analy
             code_hash,
             config_hash,
             utc_now(),
-            "Code hash covers geocoding, parcel/building matching, catchments and metric engine; config hash covers every YAML file. Area weighting uses EPSG:32118 inside NYC and EPSG:26918 elsewhere in CSA 408; walk catchments use OSM network edges.",
+            "Code hash covers configuration loading/versioning, geocoding, parcel/building matching, catchments and metric engine; config hash covers the exact YAML bytes captured for this operation. Area weighting uses EPSG:32118 inside NYC and EPSG:26918 elsewhere in CSA 408; walk catchments use OSM network edges.",
         ],
     )
     return version_id

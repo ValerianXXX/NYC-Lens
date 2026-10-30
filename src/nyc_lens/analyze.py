@@ -7,7 +7,7 @@ import duckdb
 import h3
 from shapely.geometry import Polygon, mapping
 
-from .config import taxonomy_config
+from .config import configuration_snapshot, taxonomy_config
 from .db import calculation_version
 from .entities.buildings import fetch_building_for_address
 from .entities.parcels import fetch_parcel_for_address
@@ -358,6 +358,7 @@ def _analyze_site_impl(
     return result
 
 
+@configuration_snapshot()
 def analyze_site(
     conn: duckdb.DuckDBPyConnection,
     *,

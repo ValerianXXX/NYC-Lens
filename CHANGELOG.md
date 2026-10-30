@@ -2,6 +2,7 @@
 
 ## Unreleased — 2026-10-29
 
+- Capture bounded configuration bytes for each analysis/comparison, use the same bytes for calculation provenance, and reload changed files on the next request. Return independent parsed mappings so caller mutations cannot affect later reads. Include configuration loading/versioning code in calculation hashes. Preserve prior reports and schema. Frozen checks: 1/19 before, 19/19 after; six additional integration/boundary checks; full suite: 113 passed, three full-data skips. See the dated configuration snapshot record.
 - Require matching units, source snapshots, years, measure types and calculation versions before ranking or subtracting site metrics; retain raw values and explicit missingness.
 - Use competition ranks for ties and define within-batch percentiles against other comparable sites. Reject non-finite and boolean numeric values.
 - Share bounded evidence lookup between Web and MCP, bound to the stored analysis snapshot. Expose unresolved lineage and snapshot status rather than silently substituting later data.
