@@ -194,3 +194,27 @@ def test_default_export_after_worker_retains_report_files_and_saved_result(home,
     # Both commands already export JSON; comparison's CLI export set has no
     # HTML key. Preserve its existing JSON/CSV/XLSX contract.
     assert 'SYNTHETIC' in Path(value['exports']['json']).read_text(encoding='utf8')
+
+
+def test_new_cli_request_refreshes_registry_but_replay_keeps_original_registration(home):
+    import yaml
+    source = home / 'config/sources.yml'
+    config = yaml.safe_load(source.read_text(encoding='utf8'))
+    def edit(marker):
+        config['sources']['overture_places']['known_limitations'] = marker
+        source.write_text(yaml.safe_dump(config, allow_unicode=True), encoding='utf8')
+    def registered():
+        with db_session() as conn:
+            return conn.execute("SELECT known_limitations FROM source_registry WHERE source_id='overture_places'").fetchone()[0]
+    edit('SYNTHETIC first CLI configuration')
+    key = uuid4().hex
+    first = invoke(arguments('analyze',key))
+    assert first.exit_code == 0, first.output
+    assert registered() == 'SYNTHETIC first CLI configuration'
+    edit('SYNTHETIC next CLI configuration')
+    replay = invoke(arguments('analyze',key))
+    assert replay.exit_code == 0 and json.loads(replay.stdout) == json.loads(first.stdout)
+    assert registered() == 'SYNTHETIC first CLI configuration'
+    following = invoke(arguments('analyze',uuid4().hex))
+    assert following.exit_code == 0, following.output
+    assert registered() == 'SYNTHETIC next CLI configuration'
