@@ -8,6 +8,8 @@ from typing import Any, Iterator
 import duckdb
 
 from .config import configuration_fingerprint, configuration_snapshot, sources_config, taxonomy_config
+from .database_admission import database_admission
+from .execution_context import database_options
 from .paths import database_path, ensure_runtime_dirs
 from .storage import ensure_external_storage, schema_sql_without_external_tables
 from .util import json_dumps, new_id, utc_now
@@ -18,6 +20,7 @@ CALCULATION_VERSION = "0.2.0"
 CALCULATION_CODE_FILES = (
     "analyze.py",
     "analysis_state.py",
+    "execution_context.py",
     "comparison.py",
     "config.py",
     "db.py",
@@ -47,18 +50,19 @@ def _content_hash(paths: list[Path], *, root: Path) -> str:
 
 def connect(*, read_only: bool = False) -> duckdb.DuckDBPyConnection:
     ensure_runtime_dirs()
-    conn = duckdb.connect(str(database_path()), read_only=read_only)
+    conn = duckdb.connect(str(database_path()), read_only=read_only, config=database_options())
     conn.execute("SET TimeZone='UTC'")
     return conn
 
 
 @contextmanager
 def db_session(*, read_only: bool = False) -> Iterator[duckdb.DuckDBPyConnection]:
-    conn = connect(read_only=read_only)
-    try:
-        yield conn
-    finally:
-        conn.close()
+    with database_admission(database_path()):
+        conn = connect(read_only=read_only)
+        try:
+            yield conn
+        finally:
+            conn.close()
 
 
 @configuration_snapshot()

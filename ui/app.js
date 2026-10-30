@@ -1,5 +1,7 @@
 const COPY = {
   zh: { "assistant.title": '用自然语言比较两个地址',
+  "jobs.title": "本地分析任务", "jobs.idle": "分析有时间和资源上限。刷新页面会重新连接原任务；关闭页面不会取消计算。",
+  "jobs.cancel": "取消计算", "jobs.resume": "检查原任务状态",
   "assistant.hint": '将两个地址分别放在引号内。查询前确认正式餐饮业态和直线半径；可选 AI 默认关闭。',
   "assistant.request": '选址要求', "assistant.interpret": '准备比较',
   "assistant.notice": 'Demo Avenue 为合成演示地址，仅在演示模式可用。使用本地真实数据时请填写实际地址。',
@@ -139,6 +141,8 @@ const COPY = {
     "catchment.15min_walk": "15分钟步行"
   },
   en: { "assistant.title": 'Describe a two-address comparison',
+  "jobs.title": "Local analysis task", "jobs.idle": "Analysis has time and resource limits. Refresh reconnects to the same task; closing this page does not cancel computation.",
+  "jobs.cancel": "Cancel computation", "jobs.resume": "Check original task status",
   "assistant.hint": 'Put each address in quotes. Confirm the full-service restaurant type and radial scope before querying data. Optional AI is off by default.',
   "assistant.request": 'Requirements', "assistant.interpret": 'Prepare comparison',
   "assistant.notice": 'The quoted Demo Avenue addresses work only in the synthetic demo. Use actual addresses with your local data.',
@@ -1055,17 +1059,11 @@ form.addEventListener("submit", async (event) => {
   button.disabled = true;
   setStatus("status.analyzing", {}, "loading");
   try {
-    const response = await fetch("/api/site-analysis", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const payload = await runAnalysisJob("site", {
         address: document.querySelector("#address").value,
         business_type: document.querySelector("#business-type").value,
         catchments
-      })
     });
-    const payload = await readApiPayload(response);
-    if (!response.ok) throw new Error(apiErrorMessage(payload, t("status.failure")));
     currentResult = payload;
     const available = Object.keys(payload.catchments);
     const preferred = available.includes(catchmentSelect.value)
@@ -1098,18 +1096,12 @@ comparisonForm.addEventListener("submit", async (event) => {
     count: addresses.length
   }, "loading");
   try {
-    const response = await fetch("/api/site-comparison", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
+    const payload = await runAnalysisJob("comparison", {
         addresses,
         business_type: document.querySelector("#business-type").value,
         catchments: [comparisonCatchment],
         comparison_catchment: comparisonCatchment
-      })
     });
-    const payload = await readApiPayload(response);
-    if (!response.ok) throw new Error(apiErrorMessage(payload, t("comparison.failure")));
     currentComparison = payload;
     renderComparison(payload);
     renderComparisonMap(payload);

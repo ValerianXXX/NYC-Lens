@@ -18,6 +18,7 @@ def record_comparison_failure(conn: Any, comparison_id: str, site_ids: list[str]
 def _record_failure(conn: Any, identifier: str, error: BaseException, *, comparison: bool,
                     site_ids: list[str] | None = None) -> None:
     status = ("CANCELLED" if isinstance(error, (KeyboardInterrupt, CancelledError)) else
+              "TIMED_OUT" if isinstance(error, TimeoutError) else
               "FAILED" if isinstance(error, Exception) else "INTERRUPTED")
     kind = "comparison" if comparison else "analysis"
     values = [status, utc_now(), json_dumps([f"{kind}_error:{type(error).__name__}"])]

@@ -9,6 +9,7 @@ import duckdb
 
 from .analyze import analyze_site
 from .analysis_state import record_comparison_failure
+from .execution_context import allocate_identity, result_json
 from .config import configuration_snapshot, metrics_config, taxonomy_config
 from .db import calculation_version
 from .util import json_dumps, new_id, utc_now
@@ -136,7 +137,7 @@ def compare_sites(
     if comparison_catchment not in requested:
         raise ValueError("comparison_catchment must be included in catchments")
 
-    comparison_id = new_id("comparison")
+    comparison_id = allocate_identity("comparison")
     calculation_id = calculation_version(conn)
     created_at = utc_now()
     conn.execute(
@@ -217,7 +218,7 @@ def compare_sites(
             [
                 json_dumps([item["site_id"] for item in results]),
                 json_dumps(snapshot_set),
-                json_dumps(result),
+                result_json(result),
                 json_dumps(warnings),
                 utc_now(),
                 comparison_id,

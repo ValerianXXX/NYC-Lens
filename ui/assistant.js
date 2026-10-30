@@ -43,10 +43,8 @@ assistantDraft.addEventListener('submit', async (event) => {
       addresses: [document.querySelector('#assistant-first').value.trim(), document.querySelector('#assistant-second').value.trim()],
       business_type: document.querySelector('#assistant-business').value,
       catchment: document.querySelector('#assistant-radius').value };
-    const response = await fetch('/api/assistant/compare', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ intent, confirmed: true, language: currentLanguage, original_request: assistantProposal.original_request }) });
-    const payload = await readApiPayload(response);
-    if (!response.ok) throw new Error(apiErrorMessage(payload, 'Comparison unavailable'));
+    const payload = await runAnalysisJob('assistant_comparison', {
+      intent, confirmed: true, language: currentLanguage, original_request: assistantProposal.original_request });
     currentComparison = payload;
     document.querySelector('#comparison-addresses').value = intent.addresses.join('\n');
     document.querySelector('#comparison-catchment').value = intent.catchment;

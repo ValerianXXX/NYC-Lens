@@ -40,6 +40,14 @@
     </div>
   </header>
 
+  <section class="command-shell" aria-labelledby="job-title">
+    <h2 id="job-title" data-i18n="jobs.title">Local analysis task</h2>
+    <p id="job-status" role="status" aria-live="polite" data-i18n="jobs.idle">Analysis has time and resource limits. Refresh reconnects to the same task; closing this page does not cancel computation.</p>
+    <p id="job-identity"></p>
+    <button class="secondary-button" id="job-cancel" type="button" disabled data-i18n="jobs.cancel">Cancel computation</button>
+    <button class="secondary-button" id="job-resume" type="button" disabled data-i18n="jobs.resume">Check original task status</button>
+  </section>
+
   <section class="command-shell assistant-shell" aria-labelledby="assistant-title">
     <h2 id="assistant-title" data-i18n="assistant.title">Describe a two-address comparison</h2>
     <p data-i18n="assistant.hint">Put each address in quotes. Confirm the full-service restaurant type and radial scope before querying data. Optional AI is off by default.</p>
@@ -206,7 +214,8 @@
   <footer class="app-footer"><span>NYC Lens</span><span data-i18n="footer.copy">Local commercial-intelligence database · Traceable data and calculations</span></footer>
 
   <script src="https://unpkg.com/maplibre-gl@5.7.3/dist/maplibre-gl.js"></script>
-  <script src="/static/app.js?v=20261029-comparison-basis"></script>
-  <script src="/static/assistant.js?v=20261029-comparison-basis"></script>
+  <script src="/static/app.js?v=20261030-bounded-jobs"></script>
+  <script src="/static/analysis-jobs.js?v=20261030-bounded-jobs"></script>
+  <script src="/static/assistant.js?v=20261030-bounded-jobs"></script>
 </body>
 </html>
