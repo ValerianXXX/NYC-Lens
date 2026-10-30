@@ -1,11 +1,13 @@
 """Real synthetic DuckDB/spatial calculations; no model or live source data."""
 from importlib import import_module
 import json
+import os
+from pathlib import Path
 
 from fastapi.testclient import TestClient
 import pytest
 
-from nyc_lens import config, db
+from nyc_lens import config, db, analysis_execution
 from nyc_lens.demo import DEMO_ADDRESSES, seed_demo
 
 
@@ -14,24 +16,15 @@ def test_real_comparison_retains_configuration_then_refreshes_and_rolls_back(tmp
     monkeypatch.delenv("NYC_LENS_DATABASE", raising=False)
     monkeypatch.setenv("NYC_LENS_AI_PROVIDER", "disabled")
     seed_demo(tmp_path)
-    comparison = import_module("nyc_lens.comparison")
-    original_analyze = comparison.analyze_site
     taxonomy_path = tmp_path / "config/business_taxonomy.yml"
     original_bytes = taxonomy_path.read_bytes()
     changed_bytes = original_bytes.replace(b"overture_basic_categories: [restaurant]", b"overture_basic_categories: [cafe]", 1)
     assert changed_bytes != original_bytes
     source_hash = config.configuration_fingerprint()
-    calls = []
-
-    def analyze_and_edit(conn, **kwargs):
-        result = original_analyze(conn, **kwargs)
-        calls.append(result["site_id"])
-        if len(calls) == 1:
-            # Edit only the isolated synthetic home's copied configuration.
-            taxonomy_path.write_bytes(changed_bytes)
-        return result
-
-    monkeypatch.setattr(comparison, "analyze_site", analyze_and_edit)
+    # The HTTP engine is now in a child. Move the same between-site edit to a
+    # private test worker instead of changing the original expected outcomes.
+    monkeypatch.setattr(analysis_execution, "WORKER_SCRIPT",
+                        Path(__file__).parents[1] / "fixtures/configuration_edit_worker.py")
     client = TestClient(import_module("nyc_lens.api.app").app)
     request = {"confirmed": True, "language": "en", "original_request": "Synthetic configuration refresh test",
                "intent": {"addresses": DEMO_ADDRESSES, "business_type": "full_service_restaurant",
@@ -39,6 +32,10 @@ def test_real_comparison_retains_configuration_then_refreshes_and_rolls_back(tmp
     first_response = client.post("/api/assistant/compare", json=request)
     assert first_response.status_code == 200, first_response.text
     first = first_response.json()
+    edit = json.loads((tmp_path / "synthetic-config-edit.json").read_text())
+    assert edit["worker_pid"] != os.getpid()
+    assert edit["completed_first_site"] == first["sites"][0]["site_id"]
+    assert taxonomy_path.read_bytes() == changed_bytes
     assert [row["value"] for row in first["metric_comparisons"]["direct_competitor_count"]["values"]] == [1.0, 3.0]
     assert first["assistant"]["brief"]["composite_score"] is None
     assert first["assistant"]["brief"]["missing"]
