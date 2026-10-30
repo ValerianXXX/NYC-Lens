@@ -2,7 +2,7 @@
 
 NYC Lens is a local-first, auditable trade-area and commercial-location intelligence system for Greater New York. It converts public datasets into address-level catchments, traceable metrics, site comparisons, maps, and exportable reports without sending the working database to a hosted service.
 
-**2026-10-30 bounded interactive analysis:** Web analysis now runs as a saved task with explicit cancellation and refresh recovery. MCP analysis uses the same worker and propagates client cancellation. Workers have a 120-second deadline, an OS memory guard and separate DuckDB buffer/thread/spill limits. Synthetic tests preserve completed child analyses, reconcile only the interrupted attempt, and retain the same sourced comparison/report results. Windows behavior and desktop/narrow-screen browser interactions were exercised locally. [Operating limits, receipts and rollback](docs/bounded-analysis-2026-10-30.md) distinguish this from full-data acceptance, independent users and the still-direct legacy HTTP/CLI routes. The earlier [failure isolation milestone](docs/analysis-failure-isolation-2026-10-30.md) remains part of the evidence history.
+**2026-10-30 bounded interactive analysis:** Web tasks, MCP tools and the three legacy HTTP analysis endpoints now share owned workers, a 120-second deadline, OS memory guards and DuckDB buffer/thread/spill limits. Legacy HTTP clients can supply an `Idempotency-Key` to recover the same durable task without duplicate calculation; success bodies remain compatible. [Compatibility requests, failure states and verification](docs/bounded-legacy-http-2026-10-30.md) distinguish these routes from the still-direct CLI/library, ingestion and export. Earlier [worker and browser evidence](docs/bounded-analysis-2026-10-30.md) and [failure isolation](docs/analysis-failure-isolation-2026-10-30.md) remain historical observations. Full-data and independent-user acceptance remain open.
 
 **2026-10-29 correctness milestone:** comparisons now withhold ranks and differences unless units, source snapshots, years and calculation versions agree. Evidence stays bound to the saved analysis after later ingestion. The frozen synthetic boundary set improved from 5/14 to 14/14 passing cases; one test-helper correction is disclosed, and this is not a model-quality or real-location benchmark. [Results, reproduction and limits](docs/comparison-evidence-boundaries-2026-10-29.md).
 
@@ -37,7 +37,7 @@ The application remains usable: the repository includes the schema, source regis
 
 ## Requirements
 
-- Windows 10/11, macOS, or Linux
+- Windows 10/11 or Linux for bounded Web/HTTP/MCP analysis; macOS supports the existing direct CLI/library paths but has no implemented worker resource guard
 - Python 3.11–3.13; Python 3.12 is recommended
 - Approximately 25 GB of free disk space for a complete local rebuild
 - Network access to the configured public data endpoints
@@ -79,6 +79,11 @@ nyc-lens serve --host 127.0.0.1 --port 8765
 ```
 
 ## Data refresh and status
+
+On macOS the bounded Web/HTTP/MCP analysis routes currently return
+`RESOURCE_GUARD_UNAVAILABLE`; they do not fall back to unrestricted execution.
+Initialization, data preparation and direct CLI/library workflows remain available
+with their existing resource limitations. No macOS acceptance is claimed.
 
 ```powershell
 # Refresh every implemented source. Sources are isolated, so one failure does not erase others.
