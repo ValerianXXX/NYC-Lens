@@ -65,7 +65,7 @@ from .ingest.tlc import refresh_taxi_zones, refresh_tlc_monthly_aggregates
 from .maintenance import repair_site_percentile_bounds
 from .metrics.benchmarks import refresh_citywide_benchmarks
 from .documentation import write_generated_docs
-from .paths import database_path, project_home
+from .paths import project_home
 from .qa.address_validation import validate_public_addresses
 from .qa.checks import run_qa
 from .qa.recovery import verify_clean_init
@@ -132,9 +132,12 @@ def _run_cli_analysis(operation: str, request: dict, request_id: str | None = No
         if not re.fullmatch(r"[0-9a-f]{32}", key):
             raise ValueError("Invalid request identity")
         normalized, _ = normalized_request(operation, request)
-        # Reattaching to an active worker must not initialize/open its database.
-        # Existing databases are initialized explicitly with `nyc-lens init`.
-        if not database_path().is_file():
+        # A new request retains source registration/initialization semantics.
+        # Reattaching to a saved attempt must not reopen its active database or
+        # apply newer source metadata to an already completed request.
+        try:
+            AnalysisJobs().get(identifier)
+        except KeyError:
             initialize_database()
         typer.echo(f"Analysis request: {identifier}", err=True)
         return run_analysis_sync(operation, normalized, request_id=key)
