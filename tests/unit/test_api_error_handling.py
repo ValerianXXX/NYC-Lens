@@ -4,6 +4,7 @@ from importlib import import_module
 import httpx
 import pytest
 from fastapi.testclient import TestClient
+from nyc_lens.analysis_jobs import AnalysisFailedError
 
 
 api_module = import_module("nyc_lens.api.app")
@@ -50,7 +51,15 @@ def test_external_service_failures_return_readable_json(
         raise httpx.RemoteProtocolError("upstream disconnected")
 
     monkeypatch.setattr(api_module, "db_session", lambda **_kwargs: nullcontext(object()))
-    monkeypatch.setattr(api_module, function_name, unavailable)
+    if function_name == "geocode_address":
+        monkeypatch.setattr(api_module, function_name, unavailable)
+    else:
+        # Analysis now crosses a process/job boundary. Preserve the original
+        # readable error assertions while injecting at that transport seam.
+        async def unavailable_job(*_args, **_kwargs):
+            raise AnalysisFailedError({"status": "FAILED", "error_code": "EXTERNAL_SERVICE_UNAVAILABLE",
+                "job_id": "analysis_" + "a" * 32, "database_cleanup_confirmed": True})
+        monkeypatch.setattr(api_module, "run_analysis_async", unavailable_job)
 
     response = TestClient(api_module.app).request(method, path, json=payload)
 

@@ -36,6 +36,13 @@ class JobUnavailableError(RuntimeError):
     pass
 
 
+class AnalysisFailedError(JobUnavailableError):
+    """A terminal job with a durable receipt, distinct from admission failure."""
+    def __init__(self, receipt: dict):
+        self.receipt = dict(receipt)
+        super().__init__(f"{receipt['status']}: {receipt['error_code']}; job={receipt['job_id']}")
+
+
 class _Cancellation(threading.Event):
     def __init__(self, marker: Path):
         super().__init__()
@@ -212,18 +219,18 @@ class AnalysisJobs:
         return result
 
 
-async def run_analysis_async(operation: str, request: dict) -> dict:
-    """MCP cancellation sets the same marker and waits for actual cleanup."""
+async def run_analysis_async(operation: str, request: dict, *, request_id: str | None = None) -> dict:
+    """Transport cancellation requests cleanup; stable IDs reattach without reruns."""
     from uuid import uuid4
     jobs = AnalysisJobs()
-    receipt = jobs.start(operation, request, request_id=uuid4().hex)
+    receipt = jobs.start(operation, request, request_id=request_id if request_id is not None else uuid4().hex)
     identifier = receipt["job_id"]
     try:
         while receipt["status"] not in TERMINAL:
             await anyio.sleep(.05)
             receipt = await anyio.to_thread.run_sync(jobs.get, identifier)
         if receipt["status"] != "SUCCEEDED":
-            raise JobUnavailableError(f"{receipt['status']}: {receipt['error_code']}; job={identifier}")
+            raise AnalysisFailedError(receipt)
         return await anyio.to_thread.run_sync(jobs.result, identifier)
     except anyio.get_cancelled_exc_class():
         with anyio.CancelScope(shield=True):

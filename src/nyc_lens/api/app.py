@@ -4,19 +4,20 @@ from contextlib import asynccontextmanager
 import json
 from pathlib import Path
 from typing import Literal
+from uuid import uuid4
 
 import httpx
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, Header, HTTPException, Query, Response
 from fastapi.responses import FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, ConfigDict, Field
 from shapely import from_wkt
 
-from ..analyze import analyze_site, get_site
-from ..assistant import PlanningRequest, ConfirmedComparison, interpret, execute_comparison
+from ..analyze import get_site
+from ..assistant import PlanningRequest, ConfirmedComparison, interpret
 from ..adapters.commercial_mobility import inspect_commercial_mobility_adapters
 from ..adapters.commercial_real_estate import inspect_commercial_real_estate_adapters
-from ..comparison import compare_sites, get_comparison
+from ..comparison import get_comparison
 from ..db import db_session, initialize_database
 from ..evidence import query_metric_evidence
 from ..geocoding.service import geocode_address
@@ -28,24 +29,10 @@ from ..reporting.comparison_export import (
     export_comparison_xlsx,
 )
 from ..scoring import ScoringNotCalibratedError, score_site, scoring_status
-from ..analysis_jobs import AnalysisJobs, JobUnavailableError, stop_active_jobs
+from ..analysis_jobs import AnalysisFailedError, AnalysisJobs, JobUnavailableError, run_analysis_async, stop_active_jobs
+from ..analysis_contracts import SiteRequest as SiteAnalysisRequest, ComparisonRequest as SiteComparisonRequest
 from ..database_admission import DatabaseBusyError
 from .request_limits import AnalysisBodyLimit
-
-
-class SiteAnalysisRequest(BaseModel):
-    address: str = Field(min_length=5)
-    business_type: str = "full_service_restaurant"
-    catchments: list[str] = Field(
-        default_factory=lambda: ["250m", "500m", "1km", "5min_walk", "10min_walk", "15min_walk"]
-    )
-
-
-class SiteComparisonRequest(BaseModel):
-    addresses: list[str] = Field(min_length=2, max_length=20)
-    business_type: str = "full_service_restaurant"
-    catchments: list[str] = Field(default_factory=lambda: ["500m", "1km"])
-    comparison_catchment: str = "500m"
 
 
 @asynccontextmanager
@@ -73,9 +60,32 @@ async def database_busy(_request, _error):
 
 @app.exception_handler(JobUnavailableError)
 async def job_unavailable(_request, error):
+    if isinstance(error, AnalysisFailedError):
+        receipt = error.receipt
+        status, code = receipt["status"], receipt["error_code"]
+        http_status = 504 if status == "TIMED_OUT" else 409 if status == "CANCELLED" else 422 if code == "ANALYSIS_INPUT_OR_DATA_UNAVAILABLE" else 503
+        detail = {"code": code, "status": status, "job_id": receipt["job_id"],
+                  "database_cleanup_confirmed": receipt["database_cleanup_confirmed"],
+                  "message_en": "Analysis did not complete. Inspect the saved task before starting another request.",
+                  "message_zh": "分析未完成。请先检查已保存的任务，再决定是否发起新的请求。"}
+        if code == "EXTERNAL_SERVICE_UNAVAILABLE" and receipt["database_cleanup_confirmed"]:
+            detail.update(message="外部公共数据服务暂时无法连接，请稍后重试；本地数据库没有损坏。",
+                          message_zh="外部公共数据服务暂时无法连接，请稍后重试；本地数据库没有损坏。",
+                          message_en="An external public-data service is temporarily unavailable. Please try again; the local database is not damaged.")
+        return JSONResponse(status_code=http_status, headers={"X-Analysis-Job-Id": receipt["job_id"]}, content={"detail": detail})
     return JSONResponse(status_code=503, content={"detail": {"code": str(error),
         "message_en": "Analysis is unavailable. Keep the task identifier and check its status before retrying.",
         "message_zh": "分析暂不可用。请保留任务标识，并在重试前检查原任务状态。"}})
+
+
+async def _compatibility_analysis(operation: str, payload: dict, response: Response, request_id: str | None):
+    identifier = request_id if request_id is not None else uuid4().hex
+    response.headers["X-Analysis-Job-Id"] = "analysis_" + identifier
+    try:
+        return await run_analysis_async(operation, payload, request_id=identifier)
+    except ValueError:
+        raise HTTPException(422, "Invalid bounded analysis input or request identifier already used",
+                            headers={"X-Analysis-Job-Id": "analysis_" + identifier}) from None
 
 
 class AnalysisJobRequest(BaseModel):
@@ -146,14 +156,9 @@ def assistant_interpret(request: PlanningRequest):
 
 
 @app.post("/api/assistant/compare")
-def assistant_compare(request: ConfirmedComparison):
-    try:
-        with db_session() as conn:
-            return execute_comparison(conn, request)
-    except ValueError as exc:
-        raise HTTPException(422, str(exc)) from exc
-    except httpx.HTTPError:
-        raise HTTPException(503, "Public data service unavailable; the confirmed request can be retried manually.") from None
+async def assistant_compare(request: ConfirmedComparison, response: Response,
+                            request_id: str | None = Header(default=None, alias="Idempotency-Key", pattern=r"^[0-9a-f]{32}$")):
+    return await _compatibility_analysis("assistant_comparison", request.model_dump(), response, request_id)
 
 
 @app.get("/api/adapters/commercial-mobility")
@@ -210,52 +215,15 @@ def geocode(address: str = Query(min_length=5)):
 
 
 @app.post("/api/site-analysis")
-def site_analysis(request: SiteAnalysisRequest):
-    with db_session() as conn:
-        try:
-            return analyze_site(
-                conn,
-                address=request.address,
-                business_type=request.business_type,
-                catchments=request.catchments,
-            )
-        except ValueError as exc:
-            raise HTTPException(422, str(exc)) from exc
-        except httpx.HTTPError as exc:
-            raise HTTPException(
-                503,
-                {
-                    "code": "EXTERNAL_SERVICE_UNAVAILABLE",
-                    "message": "外部公共数据服务暂时无法连接，请稍后重试；本地数据库没有损坏。",
-                    "message_zh": "外部公共数据服务暂时无法连接，请稍后重试；本地数据库没有损坏。",
-                    "message_en": "An external public-data service is temporarily unavailable. Please try again; the local database is not damaged.",
-                },
-            ) from exc
+async def site_analysis(request: SiteAnalysisRequest, response: Response,
+                        request_id: str | None = Header(default=None, alias="Idempotency-Key", pattern=r"^[0-9a-f]{32}$")):
+    return await _compatibility_analysis("site", request.model_dump(), response, request_id)
 
 
 @app.post("/api/site-comparison")
-def site_comparison(request: SiteComparisonRequest):
-    with db_session() as conn:
-        try:
-            return compare_sites(
-                conn,
-                addresses=request.addresses,
-                business_type=request.business_type,
-                catchments=request.catchments,
-                comparison_catchment=request.comparison_catchment,
-            )
-        except ValueError as exc:
-            raise HTTPException(422, str(exc)) from exc
-        except httpx.HTTPError as exc:
-            raise HTTPException(
-                503,
-                {
-                    "code": "EXTERNAL_SERVICE_UNAVAILABLE",
-                    "message": "外部公共数据服务暂时无法连接，请稍后重试；本地数据库没有损坏。",
-                    "message_zh": "外部公共数据服务暂时无法连接，请稍后重试；本地数据库没有损坏。",
-                    "message_en": "An external public-data service is temporarily unavailable. Please try again; the local database is not damaged.",
-                },
-            ) from exc
+async def site_comparison(request: SiteComparisonRequest, response: Response,
+                          request_id: str | None = Header(default=None, alias="Idempotency-Key", pattern=r"^[0-9a-f]{32}$")):
+    return await _compatibility_analysis("comparison", request.model_dump(), response, request_id)
 
 
 @app.get("/api/comparison/{comparison_id}")

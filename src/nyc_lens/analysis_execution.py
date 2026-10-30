@@ -161,6 +161,8 @@ def execute_bounded_analysis(operation: str, request: dict, *, cancel: threading
                     error_code = "ANALYSIS_INPUT_OR_DATA_UNAVAILABLE"
                 elif error_type in {"MemoryError", "OutOfMemoryException"}:
                     error_code = "ANALYSIS_MEMORY_LIMIT"
+                elif error_type == "HTTPError":
+                    error_code = "EXTERNAL_SERVICE_UNAVAILABLE"
             return AnalysisExecution(operation_id, status, sites, comparisons, result, outcome, cleanup, states,
                                      response.get("database_settings", {}), error_code)
         finally:

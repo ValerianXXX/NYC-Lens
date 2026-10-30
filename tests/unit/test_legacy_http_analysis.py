@@ -124,3 +124,20 @@ def test_timeout_is_saved_recoverable_and_not_automatically_retried(home, monkey
     with db_session() as conn:
         assert conn.execute('SELECT count(*) FROM site_comparison').fetchone()[0] == 1
         assert conn.execute('SELECT count(*) FROM site_query').fetchone()[0] == 2
+
+
+def test_actual_worker_failure_category_is_readable_without_upstream_error_text(home, monkeypatch):
+    monkeypatch.setattr(analysis_execution, 'WORKER_SCRIPT', Path(__file__).parents[1] / 'fixtures/network_failure_worker.py')
+    key = uuid4().hex
+    response = TestClient(api.app).post('/api/assistant/compare', json=payload('assistant_comparison'),
+        headers={'Idempotency-Key': key})
+    assert response.status_code == 503
+    detail = response.json()['detail']
+    assert detail['code'] == 'EXTERNAL_SERVICE_UNAVAILABLE' and detail['status'] == 'FAILED'
+    assert detail['job_id'] == 'analysis_' + key and detail['database_cleanup_confirmed'] is True
+    assert 'local database is not damaged' in detail['message_en']
+    assert 'synthetic-upstream-sensitive-text' not in response.text
+    receipt = AnalysisJobs().get(detail['job_id'])
+    assert receipt['process']['process_stopped'] and receipt['process']['returncode'] == 1
+    assert set(receipt['saved_states'].values()) == {'NOT_CREATED'}
+    assert 'synthetic-upstream-sensitive-text' not in AnalysisJobs()._path(detail['job_id']).read_text()
