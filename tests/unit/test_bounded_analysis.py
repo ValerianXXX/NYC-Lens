@@ -87,7 +87,7 @@ def test_actual_query_stop_preserves_completed_child_and_manual_retry(home, monk
     cancel, outcome, failures = threading.Event(), [], []
     # A deliberately unrelated prior attempt must never be reconciled by address.
     with db_session() as conn:
-        conn.execute("INSERT INTO site_query(site_id,original_input,business_type,status,created_at) VALUES ('unrelated', ?, 'full_service_restaurant','RUNNING',now())", [DEMO_ADDRESSES[1]])
+        conn.execute("INSERT INTO site_query(site_id,original_input,business_type,requested_catchments_json,status,created_at) VALUES ('unrelated', ?, 'full_service_restaurant','[\"500m\"]','RUNNING',now())", [DEMO_ADDRESSES[1]])
     def run():
         try:
             outcome.append(execution.execute_bounded_analysis("assistant_comparison", request(), cancel=cancel,
