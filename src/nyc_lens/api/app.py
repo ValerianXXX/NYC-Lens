@@ -327,8 +327,9 @@ def transactions(
 ):
     with db_session(read_only=True) as conn:
         row = conn.execute(
-            "SELECT geom_wkt FROM catchment WHERE site_id=? AND catchment_type=? "
-            "ORDER BY created_at DESC LIMIT 1",
+            "SELECT c.geom_wkt FROM catchment c JOIN site_query q ON q.site_id=c.site_id "
+            "WHERE c.site_id=? AND c.catchment_type=? AND q.status='SUCCEEDED' "
+            "ORDER BY c.created_at DESC LIMIT 1",
             [site_id, catchment],
         ).fetchone()
         if row is None:

@@ -1,0 +1,72 @@
+{
+  "schema": "ANALYSIS_FAILURE_ISOLATION_V1",
+  "observed_at": "2026-10-30T07:16:12.341516+00:00",
+  "baseline_commit": "2c488c061b7d81da0cc5393e45475b32fcc0c4b2",
+  "frozen_test_commit": "1658639e4defba4779acd915514117ab706b2d85",
+  "working_tree_observation": true,
+  "source_lf_sha256": {
+    "src/nyc_lens/analyze.py": "7137058c6aa66827bf5aa7ed71aaead7f74c6c3df3c2bacd004812aa4c768cd8",
+    "src/nyc_lens/analysis_state.py": "771c1df68131cd4bbd6f7847ee3715721c11b848f9436d3f6e6e10c7047fe879",
+    "src/nyc_lens/comparison.py": "17bda4c1aba1b4c0466aa13ad59dbea362dd4c932effc0658ebea22a63260b54",
+    "src/nyc_lens/db.py": "1e02426f32ed1de40c1ebe46c13da681ffcd5996e6eef82121cc65cd336a19fe",
+    "src/nyc_lens/api/app.py": "3bc79f586902f7908b74bae978c20b732cbbaaf2b15946452944889a4f74d289"
+  },
+  "frozen_tests_unchanged": true,
+  "frozen_before": {
+    "passed": 1,
+    "failed": 9
+  },
+  "frozen_after": {
+    "passed": 10
+  },
+  "additional_before": {
+    "passed": 3,
+    "failed": 1,
+    "cause": "Cancelled-site transaction endpoint returned 200 rather than withholding partial catchment"
+  },
+  "additional_after": {
+    "passed": 4,
+    "seconds": 5.11,
+    "warnings": 18
+  },
+  "logs_lf_sha256": {
+    "reports/failure-isolation-frozen-before-20261030.log": "7da5eb1cdeb3c968a91c643d5a640af784db1b966c7b120d3e20c79687a383e3",
+    "reports/failure-isolation-frozen-after-20261030.log": "7040371af15613c02e821ec0eecc1d1330f691ace4cef93a41bfa358822c4103",
+    "reports/failure-isolation-integration-before-20261030.log": "b5033c48bc112031f47a20f8a10941e5fad7338cca72a9d4ab37614939385174",
+    "reports/failure-isolation-integration-after-20261030.log": "d2fa8326f42aab035234d68824801ebce86f1dbd7bb0e6c89238b816fcdd7c49"
+  },
+  "actual_components": {
+    "duckdb_version": "1.5.6",
+    "two_separate_connections_with_controlled_thread_interleaving": true,
+    "spatial_calculation_on_synthetic_data": true,
+    "cancel_injected_at_metric_boundary": true,
+    "cancelled_site_and_comparison_terminal": true,
+    "partial_site_report_evidence_transactions_withheld": true,
+    "manual_retry_new_ids": true,
+    "manual_retry_counts": [
+      1,
+      3
+    ],
+    "cancelled_history_retained": true,
+    "http_driver": "FastAPI in-process TestClient; not browser or real client cancellation"
+  },
+  "full_regression": "NOT_STARTED_AT_RECEIPT_WRITE; exact source-head result will be recorded in PR and task progress",
+  "unverified": [
+    "Hard query time/RAM limits",
+    "HTTP/MCP cancellation propagation",
+    "Forced-process-death and broken-database recovery",
+    "Atomic dataset snapshots and global writer coordination",
+    "Complete local data and freshness",
+    "Independent human and further real-client acceptance"
+  ],
+  "model_requests": 0,
+  "real_source_ingestion": 0,
+  "database_schema_migration": false,
+  "production_actions": 0,
+  "whole_goal_complete": false,
+  "official_reference": {
+    "url": "https://duckdb.org/docs/stable/clients/python/overview",
+    "checked_date": "2026-10-30",
+    "use": "Separate connections for concurrency; global settings are not isolated per-request budgets"
+  }
+}

@@ -1,5 +1,10 @@
 # Changelog
 
+## Unreleased — 2026-10-30
+
+- Bind failure cleanup to one preallocated site ID, share terminal-state handling with comparisons, preserve propagated cancellation and the original exception when cleanup cannot persist. Do not overwrite terminal rows or store arbitrary exception messages.
+- Withhold unsuccessful site results and transaction lookups; retain partial records for inspection and completed child sites after comparison interruption. Verify a separate manual retry against the real synthetic engine. Ten frozen contracts improve from 1/10 to 10/10; four additional checks pass after repairing the exposed transaction endpoint. This is a prerequisite for broader cancellation/resource work, not its completion. See [evidence and rollback](docs/analysis-failure-isolation-2026-10-30.md).
+
 ## Unreleased — 2026-10-29
 
 - Capture bounded configuration bytes for each analysis/comparison, use the same bytes for calculation provenance, and reload changed files on the next request. Return independent parsed mappings so caller mutations cannot affect later reads. Include configuration loading/versioning code in calculation hashes. Preserve prior reports and schema. Frozen checks: 1/19 before, 19/19 after; six additional integration/boundary checks; full suite: 113 passed, three full-data skips. See the dated configuration snapshot record.
