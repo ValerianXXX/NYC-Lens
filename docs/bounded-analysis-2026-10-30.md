@@ -2,6 +2,11 @@
 
 This is an unreleased continuation of the failure-isolation work. It changes execution and recovery, not the statistical method or model. It uses original synthetic records; no real business conclusion, customer outcome or new model-quality improvement is claimed.
 
+This document records the initial Web/MCP worker milestone. The subsequent
+[legacy HTTP follow-up](bounded-legacy-http-2026-10-30.md) moves the three
+compatibility analysis endpoints onto the same jobs. Its new evidence and
+remaining CLI/library limits are reported separately.
+
 ## Run and scope
 
 Install the existing extras with `pip install -e ".[dev,agent]"`. Run `python -m nyc_lens.demo --port 8766` for a disposable synthetic Web application, or use the existing configured local data home and `nyc-lens serve --host 127.0.0.1 --port 8765`. Keep this local application on loopback. `nyc-lens-mcp` retains the stdio entry point and existing SDK pin; no new service or dependency is required. AI interpretation remains disabled unless explicitly configured and consented.

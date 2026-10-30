@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "date": "2026-10-30",
+  "scope": "Three legacy HTTP analysis endpoints, strict request validation and five bounded POST bodies; public source only",
+  "base": "2e7340136e9e947a378b158cad9aa4845fc83168",
+  "frozen_contract_commit": "68648f3a22f528fb67471d00b0c1ca687c220e12",
+  "runtime_commit": "db26f8f4b8b9478168445de828485c05658d0c10",
+  "test_fixture_fix_commit": "5f2547e8f4304ba32ff73fb89381d287fd0b95a8",
+  "environment": {
+    "platform": "Windows",
+    "python": "Python 3.11.3",
+    "data": "ISOLATED_SYNTHETIC_ONLY"
+  },
+  "baseline_error_contracts": {
+    "passed": 3,
+    "seconds": 4.15
+  },
+  "frozen_before": {
+    "failed": 17,
+    "passed": 0,
+    "warnings": 25,
+    "seconds": 34.09
+  },
+  "frozen_after": {
+    "passed": 17,
+    "failed": 0,
+    "seconds": 45.63,
+    "original_assertions_unchanged": true
+  },
+  "new_failure_and_existing_error_contracts": {
+    "passed": 4,
+    "seconds": 5.6
+  },
+  "first_full": {
+    "passed": 179,
+    "failed": 1,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 161.44,
+    "failure": "Parent-side configuration-change injection did not reach new child process"
+  },
+  "fixture_repair": {
+    "passed": 1,
+    "seconds": 10.88,
+    "change": "Move same once-only between-site edit into trusted test worker; preserve original expected values, hashes, reports and rollback assertions; add child PID and edit timing checks"
+  },
+  "full_local": {
+    "status": "PASS",
+    "head": "5f2547e8f4304ba32ff73fb89381d287fd0b95a8",
+    "log": "reports/legacy-http-full-final-20261030.log",
+    "passed": 180,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 165.5,
+    "skip_reason": "Complete populated local database unavailable"
+  },
+  "actual_process_results": {
+    "comparison_values": [
+      1,
+      3
+    ],
+    "effective_database_memory": "512.0 MiB",
+    "stable_key_reruns": 0,
+    "timeout_saved_states": [
+      "SUCCEEDED",
+      "TIMED_OUT",
+      "TIMED_OUT"
+    ],
+    "timeout_seconds_test_override": 10,
+    "process_exit_confirmed": true,
+    "database_cleanup_confirmed": true,
+    "upstream_error_category": "EXTERNAL_SERVICE_UNAVAILABLE",
+    "upstream_error_text_disclosed": false,
+    "external_network_fault_injection": "No network; trusted fixture raises HTTP exception within actual worker"
+  },
+  "source_lf_sha256": {
+    "src/nyc_lens/analysis_jobs.py": "8ac64edd654ed7d79956fd342d7ca6a04ac76abefed8816c8f49defd4840dc1c",
+    "src/nyc_lens/analysis_worker.py": "d43eb15cddfea8ff137123af79a748b5a531e3ba949750e45188f3ec64584901",
+    "src/nyc_lens/analysis_execution.py": "bf3260ccad1ec0d120db5f10726bf6679fc6e2f0f579921cf5081cff1aa1a8e8",
+    "src/nyc_lens/api/app.py": "c6cafe9d82c642a2ea8acc4c1c53ac767eacb24cf8d347a63f9b1d3790b6d6ff",
+    "src/nyc_lens/api/request_limits.py": "090c55429db03d1f1b93305d1dee605059ca1fbdc9ea6c874c632f20e1a0b305",
+    "tests/unit/test_legacy_http_analysis.py": "f0ef9fc9e18110dea19847c94f290c872c72ee9d9c739a6a9f7104bb8f1677a8",
+    "tests/unit/test_api_error_handling.py": "d78f1edd0c053420c1f1d7d48186a9dcfaaec9f76922f8a3df0852ef4754b8b3",
+    "tests/unit/test_configuration_analysis_integration.py": "c1fdb40059eb708184f8c058adac4371758e5e9c7bdfb62d2a6cede28ea8f22f",
+    "tests/fixtures/network_failure_worker.py": "b2164d79a42895dec13382e5e93e044452f2208b5be1d6d621feeaf96fbe1ec7",
+    "tests/fixtures/configuration_edit_worker.py": "ffba85042ab23cc94a311ad35647e9b29b0c0f1afa25a306d478d9846e7dc6e1"
+  },
+  "log_sha256": {
+    "legacy-http-after-20261030.log": "7febcdd476a30167bde8d65d8e65a4d0f9d6c40954f23569ddd544e55246f355",
+    "legacy-http-baseline-20261030.log": "9875728670aefaa8d73cad69491a84b5a5eee033c22f6cce384ebbd25b8dedf3",
+    "legacy-http-config-fixture-20261030.log": "c427a1006fd56a617eaf97b11313ce9b0dc4b93b6171f88ddce2498b0f55e469",
+    "legacy-http-errors-20261030.log": "f0298d2b0ee97f169dfe69e7e7180e02800d46c0fb1fe55177b766e998b83015",
+    "legacy-http-frozen-before-20261030.log": "1d25c17142c2f3b1641089ad9bed171e1b9fa0a7da857faa6441283578b1ea25",
+    "legacy-http-full-20261030.log": "66ee28b53e0152a6a23f09b4cf15d350a34acd0533df0bd08451ddf2fd8a6d23",
+    "legacy-http-full-final-20261030.log": "441360ed802fa9d322c1d16cc1233c646de395634a24f46cc0a613ae538b0730"
+  },
+  "model_requests": 0,
+  "production_actions": 0,
+  "dependency_or_schema_change": false,
+  "ui_assets_changed": false,
+  "new_browser_or_live_Hermes_acceptance": false,
+  "hosted_checks": "PENDING_AT_RECEIPT_WRITE",
+  "remaining": [
+    "CLI/library and ingestion/export bounds",
+    "macOS guard",
+    "Full dataset and freshness acceptance",
+    "Atomic generations and external writer coordination",
+    "Whole-database/report disk bounds",
+    "Fresh real Hermes and independent participant acceptance"
+  ],
+  "full_M3_acceptance": false
+}

@@ -34,6 +34,7 @@ def main() -> None:
     from nyc_lens.comparison import compare_sites
     from nyc_lens.db import db_session
     from nyc_lens.execution_context import DatabaseLimits, worker_context
+    import httpx
     payload = {"schema": 1, "operation_id": envelope["operation_id"], "status": "FAILED"}
     exit_code = 1
     try:
@@ -59,7 +60,9 @@ def main() -> None:
                 payload.update(status="SUCCEEDED", result_id=identifier)
                 exit_code = 0
     except BaseException as error:
-        payload.update(error_type=type(error).__name__[:100])
+        # Preserve the safe failure category across the process boundary, never
+        # the upstream URL, response body, credentials or exception text.
+        payload.update(error_type="HTTPError" if isinstance(error, httpx.HTTPError) else type(error).__name__[:100])
     temporary = destination.with_suffix(".tmp")
     with temporary.open("x", encoding="utf8") as stream:
         json.dump(payload, stream, ensure_ascii=True)

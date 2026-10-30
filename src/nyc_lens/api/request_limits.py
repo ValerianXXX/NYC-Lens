@@ -1,13 +1,16 @@
-"""Bound a job's HTTP body before the JSON parser or Pydantic allocates it."""
+"""Bound all analysis/planning HTTP bodies before JSON or Pydantic allocates them."""
 from starlette.responses import JSONResponse
 
 
 class AnalysisBodyLimit:
+    PATHS = frozenset({"/api/analysis-jobs", "/api/site-analysis", "/api/site-comparison",
+                       "/api/assistant/compare", "/api/assistant/interpret"})
+
     def __init__(self, app):
         self.app = app
 
     async def __call__(self, scope, receive, send):
-        if scope["type"] != "http" or scope["method"] != "POST" or scope["path"] != "/api/analysis-jobs":
+        if scope["type"] != "http" or scope["method"] != "POST" or scope["path"] not in self.PATHS:
             return await self.app(scope, receive, send)
         body = bytearray()
         while True:
