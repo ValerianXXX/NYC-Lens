@@ -8,6 +8,7 @@ from typing import Any
 import duckdb
 
 from .analyze import analyze_site
+from .analysis_state import record_comparison_failure
 from .config import configuration_snapshot, metrics_config, taxonomy_config
 from .db import calculation_version
 from .util import json_dumps, new_id, utc_now
@@ -223,21 +224,8 @@ def compare_sites(
             ],
         )
         return result
-    except Exception as exc:
-        conn.execute(
-            """
-            UPDATE site_comparison
-            SET site_ids_json=?::JSON, warnings_json=?::JSON,
-                status='FAILED', completed_at=?
-            WHERE comparison_id=?
-            """,
-            [
-                json_dumps([item["site_id"] for item in results]),
-                json_dumps([f"comparison_error:{type(exc).__name__}:{exc}"]),
-                utc_now(),
-                comparison_id,
-            ],
-        )
+    except BaseException as exc:
+        record_comparison_failure(conn, comparison_id, [item["site_id"] for item in results], exc)
         raise
 
 

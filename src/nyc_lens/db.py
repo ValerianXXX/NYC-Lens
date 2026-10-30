@@ -17,6 +17,7 @@ SCHEMA_PATH = Path(__file__).with_name("schema.sql")
 CALCULATION_VERSION = "0.2.0"
 CALCULATION_CODE_FILES = (
     "analyze.py",
+    "analysis_state.py",
     "comparison.py",
     "config.py",
     "db.py",

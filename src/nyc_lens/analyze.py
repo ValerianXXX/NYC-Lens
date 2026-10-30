@@ -8,6 +8,7 @@ import h3
 from shapely.geometry import Polygon, mapping
 
 from .config import configuration_snapshot, taxonomy_config
+from .analysis_state import record_site_failure
 from .db import calculation_version
 from .entities.buildings import fetch_building_for_address
 from .entities.parcels import fetch_parcel_for_address
@@ -113,6 +114,7 @@ def _ensure_h3_cell(conn: duckdb.DuckDBPyConnection, longitude: float, latitude:
 def _analyze_site_impl(
     conn: duckdb.DuckDBPyConnection,
     *,
+    site_id: str,
     address: str,
     business_type: str = "full_service_restaurant",
     catchments: list[str] | None = None,
@@ -152,7 +154,6 @@ def _analyze_site_impl(
     latitude = float(address_record["latitude"])
     h3_cell = _ensure_h3_cell(conn, longitude, latitude)
     calculation_id = calculation_version(conn)
-    site_id = new_id("site")
     now = utc_now()
     snapshot_set: dict[str, list[str]] = {}
     conn.execute(
@@ -181,24 +182,13 @@ def _analyze_site_impl(
     )
     network = None
     if any(CATCHMENT_SPECS[item]["kind"] == "walk_network" for item in requested):
-        try:
-            network = fetch_walk_network(
-                conn,
-                site_id=site_id,
-                longitude=longitude,
-                latitude=latitude,
-                radius_m=1750,
-            )
-        except Exception as exc:
-            conn.execute(
-                """
-                UPDATE site_query SET status='FAILED', completed_at=?,
-                       warnings_json=?::JSON, missing_data_json='[]'::JSON
-                WHERE site_id=?
-                """,
-                [utc_now(), json_dumps([f"walking_network_error:{type(exc).__name__}"]), site_id],
-            )
-            raise
+        network = fetch_walk_network(
+            conn,
+            site_id=site_id,
+            longitude=longitude,
+            latitude=latitude,
+            radius_m=1750,
+        )
     context = _acs_context(conn)
     decennial_context = _decennial_context(conn)
     results: dict[str, Any] = {}
@@ -366,39 +356,23 @@ def analyze_site(
     business_type: str = "full_service_restaurant",
     catchments: list[str] | None = None,
 ) -> dict[str, Any]:
-    """Run one analysis and close any created site row as FAILED on exceptions."""
-    started_at = utc_now()
+    """Close only this attempt on failure or a propagated cancellation."""
+    site_id = new_id("site")
     try:
         return _analyze_site_impl(
             conn,
+            site_id=site_id,
             address=address,
             business_type=business_type,
             catchments=catchments,
         )
-    except Exception as exc:
-        conn.execute(
-            """
-            UPDATE site_query
-            SET status='FAILED', completed_at=?,
-                warnings_json=?::JSON
-            WHERE status='RUNNING'
-              AND original_input=?
-              AND business_type=?
-              AND created_at>=?
-            """,
-            [
-                utc_now(),
-                json_dumps([f"analysis_error:{type(exc).__name__}:{str(exc)[:500]}"]),
-                address,
-                business_type,
-                started_at,
-            ],
-        )
+    except BaseException as exc:
+        record_site_failure(conn, site_id, exc)
         raise
 
 
 def get_site(conn: duckdb.DuckDBPyConnection, site_id: str) -> dict[str, Any] | None:
-    row = conn.execute("SELECT result_json FROM site_query WHERE site_id=?", [site_id]).fetchone()
+    row = conn.execute("SELECT result_json FROM site_query WHERE site_id=? AND status='SUCCEEDED'", [site_id]).fetchone()
     if not row or row[0] is None:
         return None
     return json.loads(row[0]) if isinstance(row[0], str) else row[0]
