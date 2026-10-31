@@ -36,4 +36,4 @@ jobs:
           cache: pip
       - run: python -m pip install --upgrade pip
       - run: pip install -e ".[dev,agent]"
-      - run: python -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_bounded_analysis.py tests/unit/test_analysis_jobs.py tests/unit/test_legacy_http_analysis.py tests/unit/test_bounded_cli.py tests/unit/test_api_error_handling.py
+      - run: python -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_bounded_analysis.py tests/unit/test_analysis_jobs.py tests/unit/test_legacy_http_analysis.py tests/unit/test_bounded_cli.py tests/unit/test_job_receipt_io.py tests/unit/test_api_error_handling.py

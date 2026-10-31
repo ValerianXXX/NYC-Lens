@@ -3,12 +3,16 @@ from concurrent.futures import ThreadPoolExecutor, TimeoutError as FutureTimeout
 import json
 import os
 from pathlib import Path
+import shutil
+import subprocess
+import sys
 import threading
 import time
 
 import pytest
 
 from nyc_lens.analysis_jobs import AnalysisJobs, JobUnavailableError
+from nyc_lens.paths import DEFAULT_HOME
 
 
 @pytest.fixture
@@ -115,3 +119,40 @@ def test_receipt_publication_waits_until_cooperating_reader_closes_handle(stored
         writer.result(timeout=2)
     monkeypatch.setattr(Path, 'open', original)
     assert jobs.get(receipt['job_id']) == updated
+
+
+def test_separate_process_read_and_publication_share_the_same_lock(stored):
+    jobs, receipt, path = stored
+    home = jobs.home
+    shutil.copytree(DEFAULT_HOME/'config', home/'config')
+    (home/'receipt-fixture-marker').write_text('SYNTHETIC_RECEIPT_IO')
+    child = subprocess.Popen([sys.executable,str(Path(__file__).parents[1]/'fixtures/held_receipt_reader.py')],
+        stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        creationflags=getattr(subprocess,'CREATE_NO_WINDOW',0) if os.name=='nt' else 0)
+    try:
+        deadline = time.monotonic()+8
+        while not (home/'receipt-reader-ready').exists() and child.poll() is None and time.monotonic()<deadline:
+            time.sleep(.01)
+        if not (home/'receipt-reader-ready').exists() and child.poll() is not None:
+            _, details = child.communicate(timeout=2)
+            pytest.fail('Synthetic reader failed before opening its receipt: ' + details)
+        assert (home/'receipt-reader-ready').exists()
+        updated = {**receipt,'serial':1}
+        with ThreadPoolExecutor(max_workers=1) as executor:
+            writer = executor.submit(jobs._write, updated)
+            try:
+                with pytest.raises(FutureTimeout):
+                    writer.result(timeout=.1)
+            finally:
+                (home/'receipt-reader-release').write_text('release owned reader')
+            writer.result(timeout=3)
+        stdout, stderr = child.communicate(timeout=5)
+        assert child.returncode == 0, stderr
+        assert json.loads(stdout) == receipt
+        assert jobs.get(receipt['job_id']) == updated
+    finally:
+        (home/'receipt-reader-release').write_text('cleanup')
+        if child.poll() is None:
+            try: child.communicate(timeout=5)
+            except subprocess.TimeoutExpired:
+                child.kill(); child.communicate(timeout=3)

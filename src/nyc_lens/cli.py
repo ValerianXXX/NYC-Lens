@@ -116,7 +116,7 @@ def _analysis_errors(identifier: str | None = None):
         else:
             allowed = {"RESOURCE_GUARD_UNAVAILABLE", "JOB_HISTORY_CAPACITY_REQUIRES_ARCHIVE",
                        "ANALYSIS_RESULT_NOT_READY", "JOB_RESULT_ID_MISMATCH", "SAVED_RESULT_UNAVAILABLE",
-                       "JOB_RECEIPT_INVALID", "JOB_START_UNCONFIRMED", "JOB_START_FAILED"}
+                       "JOB_RECEIPT_INVALID", "JOB_RECEIPT_UNAVAILABLE", "JOB_START_UNCONFIRMED", "JOB_START_FAILED"}
             code = str(error) if str(error) in allowed else "ANALYSIS_JOB_UNAVAILABLE"
         detail = {"code": code, "message": "Check the input and saved task status before retrying. No automatic retry was performed."}
         if identifier and re.fullmatch(r"analysis_[0-9a-f]{32}", identifier):
