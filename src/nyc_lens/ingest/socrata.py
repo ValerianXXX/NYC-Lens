@@ -70,8 +70,12 @@ def download_socrata_csv(
     valid_from: date | None = None,
     valid_to: date | None = None,
 ) -> Snapshot:
+    if type(limit) is not int or limit < 1:
+        raise ValueError("SOCRATA_ROW_LIMIT_INVALID: expected a positive integer")
     source = get_source(source_id)
-    params: dict[str, Any] = {"$limit": limit}
+    # One sentinel record distinguishes an exact fit from a capped response.
+    # SoQL applies LIMIT after aggregation, so count CSV records, not values.
+    params: dict[str, Any] = {"$limit": limit + 1}
     if select:
         params["$select"] = select
     if where:
@@ -80,7 +84,7 @@ def download_socrata_csv(
         params["$group"] = group
     if order:
         params["$order"] = order
-    return download_snapshot(
+    snapshot = download_snapshot(
         conn,
         source_id=source_id,
         vintage=vintage,
@@ -91,6 +95,58 @@ def download_socrata_csv(
         valid_from=valid_from,
         valid_to=valid_to,
     )
+    _check_row_limit(snapshot, limit)
+    return snapshot
+
+
+def _check_row_limit(snapshot: Snapshot, limit: int) -> None:
+    """Retain the raw receipt and fail closed before callers publish facts.
+
+    This checks this response against the requested row budget. It does not
+    verify a stable upstream dataset, server-side caps, or omitted records.
+    """
+    rows_read = 0
+    csv_eof_observed = False
+    error_type = None
+    try:
+        with pd.read_csv(
+            snapshot.path, dtype=str, keep_default_na=False,
+            chunksize=min(limit + 1, 10_000),
+        ) as reader:
+            for frame in reader:
+                rows_read += len(frame)
+                if rows_read > limit:
+                    break
+            else:
+                csv_eof_observed = True
+        status = "WITHIN_REQUESTED_LIMIT" if csv_eof_observed else "ROW_LIMIT_EXCEEDED"
+    except Exception as error:
+        # Do not copy untrusted CSV contents from parser errors into logs.
+        status = "CSV_UNVERIFIED"
+        error_type = type(error).__name__
+
+    record = {
+        "method": "socrata-extra-record-v1",
+        "checked_at": utc_now().isoformat(),
+        "source_id": snapshot.source_id,
+        "snapshot_id": snapshot.snapshot_id,
+        "snapshot_sha256": snapshot.sha256,
+        "row_limit": limit,
+        "requested_limit": limit + 1,
+        "rows_read": rows_read,
+        "csv_eof_observed": csv_eof_observed,
+        "status": status,
+        "error_type": error_type,
+        "full_upstream_snapshot_verified": False,
+    }
+    # Never replace an existing check or the original download manifest. A
+    # missing/unwritable audit is a failure, even if parsing itself succeeded.
+    with snapshot.path.with_name("row-limit-check.json").open("x", encoding="utf-8") as handle:
+        handle.write(json_dumps(record) + "\n")
+    if status == "ROW_LIMIT_EXCEEDED":
+        raise ValueError(f"SOCRATA_ROW_LIMIT_EXCEEDED: more than {limit} CSV records")
+    if status == "CSV_UNVERIFIED":
+        raise ValueError("SOCRATA_CSV_UNVERIFIED: response could not be checked")
 
 
 def refresh_dohmh(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
