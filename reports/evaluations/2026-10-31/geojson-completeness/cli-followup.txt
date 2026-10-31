@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <WORKSPACE>\NYC-Lens-geojson-delivery
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 2 items
+
+tests/unit/test_bounded_cli.py::test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task PASSED [ 50%]
+tests/unit/test_bounded_process.py::test_deadline_stops_actual_work_before_returning PASSED [100%]
+
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-geojson-cli-followup-20261031.xml -
+======================== 2 passed in 71.23s (0:01:11) =========================

@@ -41,6 +41,26 @@ def until_ready(home):
     assert (home / "held-worker-ready.json").exists()
 
 
+def until_owner_ready(home, child, request_id):
+    """Bound the supervisor's cold start separately from its analysis worker."""
+    path = home / "owner-ready.json"
+    until = time.monotonic() + 15
+    while time.monotonic() < until:
+        assert child.poll() is None, "Synthetic owner exited before its startup handshake"
+        if path.exists():
+            try:
+                receipt = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError:
+                # The test fixture's small handshake file can be observed mid-write.
+                pass
+            else:
+                assert receipt["job_id"] == "analysis_" + request_id
+                assert receipt["status"] == "RUNNING"
+                return
+        time.sleep(.02)
+    pytest.fail("Synthetic owner did not complete its startup handshake within 15 seconds")
+
+
 def finished(jobs, identifier):
     until = time.monotonic() + 15
     while time.monotonic() < until:
@@ -107,6 +127,7 @@ def test_actual_owner_crash_reconciles_own_ids_without_reexecution(home):
     child = subprocess.Popen([sys.executable, str(fixture), request_id], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
         creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
     try:
+        until_owner_ready(home, child, request_id)
         until_ready(home)
         child.kill()
         child.wait(5)

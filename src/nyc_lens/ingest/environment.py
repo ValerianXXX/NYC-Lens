@@ -6,13 +6,14 @@ import duckdb
 import geopandas as gpd
 import pandas as pd
 
-from ..config import geographies_config, get_source
+from ..config import geographies_config
 from ..db import begin_run, finish_run
 from ..provenance import download_snapshot
 from ..publication import publication_transaction
 from .common import stable_id, standardized_path, update_snapshot_details
 from .geographies import _prepare_geometry, _replace_boundaries
 from .socrata import fetch_metadata_snapshot
+from .geojson import CompletenessError, download_socrata_geojson, failed_download_progress
 
 
 HAZARD_LAYERS: dict[str, dict[str, Any]] = {
@@ -120,30 +121,31 @@ def refresh_hazard_layer(
     if source_id not in HAZARD_LAYERS:
         raise ValueError(f"Unsupported hazard source: {source_id}")
     definition = HAZARD_LAYERS[source_id]
-    source = get_source(source_id)
     run_id = begin_run(conn, source_id, "refresh official planning geometry")
     downloaded_bytes = 0
     request_count = 0
     try:
+        request_count += 1
         metadata = fetch_metadata_snapshot(
             conn, source_id, f"{definition['vintage']}-metadata", run_id
         )
-        request_count += 1
         downloaded_bytes += metadata.byte_size
-        snapshot = download_snapshot(
+        checked = download_socrata_geojson(
             conn,
             source_id=source_id,
             vintage=str(definition["vintage"]),
-            url=source["api_url"],
-            filename=f"{source['dataset_id']}.geojson",
             run_id=run_id,
-            params={"$limit": definition["limit"]},
+            limit=definition["limit"],
             timeout_seconds=600,
+            download=download_snapshot,
         )
-        request_count += 1
-        downloaded_bytes += snapshot.byte_size
+        snapshot = checked.snapshot
+        request_count += checked.request_count
+        downloaded_bytes += checked.downloaded_bytes
         frame = gpd.read_file(snapshot.path)
         frame, invalid_geometry_count, removed_geometry_count = _prepare_geometry(frame)
+        if removed_geometry_count or len(frame) != checked.feature_count:
+            raise CompletenessError("COMPLETENESS_GEOMETRY_ROWS_LOST")
         if not definition["minimum_rows"] <= len(frame) <= definition["maximum_rows"]:
             raise ValueError(
                 f"{source_id} feature count outside expected range: {len(frame)}"
@@ -201,14 +203,16 @@ def refresh_hazard_layer(
             "removed_geometries": removed_geometry_count,
             "raw_bytes": downloaded_bytes,
             "standardized_parquet": str(output),
+            "completeness_check": str(checked.check_path),
         }
     except Exception as exc:
+        failed_requests, failed_bytes = failed_download_progress(exc)
         finish_run(
             conn,
             run_id,
             "FAILED",
-            request_count=request_count,
-            downloaded_bytes=downloaded_bytes,
+            request_count=request_count + failed_requests,
+            downloaded_bytes=downloaded_bytes + failed_bytes,
             error={"type": type(exc).__name__, "message": str(exc)},
         )
         raise

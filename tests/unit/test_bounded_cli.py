@@ -144,6 +144,16 @@ def test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task(home):
         stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
         creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0) if os.name == 'nt' else 0)
     try:
+        # CLI cold imports/registry initialization precede the separately bounded
+        # analysis-worker startup. Observe its actual durable RUNNING receipt.
+        jobs = AnalysisJobs()
+        receipt_path = jobs._path('analysis_' + key)
+        deadline = time.monotonic() + 20
+        while not receipt_path.exists() and owner.poll() is None and time.monotonic() < deadline:
+            time.sleep(.02)
+        assert receipt_path.exists(), 'CLI owner did not persist a job within 20 seconds'
+        started = jobs.get('analysis_' + key)
+        assert started['job_id'] == 'analysis_' + key and started['status'] == 'RUNNING'
         deadline = time.monotonic() + 20
         while not (home / 'held-worker-ready.json').exists() and owner.poll() is None and time.monotonic() < deadline:
             time.sleep(.02)

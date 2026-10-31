@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <WORKSPACE>\NYC-Lens-geojson-delivery
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 2 items
+
+tests/unit/test_geojson_audit_failure.py::test_rejected_source_and_unwritable_audit_keep_failed_request_accounting PASSED [ 50%]
+tests/unit/test_analysis_jobs.py::test_actual_owner_crash_reconciles_own_ids_without_reexecution PASSED [100%]
+
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-geojson-followup-20261031.xml -
+============================= 2 passed in 31.50s ==============================

@@ -1,0 +1,43 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <WORKSPACE>\NYC-Lens-geojson-completeness
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 1 item
+
+tests/unit/test_analysis_jobs.py::test_actual_owner_crash_reconciles_own_ids_without_reexecution FAILED [100%]
+
+================================== FAILURES ===================================
+_______ test_actual_owner_crash_reconciles_own_ids_without_reexecution ________
+
+home = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-86/test_actual_owner_crash_reconc0')
+
+    def test_actual_owner_crash_reconciles_own_ids_without_reexecution(home):
+        request_id = uuid4().hex
+        fixture = Path(__file__).parents[1] / "fixtures/analysis_job_owner.py"
+        child = subprocess.Popen([sys.executable, str(fixture), request_id], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
+        try:
+>           until_ready(home)
+
+tests\unit\test_analysis_jobs.py:110:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+home = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-86/test_actual_owner_crash_reconc0')
+
+    def until_ready(home):
+        until = time.monotonic() + 15
+        while not (home / "held-worker-ready.json").exists() and time.monotonic() < until:
+            time.sleep(.02)
+>       assert (home / "held-worker-ready.json").exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-86/test_actual_owner_crash_reconc0') / 'held-worker-ready.json').exists
+
+tests\unit\test_analysis_jobs.py:41: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_analysis_jobs.py::test_actual_owner_crash_reconciles_own_ids_without_reexecution - AssertionError: assert False
+ +  where False = exists()
+ +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-86/test_actual_owner_crash_reconc0') / 'held-worker-ready.json').exists
+============================= 1 failed in 29.01s ==============================

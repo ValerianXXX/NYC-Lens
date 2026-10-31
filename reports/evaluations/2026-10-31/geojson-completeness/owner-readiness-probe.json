@@ -1,0 +1,45 @@
+{
+  "source_commit": "89a55d6a110d19c39e50d24168488d47e970eb6e",
+  "synthetic": true,
+  "seed_seconds": 12.593999999924563,
+  "deadline_seconds": 120,
+  "external_requests": 0,
+  "new_model_calls": 0,
+  "initial_probe_setup_failures": [
+    "v1 imported analysis before seeding config: FileNotFoundError before worker launch.",
+    "v2 copied config before seed_demo copied it: FileExistsError before database or worker creation.",
+    "Both directories are retained. v3 uses the inspected seed_demo ordering, then imports analysis."
+  ],
+  "owned_pid": 35540,
+  "owner_ready_seconds": 9.422000000020489,
+  "held_worker_ready_seconds": 20.07799999997951,
+  "owner_returncode": 1,
+  "observation_seconds": 20.09299999999348,
+  "recovered_receipt": {
+    "schema": 1,
+    "job_id": "analysis_ac0ff8ae3df046ad857ddbfe7f36a941",
+    "operation": "assistant_comparison",
+    "status": "INTERRUPTED",
+    "request_sha256": "ae93f2721f9e4857c2506d0e990d436ab1f5c9061edddc7d73f0f748f8c7569f",
+    "site_ids": [
+      "site_82f35f46aa5743a3b20bc4c9e8add1d8",
+      "site_fa94bd23455f45c2a6b91c4fa06e59e7"
+    ],
+    "comparison_ids": [
+      "comparison_d4eb93f2f228453b94b8be110677c671"
+    ],
+    "created_at": "2026-10-31 22:11:56.129144+00:00",
+    "completed_at": "2026-10-31 22:12:07.384425+00:00",
+    "result_id": null,
+    "process": null,
+    "database_cleanup_confirmed": true,
+    "saved_states": {
+      "site_82f35f46aa5743a3b20bc4c9e8add1d8": "SUCCEEDED",
+      "site_fa94bd23455f45c2a6b91c4fa06e59e7": "INTERRUPTED",
+      "comparison_d4eb93f2f228453b94b8be110677c671": "INTERRUPTED"
+    },
+    "error_code": "SUPERVISOR_EXIT_PROCESS_NOT_OBSERVED"
+  },
+  "site_queries": 2,
+  "comparisons": 1
+}

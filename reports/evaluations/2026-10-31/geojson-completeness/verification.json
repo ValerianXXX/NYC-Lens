@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-31T22:22:28.340527+00:00",
+  "base_commit": "89a55d6a110d19c39e50d24168488d47e970eb6e",
+  "frozen_commit": "5caa2becf8e353719ee15b7655dc8ffbe5625e85",
+  "runtime_commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+  "branch": "codex/geojson-coverage-20261031",
+  "platform": "Windows-10-10.0.26200-SP0",
+  "python": "3.11.3",
+  "dependencies": {
+    "duckdb": "1.5.6",
+    "geopandas": "1.2.0",
+    "httpx": "0.28.1",
+    "pytest": "8.4.2",
+    "mcp": "2.3.0"
+  },
+  "interpreter_note": "Existing sibling NYC-Lens environment; this isolated worktree src is first on PYTHONPATH. No dependency installation or mutation.",
+  "before": {
+    "passed": 0,
+    "failed": 34,
+    "seconds": null,
+    "failure_categories": {
+      "accepted_expected_rejection": 30,
+      "already_rejected_but_no_retained_evidence_contract": 1,
+      "valid_publication_missing_new_audit": 3
+    }
+  },
+  "first_after": {
+    "tests": 34,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 34,
+    "seconds": 44.634,
+    "skips": [],
+    "code_state": "First implementation before supplementary hardening; final unchanged contracts also run in full suite"
+  },
+  "related_recovery": {
+    "tests": 64,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 64,
+    "seconds": 305.555,
+    "skips": []
+  },
+  "initial_full": {
+    "runtime_commit": "83f1f485c8bd6d416703e2635a0d3af8ce38db13",
+    "source_worktree": "NYC-Lens-geojson-completeness",
+    "tests": 377,
+    "errors": 0,
+    "failures": 3,
+    "skipped": 3,
+    "passed": 371,
+    "seconds": 1290.222,
+    "skips": [
+      {
+        "name": "test_three_public_samples_have_complete_core_outputs",
+        "reason": "Run nyc-lens refresh and nyc-lens samples first."
+      },
+      {
+        "name": "test_evidence_ids_resolve_to_standardized_records",
+        "reason": "Run nyc-lens refresh and nyc-lens samples first."
+      },
+      {
+        "name": "test_api_sections_and_evidence_endpoint_expose_current_domains_and_lineage",
+        "reason": "Run nyc-lens refresh and nyc-lens samples first."
+      }
+    ],
+    "status": "FAILED_RETAINED"
+  },
+  "followup": {
+    "tests": 2,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 2,
+    "seconds": 31.48,
+    "skips": []
+  },
+  "cli_followup": {
+    "tests": 2,
+    "errors": 0,
+    "failures": 0,
+    "skipped": 0,
+    "passed": 2,
+    "seconds": 71.227,
+    "skips": []
+  },
+  "final_full": {
+    "status": "RUNNING_NOT_COUNTED_AS_PASS",
+    "log": "task-artifacts/nyc-geojson-final-full-20261031.log"
+  },
+  "frozen_test_bytes_unchanged": true,
+  "owned_child_exit_code": 83,
+  "source_receipts": [
+    {
+      "path": "src/nyc_lens/ingest/geojson.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "4dc72e26f13f447490b472896e225875090ee6b345c3dcb28d2ef0427137cdab"
+    },
+    {
+      "path": "src/nyc_lens/ingest/geographies.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "08044da8419ceeab0f4c5f4a48ee08d0bc1533eef9ed0702db0199893e55dd11"
+    },
+    {
+      "path": "src/nyc_lens/ingest/environment.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "c162daf7f587c9aedff46fef411932f1ed24aab1f84daecbcdb517ca10efe741"
+    },
+    {
+      "path": "tests/unit/test_boundary_publication.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "a249454fffec040bd5439680d2f78a9668cc7679a21498fa16b8ddb4281b74ee"
+    },
+    {
+      "path": "tests/unit/test_boundary_publication_recovery.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "461796fe2318fc9a505f5654a85f622b4c8ecee7b1629a36447a8086a7a922ba"
+    },
+    {
+      "path": "tests/unit/test_geojson_completeness.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "6e2ba83029a04829a9253bea08d613e2906a29a6e36f311baa515cf608295872"
+    },
+    {
+      "path": "tests/unit/test_geojson_completeness_recovery.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "75dedbf83b64492fb958c71e4b85acd2c729ada4c383e216434d9bc479e445c0"
+    },
+    {
+      "path": "tests/unit/test_geojson_audit_failure.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "17ccd7518fa93b7dd35cac1f6687e48cec0efb79cba8210acbc062cc8e5e284f"
+    },
+    {
+      "path": "tests/unit/test_analysis_jobs.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "79639401b257183b805ec21e983a5f9d449c0b1bebb15bdf04aa9c1150f15a4d"
+    },
+    {
+      "path": "tests/unit/test_bounded_cli.py",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "685ca83356443a6e9a9fd7610d84df395b767b780432b410684bf9e7941fad64"
+    },
+    {
+      "path": ".github/workflows/tests.yml",
+      "commit": "5c8b14faefd80e1a5b77bd90db9324681280d9ae",
+      "git_lf_sha256": "23ca276c501e165333b0bc4a680aa4a3ed0f43e80fe927d2383dfdb46b1db7b5"
+    }
+  ],
+  "logs": [
+    {
+      "phase": "before",
+      "file": "before.txt",
+      "raw_sha256": "a2726cc17d18ed8fa395b5eb92e398c90f3c8bf5dc696c2bfe64a0af7828ad9d",
+      "terminal_exit_observed": true,
+      "portable_sha256": "d240c60db2efbb2118a8bc64a99fd68d89cb8df25dc7a474128fde50080c3b93",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed; trailing spaces/tabs removed for repository whitespace checks"
+    },
+    {
+      "phase": "after",
+      "file": "after.txt",
+      "raw_sha256": "20d8e6335c148c3abc9c117e554429d06ddc67c020843249b5aa21b6b5468d33",
+      "terminal_exit_observed": true,
+      "portable_sha256": "3f0f73971cd7d250afbf6330b3cb8c04ae0d3ffccc415ff6cf79f375522b1e55",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed"
+    },
+    {
+      "phase": "recovery",
+      "file": "recovery.txt",
+      "raw_sha256": "828f747da3860944f1f71ed1334e2aa049dd45b031f8e63dba34871b7b3eac56",
+      "terminal_exit_observed": true,
+      "portable_sha256": "954bfa24a145f7d3a613aee9dade5dcc756060fe7ee8403d457dce22a25333da",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed; trailing spaces/tabs removed for repository whitespace checks"
+    },
+    {
+      "phase": "full",
+      "file": "full-terminal.txt",
+      "raw_sha256": "44f91a65b4de277450a9cfdb7ace4f4c33ea86f20cf7174764c03b3891061434",
+      "terminal_exit_observed": true,
+      "portable_sha256": "e8fbad0bf38e4602e63f8cb58794ab63cc31182f221be39aeb84a27ce3370154",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed; trailing spaces/tabs removed for repository whitespace checks"
+    },
+    {
+      "phase": "owner-crash-candidate",
+      "file": "owner-crash-candidate.txt",
+      "raw_sha256": "a8e88117a1c515baefba5e375e32e838fb44ced5c7f9be2c153fbca5d94ef854",
+      "terminal_exit_observed": true,
+      "portable_sha256": "46510a95e0c0c02aa0c29d0b8c50f98241dd764f39146ef71fb885bd3021d6aa",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed; trailing spaces/tabs removed for repository whitespace checks"
+    },
+    {
+      "phase": "owner-crash-base",
+      "file": "owner-crash-base.txt",
+      "raw_sha256": "d1badc2df4a058cd95d87cf5ea32e1e58b6bfa6acffee7e427ff609b761612a8",
+      "terminal_exit_observed": true,
+      "portable_sha256": "881c6199d2fcb994df92dfdb95b6cbfe0aacf147abd8412d2c671feb575e73b5",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed; trailing spaces/tabs removed for repository whitespace checks"
+    },
+    {
+      "phase": "additional-timing-base",
+      "file": "additional-timing-base.txt",
+      "raw_sha256": "7133725108c7da461eafd6c528b74bc4769acca62c0c337e59a5ed58dda35263",
+      "terminal_exit_observed": true,
+      "portable_sha256": "75f4bf0c665fecfdfa8b2d459985bedab88d0e7bd722bc4229c65d543d71935f",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed"
+    },
+    {
+      "phase": "audit-failure-before",
+      "file": "audit-failure-before.txt",
+      "raw_sha256": "68a2101cb3b3dacd6e2fc3db831ecf07a87753e8d4637405c48b1f80e368bcc5",
+      "terminal_exit_observed": true,
+      "portable_sha256": "11247f732e1daf0323ef534ee418441737df5ab1bcb1343054ee4a934422f71a",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed"
+    },
+    {
+      "phase": "followup",
+      "file": "followup.txt",
+      "raw_sha256": "e0e1b762fc36239361b7db2b909459f7a8e0f00b7cb7f192c73c8b697b7925b3",
+      "terminal_exit_observed": true,
+      "portable_sha256": "3f2e02abd5690ca92f1213b3d702da8cf065c76c291e8784a7c53326e533be43",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed"
+    },
+    {
+      "phase": "cli-followup",
+      "file": "cli-followup.txt",
+      "raw_sha256": "d61e9da396a33bc2e47868db8a922b41f470e8edade1980601a8ebcbfa69193f",
+      "terminal_exit_observed": true,
+      "portable_sha256": "26e287167178bd08c55dc00eef925fc682bc323f16dcd59acbcb72979c21cc9b",
+      "normalization": "UTF-8, LF; workspace/user-home prefixes replaced; no results removed"
+    }
+  ],
+  "artifacts": [
+    {
+      "file": "additional-timing-base.txt",
+      "sha256": "75f4bf0c665fecfdfa8b2d459985bedab88d0e7bd722bc4229c65d543d71935f"
+    },
+    {
+      "file": "after.txt",
+      "sha256": "3f0f73971cd7d250afbf6330b3cb8c04ae0d3ffccc415ff6cf79f375522b1e55"
+    },
+    {
+      "file": "audit-failure-before.txt",
+      "sha256": "11247f732e1daf0323ef534ee418441737df5ab1bcb1343054ee4a934422f71a"
+    },
+    {
+      "file": "before.txt",
+      "sha256": "d240c60db2efbb2118a8bc64a99fd68d89cb8df25dc7a474128fde50080c3b93"
+    },
+    {
+      "file": "cli-followup.txt",
+      "sha256": "26e287167178bd08c55dc00eef925fc682bc323f16dcd59acbcb72979c21cc9b"
+    },
+    {
+      "file": "followup.txt",
+      "sha256": "3f2e02abd5690ca92f1213b3d702da8cf065c76c291e8784a7c53326e533be43"
+    },
+    {
+      "file": "full-terminal.txt",
+      "sha256": "e8fbad0bf38e4602e63f8cb58794ab63cc31182f221be39aeb84a27ce3370154"
+    },
+    {
+      "file": "full.txt",
+      "sha256": "fca9a4873e720fb6d4e5ef7f9b05e81f36d90dfb07c8c1693b0e88bd7bf36aa8"
+    },
+    {
+      "file": "official-probe.json",
+      "sha256": "36e9be6eb421a38f40013e4c704f6928c6401b2e9b538a8a956b46e30de820bb"
+    },
+    {
+      "file": "owner-crash-base.txt",
+      "sha256": "881c6199d2fcb994df92dfdb95b6cbfe0aacf147abd8412d2c671feb575e73b5"
+    },
+    {
+      "file": "owner-crash-candidate.txt",
+      "sha256": "46510a95e0c0c02aa0c29d0b8c50f98241dd764f39146ef71fb885bd3021d6aa"
+    },
+    {
+      "file": "owner-readiness-probe.json",
+      "sha256": "6baf225b3a7e46a81b24c449121be2dacd8bd8bf12a21615a70762070ac8c486"
+    },
+    {
+      "file": "recovery.txt",
+      "sha256": "954bfa24a145f7d3a613aee9dade5dcc756060fe7ee8403d457dce22a25333da"
+    }
+  ],
+  "hosted_ci": {
+    "status": "not yet observed at receipt creation"
+  },
+  "live_probe": {
+    "requests": 4,
+    "responses_http_200": 4,
+    "full_ingestion": false,
+    "receipt": "official-probe.json"
+  },
+  "new_model_calls": 0,
+  "schema_migration": false,
+  "ui_changes": false,
+  "production_actions": 0,
+  "packaging": {
+    "first_attempt": "A progress-marker regex error stopped receipt creation after copying evidence. Existing outputs were verified byte-for-byte and preserved on explicit completion.",
+    "retained_creation_progress_snapshot": "full.txt",
+    "terminal_log": "full-terminal.txt",
+    "newline_normalizations": [
+      {
+        "file": "official-probe.json",
+        "original_sha256": "3f7c4758b8b612893d3087dadbd339e57cd86b4d54a5908a8886d674c76af21b",
+        "git_lf_sha256": "36e9be6eb421a38f40013e4c704f6928c6401b2e9b538a8a956b46e30de820bb",
+        "change": "CRLF to LF only; original bytes retained locally"
+      },
+      {
+        "file": "owner-readiness-probe.json",
+        "original_sha256": "93f8ff5b823b17f2ddbedad8e602b02d47232213541b825d546ea57a41e3f934",
+        "git_lf_sha256": "6baf225b3a7e46a81b24c449121be2dacd8bd8bf12a21615a70762070ac8c486",
+        "change": "CRLF to LF only; original bytes retained locally"
+      }
+    ],
+    "results_rewritten": false,
+    "trailing_whitespace_normalizations": [
+      {
+        "file": "before.txt",
+        "before_sha256": "a61a8bc2140b6252d1550b581d0fe5e5ecbc7b3009dae86a449ee1771d2035df",
+        "after_sha256": "d240c60db2efbb2118a8bc64a99fd68d89cb8df25dc7a474128fde50080c3b93",
+        "change": "Trailing spaces/tabs only; raw source hashes and original local logs retained"
+      },
+      {
+        "file": "full-terminal.txt",
+        "before_sha256": "7c96368e32bc85caabc10beb272e3e7564c4e17bb9e75a8ece826cac2ca151f5",
+        "after_sha256": "e8fbad0bf38e4602e63f8cb58794ab63cc31182f221be39aeb84a27ce3370154",
+        "change": "Trailing spaces/tabs only; raw source hashes and original local logs retained"
+      },
+      {
+        "file": "owner-crash-base.txt",
+        "before_sha256": "abb8a8b78e7d63f35ac0e8b48705ba4b0123268644345b4f61841a8cbe117c9c",
+        "after_sha256": "881c6199d2fcb994df92dfdb95b6cbfe0aacf147abd8412d2c671feb575e73b5",
+        "change": "Trailing spaces/tabs only; raw source hashes and original local logs retained"
+      },
+      {
+        "file": "owner-crash-candidate.txt",
+        "before_sha256": "2e58f72e0a82fb7f57fd70b4f2256993b7b7151448f1f8c8bb9b526a1ecc25ff",
+        "after_sha256": "46510a95e0c0c02aa0c29d0b8c50f98241dd764f39146ef71fb885bd3021d6aa",
+        "change": "Trailing spaces/tabs only; raw source hashes and original local logs retained"
+      },
+      {
+        "file": "recovery.txt",
+        "before_sha256": "2d88dda3eb12427531161ab08c58bd8fd084bc05414d312c989dfe1c23eac828",
+        "after_sha256": "954bfa24a145f7d3a613aee9dade5dcc756060fe7ee8403d457dce22a25333da",
+        "change": "Trailing spaces/tabs only; raw source hashes and original local logs retained"
+      }
+    ]
+  },
+  "remaining": [
+    "Stable upstream values and exact Socrata membership",
+    "Other adapters and every-metric source lineage",
+    "Ingestion byte/memory/disk/deadline bounds",
+    "Full local data, backup/restore/performance and independent acceptance"
+  ],
+  "M3_complete": false
+}
