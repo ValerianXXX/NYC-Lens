@@ -205,7 +205,9 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "publication_manifest": str(manifest.path),
         }
     except Exception as exc:
-        if not getattr(exc, "publication_rollback_unconfirmed", False):
+        if getattr(exc, "publication_rollback_unconfirmed", False):
+            exc.ingestion_run_id = run_id
+        else:
             try:
                 finish_run(conn, run_id, "FAILED", request_count=request_count, downloaded_bytes=downloaded_bytes,
                            error={"type": type(exc).__name__, "message": str(exc)})

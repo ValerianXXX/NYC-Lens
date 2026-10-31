@@ -324,6 +324,8 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "warnings": warnings,
         }
     except BaseException as exc:
+        if getattr(exc, "publication_rollback_unconfirmed", False):
+            exc.ingestion_run_id = run_id
         if staging_created:
             try:
                 conn.execute("DROP TABLE IF EXISTS _fema_sfha_staging")
