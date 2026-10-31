@@ -94,7 +94,14 @@ class _Check:
         self.details["error_type"] = type(error).__name__
         code = str(error) if isinstance(error, CompletenessError) else "COMPLETENESS_UNVERIFIED"
         if not self.audit_started:
-            self.audit("REJECTED", code)
+            try:
+                self.audit("REJECTED", code)
+            except Exception as audit_error:
+                # Publication still fails when the diagnostic cannot be saved.
+                # Keep the original attempt totals on the outward storage error.
+                audit_error.geojson_request_count = error.geojson_request_count
+                audit_error.geojson_downloaded_bytes = error.geojson_downloaded_bytes
+                raise
 
 
 def _read_json(snapshot: Snapshot) -> Any:
