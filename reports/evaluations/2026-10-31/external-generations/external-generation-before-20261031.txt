@@ -1,0 +1,341 @@
+FFFFFFF.F..FFF                                                           [100%]
+================================== FAILURES ===================================
+______ test_an_existing_reader_retains_old_rows_after_source_replacement ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE0963730>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_an_existing_reader_retain0'))
+
+    def test_an_existing_reader_retains_old_rows_after_source_replacement(database):
+        writer, path, _ = database
+        reader = duckdb.connect(str(path))
+        try:
+            reader.execute("BEGIN")
+            assert ids(reader) == ["old_0"]
+            publish(writer, frame("new", 2))
+>           assert ids(reader) == ["old_0"]
+E           AssertionError: assert ['new_0', 'new_1'] == ['old_0']
+E
+E             At index 0 diff: 'new_0' != 'old_0'
+E             Left contains one more item: 'new_1'
+E             Use -v to get more diff
+
+tests\unit\test_external_generation_contract.py:74: AssertionError
+_________ test_other_connections_never_see_new_view_with_old_catalog __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE094B570>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_other_connections_never_s0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002EDBF91E4D0>
+
+    def test_other_connections_never_see_new_view_with_old_catalog(database, monkeypatch):
+        writer, path, _ = database
+        reader = duckdb.connect(str(path))
+        original = storage.rebuild_external_catalog
+        observed = []
+        def during_publish(*args, **kwargs):
+            observed.append((ids(reader), reader.execute(
+                "SELECT row_count FROM external_table_catalog WHERE table_name='building'").fetchone()[0]))
+            return original(*args, **kwargs)
+        monkeypatch.setattr(storage, "rebuild_external_catalog", during_publish)
+        try:
+            publish(writer, frame("new", 2))
+>           assert observed == [(["old_0"], 1)]
+E           AssertionError: assert [(['new_0', 'new_1'], 1)] == [(['old_0'], 1)]
+E
+E             At index 0 diff: (['new_0', 'new_1'], 1) != (['old_0'], 1)
+E             Use -v to get more diff
+
+tests\unit\test_external_generation_contract.py:94: AssertionError
+_ test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows[RuntimeError] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE079ED30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_failure_after_catalog_wri0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002EDE096EE10>
+error_type = <class 'RuntimeError'>
+
+    @pytest.mark.parametrize("error_type", [RuntimeError, KeyboardInterrupt])
+    def test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows(database, monkeypatch, error_type):
+        conn, _, _ = database
+        before = catalogs(conn)
+        original = storage.rebuild_external_catalog
+        def fail(*args, **kwargs):
+            original(*args, **kwargs)
+            raise error_type("SYNTHETIC_AFTER_CATALOG_FAILURE")
+        monkeypatch.setattr(storage, "rebuild_external_catalog", fail)
+        with pytest.raises(error_type, match="SYNTHETIC_AFTER_CATALOG_FAILURE"):
+            publish(conn, frame("new", 2))
+        assert ids(conn) == ["old_0"]
+>       assert catalogs(conn) == before
+E       assert [[('building'...rquet', ...)]] == [[('building'...rquet', ...)]]
+E
+E         At index 0 diff: [('building', 'parquet', 'data/standardized/facts/building', '["region", "source", "year", "hash_bucket"]', 2, 3529, 1, 'a7e31824e3379408a32854283ea41f5c545172396a43db9410fb200db4ea4f53', datetime.datetime(2026, 10, 31, 10, 55, 55, 598271), '1.0.0')] != [('building', 'parquet', 'data/standardized/facts/building', '["region", "source", "year", "hash_bucket"]', 1, 3407, 1, 'cca887b59d67d5e0b3b079880101064d0dc8707ec5c6eb7eabc75674b9f7f18d', datetime.datetime(2026, 10, 31, 10, 55, 55, 446075), '1.0.0')]
+E         Use -v to get more diff
+
+tests\unit\test_external_generation_contract.py:112: AssertionError
+_ test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows[KeyboardInterrupt] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE098D130>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_failure_after_catalog_wri1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002EDE098D890>
+error_type = <class 'KeyboardInterrupt'>
+
+    @pytest.mark.parametrize("error_type", [RuntimeError, KeyboardInterrupt])
+    def test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows(database, monkeypatch, error_type):
+        conn, _, _ = database
+        before = catalogs(conn)
+        original = storage.rebuild_external_catalog
+        def fail(*args, **kwargs):
+            original(*args, **kwargs)
+            raise error_type("SYNTHETIC_AFTER_CATALOG_FAILURE")
+        monkeypatch.setattr(storage, "rebuild_external_catalog", fail)
+        with pytest.raises(error_type, match="SYNTHETIC_AFTER_CATALOG_FAILURE"):
+            publish(conn, frame("new", 2))
+>       assert ids(conn) == ["old_0"]
+E       AssertionError: assert ['new_0', 'new_1'] == ['old_0']
+E
+E         At index 0 diff: 'new_0' != 'old_0'
+E         Left contains one more item: 'new_1'
+E         Use -v to get more diff
+
+tests\unit\test_external_generation_contract.py:111: AssertionError
+_______________ test_old_partition_paths_and_bytes_are_retained _______________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE69184F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_old_partition_paths_and_b0'))
+
+    def test_old_partition_paths_and_bytes_are_retained(database):
+        conn, _, home = database
+        original = {path: sha256_file(path) for path in active_paths(conn, home)}
+        publish(conn, frame("new", 2))
+>       assert all(path.is_file() and sha256_file(path) == digest for path, digest in original.items())
+E       assert False
+E        +  where False = all(<generator object test_old_partition_paths_and_bytes_are_retained.<locals>.<genexpr> at 0x000002EDBF928740>)
+
+tests\unit\test_external_generation_contract.py:119: AssertionError
+____________________ test_old_manifest_bytes_are_retained _____________________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE096D430>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_old_manifest_bytes_are_re0'))
+
+    def test_old_manifest_bytes_are_retained(database):
+        conn, _, home = database
+        location, digest = conn.execute("SELECT storage_root, manifest_sha256 FROM external_table_catalog WHERE table_name='building'").fetchone()
+        manifest = home / location / "_manifest.json"
+        assert sha256_file(manifest) == digest
+        publish(conn, frame("new", 2))
+>       assert sha256_file(manifest) == digest
+E       AssertionError: assert 'c97f861a2bb5...60102e083385d' == '28a661a9da33...4b594b91d979a'
+E
+E         - 28a661a9da331f1c5441afb13ae34352bc9e30b3c8610a9976d4b594b91d979a
+E         + c97f861a2bb56e39534ba81d7cccc88236ed1b744602e15eaa060102e083385d
+
+tests\unit\test_external_generation_contract.py:129: AssertionError
+_ test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE0953570>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_empty_replacement_does_no0'))
+
+    def test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows(database):
+        conn, path, _ = database
+        reader = duckdb.connect(str(path))
+        try:
+            reader.execute("BEGIN")
+            assert ids(reader) == ["old_0"]
+>           assert publish(conn, frame(count=0)) == (1, 0)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_external_generation_contract.py:139:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_external_generation_contract.py:31: in publish
+    return storage.replace_source_from_relation(conn, table_name="building", source_id=source,
+src\nyc_lens\storage.py:516: in replace_source_from_relation
+    entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <_duckdb.DuckDBPyConnection object at 0x000002EDE0953570>
+spec = ExternalTableSpec(table_name='building', id_column='building_id', date_column='valid_from', columns=(('building_id', '...'), ('geography_id', 'VARCHAR'), ('measure_type', 'VARCHAR'), ('confidence', 'DOUBLE'), ('method_version', 'VARCHAR')))
+relation = '_generation_incoming', source_id = 'fixture_buildings'
+destination = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_empty_replacement_does_no0/data/standardized/_external_staging/ext_0576c83424a2/building/region=nyc/source=fixture_buildings')
+
+    def _write_source_partitions(
+        conn: duckdb.DuckDBPyConnection,
+        spec: ExternalTableSpec,
+        relation: str,
+        source_id: str,
+        destination: Path,
+    ) -> list[dict[str, Any]]:
+        relation_sql = _relation_name(relation)
+        date_sql = _quoted_identifier(spec.date_column)
+        id_sql = _quoted_identifier(spec.id_column)
+>       groups = conn.execute(
+            f"""
+            SELECT coalesce(CAST(year({date_sql}) AS VARCHAR), 'unknown') AS record_year,
+                   count(*) AS row_count
+            FROM {relation_sql}
+            WHERE source_id=?
+            GROUP BY 1 ORDER BY 1
+            """,
+            [source_id],
+        ).fetchall()
+E       _duckdb.BinderException: Binder Error: Could not choose a best candidate function for the function call "year("NULL")". In order to select one, please add explicit type casts.
+E       	Candidate functions:
+E       	year(INTERVAL) -> BIGINT
+E       	year(DATE) -> BIGINT
+E
+E
+E       LINE 2:         SELECT coalesce(CAST(year("valid_from") AS VARCHAR), 'unknown') AS record_year,
+E                                            ^
+
+src\nyc_lens\storage.py:284: BinderException
+__________ test_source_moving_region_replaces_the_whole_source_once ___________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDBF86AB30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_source_moving_region_repl0'))
+
+    def test_source_moving_region_replaces_the_whole_source_once(database):
+        conn, _, _ = database
+>       assert publish(conn, frame("new", 2), region="greater_nyc") == (1, 2)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_external_generation_contract.py:166:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_external_generation_contract.py:31: in publish
+    return storage.replace_source_from_relation(conn, table_name="building", source_id=source,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <_duckdb.DuckDBPyConnection object at 0x000002EDBF86AB30>
+
+    def replace_source_from_relation(
+        conn: duckdb.DuckDBPyConnection,
+        *,
+        table_name: str,
+        source_id: str,
+        relation: str,
+        region: str = "nyc",
+    ) -> tuple[int, int]:
+        if table_name not in EXTERNAL_TABLE_SPECS:
+            raise ValueError(f"Table is not configured for external storage: {table_name}")
+        spec = EXTERNAL_TABLE_SPECS[table_name]
+        previous = int(
+            conn.execute(
+                f"SELECT count(*) FROM {_quoted_identifier(table_name)} WHERE source_id=?",
+                [source_id],
+            ).fetchone()[0]
+        )
+        incoming, _ = _incoming_stats(conn, spec, relation, source_id)
+        if not is_external_table(conn, table_name):
+            relation_sql = _relation_name(relation)
+            conn.execute("BEGIN")
+            try:
+                conn.execute(
+                    f"DELETE FROM {_quoted_identifier(table_name)} WHERE source_id=?",
+                    [source_id],
+                )
+                conn.execute(
+                    f"INSERT INTO {_quoted_identifier(table_name)} BY NAME "
+                    f"SELECT * FROM {relation_sql} WHERE source_id=?",
+                    [source_id],
+                )
+                conn.execute("COMMIT")
+            except Exception:
+                conn.execute("ROLLBACK")
+                raise
+            return previous, incoming
+
+        operation_id = "ext_" + new_id("tmp").split("_", 1)[1][:12]
+        stage_root = data_dir() / "standardized" / "_external_staging" / operation_id
+        backup_root = data_dir() / "standardized" / "_external_backups" / operation_id
+        source_slug = safe_component(source_id)
+        region_slug = safe_component(region)
+        staged_source = stage_root / table_name / f"region={region_slug}" / f"source={source_slug}"
+        final_source = _table_root(table_name) / f"region={region_slug}" / f"source={source_slug}"
+        backup_source = backup_root / table_name / f"region={region_slug}" / f"source={source_slug}"
+        _assert_within(staged_source, data_dir() / "standardized" / "_external_staging")
+        _assert_within(final_source, external_facts_root())
+        _assert_within(backup_source, data_dir() / "standardized" / "_external_backups")
+        staged_source.mkdir(parents=True, exist_ok=False)
+        entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)
+        if sum(item["row_count"] for item in entries) != incoming:
+            raise ValueError(f"External staging row mismatch for {table_name}/{source_id}")
+        final_source.parent.mkdir(parents=True, exist_ok=True)
+        moved_old = False
+        try:
+            if final_source.exists():
+                backup_source.parent.mkdir(parents=True, exist_ok=True)
+                os.replace(final_source, backup_source)
+                moved_old = True
+            os.replace(staged_source, final_source)
+            refresh_external_view(conn, table_name)
+            observed, distinct_count = conn.execute(
+                f"SELECT count(*), count(DISTINCT {_quoted_identifier(spec.id_column)}) "
+                f"FROM {_quoted_identifier(table_name)} WHERE source_id=?",
+                [source_id],
+            ).fetchone()
+            if int(observed) != incoming or int(distinct_count) != incoming:
+>               raise ValueError(
+                    f"External publish verification failed for {table_name}/{source_id}: "
+                    f"{observed}/{distinct_count}/{incoming}"
+                )
+E               ValueError: External publish verification failed for building/fixture_buildings: 3/3/2
+
+src\nyc_lens\storage.py:534: ValueError
+______ test_initialization_does_not_promote_an_unregistered_parquet_file ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE096ECB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_initialization_does_not_p0'))
+
+    def test_initialization_does_not_promote_an_unregistered_parquet_file(database):
+        conn, _, home = database
+        rogue = home / "data/standardized/facts/building/rogue.parquet"
+        conn.execute(f"COPY (SELECT * REPLACE ('rogue' AS building_id) FROM building) TO '{rogue.as_posix()}' (FORMAT PARQUET)")
+        before = catalogs(conn)
+        storage.ensure_external_storage(conn)
+>       assert ids(conn) == ["old_0"]
+E       AssertionError: assert ['old_0', 'rogue'] == ['old_0']
+E
+E         Left contains one more item: 'rogue'
+E         Use -v to get more diff
+
+tests\unit\test_external_generation_contract.py:201: AssertionError
+_______________ test_commit_failure_retains_the_old_generation ________________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDE68F8B30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_commit_failure_retains_th0'))
+
+    def test_commit_failure_retains_the_old_generation(database):
+        conn, _, _ = database
+        before = catalogs(conn)
+        class RefusedCommit:
+            def __getattr__(self, name):
+                return getattr(conn, name)
+            def execute(self, sql, *args, **kwargs):
+                if sql.strip().upper() == "COMMIT":
+                    raise RuntimeError("SYNTHETIC_COMMIT_FAILURE")
+                return conn.execute(sql, *args, **kwargs)
+>       with pytest.raises(RuntimeError, match="SYNTHETIC_COMMIT_FAILURE"):
+E       Failed: DID NOT RAISE <class 'RuntimeError'>
+
+tests\unit\test_external_generation_contract.py:215: Failed
+___ test_process_death_before_catalog_commit_keeps_the_previous_generation ____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002EDBF91F830>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-60/test_process_death_before_cata0'))
+
+    def test_process_death_before_catalog_commit_keeps_the_previous_generation(database):
+        conn, database_path, home = database
+        before = catalogs(conn)
+        conn.close()
+        child = Path(__file__).parents[1] / "fixtures/external_generation_exit.py"
+        result = subprocess.run([sys.executable, str(child), str(database_path)],
+                                capture_output=True, text=True, timeout=60, env=dict(os.environ))
+        assert result.returncode == 23, result.stderr
+        reopened = duckdb.connect(str(database_path))
+        try:
+>           assert ids(reopened) == ["old_0"]
+E           AssertionError: assert ['interrupted'] == ['old_0']
+E
+E             At index 0 diff: 'interrupted' != 'old_0'
+E             Use -v to get more diff
+
+tests\unit\test_external_generation_contract.py:231: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_external_generation_contract.py::test_an_existing_reader_retains_old_rows_after_source_replacement
+FAILED tests/unit/test_external_generation_contract.py::test_other_connections_never_see_new_view_with_old_catalog
+FAILED tests/unit/test_external_generation_contract.py::test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows[RuntimeError]
+FAILED tests/unit/test_external_generation_contract.py::test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows[KeyboardInterrupt]
+FAILED tests/unit/test_external_generation_contract.py::test_old_partition_paths_and_bytes_are_retained
+FAILED tests/unit/test_external_generation_contract.py::test_old_manifest_bytes_are_retained
+FAILED tests/unit/test_external_generation_contract.py::test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows
+FAILED tests/unit/test_external_generation_contract.py::test_source_moving_region_replaces_the_whole_source_once
+FAILED tests/unit/test_external_generation_contract.py::test_initialization_does_not_promote_an_unregistered_parquet_file
+FAILED tests/unit/test_external_generation_contract.py::test_commit_failure_retains_the_old_generation
+FAILED tests/unit/test_external_generation_contract.py::test_process_death_before_catalog_commit_keeps_the_previous_generation

@@ -1,0 +1,65 @@
+......F.......                                                           [100%]
+================================== FAILURES ===================================
+_ test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000021D59453B30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-61/test_empty_replacement_does_no0'))
+
+    def test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows(database):
+        conn, path, _ = database
+        reader = duckdb.connect(str(path))
+        try:
+            reader.execute("BEGIN")
+            assert ids(reader) == ["old_0"]
+>           assert publish(conn, frame(count=0)) == (1, 0)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_external_generation_contract.py:139:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_external_generation_contract.py:31: in publish
+    return storage.replace_source_from_relation(conn, table_name="building", source_id=source,
+src\nyc_lens\publication.py:35: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\storage.py:563: in replace_source_from_relation
+    entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <_duckdb.DuckDBPyConnection object at 0x0000021D59453B30>
+spec = ExternalTableSpec(table_name='building', id_column='building_id', date_column='valid_from', columns=(('building_id', '...'), ('geography_id', 'VARCHAR'), ('measure_type', 'VARCHAR'), ('confidence', 'DOUBLE'), ('method_version', 'VARCHAR')))
+relation = '_generation_incoming', source_id = 'fixture_buildings'
+destination = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-61/test_empty_replacement_does_no0/data/standardized/_external_generations/building/generation_5cd51949bd084087aade4486d95ab1d4/region=nyc/source=fixture_buildings')
+
+    def _write_source_partitions(
+        conn: duckdb.DuckDBPyConnection,
+        spec: ExternalTableSpec,
+        relation: str,
+        source_id: str,
+        destination: Path,
+    ) -> list[dict[str, Any]]:
+        relation_sql = _relation_name(relation)
+        date_sql = _quoted_identifier(spec.date_column)
+        id_sql = _quoted_identifier(spec.id_column)
+>       groups = conn.execute(
+            f"""
+            SELECT coalesce(CAST(year({date_sql}) AS VARCHAR), 'unknown') AS record_year,
+                   count(*) AS row_count
+            FROM {relation_sql}
+            WHERE source_id=?
+            GROUP BY 1 ORDER BY 1
+            """,
+            [source_id],
+        ).fetchall()
+E       _duckdb.BinderException: Binder Error: Could not choose a best candidate function for the function call "year("NULL")". In order to select one, please add explicit type casts.
+E       	Candidate functions:
+E       	year(INTERVAL) -> BIGINT
+E       	year(DATE) -> BIGINT
+E
+E
+E       LINE 2:         SELECT coalesce(CAST(year("valid_from") AS VARCHAR), 'unknown') AS record_year,
+E                                            ^
+
+src\nyc_lens\storage.py:325: BinderException
+=========================== short test summary info ===========================
+FAILED tests/unit/test_external_generation_contract.py::test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows
+1 failed, 13 passed in 12.01s

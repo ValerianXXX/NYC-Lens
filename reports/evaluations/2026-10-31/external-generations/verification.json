@@ -1,0 +1,146 @@
+{
+  "schema": 1,
+  "recorded_at": "2026-10-31T15:21:46.531234+00:00",
+  "status": "LOCAL_SYNTHETIC_STORAGE_MILESTONE_PASS_COMPLETE_INGESTION_OPEN",
+  "base_commit": "3cc08649e012d15a2770fceec3f9a4b97002ce12",
+  "frozen_commit": "54825db7ab4c54a5c6acc7820042e0c068633797",
+  "runtime_commit": "3f4fa3d4c1a9a2ed185bafd19a1b5258dbeb8a99",
+  "branch": "codex/atomic-external-generations-20261031",
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "dependency_changes": false
+  },
+  "existing_baseline": {
+    "passed": 2
+  },
+  "unchanged_frozen_contracts": {
+    "total": 14,
+    "before_passed": 3,
+    "before_failed": 11,
+    "after_passed": 14
+  },
+  "targeted": {
+    "passed": 27,
+    "seconds": 38.15
+  },
+  "readiness": {
+    "passed": 7,
+    "seconds": 4.92
+  },
+  "full": {
+    "passed": 233,
+    "skipped": 3,
+    "seconds": 382.51,
+    "failed": 0
+  },
+  "skipped_scope": "Three pre-existing populated-database checks; complete dataset unavailable",
+  "preserved_failures": [
+    "11 original atomicity/reader/restart failures",
+    "Empty-frame date type inference",
+    "Caught nested failure committed",
+    "New counts labeled with old source before revised ingestion completed; final test now requires 422 then explicit completion/retry",
+    "Readiness fixture missing required schema columns; fixture fields added, constraints and assertions retained"
+  ],
+  "verification_level": {
+    "synthetic_storage_contracts": "PASS",
+    "actual_child_exit": "PASS",
+    "in_process_http_real_worker_engine": "PASS",
+    "closed_catalog_backup_restore": "PASS",
+    "new_browser_run": "NOT_RUN_NO_UI_CHANGE",
+    "new_hermes_or_model_run": "NOT_RUN",
+    "production_or_full_data": "NOT_RUN",
+    "independent_humans": "NOT_RUN",
+    "hosted_ci": "PENDING_DELIVERY"
+  },
+  "model_calls": 0,
+  "source_downloads": 0,
+  "production_data_modified": false,
+  "remaining": [
+    "Whole source/lineage/freshness/terminal-state atomic publication across adapters",
+    "Explicit empty and multiple-snapshot completeness semantics",
+    "Every metric bound to its actual source records",
+    "Coherent multi-table generations with direct/out-of-band writers",
+    "Reviewed disk quotas and generation retention/GC",
+    "Full-data and old-code downgrade/restore verification",
+    "Power-loss and independent-user/client/device acceptance"
+  ],
+  "logs": {
+    "external-generation-after-first-20261031.log": {
+      "raw_sha256": "929ae9243f1c902e04ef37f2c5725d87fb6ca33bba63f03c9d756ab8e215c461",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-after-first-20261031.txt",
+      "published_sha256": "a9b730d49e59039a4fd1c65b0c1ed4ad439242a3d4911d9978b9fc669d3b908f"
+    },
+    "external-generation-analysis-complete-source-20261031.log": {
+      "raw_sha256": "004a2131eb0b4c6b414ad29da21320db97085ab90f7839823dea309f2d51e5e5",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-analysis-complete-source-20261031.txt",
+      "published_sha256": "418f94a59afb734f88ffa1fc2a179d4a1d31704429da16b411108015eb1d885b"
+    },
+    "external-generation-baseline-20261031.log": {
+      "raw_sha256": "e39c7c8495c11b3781a4116112e8edaad58e79f9e534b4818722b9eae3cfa6a2",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-baseline-20261031.txt",
+      "published_sha256": "99db33d5c94c6f7da021687c7391181685cc33299c5435b1c861e2db3be3ec87"
+    },
+    "external-generation-before-20261031.log": {
+      "raw_sha256": "1120e202a7d676a1aa2674ab93a4e0acdafae33228f26b071d6af4f83554d822",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-before-20261031.txt",
+      "published_sha256": "bef966b3b63699b61a50708e0f54350ce3d27a0b7a54ca4d7767d5029dadce44"
+    },
+    "external-generation-full-20261031.log": {
+      "raw_sha256": "d10a2c9a6be3e6a01d99ca7cbddb79f66be325600e30c60440b2b116a0313e4a",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-full-20261031.txt",
+      "published_sha256": "0e9a2bec4d536b7d58256a3810d7f06a9bf4267a49b6f327121c675e38ef5ee9"
+    },
+    "external-generation-readiness-20261031.log": {
+      "raw_sha256": "be7f64dd9f7690b513847ca7351c55f40909bb5c8cf0981ef3823e71281fc45f",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-readiness-20261031.txt",
+      "published_sha256": "02c1afb37be2ae195612317ef4c7a7b76ccec1303d9edbcfe55c0b81abb4b7b9"
+    },
+    "external-generation-readiness-final-20261031.log": {
+      "raw_sha256": "e1276f04dd2421a9fd8b7ba248f9da2fa1a3a2db023099b2a43ef7f73ccc7239",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-readiness-final-20261031.txt",
+      "published_sha256": "5d4f52b28732d1bd4aff970c14646d8a07e877e2a70eee66afefe17ae442e491"
+    },
+    "external-generation-recovery-first-20261031.log": {
+      "raw_sha256": "99b8b8a59c82ccd39daef528fe7b38e1181df4bf8f0f6f41e431a32d0796b987",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-recovery-first-20261031.txt",
+      "published_sha256": "f4d79d04129316ba090b87a831c095122941ae10aeaa5cd841319e6ae43a1878"
+    },
+    "external-generation-related-20261031.log": {
+      "raw_sha256": "e58aaff0a465cf69dea76073588b147e84996bbebfe3410158e335ea92549bc1",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-related-20261031.txt",
+      "published_sha256": "8a371e2dc98cd516e0278581f91f0728acbc89cc51b28d966ae97525a6fa0fa1"
+    },
+    "external-generation-targeted-20261031.log": {
+      "raw_sha256": "d26abbdafc0c3bb93fd05ce7eecfb74242d20e7eb5ea5cf5ae9537e8b3ee0741",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-targeted-20261031.txt",
+      "published_sha256": "b5f39d2139ec46b4c81e5570b297a3f9c795d5a4ecc0ca595774aeb3db2f65ee"
+    },
+    "external-generation-targeted-ready-20261031.log": {
+      "raw_sha256": "7156e9d45e2f2c0b92d8d47c45dfbd71bb1d231519fbc83a886d334c1685a5d6",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-targeted-ready-20261031.txt",
+      "published_sha256": "eff7e39a253085e3306a4d2f40cdde916f0933c07bcf2177a94465b6bedcd7f1"
+    },
+    "external-generation-analysis-first-source-20261031.txt": {
+      "raw_sha256": "02db13ca4df99701d8ca57e4fe81e17faff2dce21fa676d1987d9707109ce7c6",
+      "published_path": "reports/evaluations/2026-10-31/external-generations/external-generation-analysis-first-source-20261031.txt",
+      "published_sha256": "02db13ca4df99701d8ca57e4fe81e17faff2dce21fa676d1987d9707109ce7c6"
+    }
+  },
+  "committed_changed_file_sha256": {
+    ".github/workflows/tests.yml": "549bf0bee58e006466605d3f4f94d560fa28e942304f878278b9b8943666e5d8",
+    "src/nyc_lens/analyze.py": "12a680c01e8a7e515fd39a2af657da9ecb6bb125c077fa1e3fb706840180bf99",
+    "src/nyc_lens/db.py": "7706722696ef9110f2adb6623db5182986be07e842030116f68b4ffd1e4a6b39",
+    "src/nyc_lens/publication.py": "efc6fede6ba301a45522f259e4df2a9d7d289474d8d4016385b79c26d890ac1f",
+    "src/nyc_lens/publication_readiness.py": "0850e51f58a7fcb9e1a260c72c184203e812977862c0b09234d02dd36697c32b",
+    "src/nyc_lens/storage.py": "e072d9fbf9281a30350142d68430e500dda6600004b333aafca273b4ca8a4268",
+    "src/nyc_lens/storage_migration.py": "3bdee8cfa7f138e0507cc7b1f0e7b901e3cdd26453364e698fdb455a175520f4",
+    "tests/fixtures/external_generation_exit.py": "89959b04013311f1c9dbafc0a542c011d3c4340ee18a76a4ad5e52d1bd119cbd",
+    "tests/unit/test_external_generation_analysis.py": "8d6f20189bb7e4ae210c3f736d32ea3761435c0cd3cc43e9fe27b4b18fb063bb",
+    "tests/unit/test_external_generation_contract.py": "20d1b18852d0386771af9765869dad16e5ca11caeeb982005908b7f3eab3b219",
+    "tests/unit/test_external_generation_recovery.py": "d5d2775182d44cac7880c2bff5af164c71eb8bd8fe8120bd663b6bc47cca16e7",
+    "tests/unit/test_external_publication_readiness.py": "b4f469a2287752ce33376f74ab9d2dbcfa33266ae202f5439d7f82fbb648a8c5",
+    "tests/unit/test_external_storage.py": "2a716fa2ac3ee491f057255d04e37d95df8f41437b4fd52c8ec594f500499f7c"
+  }
+}
