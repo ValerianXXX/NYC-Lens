@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Commit restaurant, hotel and air/health facts, lineage, successful ingestion status and source freshness together. Roll back failed publication, release temporary frame registrations and retain prior exports in snapshot-specific paths; refresh results now provide `standardized_parquet`. Preserve failed/indeterminate attempts and raw evidence. Twenty frozen contracts improve from 1/20 to 20/20; owned-process recovery and retained-source checks supplement them. Other importers and full-data acceptance remain open. See [behavior, export-path compatibility and recovery](docs/socrata-publication-2026-10-31.md).
+
 - Publish external facts in retained immutable generations and atomically switch the DuckDB view plus both catalogs. Preserve old readers, empty replacements, other sources and legacy adoption; reject incomplete v2 source-run prerequisites before analysis. Roll back caught nested failures and refused commits, ignore abandoned candidates, and extend Windows CI with storage/worker/restore contracts. No full-data migration or deployment was performed. See [verification, recovery and unfinished pipeline work](docs/external-generations-2026-10-31.md).
 
 - Coordinate task receipt readers and the existing writer lease with a short cross-process I/O lock. Retry transient sharing/access failures within a one-second window, retain the previous complete receipt on failed replacement, and expose persistent unavailability without restarting analysis or inventing success. Five frozen failure contracts, the original failed MCP workflow and a separate-process held-reader check verify the repair; full results are recorded with the CLI milestone.

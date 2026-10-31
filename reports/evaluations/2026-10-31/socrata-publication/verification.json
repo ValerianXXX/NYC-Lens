@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-31T16:11:43.143018+00:00",
+  "status": "LOCAL_SYNTHETIC_FULL_REGRESSION_PASS_HOSTED_PENDING",
+  "branch": "codex/atomic-socrata-publication-20261031",
+  "base_commit": "07b495540527ae1ed8dfd44dd17fbacf80eeb60c",
+  "frozen_contract_commit": "2d5d09b8532c6895a66ef09eca2fd47a0586c38d",
+  "runtime_commit": "5d0134e46326503b718129bca81ad75e98024e99",
+  "scope": [
+    "dohmh_restaurants",
+    "nyc_hotels",
+    "air_quality_health"
+  ],
+  "before": {
+    "passed": 1,
+    "failed": 19,
+    "seconds": 10.46
+  },
+  "after": {
+    "passed": 20,
+    "seconds": 9.72,
+    "frozen_assertions_unchanged": true
+  },
+  "recovery": {
+    "passed": 3,
+    "seconds": 5.32,
+    "owned_child_exit_code": 79,
+    "final_readable_snapshot_assertion_rechecked_by_full_suite": true
+  },
+  "full_suite": {
+    "passed": 256,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 333.3,
+    "skips": "Existing populated-database checks; complete data not present",
+    "process_exit": 0
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "pandas": "2.3.3",
+    "dependency_updates": false
+  },
+  "behavior": {
+    "facts_lineage_run_freshness_one_transaction": true,
+    "retains_raw_attempt_evidence": true,
+    "retains_old_exports": true,
+    "temporary_views_released_on_failure": true,
+    "automatic_retry": false,
+    "empty_hotel_completed_zero_row_audit": true
+  },
+  "compatibility": {
+    "new_result_key": "standardized_parquet",
+    "export_path": "data/standardized/<source_id>/<snapshot_id>/<filename>",
+    "legacy_current_exports": "Retained; no longer updated by these three adapters",
+    "schema_migration": false,
+    "new_environment_variables": false
+  },
+  "verification_level": {
+    "real_local_duckdb_and_parquet": "PASS_WITH_SYNTHETIC_INPUTS",
+    "separate_reader_visibility": "PASS",
+    "owned_process_exit_and_reopen": "PASS",
+    "official_endpoint": "NOT_RUN",
+    "full_data": "NOT_RUN",
+    "new_browser": "NOT_RUN_NO_UI_CHANGE",
+    "new_hermes_or_model": "NOT_RUN",
+    "independent_humans": "NOT_RUN",
+    "hosted_ci": "PENDING_DELIVERY"
+  },
+  "model_calls": 0,
+  "source_downloads": 0,
+  "production_actions": 0,
+  "committed_source_sha256": {
+    "src/nyc_lens/ingest/common.py": "247ba0acf75dc088906a0e5fe11fb6ea1cd060bcd10dca309e7da9c01ad4954d",
+    "src/nyc_lens/ingest/socrata.py": "fd2ccb805781f8661011847278959167f843e91e0f85e916be5561aad910639a",
+    "tests/unit/test_socrata_publication.py": "591e81dbc1221759ea5eb581132a9a26e18e599f38b897d580df1086e6fc851b",
+    "tests/unit/test_socrata_publication_recovery.py": "5b2922c24b0d4f9e8054a994200c163d7981f8364e08c6ffa77c04bda5c75354",
+    "tests/fixtures/socrata_publication_exit.py": "64949b9d8355301ee7563d06ba04d6a223d6a961b80c67be698bb06c82efcb94",
+    ".github/workflows/tests.yml": "2e2bcd2d0f05a9d3087ce6acd369e6eedf3e16d1fc7e8792e1418e3fce247be5"
+  },
+  "logs": {
+    "before": {
+      "raw_sha256": "5d2d1bb84c9a9b0957c75748e0ef5a5b2cdc29d4a55fae672ee85abfb232ef8a",
+      "portable_path": "reports/evaluations/2026-10-31/socrata-publication/socrata-publication-before-20261031.txt",
+      "portable_lf_sha256": "919c83811479871a36cc7f4f5be935813e711ace73a2fc66419ffba5c9265f40"
+    },
+    "after": {
+      "raw_sha256": "524c9f2128e5c8674625fb9100fb49984d31a9cda03134ac1c3ebd1c23111027",
+      "portable_path": "reports/evaluations/2026-10-31/socrata-publication/socrata-publication-after-20261031.txt",
+      "portable_lf_sha256": "834688388771190c4d905a4e7ef6c4d10101cb8ac607aa7304973a824455afe9"
+    },
+    "recovery": {
+      "raw_sha256": "1e6e3f51e8bf7a49db5b7db62ee142902bdfd489660c48e55673e36c4e9ec535",
+      "portable_path": "reports/evaluations/2026-10-31/socrata-publication/socrata-publication-recovery-20261031.txt",
+      "portable_lf_sha256": "dad4076124d70f683b6a2a21ee72d6e48296af815433b3a8c4eefd7aca7a3203"
+    },
+    "full": {
+      "raw_sha256": "07c7c5dc0b682c808fb6932d914819447287fe4ab3187f4e338de582b62e7504",
+      "portable_path": "reports/evaluations/2026-10-31/socrata-publication/socrata-publication-full-20261031.txt",
+      "portable_lf_sha256": "f26d018cea394b163a82efe0f33de85a2cfe488b176a0e69462bd8e4c6ad7286"
+    }
+  },
+  "portable_log_transforms": [
+    "LF line endings",
+    "Workstation user path redaction",
+    "Trailing display whitespace removed"
+  ],
+  "remaining": [
+    "Other source adapters and complete multi-snapshot publication",
+    "Upstream completeness, pagination and truncation detection",
+    "Every metric bound to actual source records",
+    "Export/generation retention, quotas and garbage collection",
+    "Ingestion configuration snapshot and arbitrary writer coordination",
+    "Full-data performance/restore, power loss, independent users and remaining clients/devices"
+  ],
+  "goal_complete": false
+}
