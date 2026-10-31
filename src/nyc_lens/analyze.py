@@ -11,6 +11,7 @@ from .config import configuration_snapshot, taxonomy_config
 from .analysis_state import record_site_failure
 from .execution_context import allocate_identity, result_json
 from .db import calculation_version
+from .publication_readiness import require_ready_external_publications
 from .entities.buildings import fetch_building_for_address
 from .entities.parcels import fetch_parcel_for_address
 from .geocoding.service import geocode_address
@@ -121,6 +122,7 @@ def _analyze_site_impl(
     catchments: list[str] | None = None,
 ) -> dict[str, Any]:
     requested = list(dict.fromkeys(catchments or DEFAULT_CATCHMENTS))
+    require_ready_external_publications(conn)
     synthetic = conn.execute("SELECT count(*) FROM information_schema.tables WHERE table_name='synthetic_demo_guard'").fetchone()[0] > 0
     if synthetic and (any(name.endswith('_walk') for name in requested) or not conn.execute(
         "SELECT 1 FROM address WHERE original_input=? AND geocoder='synthetic_demo'", [address]

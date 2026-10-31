@@ -181,7 +181,10 @@ def _copy_catalog_tables(
         _configure_temp_directory(conn, temp_directory)
     try:
         conn.execute(schema_sql)
-        ensure_external_storage(conn)
+        # Catalog rows are copied below. Do not register empty generation heads
+        # before importing the existing catalog's primary keys.
+        for table_name in EXTERNAL_TABLE_SPECS:
+            refresh_external_view(conn, table_name)
         conn.execute(f"ATTACH '{_sql_path(old_database)}' AS old_catalog (READ_ONLY)")
         old_tables = {
             str(row[0])

@@ -5,7 +5,6 @@ import hashlib
 import math
 import os
 import re
-import shutil
 from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
@@ -14,10 +13,11 @@ from typing import Any
 import duckdb
 
 from .paths import data_dir, project_home
+from .publication import atomic_publication
 from .util import new_id, safe_component, sha256_file, utc_now
 
 
-LAYOUT_VERSION = "1.0.0"
+LAYOUT_VERSION = "2.0.0"
 MAX_ROWS_PER_FILE = 500_000
 MAX_SINGLE_FILE_BYTES = 5_000_000_000
 
@@ -194,7 +194,45 @@ def _ensure_empty_parquet(
     return empty_path
 
 
-def external_parquet_files(table_name: str, *, root: Path | None = None) -> list[Path]:
+def _catalog_file(relative: str) -> Path:
+    value = Path(relative)
+    if value.is_absolute() or value.drive or ".." in value.parts or "\\" in relative or ":" in relative:
+        raise ValueError("EXTERNAL_CATALOG_PATH_INVALID")
+    path = project_home() / value
+    allowed = [external_facts_root().resolve(), (data_dir() / "standardized/_external_generations").resolve()]
+    resolved = path.resolve()
+    if path.is_symlink() or not any(parent in resolved.parents for parent in allowed):
+        raise ValueError("EXTERNAL_CATALOG_PATH_INVALID")
+    return path
+
+
+def _generation_root(table_name: str) -> Path:
+    if table_name not in EXTERNAL_TABLE_SPECS:
+        raise ValueError("INVALID_EXTERNAL_TABLE")
+    parent = data_dir() / "standardized/_external_generations" / table_name
+    result = parent / new_id("generation")
+    _assert_within(result, parent)
+    result.mkdir(parents=True, exist_ok=False)
+    return result
+
+
+def external_parquet_files(table_name: str, *, root: Path | None = None,
+                           conn: duckdb.DuckDBPyConnection | None = None) -> list[Path]:
+    if conn is not None and root is None:
+        active = conn.execute("SELECT row_count, file_count FROM external_table_catalog WHERE table_name=?", [table_name]).fetchone()
+        if active is not None:
+            rows = conn.execute("SELECT relative_path, row_count, byte_size FROM external_partition_catalog WHERE table_name=? ORDER BY relative_path",
+                                [table_name]).fetchall()
+            if len(rows) != int(active[1]) or sum(int(row[1]) for row in rows) != int(active[0]):
+                raise ValueError("EXTERNAL_CATALOG_TOTALS_MISMATCH")
+            files = []
+            for relative, _, size in rows:
+                path = _catalog_file(str(relative))
+                if not path.is_file() or path.stat().st_size != int(size):
+                    raise ValueError("EXTERNAL_ACTIVE_FILE_UNAVAILABLE")
+                files.append(path)
+            seed = _table_root(table_name) / "_empty.parquet"
+            return [seed, *files] if seed.is_file() else files
     return sorted(_table_root(table_name, root=root).rglob("*.parquet"))
 
 
@@ -205,18 +243,20 @@ def _read_parquet_expression(files: list[Path]) -> str:
     return f"read_parquet([{paths}], union_by_name=true, hive_partitioning=false)"
 
 
+@atomic_publication
 def refresh_external_view(
     conn: duckdb.DuckDBPyConnection,
     table_name: str,
     *,
     root: Path | None = None,
+    files: list[Path] | None = None,
 ) -> None:
     spec = EXTERNAL_TABLE_SPECS[table_name]
     kind = table_kind(conn, table_name)
     if kind == "BASE TABLE":
         raise ValueError(f"Cannot replace materialized table {table_name} with a view implicitly")
-    _ensure_empty_parquet(conn, spec, root=root)
-    files = external_parquet_files(table_name, root=root)
+    seed = _ensure_empty_parquet(conn, spec, root=root)
+    files = external_parquet_files(table_name, root=root, conn=conn) if files is None else [seed, *files]
     select_list = ", ".join(
         f"CAST({_quoted_identifier(column)} AS {data_type}) AS {_quoted_identifier(column)}"
         for column, data_type in spec.columns
@@ -227,6 +267,7 @@ def refresh_external_view(
     )
 
 
+@atomic_publication
 def ensure_external_storage(
     conn: duckdb.DuckDBPyConnection,
     *,
@@ -239,6 +280,12 @@ def ensure_external_storage(
             status[table_name] = "materialized_pending_migration"
             continue
         refresh_external_view(conn, table_name, root=root)
+        if root is None and conn.execute(
+            "SELECT 1 FROM external_table_catalog WHERE table_name=?", [table_name]
+        ).fetchone() is None:
+            # Import the legacy layout once. Later initialization trusts only the
+            # committed catalog, including a deliberately empty publication.
+            rebuild_external_catalog(conn, table_name)
         status[table_name] = "external_parquet_view"
     return status
 
@@ -279,7 +326,7 @@ def _write_source_partitions(
     destination: Path,
 ) -> list[dict[str, Any]]:
     relation_sql = _relation_name(relation)
-    date_sql = _quoted_identifier(spec.date_column)
+    date_sql = f"CAST({_quoted_identifier(spec.date_column)} AS {dict(spec.columns)[spec.date_column]})"
     id_sql = _quoted_identifier(spec.id_column)
     groups = conn.execute(
         f"""
@@ -360,21 +407,39 @@ def _partition_dimensions(path: Path, table_root: Path) -> tuple[str, str, str]:
     )
 
 
+@atomic_publication
 def rebuild_external_catalog(
     conn: duckdb.DuckDBPyConnection,
     table_name: str,
     *,
     root: Path | None = None,
+    files: list[Path] | None = None,
+    manifest_root: Path | None = None,
+    action: str = "CATALOG_REBUILD",
+    restored_from: dict[str, str] | None = None,
 ) -> dict[str, Any]:
     spec = EXTERNAL_TABLE_SPECS[table_name]
-    table_root = _table_root(table_name, root=root)
-    files = [path for path in external_parquet_files(table_name, root=root) if path.name != "_empty.parquet"]
+    files = [path for path in (external_parquet_files(table_name, root=root, conn=conn) if files is None else files)
+             if path.name != "_empty.parquet"]
+    prior = conn.execute("SELECT storage_root, manifest_sha256 FROM external_table_catalog WHERE table_name=?", [table_name]).fetchone()
+    previous = {"relative_path": str(prior[0]) + "/_manifest.json", "sha256": str(prior[1])} if prior else None
+    if previous:
+        prior_manifest = _catalog_file(previous["relative_path"])
+        if not prior_manifest.is_file() or sha256_file(prior_manifest) != previous["sha256"]:
+            raise ValueError("EXTERNAL_ACTIVE_MANIFEST_MISMATCH")
+    manifest_root = manifest_root or _generation_root(table_name)
+    _assert_within(manifest_root, data_dir() / "standardized/_external_generations" / table_name)
     entries: list[dict[str, Any]] = []
+    source_snapshots: dict[str, set[str | None]] = {}
     id_sql = _quoted_identifier(spec.id_column)
     date_sql = _quoted_identifier(spec.date_column)
     written_at = utc_now()
     for path in files:
-        region, source_id, record_year = _partition_dimensions(path, table_root)
+        for source, snapshot in conn.execute(
+            f"SELECT DISTINCT source_id, snapshot_id FROM read_parquet('{_sql_path(path)}')"
+        ).fetchall():
+            source_snapshots.setdefault(str(source), set()).add(str(snapshot) if snapshot is not None else None)
+        region, source_id, record_year = _partition_dimensions(path, project_home())
         row_count, distinct_count, minimum, maximum = conn.execute(
             f"""
             SELECT count(*), count(DISTINCT {id_sql}), min({date_sql}), max({date_sql})
@@ -407,6 +472,11 @@ def rebuild_external_catalog(
         "partitioning": ["region", "source", "year", "hash_bucket"],
         "columns": [{"name": name, "duckdb_type": data_type} for name, data_type in spec.columns],
         "generated_at": written_at.isoformat(),
+        "generation_id": manifest_root.name,
+        "action": action,
+        "previous_manifest": previous,
+        "restored_from": restored_from,
+        "source_snapshots": {source: sorted(snapshots, key=str) for source, snapshots in sorted(source_snapshots.items())},
         "row_count": sum(item["row_count"] for item in entries),
         "byte_size": sum(item["byte_size"] for item in entries),
         "file_count": len(entries),
@@ -416,13 +486,11 @@ def rebuild_external_catalog(
             for item in entries
         ],
     }
-    manifest_path = table_root / "_manifest.json"
-    temporary_manifest = table_root / f"._manifest.{new_id('tmp').split('_', 1)[1][:12]}.json"
-    temporary_manifest.write_text(
-        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True),
-        encoding="utf-8",
-    )
-    os.replace(temporary_manifest, manifest_path)
+    manifest_path = manifest_root / "_manifest.json"
+    with manifest_path.open("x", encoding="utf-8", newline="\n") as stream:
+        stream.write(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True))
+        stream.flush()
+        os.fsync(stream.fileno())
     manifest_sha = sha256_file(manifest_path)
     conn.execute("DELETE FROM external_partition_catalog WHERE table_name=?", [table_name])
     for item in entries:
@@ -440,7 +508,7 @@ def rebuild_external_catalog(
                 LAYOUT_VERSION,
             ],
         )
-    storage_root = table_root.resolve().relative_to(project_home().resolve()).as_posix()
+    storage_root = manifest_root.resolve().relative_to(project_home().resolve()).as_posix()
     conn.execute(
         """
         INSERT INTO external_table_catalog VALUES (?, 'parquet', ?, ?::JSON, ?, ?, ?, ?, ?, ?)
@@ -464,6 +532,7 @@ def rebuild_external_catalog(
     return {**manifest, "manifest_path": str(manifest_path), "manifest_sha256": manifest_sha}
 
 
+@atomic_publication
 def replace_source_from_relation(
     conn: duckdb.DuckDBPyConnection,
     *,
@@ -474,6 +543,8 @@ def replace_source_from_relation(
 ) -> tuple[int, int]:
     if table_name not in EXTERNAL_TABLE_SPECS:
         raise ValueError(f"Table is not configured for external storage: {table_name}")
+    if not source_id or source_id != safe_component(source_id) or not region or region != safe_component(region):
+        raise ValueError("EXTERNAL_SOURCE_AND_REGION_MUST_BE_CANONICAL")
     spec = EXTERNAL_TABLE_SPECS[table_name]
     previous = int(
         conn.execute(
@@ -484,68 +555,42 @@ def replace_source_from_relation(
     incoming, _ = _incoming_stats(conn, spec, relation, source_id)
     if not is_external_table(conn, table_name):
         relation_sql = _relation_name(relation)
-        conn.execute("BEGIN")
-        try:
-            conn.execute(
-                f"DELETE FROM {_quoted_identifier(table_name)} WHERE source_id=?",
-                [source_id],
-            )
-            conn.execute(
-                f"INSERT INTO {_quoted_identifier(table_name)} BY NAME "
-                f"SELECT * FROM {relation_sql} WHERE source_id=?",
-                [source_id],
-            )
-            conn.execute("COMMIT")
-        except Exception:
-            conn.execute("ROLLBACK")
-            raise
+        conn.execute(
+            f"DELETE FROM {_quoted_identifier(table_name)} WHERE source_id=?",
+            [source_id],
+        )
+        conn.execute(
+            f"INSERT INTO {_quoted_identifier(table_name)} BY NAME "
+            f"SELECT * FROM {relation_sql} WHERE source_id=?",
+            [source_id],
+        )
         return previous, incoming
 
-    operation_id = "ext_" + new_id("tmp").split("_", 1)[1][:12]
-    stage_root = data_dir() / "standardized" / "_external_staging" / operation_id
-    backup_root = data_dir() / "standardized" / "_external_backups" / operation_id
+    generation_root = _generation_root(table_name)
     source_slug = safe_component(source_id)
     region_slug = safe_component(region)
-    staged_source = stage_root / table_name / f"region={region_slug}" / f"source={source_slug}"
-    final_source = _table_root(table_name) / f"region={region_slug}" / f"source={source_slug}"
-    backup_source = backup_root / table_name / f"region={region_slug}" / f"source={source_slug}"
-    _assert_within(staged_source, data_dir() / "standardized" / "_external_staging")
-    _assert_within(final_source, external_facts_root())
-    _assert_within(backup_source, data_dir() / "standardized" / "_external_backups")
+    staged_source = generation_root / f"region={region_slug}" / f"source={source_slug}"
     staged_source.mkdir(parents=True, exist_ok=False)
     entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)
     if sum(item["row_count"] for item in entries) != incoming:
         raise ValueError(f"External staging row mismatch for {table_name}/{source_id}")
-    final_source.parent.mkdir(parents=True, exist_ok=True)
-    moved_old = False
-    try:
-        if final_source.exists():
-            backup_source.parent.mkdir(parents=True, exist_ok=True)
-            os.replace(final_source, backup_source)
-            moved_old = True
-        os.replace(staged_source, final_source)
-        refresh_external_view(conn, table_name)
-        observed, distinct_count = conn.execute(
-            f"SELECT count(*), count(DISTINCT {_quoted_identifier(spec.id_column)}) "
-            f"FROM {_quoted_identifier(table_name)} WHERE source_id=?",
-            [source_id],
-        ).fetchone()
-        if int(observed) != incoming or int(distinct_count) != incoming:
-            raise ValueError(
-                f"External publish verification failed for {table_name}/{source_id}: "
-                f"{observed}/{distinct_count}/{incoming}"
-            )
-        rebuild_external_catalog(conn, table_name)
-    except Exception:
-        if final_source.exists():
-            shutil.rmtree(final_source)
-        if moved_old and backup_source.exists():
-            backup_source.parent.mkdir(parents=True, exist_ok=True)
-            os.replace(backup_source, final_source)
-        refresh_external_view(conn, table_name)
-        raise
-    if moved_old and backup_source.exists():
-        shutil.rmtree(backup_source)
+    active = [path for path in external_parquet_files(table_name, conn=conn) if path.name != "_empty.parquet"]
+    retained = [path for path in active if _partition_dimensions(path, project_home())[1] != source_slug]
+    files = [*retained, *(item["path"] for item in entries)]
+    # Candidate files and prior generations remain immutable. Only these database
+    # references become active at commit; a failed/crashed writer leaves an orphan.
+    refresh_external_view(conn, table_name, files=files)
+    observed, distinct_count = conn.execute(
+        f"SELECT count(*), count(DISTINCT {_quoted_identifier(spec.id_column)}) "
+        f"FROM {_quoted_identifier(table_name)} WHERE source_id=?",
+        [source_id],
+    ).fetchone()
+    if int(observed) != incoming or int(distinct_count) != incoming:
+        raise ValueError(
+            f"External publish verification failed for {table_name}/{source_id}: "
+            f"{observed}/{distinct_count}/{incoming}"
+        )
+    rebuild_external_catalog(conn, table_name, files=files, manifest_root=generation_root, action="SOURCE_REPLACEMENT")
     return previous, incoming
 
 

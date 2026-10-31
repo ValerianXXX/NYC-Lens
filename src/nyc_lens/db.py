@@ -30,6 +30,7 @@ CALCULATION_CODE_FILES = (
     "geocoding/service.py",
     "metrics/engine.py",
     "provenance.py",
+    "publication_readiness.py",
     "spatial/catchments.py",
 )
 
