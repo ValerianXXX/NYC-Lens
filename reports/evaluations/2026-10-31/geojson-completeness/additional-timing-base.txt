@@ -1,0 +1,38 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <WORKSPACE>\NYC-Lens-boundary-publication
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 2 items
+
+tests/unit/test_bounded_cli.py::test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task FAILED [ 50%]
+tests/unit/test_bounded_process.py::test_deadline_stops_actual_work_before_returning PASSED [100%]
+
+================================== FAILURES ===================================
+____ test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task ____
+
+home = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-89/test_separate_cli_process_can_0')
+
+    def test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task(home):
+        key = uuid4().hex
+        owner = subprocess.Popen([sys.executable, str(Path(__file__).parents[1] / 'fixtures/cli_job_owner.py'), key],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0) if os.name == 'nt' else 0)
+        try:
+            deadline = time.monotonic() + 20
+            while not (home / 'held-worker-ready.json').exists() and owner.poll() is None and time.monotonic() < deadline:
+                time.sleep(.02)
+>           assert (home / 'held-worker-ready.json').exists(), 'CLI owner never started the bounded synthetic comparison'
+E           AssertionError: CLI owner never started the bounded synthetic comparison
+E           assert False
+E            +  where False = exists()
+E            +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-89/test_separate_cli_process_can_0') / 'held-worker-ready.json').exists
+
+tests\unit\test_bounded_cli.py:150: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_bounded_cli.py::test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task - AssertionError: CLI owner never started the bounded synthetic comparison
+assert False
+ +  where False = exists()
+ +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-89/test_separate_cli_process_can_0') / 'held-worker-ready.json').exists
+======================== 1 failed, 1 passed in 39.51s =========================

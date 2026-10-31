@@ -1,0 +1,93 @@
+{
+  "kind": "four bounded read-only public endpoint requests, not full ingestion",
+  "requests": [
+    {
+      "name": "socrata-count-gthc-hcne",
+      "url": "https://data.cityofnewyork.us/resource/gthc-hcne.json",
+      "method": "GET",
+      "request": {
+        "params": {
+          "$select": "count(*) AS count"
+        }
+      },
+      "observed_at": "2026-10-31T21:50:41.895441+00:00",
+      "status": 200,
+      "bytes": 16,
+      "sha256": "c1a85673afac0150ed3d15d973caa7941fe454ad865ec762681f19c54b879f90",
+      "file": "socrata-count-gthc-hcne.json",
+      "payload_type": "list"
+    },
+    {
+      "name": "socrata-count-epne-qv9x",
+      "url": "https://data.cityofnewyork.us/resource/epne-qv9x.json",
+      "method": "GET",
+      "request": {
+        "params": {
+          "$select": "count(*) AS count"
+        }
+      },
+      "observed_at": "2026-10-31T21:50:42.689726+00:00",
+      "status": 200,
+      "bytes": 16,
+      "sha256": "70f5e206a829d7d34885c7f8064b959692ba1501db481e3042d63a7732c24b0a",
+      "file": "socrata-count-epne-qv9x.json",
+      "payload_type": "list"
+    },
+    {
+      "name": "tigerweb-bbox-ids",
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/PUMA_TAD_TAZ_UGA_ZCTA/MapServer/1/query",
+      "method": "POST",
+      "request": {
+        "data": {
+          "where": "1=1",
+          "geometry": "-74.3,40.45,-73.65,40.95",
+          "geometryType": "esriGeometryEnvelope",
+          "inSR": "4326",
+          "spatialRel": "esriSpatialRelIntersects",
+          "returnIdsOnly": "true",
+          "f": "json"
+        }
+      },
+      "observed_at": "2026-10-31T21:50:42.855731+00:00",
+      "status": 200,
+      "bytes": 2389,
+      "sha256": "90eb3de2ac866e327e83a9fe30328584c74836eabb71403cdfb2622ca12241a9",
+      "file": "tigerweb-bbox-ids.json",
+      "payload_type": "dict"
+    },
+    {
+      "name": "tigerweb-one-feature",
+      "url": "https://tigerweb.geo.census.gov/arcgis/rest/services/TIGERweb/PUMA_TAD_TAZ_UGA_ZCTA/MapServer/1/query",
+      "method": "POST",
+      "request": {
+        "data": {
+          "objectIds": "1055",
+          "outFields": "*",
+          "returnGeometry": "true",
+          "outSR": "4326",
+          "f": "geojson"
+        }
+      },
+      "observed_at": "2026-10-31T21:50:43.035737+00:00",
+      "status": 200,
+      "bytes": 659,
+      "sha256": "e3b8ab53515f9b589404bc3f5411c8b89483a503b5fe71737df4457c6aac2ac1",
+      "file": "tigerweb-one-feature.json",
+      "payload_type": "dict"
+    }
+  ],
+  "runtime_parser_replay": {
+    "socrata_counts": [
+      5,
+      8
+    ],
+    "bbox_manifest_ids": 409,
+    "object_id_field": "OBJECTID",
+    "sample_features": 1,
+    "sample_id_in_manifest": true,
+    "request_id_matches": true,
+    "new_network_requests": 0,
+    "new_model_calls": 0,
+    "full_live_ingestion": false
+  }
+}

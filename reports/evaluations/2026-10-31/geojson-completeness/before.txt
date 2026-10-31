@@ -1,0 +1,758 @@
+FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF                                       [100%]
+================================== FAILURES ===================================
+__ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-short] __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085CCDE6B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D645D10>
+kind = 'nta', variant = 'short'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+__ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-drift] __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6A4570>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D6A7750>
+kind = 'nta', variant = 'drift'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-over_budget] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D728770>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D729410>
+kind = 'nta', variant = 'over_budget'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-boolean_count] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D685FB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr3'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D687290>
+kind = 'nta', variant = 'boolean_count'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-fractional_count] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002083A4D1070>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr4'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002083896DCD0>
+kind = 'nta', variant = 'fractional_count'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-count_error] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6941B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr5'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D695A50>
+kind = 'nta', variant = 'count_error'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-duplicate_count] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D700770>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr6'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D701B90>
+kind = 'nta', variant = 'duplicate_count'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-transfer_limit] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6F5EB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr7'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D6F4050>
+kind = 'nta', variant = 'transfer_limit'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-malformed_flag] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085E924270>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr8'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085E925CD0>
+kind = 'nta', variant = 'malformed_flag'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-null_geometry_above_floor] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002083AD9BFB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr9'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002083AD98910>
+kind = 'nta', variant = 'null_geometry_above_floor'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-short] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002089FDD0970>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr10'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002089FDD32D0>
+kind = 'hazard', variant = 'short'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-drift] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D3454B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr11'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A1F96FD0>
+kind = 'hazard', variant = 'drift'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-over_budget] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A12B8A30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr12'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A12B81D0>
+kind = 'hazard', variant = 'over_budget'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-boolean_count] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6D32B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr13'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D6D1010>
+kind = 'hazard', variant = 'boolean_count'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-fractional_count] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6D2430>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr14'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085E9368D0>
+kind = 'hazard', variant = 'fractional_count'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-count_error] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002089FEA8F70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr15'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002089FEB7F90>
+kind = 'hazard', variant = 'count_error'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-duplicate_count] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6DB7B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr16'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002089FE9B250>
+kind = 'hazard', variant = 'duplicate_count'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-transfer_limit] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A1369E70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr17'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A1FB0290>
+kind = 'hazard', variant = 'transfer_limit'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-malformed_flag] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002089FE9E630>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr18'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D270310>
+kind = 'hazard', variant = 'malformed_flag'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-null_geometry_above_floor] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A2008DF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr19'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D3444D0>
+kind = 'hazard', variant = 'null_geometry_above_floor'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-transfer_limit] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002089FDD05B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr20'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002089FDD0ED0>
+kind = 'zcta', variant = 'transfer_limit'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-nested_transfer_limit] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A1FF1570>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr21'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002083AD7A5D0>
+kind = 'zcta', variant = 'nested_transfer_limit'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-malformed_flag] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A12D93F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr22'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A12D85D0>
+kind = 'zcta', variant = 'malformed_flag'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-missing_id] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A1F58230>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr23'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A1F59710>
+kind = 'zcta', variant = 'missing_id'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-substituted_id] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A5884D70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr24'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A58849D0>
+kind = 'zcta', variant = 'substituted_id'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-duplicate_feature_id] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A44087B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr25'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A440A910>
+kind = 'zcta', variant = 'duplicate_feature_id'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-duplicate_ids] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D70E330>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr26'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D70FFD0>
+kind = 'zcta', variant = 'duplicate_ids'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-boolean_id] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002089FE82330>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr27'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A2031150>
+kind = 'zcta', variant = 'boolean_id'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-id_drift] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D6EA4B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr28'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D6E8F10>
+kind = 'zcta', variant = 'id_drift'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-ids_error] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A1FC60F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr29'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A1FC74D0>
+kind = 'zcta', variant = 'ids_error'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+>       with pytest.raises(ValueError, match="COMPLETENESS_"):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_geojson_completeness.py:127: Failed
+_ test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-features_error] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A1F89FF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_incomplete_input_keeps_pr30'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A1F88490>
+kind = 'zcta', variant = 'features_error'
+
+    @pytest.mark.parametrize("kind,variant", [
+        *[(kind, variant) for kind in ("nta", "hazard") for variant in SOCRATA_FAILURES],
+        *[("zcta", variant) for variant in ARCGIS_FAILURES],
+    ])
+    def test_incomplete_input_keeps_prior_publication_and_raw_evidence(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        old_checks = set(root.rglob("completeness-check.json"))
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+        with pytest.raises(ValueError, match="COMPLETENESS_"):
+>           refresh(conn, kind)
+
+tests\unit\test_geojson_completeness.py:128:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_boundary_publication.py:114: in refresh
+    return geographies.refresh_zcta(conn)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+conn = <_duckdb.DuckDBPyConnection object at 0x00000208A1F89FF0>
+
+    def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
+        source_id = "census_zcta_2020"
+        source = get_source(source_id)
+        run_id = begin_run(conn, source_id, "NYC intersecting extract")
+        try:
+            params = {
+                "where": "1=1",
+                "geometry": "-74.3,40.45,-73.65,40.95",
+                "geometryType": "esriGeometryEnvelope",
+                "inSR": "4326",
+                "spatialRel": "esriSpatialRelIntersects",
+                "outFields": "*",
+                "returnGeometry": "true",
+                "outSR": "4326",
+                "f": "geojson",
+            }
+            response = httpx.post(
+                source["api_url"],
+                data=params,
+                follow_redirects=True,
+                timeout=180,
+                headers={"User-Agent": "NYC-Lens/0.1 local-research"},
+            )
+            response.raise_for_status()
+            payload = response.json()
+            if payload.get("error"):
+>               raise RuntimeError(f"TIGERweb ZCTA error: {payload['error']}")
+E               RuntimeError: TIGERweb ZCTA error: {'message': 'synthetic upstream failure'}
+
+src\nyc_lens\ingest\geographies.py:335: RuntimeError
+__ test_complete_input_publishes_auditable_bounded_download[nta-false_flag] ___
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000208A4437430>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_complete_input_publishes_0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000208A4435F90>
+kind = 'nta', variant = 'false_flag'
+
+    @pytest.mark.parametrize("kind,variant", [("nta", "false_flag"), ("hazard", "false_flag"),
+                                             ("zcta", "reverse_order")])
+    def test_complete_input_publishes_auditable_bounded_download(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+        result = refresh(conn, kind)
+        assert active_state(conn) != baseline
+        assert all(sha256_file(path) == digest for path, digest in exports.items())
+>       audit = json.loads(Path(result["completeness_check"]).read_text(encoding="utf-8"))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'completeness_check'
+
+tests\unit\test_geojson_completeness.py:155: KeyError
+_ test_complete_input_publishes_auditable_bounded_download[hazard-false_flag] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D660E70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_complete_input_publishes_1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D674750>
+kind = 'hazard', variant = 'false_flag'
+
+    @pytest.mark.parametrize("kind,variant", [("nta", "false_flag"), ("hazard", "false_flag"),
+                                             ("zcta", "reverse_order")])
+    def test_complete_input_publishes_auditable_bounded_download(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+        result = refresh(conn, kind)
+        assert active_state(conn) != baseline
+        assert all(sha256_file(path) == digest for path, digest in exports.items())
+>       audit = json.loads(Path(result["completeness_check"]).read_text(encoding="utf-8"))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'completeness_check'
+
+tests\unit\test_geojson_completeness.py:155: KeyError
+_ test_complete_input_publishes_auditable_bounded_download[zcta-reverse_order] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002085D270270>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-82/test_complete_input_publishes_2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002085D662A10>
+kind = 'zcta', variant = 'reverse_order'
+
+    @pytest.mark.parametrize("kind,variant", [("nta", "false_flag"), ("hazard", "false_flag"),
+                                             ("zcta", "reverse_order")])
+    def test_complete_input_publishes_auditable_bounded_download(database, monkeypatch, kind, variant):
+        conn, root = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        calls = []
+        install_source(monkeypatch, kind, variant, calls)
+        result = refresh(conn, kind)
+        assert active_state(conn) != baseline
+        assert all(sha256_file(path) == digest for path, digest in exports.items())
+>       audit = json.loads(Path(result["completeness_check"]).read_text(encoding="utf-8"))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'completeness_check'
+
+tests\unit\test_geojson_completeness.py:155: KeyError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-short]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-drift]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-over_budget]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-boolean_count]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-fractional_count]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-count_error]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-duplicate_count]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-transfer_limit]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-malformed_flag]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[nta-null_geometry_above_floor]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-short]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-drift]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-over_budget]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-boolean_count]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-fractional_count]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-count_error]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-duplicate_count]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-transfer_limit]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-malformed_flag]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[hazard-null_geometry_above_floor]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-transfer_limit]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-nested_transfer_limit]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-malformed_flag]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-missing_id]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-substituted_id]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-duplicate_feature_id]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-duplicate_ids]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-boolean_id]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-id_drift]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-ids_error]
+FAILED tests/unit/test_geojson_completeness.py::test_incomplete_input_keeps_prior_publication_and_raw_evidence[zcta-features_error]
+FAILED tests/unit/test_geojson_completeness.py::test_complete_input_publishes_auditable_bounded_download[nta-false_flag]
+FAILED tests/unit/test_geojson_completeness.py::test_complete_input_publishes_auditable_bounded_download[hazard-false_flag]
+FAILED tests/unit/test_geojson_completeness.py::test_complete_input_publishes_auditable_bounded_download[zcta-reverse_order]

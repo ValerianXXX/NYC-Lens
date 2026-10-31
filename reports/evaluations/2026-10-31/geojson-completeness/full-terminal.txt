@@ -1,0 +1,128 @@
+.sss.........................F.......................................... [ 19%]
+.........................................F.....F........................ [ 38%]
+........................................................................ [ 57%]
+........................................................................ [ 76%]
+........................................................................ [ 95%]
+.................                                                        [100%]
+================================== FAILURES ===================================
+_______ test_actual_owner_crash_reconciles_own_ids_without_reexecution ________
+
+home = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_actual_owner_crash_reconc0')
+
+    def test_actual_owner_crash_reconciles_own_ids_without_reexecution(home):
+        request_id = uuid4().hex
+        fixture = Path(__file__).parents[1] / "fixtures/analysis_job_owner.py"
+        child = subprocess.Popen([sys.executable, str(fixture), request_id], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
+            creationflags=subprocess.CREATE_NO_WINDOW if os.name == "nt" else 0)
+        try:
+>           until_ready(home)
+
+tests\unit\test_analysis_jobs.py:110:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+home = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_actual_owner_crash_reconc0')
+
+    def until_ready(home):
+        until = time.monotonic() + 15
+        while not (home / "held-worker-ready.json").exists() and time.monotonic() < until:
+            time.sleep(.02)
+>       assert (home / "held-worker-ready.json").exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_actual_owner_crash_reconc0') / 'held-worker-ready.json').exists
+
+tests\unit\test_analysis_jobs.py:41: AssertionError
+____ test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task ____
+
+home = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_separate_cli_process_can_0')
+
+    def test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task(home):
+        key = uuid4().hex
+        owner = subprocess.Popen([sys.executable, str(Path(__file__).parents[1] / 'fixtures/cli_job_owner.py'), key],
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+            creationflags=getattr(subprocess, 'CREATE_NO_WINDOW', 0) if os.name == 'nt' else 0)
+        try:
+            deadline = time.monotonic() + 20
+            while not (home / 'held-worker-ready.json').exists() and owner.poll() is None and time.monotonic() < deadline:
+                time.sleep(.02)
+>           assert (home / 'held-worker-ready.json').exists(), 'CLI owner never started the bounded synthetic comparison'
+E           AssertionError: CLI owner never started the bounded synthetic comparison
+E           assert False
+E            +  where False = exists()
+E            +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_separate_cli_process_can_0') / 'held-worker-ready.json').exists
+
+tests\unit\test_bounded_cli.py:150: AssertionError
+______________ test_deadline_stops_actual_work_before_returning _______________
+
+tmp_path = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_deadline_stops_actual_wor0')
+
+    def test_deadline_stops_actual_work_before_returning(tmp_path):
+        result = run(tmp_path, "wait", wall=0.7)
+        assert result.reason == "TIMED_OUT" and result.process_stopped
+>       assert (tmp_path / "started").exists()
+E       AssertionError: assert False
+E        +  where False = exists()
+E        +    where exists = (WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-85/test_deadline_stops_actual_wor0') / 'started').exists
+
+tests\unit\test_bounded_process.py:33: AssertionError
+============================== warnings summary ===============================
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_spatial.py: 2 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\spatial\catchments.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    point_metric = transform(forward, Point(longitude, latitude))
+
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_spatial.py: 2 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\spatial\catchments.py:99: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, point_metric.buffer(distance_m, quad_segs=32))
+
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_spatial.py: 3 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\spatial\catchments.py:268: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return float(transform(metric_transform_for_geometry(geometry), geometry).area)
+
+tests/unit/test_analysis_interruption_integration.py: 1 warning
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\metrics\engine.py:742: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    catchment_area_m2 = float(transform(metric_transform, geometry).area)
+
+tests/unit/test_analysis_interruption_integration.py: 1 warning
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\metrics\engine.py:2238: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric_geometry = transform(metric_transform, geometry)
+
+tests/unit/test_geojson_completeness_recovery.py::test_downloaded_empty_geometry_cannot_silently_disappear_above_floor
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\ingest\geographies.py:77: UserWarning: GeoSeries.notna() previously returned False for both missing (None) and empty geometries. Now, it only returns False for missing values. Since the calling GeoSeries contains empty geometries, the result has changed compared to previous versions of GeoPandas.
+  Given a GeoSeries 's', you can use '~s.is_empty & s.notna()' to get back the old behaviour.
+
+  To further ignore this warning, you can do:
+  import warnings; warnings.filterwarnings('ignore', 'GeoSeries.notna', UserWarning)
+    frame = frame.loc[frame.geometry.notna()].copy()
+
+tests/unit/test_spatial.py: 13 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\spatial\catchments.py:246: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    transform(forward, Point(graph.nodes[node]["lon"], graph.nodes[node]["lat"]))
+
+tests/unit/test_spatial.py: 16 warnings
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\spatial\catchments.py:258: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    edge_lines_metric.append(transform(forward, line))
+
+tests/unit/test_spatial.py::test_walk_isochrone_is_network_derived_not_radial
+  <WORKSPACE>\NYC-Lens-geojson-completeness\src\nyc_lens\spatial\catchments.py:264: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, polygon_metric)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-geojson-full-20261031.xml -
+=========================== short test summary info ===========================
+FAILED tests/unit/test_analysis_jobs.py::test_actual_owner_crash_reconciles_own_ids_without_reexecution
+FAILED tests/unit/test_bounded_cli.py::test_separate_cli_process_can_observe_cancel_and_replay_a_failed_task
+FAILED tests/unit/test_bounded_process.py::test_deadline_stops_actual_work_before_returning
+3 failed, 371 passed, 3 skipped, 91 warnings in 1290.32s (0:21:30)

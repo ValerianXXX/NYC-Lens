@@ -1,0 +1,28 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+__ test_rejected_source_and_unwritable_audit_keep_failed_request_accounting ___
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002C7F0D183B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-10418/pytest-88/test_rejected_source_and_unwri0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002C7F0E0F410>
+
+    def test_rejected_source_and_unwritable_audit_keep_failed_request_accounting(database, monkeypatch):
+        conn, _ = database
+        _, baseline, _ = seed(database, monkeypatch, "hazard")
+        install_source(monkeypatch, "hazard", "count_error", [])
+        original = Path.open
+        def fail(path, mode="r", *args, **kwargs):
+            if path.name == "completeness-check.json" and mode == "x":
+                raise OSError("synthetic audit write failure after invalid count")
+            return original(path, mode, *args, **kwargs)
+        monkeypatch.setattr(Path, "open", fail)
+        with pytest.raises(OSError, match="synthetic audit write failure"):
+            refresh(conn, "hazard")
+        assert active_state(conn) == baseline
+        run_id, requests, size = conn.execute("SELECT run_id,request_count,downloaded_bytes FROM ingestion_run ORDER BY started_at DESC LIMIT 1").fetchone()
+>       assert requests == 2
+E       assert 1 == 2
+
+..\task-artifacts\test_geojson_audit_failure.py:24: AssertionError
+=========================== short test summary info ===========================
+FAILED ..\task-artifacts\test_geojson_audit_failure.py::test_rejected_source_and_unwritable_audit_keep_failed_request_accounting
+1 failed in 7.79s
