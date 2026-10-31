@@ -1,0 +1,716 @@
+.....FFFFFFFFFF.....FFFFFFFFFFFF                                         [100%]
+================================== FAILURES ===================================
+_ test_failed_refresh_preserves_complete_previous_publication[export-boroughs] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BAD97330>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_5'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000027297FF5D50>
+kind = 'boroughs', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...85c4c1'), ...} == {'boundaries'...352a24'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (11, 'd9f5d1df1e37080883f358611127d72a56fe34b27acb4e582a27791f1928602d')} != {'boundaries': (11, '265c15df5a351190e0fa1119fe447bb46f03b1609487d5c2e8500b42263a9040')}
+E         {'lineage': (10, '1883378d9ce727d378ebb07b213eb8b1680ff5f58ad7829c292923572985c4c1')} != {'lineage': (10, 'f4e12b50421c25a4196d9321ac7b9724a84cef47a5505f5a600cc6bba2352a24')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+___ test_failed_refresh_preserves_complete_previous_publication[export-nta] ___
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BAE1EFB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_6'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272988C8910>
+kind = 'nta', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...9c6dd8'), ...} == {'boundaries'...dfce11'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (251, '5bece2f9427d09f5dd3171c5b2acce9b37ce69f3670e46b7538eb1259be124a9')} != {'boundaries': (251, '4f2ad001f37541cabcd4a679517fd9deeeb3e7d181a203b159a992e3632d5ef8')}
+E         {'lineage': (250, 'caed2989f775e199b6a91efab71b23ea619ffb335e1e42d6bc7963336a9c6dd8')} != {'lineage': (250, '889bae09148b4a9cd27b1dd8d171253d049405957498f6acf38f40f467dfce11')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+__ test_failed_refresh_preserves_complete_previous_publication[export-zcta] ___
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272988D3170>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_7'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BB1D0150>
+kind = 'zcta', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...3e7861'), ...} == {'boundaries'...5014a1'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (111, '758a6ac4c2a64cd58d7cae1bbed1e2d015d217098862c1bb3cd4c3e9d93aad17')} != {'boundaries': (111, 'e65feaa52c4ee031903b481d884e7c4f330587f42c55b9296b3a67e6f3fcfa35')}
+E         {'lineage': (110, '1e0bb3d3fb5a61d619cc2c337862aab334e003304883acf0d8ad5998f93e7861')} != {'lineage': (110, '32cb7c16021c1e9f9fe77cca4b9f5003675034d780fa4ce0d9e8496eae5014a1')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+_ test_failed_refresh_preserves_complete_previous_publication[export-hazard] __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BC4C3030>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_8'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BC4C3F50>
+kind = 'hazard', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...6efa46'), ...} == {'boundaries'...af02c5'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (7, 'ff970f09f282b08333fc0cd5b5ebd677ae455a413fe89e560713eeba16f6803c')} != {'boundaries': (7, 'c5ae8196f6e83043037f44936ec1074db1911b14816167bc288fb5b38b936c55')}
+E         {'lineage': (6, '671c029505e8abaf5aead12e2883b563bba242f9aac6c22b68d05788636efa46')} != {'lineage': (6, 'df0ab500f77dd4d436b7b8e77253d9af56a41543316a0bc15ae9dc3de8af02c5')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+___ test_failed_refresh_preserves_complete_previous_publication[export-h3] ____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BB15FEF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_9'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BC4C0C50>
+kind = 'h3', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...fc5ff2'), ...} == {'boundaries'...7d0f30'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'cells': (43378, '7335f4e11fbe579a531dbc662b8770c79cb103bd3370b4d2e15ba34d0dbd1b19')} != {'cells': (43378, 'c8a59eea7ce516a53cfbb563946e1448f897598d5df0df649b46a0d308bccac5')}
+E         {'lineage': (43388, 'c2690fa2265febaa2ed44a836a6d812700f2baaacf0818a38e1170d164fc5ff2')} != {'lineage': (43388, '3d00c13a80cf4397c04b458038e16a8bbeafe2095d17ed89b8988772377d0f30')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+_ test_failed_refresh_preserves_complete_previous_publication[freshness-boroughs] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BB1F25F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_10'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BB1F0DD0>
+kind = 'boroughs', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...c6ac8c'), ...} == {'boundaries'...f4ef44'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (11, 'ac3d51e476d97d57a32d5a0aea5a9608b50cf10ba2ea4a5a66eeede9501a41c2')} != {'boundaries': (11, '408b6d3d10b25a7d5da98b2ca514a53c0be0265cc5f750d06341ae44051be92b')}
+E         {'lineage': (10, '118fe37bdf3db36742c7d4aab7eb454e86ccf96ddae8126d9afea95982c6ac8c')} != {'lineage': (10, 'e5f6549613d7ac72a84656475d309a80dbf51a663ff57574731ba8dd48f4ef44')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+_ test_failed_refresh_preserves_complete_previous_publication[freshness-nta] __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BC411AF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_11'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BC410CD0>
+kind = 'nta', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...9909e4'), ...} == {'boundaries'...e12c21'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (251, '4049eae4344c6b88df8bec4165c6c032af466c08c8855b8d70237cad4c28a3e3')} != {'boundaries': (251, '70a3a1d2a70e538d7e804493da9b794746d4e044da24d9fb4543a753dc122afd')}
+E         {'lineage': (250, 'e0cea11b61f3444a07f5ed79fbcfb399fcda56a524defc09d93a9ab7f49909e4')} != {'lineage': (250, '44e397c95c0edf077ab2c0318bbebc1174918649d4b92bd2da6e1aaa05e12c21')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+_ test_failed_refresh_preserves_complete_previous_publication[freshness-zcta] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272988A95B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_12'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272822F1890>
+kind = 'zcta', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...67ef49'), ...} == {'boundaries'...5d172a'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (111, '62d233997692be300a40d941d53240a94ccb0b6785d1c40b4a3dcf827a12fddd')} != {'boundaries': (111, 'c76831d922e54254165a02ac76fd81d3c8fa6a1f25bf52b07b9e8a922e9103ef')}
+E         {'lineage': (110, '148a0be8e1184fbff19b434475f2109783b16ab6360209a24299756bd167ef49')} != {'lineage': (110, '9953ebd3d3a7f595acaf75668a1034f26f6c8085abd99a27fc388495f95d172a')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+_ test_failed_refresh_preserves_complete_previous_publication[freshness-hazard] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BB1EC570>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_13'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BB1EF110>
+kind = 'hazard', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...7f3d43'), ...} == {'boundaries'...91de7f'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (7, '211ac345a653a78a0d107fdd41746b69729c3791435ab1edc30cc6eec020057c')} != {'boundaries': (7, '5efc5c25fe6deede3d9b48980b26000b944aef4f4a78f57ffea76eac1ad8b366')}
+E         {'lineage': (6, '31206f8982329ea83112eac1a0b397644a8e396e7f3d94bc9a9e1e78d97f3d43')} != {'lineage': (6, 'd160a1829f40c92dd3f8ef4728a45488cfb52578045bda826242042e8a91de7f')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+__ test_failed_refresh_preserves_complete_previous_publication[freshness-h3] __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BB1693F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_failed_refresh_preserves_14'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BB16A950>
+kind = 'h3', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("lineage", "export", "freshness", "commit"))
+    def test_failed_refresh_preserves_complete_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        statement_match = {"lineage": "INSERT INTO standardized_record",
+                           "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and statement_match and statement_match in statement:
+                triggered = True
+                raise ValueError("synthetic publication failure")
+
+        if stage == "export":
+            def failed_export(self, path, *args, **kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(path).write_bytes(b"synthetic partial candidate export")
+                raise ValueError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame if kind == "h3" else gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(ValueError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...2ae765'), ...} == {'boundaries'...44ebde'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'cells': (43378, 'aa1b68e94bfce3dfa1ce1bcd528884de234701f2eda864397d4d0f242fb56d93')} != {'cells': (43378, '90c4f99e59c628b39c12695dfcff10a0ccc4fe2697f90540539fd3e92fff966f')}
+E         {'lineage': (43388, '84a8437f59c8042e8e2ef10c8038508bdbb20ce447a4a7b32e559e1c8e2ae765')} != {'lineage': (43388, 'f5611e43cdc80612976a5f923461b81e0d2c8551972b8f27cb48806a6f44ebde')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:162: AssertionError
+_ test_reader_sees_old_publication_until_freshness_and_facts_commit_together[boroughs] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BAEB3C70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_reader_sees_old_publicati0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272988D0ED0>
+kind = 'boroughs'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_old_publication_until_freshness_and_facts_commit_together(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        result = refresh(ProbeConnection(conn, before=observe), kind)
+>       assert observations == [baseline]
+E       AssertionError: assert [{'boundaries...0119f'), ...}] == [{'boundaries...2d36b'), ...}]
+E
+E         At index 0 diff: {'boundaries': (11, '6dac0479ccf3c194bbef5b705423984b06f706b3af38ac01cd3b66d6e18096b8'), 'cells': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'), 'lineage': (10, 'a298f2e3f0793d931f2c9ba461cb1298e6163fc10d7a6dd1b89ff29669e0119f'), 'freshness': [('census_zcta_2020', None), ('derived_h3_grid', None), ('nyc_borough_boundaries', datetime.datetime(2026, 10, 31, 16, 11, 53, 688113)), ('nyc_hurricane_evacuation_zones', None), ('nyc_nta_2020', None)], 'successful_runs': (2, 'ba27ef20e77c60358fc2c40eb0637a9884c58463b8e0040829ae46bdcf91c6...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_boundary_publication.py:178: AssertionError
+_ test_reader_sees_old_publication_until_freshness_and_facts_commit_together[nta] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BAD8E2B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_reader_sees_old_publicati1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BAD8F350>
+kind = 'nta'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_old_publication_until_freshness_and_facts_commit_together(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        result = refresh(ProbeConnection(conn, before=observe), kind)
+>       assert observations == [baseline]
+E       AssertionError: assert [{'boundaries...fca7e'), ...}] == [{'boundaries...cfadf'), ...}]
+E
+E         At index 0 diff: {'boundaries': (251, 'a1778078eb2c02fb039c9b4783be05bc64829ba9f361408910d44c879becb458'), 'cells': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'), 'lineage': (250, '1d6904141419507170ea2ab9462f2dfef1f37304a104b3d488c3ee7331dfca7e'), 'freshness': [('census_zcta_2020', None), ('derived_h3_grid', None), ('nyc_borough_boundaries', None), ('nyc_hurricane_evacuation_zones', None), ('nyc_nta_2020', datetime.datetime(2026, 10, 31, 16, 11, 54, 98288))], 'successful_runs': (2, '60fa8f75d5cf4db559351b301a303af1cf2bd931099f0ddfaf5c7dfacea86...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_boundary_publication.py:178: AssertionError
+_ test_reader_sees_old_publication_until_freshness_and_facts_commit_together[zcta] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BAD81970>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_reader_sees_old_publicati2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272B6BB8950>
+kind = 'zcta'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_old_publication_until_freshness_and_facts_commit_together(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        result = refresh(ProbeConnection(conn, before=observe), kind)
+>       assert observations == [baseline]
+E       AssertionError: assert [{'boundaries...9113c'), ...}] == [{'boundaries...48ec3'), ...}]
+E
+E         At index 0 diff: {'boundaries': (111, '62aa9f30d984f67c795dd80dd607218da165a967d901090aedcccd91c0310724'), 'cells': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'), 'lineage': (110, '0712aa19761f3867a7fba81ec43260b01ebbec7b2bc776095c2c5336ba29113c'), 'freshness': [('census_zcta_2020', datetime.datetime(2026, 10, 31, 16, 11, 54, 566867)), ('derived_h3_grid', None), ('nyc_borough_boundaries', datetime.datetime(2026, 10, 31, 16, 11, 54, 499360)), ('nyc_hurricane_evacuation_zones', None), ('nyc_nta_2020', None)], 'successful_runs': (3, '7bc1309d5d589...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_boundary_publication.py:178: AssertionError
+_ test_reader_sees_old_publication_until_freshness_and_facts_commit_together[hazard] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272988AA1B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_reader_sees_old_publicati3'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BB149E90>
+kind = 'hazard'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_old_publication_until_freshness_and_facts_commit_together(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        result = refresh(ProbeConnection(conn, before=observe), kind)
+>       assert observations == [baseline]
+E       AssertionError: assert [{'boundaries...95aac'), ...}] == [{'boundaries...792ed'), ...}]
+E
+E         At index 0 diff: {'boundaries': (7, 'a4d5550fb34811b73bb3f7a245ce0012d62afb3a40ea1ad8af6aed87ac79a4f7'), 'cells': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945'), 'lineage': (6, '429a48f7a9d305955741b0c658fa286a4aac839dd94f9b038146f74e51995aac'), 'freshness': [('census_zcta_2020', None), ('derived_h3_grid', None), ('nyc_borough_boundaries', None), ('nyc_hurricane_evacuation_zones', datetime.datetime(2026, 10, 31, 16, 11, 54, 933403)), ('nyc_nta_2020', None)], 'successful_runs': (2, 'c9790b9636e04dccb2d3a2897818799034013a1a63337ec227f1eebb882aa0a7...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_boundary_publication.py:178: AssertionError
+_ test_reader_sees_old_publication_until_freshness_and_facts_commit_together[h3] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272820EF370>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_reader_sees_old_publicati4'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272820EE910>
+kind = 'h3'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_old_publication_until_freshness_and_facts_commit_together(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        result = refresh(ProbeConnection(conn, before=observe), kind)
+>       assert observations == [baseline]
+E       AssertionError: assert [{'boundaries...b9c82'), ...}] == [{'boundaries...8b6a9'), ...}]
+E
+E         At index 0 diff: {'boundaries': (11, 'eb8f3ee9ceefd4526b62eed5a293e6dc4160aacdd3e1e760d3b0da49d569f039'), 'cells': (43378, '999b92f2e58008d9dae766b8fab25e3fd5befd3b98b797f97b5fd66244d2f1b7'), 'lineage': (43388, '5659c4debec6d94135d1e5c7ca91351c48844f7e389ad22837f653d3d98b9c82'), 'freshness': [('census_zcta_2020', None), ('derived_h3_grid', datetime.datetime(2026, 10, 31, 16, 11, 57, 494025)), ('nyc_borough_boundaries', datetime.datetime(2026, 10, 31, 16, 11, 55, 270598)), ('nyc_hurricane_evacuation_zones', None), ('nyc_nta_2020', None)], 'successful_runs': (3, 'a94c0219...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_boundary_publication.py:178: AssertionError
+_________ test_success_retains_history_and_previous_exports[boroughs] _________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000002728016CDF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_success_retains_history_a0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000002728016F510>
+kind = 'boroughs'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_history_and_previous_exports(database, monkeypatch, kind):
+        conn, _ = database
+        first, _, exports = seed(database, monkeypatch, kind)
+        old_lineage = conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                                   [first["snapshot_id"]]).fetchone()[0]
+        assert old_lineage > 0
+        result = refresh(conn, kind)
+>       assert conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                            [first["snapshot_id"]]).fetchone() == (old_lineage,)
+E       assert (0,) == (10,)
+E
+E         At index 0 diff: 0 != 10
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:193: AssertionError
+___________ test_success_retains_history_and_previous_exports[nta] ____________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BC42BAF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_success_retains_history_a1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BC428E90>
+kind = 'nta'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_history_and_previous_exports(database, monkeypatch, kind):
+        conn, _ = database
+        first, _, exports = seed(database, monkeypatch, kind)
+        old_lineage = conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                                   [first["snapshot_id"]]).fetchone()[0]
+        assert old_lineage > 0
+        result = refresh(conn, kind)
+>       assert conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                            [first["snapshot_id"]]).fetchone() == (old_lineage,)
+E       assert (0,) == (250,)
+E
+E         At index 0 diff: 0 != 250
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:193: AssertionError
+___________ test_success_retains_history_and_previous_exports[zcta] ___________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272BC4D6370>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_success_retains_history_a2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BC4D6B50>
+kind = 'zcta'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_history_and_previous_exports(database, monkeypatch, kind):
+        conn, _ = database
+        first, _, exports = seed(database, monkeypatch, kind)
+        old_lineage = conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                                   [first["snapshot_id"]]).fetchone()[0]
+        assert old_lineage > 0
+        result = refresh(conn, kind)
+>       assert conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                            [first["snapshot_id"]]).fetchone() == (old_lineage,)
+E       assert (0,) == (100,)
+E
+E         At index 0 diff: 0 != 100
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:193: AssertionError
+__________ test_success_retains_history_and_previous_exports[hazard] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272820505F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_success_retains_history_a3'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000027282053650>
+kind = 'hazard'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_history_and_previous_exports(database, monkeypatch, kind):
+        conn, _ = database
+        first, _, exports = seed(database, monkeypatch, kind)
+        old_lineage = conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                                   [first["snapshot_id"]]).fetchone()[0]
+        assert old_lineage > 0
+        result = refresh(conn, kind)
+>       assert conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                            [first["snapshot_id"]]).fetchone() == (old_lineage,)
+E       assert (0,) == (6,)
+E
+E         At index 0 diff: 0 != 6
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:193: AssertionError
+____________ test_success_retains_history_and_previous_exports[h3] ____________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272820309B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_success_retains_history_a4'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000027282032150>
+kind = 'h3'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_history_and_previous_exports(database, monkeypatch, kind):
+        conn, _ = database
+        first, _, exports = seed(database, monkeypatch, kind)
+        old_lineage = conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                                   [first["snapshot_id"]]).fetchone()[0]
+        assert old_lineage > 0
+        result = refresh(conn, kind)
+>       assert conn.execute("SELECT count(*) FROM standardized_record WHERE snapshot_id=?",
+                            [first["snapshot_id"]]).fetchone() == (old_lineage,)
+E       assert (0,) == (43378,)
+E
+E         At index 0 diff: 0 != 43378
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:193: AssertionError
+_____ test_interrupt_rolls_back_and_leaves_attempt_indeterminate[hazard] ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272801C98B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_interrupt_rolls_back_and_0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272801CBE90>
+kind = 'hazard'
+
+    @pytest.mark.parametrize("kind", ("hazard", "h3"))
+    def test_interrupt_rolls_back_and_leaves_attempt_indeterminate(database, monkeypatch, kind):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        def interrupt(statement):
+            if "INSERT INTO geo_" in statement:
+                raise KeyboardInterrupt("synthetic interruption")
+        with pytest.raises(KeyboardInterrupt):
+            refresh(ProbeConnection(conn, after=interrupt), kind)
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...02b945'), ...} == {'boundaries'...dd2d95'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'boundaries': (7, '1efb411f941fb3b8185276dfe274f321e96ad3972d50aa6b9259db3da9f9a1de')} != {'boundaries': (7, '6ae2306dfdefca0d06b51fa898b72a9abe5f76260c252e39c2af7d63402bd35a')}
+E         {'lineage': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945')} != {'lineage': (6, '2d48c207f31eb3c470e9fb238545d4ffa0b4f3b4a658b98c24799233badd2d95')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:213: AssertionError
+_______ test_interrupt_rolls_back_and_leaves_attempt_indeterminate[h3] ________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000272988D2930>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-77/test_interrupt_rolls_back_and_1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000272BAE5C990>
+kind = 'h3'
+
+    @pytest.mark.parametrize("kind", ("hazard", "h3"))
+    def test_interrupt_rolls_back_and_leaves_attempt_indeterminate(database, monkeypatch, kind):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        def interrupt(statement):
+            if "INSERT INTO geo_" in statement:
+                raise KeyboardInterrupt("synthetic interruption")
+        with pytest.raises(KeyboardInterrupt):
+            refresh(ProbeConnection(conn, after=interrupt), kind)
+>       assert active_state(conn) == baseline
+E       AssertionError: assert {'boundaries'...a505de'), ...} == {'boundaries'...d4a46a'), ...}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'cells': (43378, '1e641c9fddc17c3ba5f4f646ce42a90b1018acdf29c9a0d742800c857f1da8ad')} != {'cells': (43378, '245fcacbde3419fa3ca35534e079f4ddf17bbe6d23938b9259fe970e745b6e24')}
+E         {'lineage': (10, 'a66c291111f98fe1a5770f94de6384882c8f907ced2054f22f711603d7a505de')} != {'lineage': (43388, '9a372995de4c687155d5d25f7f6ca61ca45a685fcee41ece7ec7107a41d4a46a')}
+E         Use -v to get more diff
+
+tests\unit\test_boundary_publication.py:213: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[export-boroughs]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[export-nta]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[export-zcta]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[export-hazard]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[export-h3]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[freshness-boroughs]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[freshness-nta]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[freshness-zcta]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[freshness-hazard]
+FAILED tests/unit/test_boundary_publication.py::test_failed_refresh_preserves_complete_previous_publication[freshness-h3]
+FAILED tests/unit/test_boundary_publication.py::test_reader_sees_old_publication_until_freshness_and_facts_commit_together[boroughs]
+FAILED tests/unit/test_boundary_publication.py::test_reader_sees_old_publication_until_freshness_and_facts_commit_together[nta]
+FAILED tests/unit/test_boundary_publication.py::test_reader_sees_old_publication_until_freshness_and_facts_commit_together[zcta]
+FAILED tests/unit/test_boundary_publication.py::test_reader_sees_old_publication_until_freshness_and_facts_commit_together[hazard]
+FAILED tests/unit/test_boundary_publication.py::test_reader_sees_old_publication_until_freshness_and_facts_commit_together[h3]
+FAILED tests/unit/test_boundary_publication.py::test_success_retains_history_and_previous_exports[boroughs]
+FAILED tests/unit/test_boundary_publication.py::test_success_retains_history_and_previous_exports[nta]
+FAILED tests/unit/test_boundary_publication.py::test_success_retains_history_and_previous_exports[zcta]
+FAILED tests/unit/test_boundary_publication.py::test_success_retains_history_and_previous_exports[hazard]
+FAILED tests/unit/test_boundary_publication.py::test_success_retains_history_and_previous_exports[h3]
+FAILED tests/unit/test_boundary_publication.py::test_interrupt_rolls_back_and_leaves_attempt_indeterminate[hazard]
+FAILED tests/unit/test_boundary_publication.py::test_interrupt_rolls_back_and_leaves_attempt_indeterminate[h3]
+22 failed, 10 passed in 70.89s (0:01:10)

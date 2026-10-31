@@ -15,6 +15,7 @@ from shapely import from_wkt
 from ..config import geographies_config, get_source
 from ..db import begin_run, finish_run
 from ..provenance import download_snapshot, save_bytes_snapshot
+from ..publication import publication_transaction
 from .common import register_standardized_records, stable_id, standardized_path, update_snapshot_details
 from .geographies import _prepare_geometry, _replace_boundaries
 
@@ -113,27 +114,27 @@ def refresh_taxi_zones(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             snapshot_id=snapshot.snapshot_id,
             retrieved_at=snapshot.retrieved_at,
         )
-        previous, inserted = _replace_boundaries(
-            conn, source_id, boundaries, snapshot.snapshot_id
-        )
         warnings = [
             "Taxi zones are coarse operating geographies, not exact pickup or dropoff locations.",
             f"Invalid geometries repaired: {invalid_geometry_count}; empty or missing geometries removed: {removed_geometry_count}.",
         ]
-        update_snapshot_details(conn, snapshot.snapshot_id, boundaries, warnings=warnings)
-        frame.to_parquet(
-            standardized_path(source_id, "current", "taxi_zones.parquet"), index=False
-        )
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED_WITH_WARNINGS",
-            request_count=1,
-            downloaded_bytes=downloaded_bytes,
-            inserted_records=inserted,
-            deleted_records=int(previous),
-            warnings=warnings,
-        )
+        output = standardized_path(source_id, snapshot.snapshot_id, "taxi_zones.parquet")
+        frame.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            previous, inserted = _replace_boundaries(
+                conn, source_id, boundaries, snapshot.snapshot_id
+            )
+            update_snapshot_details(conn, snapshot.snapshot_id, boundaries, warnings=warnings)
+            finish_run(
+                conn,
+                run_id,
+                "SUCCEEDED_WITH_WARNINGS",
+                request_count=1,
+                downloaded_bytes=downloaded_bytes,
+                inserted_records=inserted,
+                deleted_records=int(previous),
+                warnings=warnings,
+            )
         return {
             "run_id": run_id,
             "snapshot_id": snapshot.snapshot_id,
@@ -141,6 +142,7 @@ def refresh_taxi_zones(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "invalid_geometries_repaired": invalid_geometry_count,
             "removed_geometries": removed_geometry_count,
             "raw_bytes": downloaded_bytes,
+            "standardized_parquet": str(output),
         }
     except Exception as exc:
         finish_run(

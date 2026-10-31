@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-31T20:24:41.230358+00:00",
+  "status": "LOCAL_SYNTHETIC_FULL_REGRESSION_AND_OWNED_PROCESS_RECOVERY_PASS_HOSTED_PENDING",
+  "branch": "codex/atomic-boundary-publication-20261031",
+  "base_commit": "331582d141a168c0505a5f06be3f61daece59041",
+  "frozen_contract_commit": "7194b6ece8fcb346a6b6a4f8b36d13857120fbf6",
+  "runtime_commit": "2d65481e78ee108eaad6790bee3aa3c68e003d32",
+  "recovery_and_ci_commit": "42d564fdbbfa86de52f43c021718e6285e60fdb1",
+  "initial_before": {
+    "passed": 10,
+    "failed": 22,
+    "seconds": 70.89,
+    "scope": "Five input kinds before finding TLC helper caller"
+  },
+  "frozen_before": {
+    "passed": 12,
+    "failed": 26,
+    "seconds": 74.2,
+    "scope": "Six input kinds, 38 contracts"
+  },
+  "frozen_after": {
+    "passed": 38,
+    "seconds": 69.25,
+    "assertions_unchanged": true
+  },
+  "recovery": {
+    "passed": 11,
+    "seconds": 20.3,
+    "owned_child_exit_code": 83,
+    "includes": "Six unchanged coverage gates, duplicate taxi zone, unrelated caller transaction, explicit retry, process exit, legacy H3 lineage"
+  },
+  "full_suite": {
+    "passed": 325,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 375.01,
+    "exit_code": 0,
+    "skips": "Three existing full-data prerequisites; complete local data absent"
+  },
+  "scope": {
+    "entry_points": [
+      "refresh_nyc_geography",
+      "refresh_zcta",
+      "refresh_h3_grid",
+      "refresh_hazard_layer",
+      "refresh_taxi_zones"
+    ],
+    "synthetic_kinds": [
+      "boroughs",
+      "nta",
+      "zcta",
+      "hazard",
+      "h3",
+      "taxi"
+    ],
+    "all_configured_sources_live_verified": false,
+    "monthly_taxi_trips_changed": false
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "geopandas": "1.2.0",
+    "h3": "4.5.0",
+    "pandas": "2.3.3",
+    "pyarrow": "22.0.0"
+  },
+  "compatibility": {
+    "all_five_original_result_key_sets_retained": true,
+    "only_added_result_key": "standardized_parquet",
+    "definition_and_borough_mapping_AST_unchanged": true,
+    "existing_coverage_guards_retained": true,
+    "old_fixed_export_paths": "Retained historical files, not refreshed aliases",
+    "new_export_path": "data/standardized/<source_id>/<snapshot_id>/<filename>",
+    "schema_migration": false,
+    "new_configuration": false,
+    "new_dependencies": false
+  },
+  "verification_level": {
+    "synthetic_geometry_h3_duckdb_parquet": "PASS",
+    "separate_connection_visibility": "PASS",
+    "owned_child_exit_and_reopen": "PASS",
+    "official_endpoint": "NOT_RUN",
+    "full_data": "NOT_RUN",
+    "new_browser_model_hermes_apps": "NOT_RUN",
+    "independent_users": "NOT_RUN",
+    "hosted_ci": "PENDING_DELIVERY"
+  },
+  "javascript_syntax": {
+    "files": [
+      "ui/app.js",
+      "ui/assistant.js",
+      "ui/analysis-jobs.js"
+    ],
+    "status": "PASS"
+  },
+  "model_calls": 0,
+  "source_downloads": 0,
+  "production_actions": 0,
+  "M3_complete": false,
+  "remaining": [
+    "GeoJSON/TIGERweb transfer-limit and upstream-completeness checks",
+    "Other importers and multi-snapshot/actual-record provenance",
+    "Ingestion resource bounds and disk retention",
+    "Full-data backup/restore/performance and independent acceptance"
+  ],
+  "official_documentation": {
+    "checked_on": "2026-10-31",
+    "available": [
+      "https://duckdb.org/docs/1.5/connect/concurrency"
+    ],
+    "unavailable_not_used_as_evidence": [
+      "https://duckdb.org/docs/1.5/sql/statements/transactions.html"
+    ]
+  },
+  "source_sha256": {
+    "src/nyc_lens/ingest/geographies.py": "4ff158325e5fa9f87d69840712c92d28ba34f784a4bdb61f41e1fdb0cee124c2",
+    "src/nyc_lens/ingest/environment.py": "f519ce1f82ac528c57103835c72ceb42c707489d114f8f03181d289021302fb4",
+    "src/nyc_lens/ingest/tlc.py": "3fec944ce0ef4cb58a572a26872ec772b13f9f1580655e68e3c14c1c16d03146",
+    "src/nyc_lens/publication.py": "efc6fede6ba301a45522f259e4df2a9d7d289474d8d4016385b79c26d890ac1f",
+    "src/nyc_lens/ingest/common.py": "247ba0acf75dc088906a0e5fe11fb6ea1cd060bcd10dca309e7da9c01ad4954d",
+    "tests/unit/test_boundary_publication.py": "76e3940faf2586b83f9faa34f6d2325d39c5f928e396a3c64c4553b9496d59af",
+    "tests/unit/test_boundary_publication_recovery.py": "e0cb1dd0e90c18bd137aba5932f2bd6524b91f3144456a45c9d460018dce4ff0",
+    "tests/fixtures/boundary_publication_exit.py": "b200e72bb9dd53d2257b307c4e7df799056ded6b2e03750ea01a19ce286bb180",
+    ".github/workflows/tests.yml": "24300791053ae5a3e93dd508398550e779fa9e8bc8b5118d53d526bcf1f354a7"
+  },
+  "artifacts": {
+    "boundary-publication-before-20261031.txt": {
+      "sha256": "0a0bd0b0f4bd48479a09b21d160ad547aae7e9000899f34f404d6d9da2919840",
+      "original_log_sha256": "0168af2244695089159e2212e1c2636417698ad5f0b4d44a915240e9f72ce9f4"
+    },
+    "boundary-publication-expanded-before-20261031.txt": {
+      "sha256": "43d8286fc8c41bf7349bfcb30b88d5308a97a6e00cc5cc1919be811c6376715b",
+      "original_log_sha256": "c4ac3a5a4e951a0b747be1a4932e40890715bf908fb9bb2271c64d30157b81b5"
+    },
+    "boundary-publication-after-20261031.txt": {
+      "sha256": "16745338e2f7fa2fa22b5bc2bdd02482403a85529031dde956a4c372f30d13a9",
+      "original_log_sha256": "2bde9e6ffbcd1542355dae9d30c13b778eeddc89949384de985b8e2c32a1bf13"
+    },
+    "boundary-publication-recovery-20261031.txt": {
+      "sha256": "2d31cdea9d2fcbb74b0c9784a307a3706e35631c68ae7247b4d293c078ec508c",
+      "original_log_sha256": "c5898677495f8c3260e5a4a42cf3b86f77d26334bfa307fe2cd37f50bb12a4e4"
+    },
+    "boundary-publication-full-20261031.txt": {
+      "sha256": "21e7522aa444b72d74e0e31856c93744aaafe2f7cfd511f97b635aefb7ff31e1",
+      "original_log_sha256": "9b0b8b0bbc16c022e685f81bb0684cb204d2194daa978e6deb4c0feb1d634061"
+    }
+  },
+  "portable_log_processing": "Local home/workspace and pytest username placeholders; UTF-8 LF and trailing display whitespace normalized. Original local logs retained and hashed."
+}
