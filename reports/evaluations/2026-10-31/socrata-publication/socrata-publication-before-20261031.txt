@@ -1,0 +1,665 @@
+FFFFFFFFFFFFFFFFFFF.                                                     [100%]
+================================== FAILURES ===================================
+______ test_failed_refresh_keeps_previous_publication[fact-restaurants] _______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA3D45570>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA3D46350>
+kind = 'restaurants', stage = 'fact'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':...', ...)], []]} == {'freshness':..., 'A', ...)]]}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2', 'Synthetic restaurant 2', 'SYNTHETIC RESTAURANT 2', '10 SYNTHETIC AVENUE', 'MANHATTAN', ...)], []]} != {'tables': [[('biz_685fc20e4c3984bd876d6738', 'synthetic-1', 'Synthetic restaurant 1', 'SYNTHETIC RESTAURANT 1', '10 S...b0eb105476', 'biz_685fc20e4c3984bd876d6738', 'synthetic-1:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+_________ test_failed_refresh_keeps_previous_publication[fact-hotels] _________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA3D43970>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA3D42E90>
+kind = 'hotels', stage = 'fact'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':...tables': [[]]} == {'freshness':... None, ...)]]}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[]]} != {'tables': [[('hotel_9170ae72e0b6d0ed3a31477e', 'synthetic-1', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+__________ test_failed_refresh_keeps_previous_publication[fact-air] ___________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026C8300B6B0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026C8300B410>
+kind = 'air', stage = 'fact'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':...', ...)], []]} == {'freshness':...nits', ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('health_7fa10a74420f1f4e613f2dd8', '0', 'Asthma estimate', 'Synthetic area measure', 20.0, 'synthetic units', ...)], []]} != {'tables': [[('health_46d10a0f84a35fddd8dfa43b', '0', 'Asthma estimate', 'Synthetic area measure', 10.0, 'synthetic un...], [('env_0d228869a510e3c421e03d13', '1', 'Air observation', 'Synthetic area measure', 11.0, 'synthetic units', ...)]]}
+E         {'lineage': [('std_08f48596080c3ae859d1fd26', 'health_indicator', 'health_46d10a0f84a35fddd8dfa43b', 'air_quality_heal...1f4e613f2dd8', 'a...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+_____ test_failed_refresh_keeps_previous_publication[lineage-restaurants] _____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA5220470>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev3'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA29154D0>
+kind = 'restaurants', stage = 'lineage'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':..., 'A', ...)]]} == {'freshness':..., 'A', ...)]]}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2', 'Synthetic restaurant 2', 'SYNTHETIC RESTAURANT 2', '10 S...0bdaab6c3d', 'biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]} != {'tables': [[('biz_685fc20e4c3984bd876d6738', 'synthetic-1', 'Synthetic restaurant 1', 'SYNTHETIC RESTAURANT 1', '10 S...b0eb105476', 'biz_685fc20e4c3984bd876d6738', 'synthetic-1:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+_______ test_failed_refresh_keeps_previous_publication[lineage-hotels] ________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CE63AC8B0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev4'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CE63AF050>
+kind = 'hotels', stage = 'lineage'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':... None, ...)]]} == {'freshness':... None, ...)]]}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('hotel_8d0ebb0abbd9114951c4eca9', 'synthetic-2', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]} != {'tables': [[('hotel_9170ae72e0b6d0ed3a31477e', 'synthetic-1', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+_________ test_failed_refresh_keeps_previous_publication[lineage-air] _________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CE63C7F30>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev5'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CE63C6C10>
+kind = 'air', stage = 'lineage'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':...', ...)], []]} == {'freshness':...nits', ...)]]}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('health_7fa10a74420f1f4e613f2dd8', '0', 'Asthma estimate', 'Synthetic area measure', 20.0, 'synthetic units', ...)], []]} != {'tables': [[('health_46d10a0f84a35fddd8dfa43b', '0', 'Asthma estimate', 'Synthetic area measure', 10.0, 'synthetic un...], [('env_0d228869a510e3c421e03d13', '1', 'Air observation', 'Synthetic area measure', 11.0, 'synthetic units', ...)]]}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+____ test_failed_refresh_keeps_previous_publication[freshness-restaurants] ____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA51A2970>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev6'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA51A3010>
+kind = 'restaurants', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':..., 'A', ...)]]} == {'freshness':..., 'A', ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2', 'Synthetic restaurant 2', 'SYNTHETIC RESTAURANT 2', '10 S...0bdaab6c3d', 'biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]} != {'tables': [[('biz_685fc20e4c3984bd876d6738', 'synthetic-1', 'Synthetic restaurant 1', 'SYNTHETIC RESTAURANT 1', '10 S...b0eb105476', 'biz_685fc20e4c3984bd876d6738', 'synthetic-1:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]}
+E         {'lineage': [('std_4fbd18b9022ee9...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+______ test_failed_refresh_keeps_previous_publication[freshness-hotels] _______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA51DCBB0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev7'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA3D27050>
+kind = 'hotels', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':... None, ...)]]} == {'freshness':... None, ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('hotel_8d0ebb0abbd9114951c4eca9', 'synthetic-2', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]} != {'tables': [[('hotel_9170ae72e0b6d0ed3a31477e', 'synthetic-1', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]}
+E         {'lineage': [('std_63fcb6e5c9b393eb3f93dd89', 'hotel', 'hotel_9170ae72e0b6d0ed3a31477e', 'nyc_hotels', 'snap_8189b1b14...'hotel', 'hotel_8d0ebb0abbd9114951c4eca9', 'nyc_hotels', 'snap_5f1217e2377044ea9162261...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+________ test_failed_refresh_keeps_previous_publication[freshness-air] ________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA3D475F0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev8'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA3D46710>
+kind = 'air', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':...nits', ...)]]} == {'freshness':...nits', ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('health_7fa10a74420f1f4e613f2dd8', '0', 'Asthma estimate', 'Synthetic area measure', 20.0, 'synthetic un...], [('env_2a689ee33a565a41d885e597', '1', 'Air observation', 'Synthetic area measure', 21.0, 'synthetic units', ...)]]} != {'tables': [[('health_46d10a0f84a35fddd8dfa43b', '0', 'Asthma estimate', 'Synthetic area measure', 10.0, 'synthetic un...], [('env_0d228869a510e3c421e03d13', '1', 'Air observation', 'Synthetic area measure', 11.0, 'synthetic units', ...)]]}
+E         {'lineage': [('std_428f3ebdadb426...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+_____ test_failed_refresh_keeps_previous_publication[commit-restaurants] ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA5184330>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev9'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA5147E90>
+kind = 'restaurants', stage = 'commit'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+>       with pytest.raises(OSError, match="synthetic publication failure"):
+E       Failed: DID NOT RAISE <class 'OSError'>
+
+tests\unit\test_socrata_publication.py:145: Failed
+________ test_failed_refresh_keeps_previous_publication[commit-hotels] ________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA3D267B0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev10'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA3D26E10>
+kind = 'hotels', stage = 'commit'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+>       with pytest.raises(OSError, match="synthetic publication failure"):
+E       Failed: DID NOT RAISE <class 'OSError'>
+
+tests\unit\test_socrata_publication.py:145: Failed
+_________ test_failed_refresh_keeps_previous_publication[commit-air] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026C82F3E570>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev11'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026C82F3F9D0>
+kind = 'air', stage = 'commit'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+>       with pytest.raises(OSError, match="synthetic publication failure"):
+E       Failed: DID NOT RAISE <class 'OSError'>
+
+tests\unit\test_socrata_publication.py:145: Failed
+_____ test_failed_refresh_keeps_previous_publication[export-restaurants] ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CE63768F0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev12'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CE6375850>
+kind = 'restaurants', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':..., 'A', ...)]]} == {'freshness':..., 'A', ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2', 'Synthetic restaurant 2', 'SYNTHETIC RESTAURANT 2', '10 S...0bdaab6c3d', 'biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]} != {'tables': [[('biz_685fc20e4c3984bd876d6738', 'synthetic-1', 'Synthetic restaurant 1', 'SYNTHETIC RESTAURANT 1', '10 S...b0eb105476', 'biz_685fc20e4c3984bd876d6738', 'synthetic-1:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]}
+E         {'lineage': [('std_875928d68671ad...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+________ test_failed_refresh_keeps_previous_publication[export-hotels] ________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA51AEE30>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev13'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA51AC490>
+kind = 'hotels', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':... None, ...)]]} == {'freshness':... None, ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('hotel_8d0ebb0abbd9114951c4eca9', 'synthetic-2', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]} != {'tables': [[('hotel_9170ae72e0b6d0ed3a31477e', 'synthetic-1', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]}
+E         {'lineage': [('std_14f5bc58b04be3e13e314029', 'hotel', 'hotel_8d0ebb0abbd9114951c4eca9', 'nyc_hotels', 'snap_cb92866b4...'hotel', 'hotel_9170ae72e0b6d0ed3a31477e', 'nyc_hotels', 'snap_7c7659cdc43d4c87b20348c...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+_________ test_failed_refresh_keeps_previous_publication[export-air] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA5208330>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_failed_refresh_keeps_prev14'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA52087D0>
+kind = 'air', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    @pytest.mark.parametrize("stage", ("fact", "lineage", "freshness", "commit", "export"))
+    def test_failed_refresh_keeps_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        source, refresh, _, relation = SPECS[kind]
+        match = {"fact": f"SELECT * FROM {relation}", "lineage": "INSERT INTO standardized_record",
+                 "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        raised = False
+
+        def fail_once(statement):
+            nonlocal raised
+            if not raised and match and match in statement:
+                raised = True
+                raise OSError("synthetic publication failure")
+
+        if stage == "export":
+            def refuse_export(*_args, **_kwargs):
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(pd.DataFrame, "to_parquet", refuse_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once))
+>       assert active_state(conn, kind) == baseline
+E       AssertionError: assert {'freshness':...nits', ...)]]} == {'freshness':...nits', ...)]]}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('health_7fa10a74420f1f4e613f2dd8', '0', 'Asthma estimate', 'Synthetic area measure', 20.0, 'synthetic un...], [('env_2a689ee33a565a41d885e597', '1', 'Air observation', 'Synthetic area measure', 21.0, 'synthetic units', ...)]]} != {'tables': [[('health_46d10a0f84a35fddd8dfa43b', '0', 'Asthma estimate', 'Synthetic area measure', 10.0, 'synthetic un...], [('env_0d228869a510e3c421e03d13', '1', 'Air observation', 'Synthetic area measure', 11.0, 'synthetic units', ...)]]}
+E         {'lineage': [('std_24951a6569a5f5...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_socrata_publication.py:147: AssertionError
+___________ test_readers_never_observe_partial_success[restaurants] ___________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CE64019F0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_readers_never_observe_par0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CE6401650>
+kind = 'restaurants'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    def test_readers_never_observe_partial_success(database, monkeypatch, kind):
+        conn, root = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        reader = duckdb.connect(str(root / "synthetic.duckdb"))
+        observations = []
+        def observe(statement):
+            if any(word in statement for word in ("DELETE FROM", "INSERT INTO standardized_record", "UPDATE ingestion_run", "UPDATE source_registry", "COMMIT")):
+                observations.append(active_state(reader, kind))
+        try:
+            SPECS[kind][1](ProbeConnection(conn, after=observe))
+            final = active_state(reader, kind)
+            assert final != baseline
+>           assert observations and all(state in (baseline, final) for state in observations)
+E           AssertionError: assert ([{'freshness': (datetime.datetime(2026, 10, 31, 12, 0, 54, 993457),), 'lineage': [('std_1007badcc54cbd542cdf9d3b', 'in...bdaab6c3d', 'biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]}] and False)
+E            +  where False = all(<generator object test_readers_never_observe_partial_success.<locals>.<genexpr> at 0x0000026CE86544F0>)
+
+tests\unit\test_socrata_publication.py:167: AssertionError
+_____________ test_readers_never_observe_partial_success[hotels] ______________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA3D78BF0>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_readers_never_observe_par1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA3D7AD90>
+kind = 'hotels'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    def test_readers_never_observe_partial_success(database, monkeypatch, kind):
+        conn, root = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        reader = duckdb.connect(str(root / "synthetic.duckdb"))
+        observations = []
+        def observe(statement):
+            if any(word in statement for word in ("DELETE FROM", "INSERT INTO standardized_record", "UPDATE ingestion_run", "UPDATE source_registry", "COMMIT")):
+                observations.append(active_state(reader, kind))
+        try:
+            SPECS[kind][1](ProbeConnection(conn, after=observe))
+            final = active_state(reader, kind)
+            assert final != baseline
+>           assert observations and all(state in (baseline, final) for state in observations)
+E           AssertionError: assert ([{'freshness': (datetime.datetime(2026, 10, 31, 12, 0, 55, 460984),), 'lineage': [('std_81d45e8319091eae5d0b8182', 'ho...4951c4eca9', 'synthetic-2', 'Hotel property at 20 SYNTHETIC AVENUE', '20 SYNTHETIC AVENUE', 'MANHATTAN', None, ...)]]}] and False)
+E            +  where False = all(<generator object test_readers_never_observe_partial_success.<locals>.<genexpr> at 0x0000026CE86546D0>)
+
+tests\unit\test_socrata_publication.py:167: AssertionError
+_______________ test_readers_never_observe_partial_success[air] _______________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CE862D370>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_readers_never_observe_par2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CE862E750>
+kind = 'air'
+
+    @pytest.mark.parametrize("kind", SPECS)
+    def test_readers_never_observe_partial_success(database, monkeypatch, kind):
+        conn, root = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        reader = duckdb.connect(str(root / "synthetic.duckdb"))
+        observations = []
+        def observe(statement):
+            if any(word in statement for word in ("DELETE FROM", "INSERT INTO standardized_record", "UPDATE ingestion_run", "UPDATE source_registry", "COMMIT")):
+                observations.append(active_state(reader, kind))
+        try:
+            SPECS[kind][1](ProbeConnection(conn, after=observe))
+            final = active_state(reader, kind)
+            assert final != baseline
+>           assert observations and all(state in (baseline, final) for state in observations)
+E           AssertionError: assert ([{'freshness': (datetime.datetime(2026, 10, 31, 12, 0, 55, 884806),), 'lineage': [('std_77f4d774d1a430b5a5629fc9', 'he..., [('env_2a689ee33a565a41d885e597', '1', 'Air observation', 'Synthetic area measure', 21.0, 'synthetic units', ...)]]}] and False)
+E            +  where False = all(<generator object test_readers_never_observe_partial_success.<locals>.<genexpr> at 0x0000026CE8655030>)
+
+tests\unit\test_socrata_publication.py:167: AssertionError
+_____________ test_interrupted_refresh_does_not_publish_new_facts _____________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000026CA51CEB30>, WindowsPath('<USER>/AppData/Local/Temp/pytest-of-10418/pytest-70/test_interrupted_refresh_does_0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000026CA51CD350>
+
+    def test_interrupted_refresh_does_not_publish_new_facts(database, monkeypatch):
+        conn, _ = database
+        baseline, _ = seed(database, monkeypatch, "restaurants")
+        def interrupt(statement):
+            if "SELECT * FROM _inspection" in statement:
+                raise KeyboardInterrupt("synthetic interrupt")
+        with pytest.raises(KeyboardInterrupt, match="synthetic interrupt"):
+            socrata.refresh_dohmh(ProbeConnection(conn, before=interrupt))
+>       assert active_state(conn, "restaurants") == baseline
+E       AssertionError: assert {'freshness':...', ...)], []]} == {'freshness':..., 'A', ...)]]}
+E
+E         Omitting 3 identical items, use -vv to show
+E         Differing items:
+E         {'tables': [[('biz_42c11aa2ac0fc6d98778f0d8', 'synthetic-2', 'Synthetic restaurant 2', 'SYNTHETIC RESTAURANT 2', '10 SYNTHETIC AVENUE', 'MANHATTAN', ...)], []]} != {'tables': [[('biz_685fc20e4c3984bd876d6738', 'synthetic-1', 'Synthetic restaurant 1', 'SYNTHETIC RESTAURANT 1', '10 S...b0eb105476', 'biz_685fc20e4c3984bd876d6738', 'synthetic-1:2026-01-15:X', datetime.date(2026, 1, 15), 10.0, 'A', ...)]]}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_publication.py:182: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[fact-restaurants]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[fact-hotels]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[fact-air]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[lineage-restaurants]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[lineage-hotels]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[lineage-air]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[freshness-restaurants]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[freshness-hotels]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[freshness-air]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[commit-restaurants]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[commit-hotels]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[commit-air]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[export-restaurants]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[export-hotels]
+FAILED tests/unit/test_socrata_publication.py::test_failed_refresh_keeps_previous_publication[export-air]
+FAILED tests/unit/test_socrata_publication.py::test_readers_never_observe_partial_success[restaurants]
+FAILED tests/unit/test_socrata_publication.py::test_readers_never_observe_partial_success[hotels]
+FAILED tests/unit/test_socrata_publication.py::test_readers_never_observe_partial_success[air]
+FAILED tests/unit/test_socrata_publication.py::test_interrupted_refresh_does_not_publish_new_facts
+19 failed, 1 passed in 10.46s

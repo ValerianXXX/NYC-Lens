@@ -12,6 +12,7 @@ import pandas as pd
 from ..config import get_source
 from ..db import begin_run, finish_run
 from ..provenance import Snapshot, download_snapshot, save_bytes_snapshot
+from ..publication import publication_transaction
 from ..util import json_dumps, utc_now
 from .common import (
     as_date,
@@ -19,6 +20,7 @@ from .common import (
     normalized_text,
     register_standardized_records,
     register_table_lineage,
+    registered_frame,
     stable_id,
     standardized_path,
     update_snapshot_details,
@@ -224,47 +226,48 @@ def refresh_dohmh(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 "method_version": "0.1.0",
             }
         )
-        conn.execute("DELETE FROM inspection WHERE source_id=?", [source_id])
-        conn.execute("DELETE FROM business_location WHERE source_id=?", [source_id])
-        conn.register("_business", business)
-        conn.execute("INSERT INTO business_location BY NAME SELECT * FROM _business")
-        conn.unregister("_business")
-        conn.register("_inspection", inspection)
-        conn.execute("INSERT INTO inspection BY NAME SELECT * FROM _inspection")
-        conn.unregister("_inspection")
-        register_table_lineage(
-            conn,
-            table_name="inspection",
-            entity_type="inspection",
-            id_column="inspection_id",
-            source_id=source_id,
-            snapshot_id=snapshot.snapshot_id,
-        )
-        register_standardized_records(
-            conn,
-            business,
-            entity_type="business_location",
-            entity_id_column="business_location_id",
-            source_id=source_id,
-            snapshot_id=snapshot.snapshot_id,
-            source_record_id_column="source_business_id",
-        )
-        output = standardized_path(source_id, "current", "business_locations.parquet")
+        # Prepare an immutable derived export before changing published facts.
+        output = standardized_path(source_id, snapshot.snapshot_id, "business_locations.parquet")
         business.to_parquet(output, index=False)
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED",
-            request_count=2,
-            downloaded_bytes=snapshot.byte_size,
-            inserted_records=len(business) + len(inspection),
-        )
+        with publication_transaction(conn):
+            conn.execute("DELETE FROM inspection WHERE source_id=?", [source_id])
+            conn.execute("DELETE FROM business_location WHERE source_id=?", [source_id])
+            with registered_frame(conn, "_business", business):
+                conn.execute("INSERT INTO business_location BY NAME SELECT * FROM _business")
+            with registered_frame(conn, "_inspection", inspection):
+                conn.execute("INSERT INTO inspection BY NAME SELECT * FROM _inspection")
+            register_table_lineage(
+                conn,
+                table_name="inspection",
+                entity_type="inspection",
+                id_column="inspection_id",
+                source_id=source_id,
+                snapshot_id=snapshot.snapshot_id,
+            )
+            register_standardized_records(
+                conn,
+                business,
+                entity_type="business_location",
+                entity_id_column="business_location_id",
+                source_id=source_id,
+                snapshot_id=snapshot.snapshot_id,
+                source_record_id_column="source_business_id",
+            )
+            finish_run(
+                conn,
+                run_id,
+                "SUCCEEDED",
+                request_count=2,
+                downloaded_bytes=snapshot.byte_size,
+                inserted_records=len(business) + len(inspection),
+            )
         return {
             "run_id": run_id,
             "snapshot_id": snapshot.snapshot_id,
             "businesses": len(business),
             "inspection_rows": len(inspection),
             "raw_bytes": snapshot.byte_size,
+            "standardized_parquet": str(output),
         }
     except Exception as exc:
         finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
@@ -310,22 +313,24 @@ def refresh_hotels(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 "method_version": "0.1.0",
             }
         )
-        conn.execute("DELETE FROM hotel WHERE source_id=?", [source_id])
-        conn.register("_hotels", hotels)
-        conn.execute("INSERT INTO hotel BY NAME SELECT * FROM _hotels")
-        conn.unregister("_hotels")
-        register_standardized_records(
-            conn,
-            hotels,
-            entity_type="hotel",
-            entity_id_column="hotel_id",
-            source_id=source_id,
-            snapshot_id=snapshot.snapshot_id,
-            source_record_id_column="source_hotel_id",
-        )
-        hotels.to_parquet(standardized_path(source_id, "current", "hotels.parquet"), index=False)
-        finish_run(conn, run_id, "SUCCEEDED", request_count=2, downloaded_bytes=snapshot.byte_size, inserted_records=len(hotels))
-        return {"run_id": run_id, "snapshot_id": snapshot.snapshot_id, "hotels": len(hotels), "raw_bytes": snapshot.byte_size}
+        output = standardized_path(source_id, snapshot.snapshot_id, "hotels.parquet")
+        hotels.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            conn.execute("DELETE FROM hotel WHERE source_id=?", [source_id])
+            with registered_frame(conn, "_hotels", hotels):
+                conn.execute("INSERT INTO hotel BY NAME SELECT * FROM _hotels")
+            register_standardized_records(
+                conn,
+                hotels,
+                entity_type="hotel",
+                entity_id_column="hotel_id",
+                source_id=source_id,
+                snapshot_id=snapshot.snapshot_id,
+                source_record_id_column="source_hotel_id",
+            )
+            finish_run(conn, run_id, "SUCCEEDED", request_count=2, downloaded_bytes=snapshot.byte_size, inserted_records=len(hotels))
+        return {"run_id": run_id, "snapshot_id": snapshot.snapshot_id, "hotels": len(hotels), "raw_bytes": snapshot.byte_size,
+                "standardized_parquet": str(output)}
     except Exception as exc:
         finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
         raise
@@ -371,35 +376,36 @@ def refresh_air_quality(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
         environment = base.loc[~health_mask].copy()
         environment.insert(0, "environment_indicator_id", [stable_id("env", source_id, value) for value in frame.loc[~health_mask, "unique_id"]])
         environment.insert(len(environment.columns) - 2, "measure_type", "model_or_observation_as_published")
-        conn.execute("DELETE FROM health_indicator WHERE source_id=?", [source_id])
-        conn.execute("DELETE FROM environment_indicator WHERE source_id=?", [source_id])
-        if not health.empty:
-            conn.register("_health", health)
-            conn.execute("INSERT INTO health_indicator BY NAME SELECT * FROM _health")
-            conn.unregister("_health")
-            register_table_lineage(
-                conn,
-                table_name="health_indicator",
-                entity_type="health_indicator",
-                id_column="health_indicator_id",
-                source_id=source_id,
-                snapshot_id=snapshot.snapshot_id,
-            )
-        if not environment.empty:
-            conn.register("_environment", environment)
-            conn.execute("INSERT INTO environment_indicator BY NAME SELECT * FROM _environment")
-            conn.unregister("_environment")
-            register_table_lineage(
-                conn,
-                table_name="environment_indicator",
-                entity_type="environment_indicator",
-                id_column="environment_indicator_id",
-                source_id=source_id,
-                snapshot_id=snapshot.snapshot_id,
-            )
-        frame.to_parquet(standardized_path(source_id, "current", "air_quality_health.parquet"), index=False)
-        finish_run(conn, run_id, "SUCCEEDED", request_count=2, downloaded_bytes=snapshot.byte_size, inserted_records=len(frame))
-        return {"run_id": run_id, "snapshot_id": snapshot.snapshot_id, "health_rows": len(health), "environment_rows": len(environment), "raw_bytes": snapshot.byte_size}
+        output = standardized_path(source_id, snapshot.snapshot_id, "air_quality_health.parquet")
+        frame.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            conn.execute("DELETE FROM health_indicator WHERE source_id=?", [source_id])
+            conn.execute("DELETE FROM environment_indicator WHERE source_id=?", [source_id])
+            if not health.empty:
+                with registered_frame(conn, "_health", health):
+                    conn.execute("INSERT INTO health_indicator BY NAME SELECT * FROM _health")
+                register_table_lineage(
+                    conn,
+                    table_name="health_indicator",
+                    entity_type="health_indicator",
+                    id_column="health_indicator_id",
+                    source_id=source_id,
+                    snapshot_id=snapshot.snapshot_id,
+                )
+            if not environment.empty:
+                with registered_frame(conn, "_environment", environment):
+                    conn.execute("INSERT INTO environment_indicator BY NAME SELECT * FROM _environment")
+                register_table_lineage(
+                    conn,
+                    table_name="environment_indicator",
+                    entity_type="environment_indicator",
+                    id_column="environment_indicator_id",
+                    source_id=source_id,
+                    snapshot_id=snapshot.snapshot_id,
+                )
+            finish_run(conn, run_id, "SUCCEEDED", request_count=2, downloaded_bytes=snapshot.byte_size, inserted_records=len(frame))
+        return {"run_id": run_id, "snapshot_id": snapshot.snapshot_id, "health_rows": len(health), "environment_rows": len(environment),
+                "raw_bytes": snapshot.byte_size, "standardized_parquet": str(output)}
     except Exception as exc:
         finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
         raise
