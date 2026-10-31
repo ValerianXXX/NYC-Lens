@@ -19,6 +19,9 @@ from ..publication import publication_transaction
 from ..util import json_dumps
 from .common import registered_frame, register_table_lineage, stable_id, standardized_path, update_snapshot_details
 from .socrata import fetch_metadata_snapshot
+from .geojson import (
+    CompletenessError, download_arcgis_geojson, download_socrata_geojson, failed_download_progress,
+)
 
 
 NYC_GEOGRAPHY_DEFINITIONS: dict[str, dict[str, Any]] = {
@@ -158,22 +161,27 @@ def refresh_nyc_geography(
     source = get_source(source_id)
     run_id = begin_run(conn, source_id, "refresh")
     downloaded_bytes = 0
+    request_count = 0
     try:
+        request_count += 1
         metadata_snapshot = fetch_metadata_snapshot(conn, source_id, "current-metadata", run_id)
         downloaded_bytes += metadata_snapshot.byte_size
-        snapshot = download_snapshot(
+        checked = download_socrata_geojson(
             conn,
             source_id=source_id,
             vintage="current",
-            url=source["api_url"],
-            filename=f"{source['dataset_id']}.geojson",
             run_id=run_id,
-            params={"$limit": 100_000},
+            limit=100_000,
             timeout_seconds=300,
+            download=download_snapshot,
         )
-        downloaded_bytes += snapshot.byte_size
+        snapshot = checked.snapshot
+        downloaded_bytes += checked.downloaded_bytes
+        request_count += checked.request_count
         frame = gpd.read_file(snapshot.path)
         frame, invalid, removed = _prepare_geometry(frame)
+        if removed or len(frame) != checked.feature_count:
+            raise CompletenessError("COMPLETENESS_GEOMETRY_ROWS_LOST")
 
         if source_id in NYC_GEOGRAPHY_DEFINITIONS:
             definition = NYC_GEOGRAPHY_DEFINITIONS[source_id]
@@ -277,7 +285,7 @@ def refresh_nyc_geography(
                 conn,
                 run_id,
                 "SUCCEEDED_WITH_WARNINGS" if invalid or removed else "SUCCEEDED",
-                request_count=2,
+                request_count=request_count,
                 downloaded_bytes=downloaded_bytes,
                 inserted_records=inserted,
                 deleted_records=previous,
@@ -293,14 +301,16 @@ def refresh_nyc_geography(
             "empty_geometries_removed": removed,
             "raw_bytes": downloaded_bytes,
             "standardized_parquet": str(output),
+            "completeness_check": str(checked.check_path),
         }
     except Exception as exc:
+        failed_requests, failed_bytes = failed_download_progress(exc)
         finish_run(
             conn,
             run_id,
             "FAILED",
-            request_count=2 if downloaded_bytes else 0,
-            downloaded_bytes=downloaded_bytes,
+            request_count=request_count + failed_requests,
+            downloaded_bytes=downloaded_bytes + failed_bytes,
             error={"type": type(exc).__name__, "message": str(exc)},
         )
         raise
@@ -308,8 +318,8 @@ def refresh_nyc_geography(
 
 def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
     source_id = "census_zcta_2020"
-    source = get_source(source_id)
     run_id = begin_run(conn, source_id, "NYC intersecting extract")
+    request_count = downloaded_bytes = 0
     try:
         params = {
             "where": "1=1",
@@ -317,38 +327,21 @@ def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "geometryType": "esriGeometryEnvelope",
             "inSR": "4326",
             "spatialRel": "esriSpatialRelIntersects",
-            "outFields": "*",
-            "returnGeometry": "true",
-            "outSR": "4326",
-            "f": "geojson",
         }
-        response = httpx.post(
-            source["api_url"],
-            data=params,
-            follow_redirects=True,
-            timeout=180,
-            headers={"User-Agent": "NYC-Lens/0.1 local-research"},
-        )
-        response.raise_for_status()
-        payload = response.json()
-        if payload.get("error"):
-            raise RuntimeError(f"TIGERweb ZCTA error: {payload['error']}")
-        snapshot = save_bytes_snapshot(
+        checked = download_arcgis_geojson(
             conn,
             source_id=source_id,
             vintage="2020-current-service",
-            filename="nyc_bbox_zcta.geojson",
-            content=response.content,
-            source_url=source["api_url"],
             run_id=run_id,
-            content_type="application/geo+json",
-            query=params,
+            spatial_query=params,
             valid_from=date(2020, 1, 1),
-            http_status=response.status_code,
-            warnings=["Raw extract is a bounding-box superset; standardized rows intersect the official NYC borough union."],
         )
+        snapshot = checked.snapshot
+        request_count, downloaded_bytes = checked.request_count, checked.downloaded_bytes
         frame = gpd.read_file(snapshot.path)
         frame, invalid, removed = _prepare_geometry(frame)
+        if removed or len(frame) != checked.feature_count:
+            raise CompletenessError("COMPLETENESS_GEOMETRY_ROWS_LOST")
         borough_rows = conn.execute(
             "SELECT geom_wkt FROM geo_boundary WHERE source_id='nyc_borough_boundaries' AND geography_type='borough'"
         ).fetchall()
@@ -378,7 +371,7 @@ def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 snapshot.snapshot_id,
                 boundaries,
                 warnings=[
-                    f"bounding_box_features={len(payload.get('features', []))}",
+                    f"bounding_box_features={checked.feature_count}",
                     f"nyc_intersecting_features={inserted}",
                     "ZCTAs approximate ZIP delivery areas and are not USPS boundaries.",
                 ],
@@ -387,8 +380,8 @@ def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 conn,
                 run_id,
                 "SUCCEEDED_WITH_WARNINGS",
-                request_count=1,
-                downloaded_bytes=snapshot.byte_size,
+                request_count=checked.request_count,
+                downloaded_bytes=checked.downloaded_bytes,
                 inserted_records=inserted,
                 deleted_records=previous,
                 warnings=["ZCTAs are statistical ZIP approximations; the Raw bbox extract is filtered by the official NYC borough union."],
@@ -396,13 +389,17 @@ def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
         return {
             "run_id": run_id,
             "snapshot_id": snapshot.snapshot_id,
-            "bbox_features": len(payload.get("features", [])),
+            "bbox_features": checked.feature_count,
             "nyc_intersecting_zcta": inserted,
-            "raw_bytes": snapshot.byte_size,
+            "raw_bytes": checked.downloaded_bytes,
             "standardized_parquet": str(output),
+            "completeness_check": str(checked.check_path),
         }
     except Exception as exc:
-        finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
+        failed_requests, failed_bytes = failed_download_progress(exc)
+        finish_run(conn, run_id, "FAILED", request_count=request_count + failed_requests,
+                   downloaded_bytes=downloaded_bytes + failed_bytes,
+                   error={"type": type(exc).__name__, "message": str(exc)})
         raise
 
 

@@ -40,3 +40,4 @@ jobs:
       - run: python -m pytest tests/unit/test_external_generation_contract.py tests/unit/test_external_generation_recovery.py tests/unit/test_external_generation_analysis.py tests/unit/test_external_publication_readiness.py tests/unit/test_external_storage.py
       - run: python -m pytest tests/unit/test_socrata_publication.py tests/unit/test_socrata_publication_recovery.py tests/unit/test_socrata_row_limits.py
       - run: python -m pytest tests/unit/test_boundary_publication.py tests/unit/test_boundary_publication_recovery.py
+      - run: python -m pytest tests/unit/test_geojson_completeness.py tests/unit/test_geojson_completeness_recovery.py

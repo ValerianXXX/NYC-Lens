@@ -85,7 +85,8 @@ def test_failed_attempt_can_be_explicitly_retried_without_replacing_evidence(dat
     assert result["features"] == 6
     assert conn.execute("SELECT status FROM ingestion_run ORDER BY started_at").fetchall() == [
         ("SUCCEEDED_WITH_WARNINGS",), ("FAILED",), ("SUCCEEDED_WITH_WARNINGS",)]
-    assert conn.execute("SELECT count(*) FROM dataset_snapshot").fetchone() == (6,)
+    # Each attempt now retains metadata, count-before, geometry and count-after.
+    assert conn.execute("SELECT count(*) FROM dataset_snapshot").fetchone() == (12,)
     assert all(sha256_file(path) == digest for path, digest in exports.items())
 
 
@@ -100,7 +101,7 @@ def test_owned_exit_after_freshness_keeps_previous_publication(database, monkeyp
     with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
         assert active_state(reader) == baseline
         assert reader.execute("SELECT status FROM ingestion_run ORDER BY started_at DESC LIMIT 1").fetchone() == ("INDETERMINATE",)
-        assert reader.execute("SELECT count(*) FROM dataset_snapshot").fetchone() == (4,)
+        assert reader.execute("SELECT count(*) FROM dataset_snapshot").fetchone() == (8,)
     assert all(sha256_file(path) == digest for path, digest in exports.items())
 
 
