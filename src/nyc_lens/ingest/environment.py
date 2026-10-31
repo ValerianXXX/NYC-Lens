@@ -9,6 +9,7 @@ import pandas as pd
 from ..config import geographies_config, get_source
 from ..db import begin_run, finish_run
 from ..provenance import download_snapshot
+from ..publication import publication_transaction
 from .common import stable_id, standardized_path, update_snapshot_details
 from .geographies import _prepare_geometry, _replace_boundaries
 from .socrata import fetch_metadata_snapshot
@@ -154,9 +155,6 @@ def refresh_hazard_layer(
             retrieved_at=snapshot.retrieved_at,
         )
         duplicate_features_removed = len(frame) - len(boundaries)
-        previous, inserted = _replace_boundaries(
-            conn, source_id, boundaries, snapshot.snapshot_id
-        )
         warnings = [
             "Planning-screening layer only; not an engineering, insurance, legal, regulatory, or parcel-level determination.",
             "Coverage percentages describe geometric overlap with the selected catchment, not event probability or expected loss.",
@@ -173,30 +171,23 @@ def refresh_hazard_layer(
             warnings.append(
                 "This long-range sea-level-rise scenario uses historical preliminary FEMA and NPCC model assumptions and is not a current flood map."
             )
-        update_snapshot_details(
-            conn,
-            snapshot.snapshot_id,
-            boundaries,
-            warnings=warnings,
-        )
-        frame.to_parquet(
-            standardized_path(
-                source_id,
-                str(definition["vintage"]),
-                f"{definition['geography_type']}.parquet",
-            ),
-            index=False,
-        )
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED_WITH_WARNINGS",
-            request_count=request_count,
-            downloaded_bytes=downloaded_bytes,
-            inserted_records=inserted,
-            deleted_records=int(previous),
-            warnings=warnings,
-        )
+        output = standardized_path(source_id, snapshot.snapshot_id, f"{definition['geography_type']}.parquet")
+        frame.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            previous, inserted = _replace_boundaries(
+                conn, source_id, boundaries, snapshot.snapshot_id
+            )
+            update_snapshot_details(conn, snapshot.snapshot_id, boundaries, warnings=warnings)
+            finish_run(
+                conn,
+                run_id,
+                "SUCCEEDED_WITH_WARNINGS",
+                request_count=request_count,
+                downloaded_bytes=downloaded_bytes,
+                inserted_records=inserted,
+                deleted_records=int(previous),
+                warnings=warnings,
+            )
         return {
             "run_id": run_id,
             "metadata_snapshot_id": metadata.snapshot_id,
@@ -209,6 +200,7 @@ def refresh_hazard_layer(
             "invalid_geometries_repaired": invalid_geometry_count,
             "removed_geometries": removed_geometry_count,
             "raw_bytes": downloaded_bytes,
+            "standardized_parquet": str(output),
         }
     except Exception as exc:
         finish_run(

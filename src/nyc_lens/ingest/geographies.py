@@ -15,8 +15,9 @@ from shapely.geometry import Polygon
 from ..config import geographies_config, get_source
 from ..db import begin_run, finish_run
 from ..provenance import download_snapshot, save_bytes_snapshot
+from ..publication import publication_transaction
 from ..util import json_dumps
-from .common import register_table_lineage, stable_id, standardized_path, update_snapshot_details
+from .common import registered_frame, register_table_lineage, stable_id, standardized_path, update_snapshot_details
 from .socrata import fetch_metadata_snapshot
 
 
@@ -128,14 +129,11 @@ def _replace_boundaries(
     boundaries: pd.DataFrame,
     snapshot_id: str,
 ) -> tuple[int, int]:
-    previous = conn.execute("SELECT count(*) FROM geo_boundary WHERE source_id=?", [source_id]).fetchone()[0]
-    conn.execute("BEGIN")
-    try:
-        conn.execute("DELETE FROM standardized_record WHERE entity_type='geo_boundary' AND source_id=?", [source_id])
+    with publication_transaction(conn):
+        previous = conn.execute("SELECT count(*) FROM geo_boundary WHERE source_id=?", [source_id]).fetchone()[0]
         conn.execute("DELETE FROM geo_boundary WHERE source_id=?", [source_id])
-        conn.register("_new_boundaries", boundaries)
-        conn.execute("INSERT INTO geo_boundary BY NAME SELECT * FROM _new_boundaries")
-        conn.unregister("_new_boundaries")
+        with registered_frame(conn, "_new_boundaries", boundaries):
+            conn.execute("INSERT INTO geo_boundary BY NAME SELECT * FROM _new_boundaries")
         register_table_lineage(
             conn,
             table_name="geo_boundary",
@@ -145,15 +143,7 @@ def _replace_boundaries(
             snapshot_id=snapshot_id,
         )
         inserted = conn.execute("SELECT count(*) FROM geo_boundary WHERE source_id=?", [source_id]).fetchone()[0]
-        conn.execute("COMMIT")
         return previous, inserted
-    except Exception:
-        try:
-            conn.unregister("_new_boundaries")
-        except Exception:
-            pass
-        conn.execute("ROLLBACK")
-        raise
 
 
 def refresh_nyc_geography(
@@ -273,24 +263,26 @@ def refresh_nyc_geography(
 
         if boundaries.empty or boundaries["boundary_id"].duplicated().any():
             raise ValueError(f"{source_id} produced empty or duplicate boundaries")
-        previous, inserted = _replace_boundaries(conn, source_id, boundaries, snapshot.snapshot_id)
-        frame.to_parquet(standardized_path(source_id, "current", f"{source['dataset_id']}.parquet"), index=False)
-        update_snapshot_details(
-            conn,
-            snapshot.snapshot_id,
-            boundaries,
-            warnings=[f"invalid_geometries_repaired={invalid}", f"empty_geometries_removed={removed}"],
-        )
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED_WITH_WARNINGS" if invalid or removed else "SUCCEEDED",
-            request_count=2,
-            downloaded_bytes=downloaded_bytes,
-            inserted_records=inserted,
-            deleted_records=previous,
-            warnings=[f"Repaired {invalid} invalid geometries; removed {removed} empty geometries."],
-        )
+        output = standardized_path(source_id, snapshot.snapshot_id, f"{source['dataset_id']}.parquet")
+        frame.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            previous, inserted = _replace_boundaries(conn, source_id, boundaries, snapshot.snapshot_id)
+            update_snapshot_details(
+                conn,
+                snapshot.snapshot_id,
+                boundaries,
+                warnings=[f"invalid_geometries_repaired={invalid}", f"empty_geometries_removed={removed}"],
+            )
+            finish_run(
+                conn,
+                run_id,
+                "SUCCEEDED_WITH_WARNINGS" if invalid or removed else "SUCCEEDED",
+                request_count=2,
+                downloaded_bytes=downloaded_bytes,
+                inserted_records=inserted,
+                deleted_records=previous,
+                warnings=[f"Repaired {invalid} invalid geometries; removed {removed} empty geometries."],
+            )
         return {
             "run_id": run_id,
             "snapshot_id": snapshot.snapshot_id,
@@ -300,6 +292,7 @@ def refresh_nyc_geography(
             "invalid_geometries_repaired": invalid,
             "empty_geometries_removed": removed,
             "raw_bytes": downloaded_bytes,
+            "standardized_parquet": str(output),
         }
     except Exception as exc:
         finish_run(
@@ -376,34 +369,37 @@ def refresh_zcta(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             parent=None,
             valid_from=date(2020, 1, 1),
         )
-        previous, inserted = _replace_boundaries(conn, source_id, boundaries, snapshot.snapshot_id)
-        frame.to_parquet(standardized_path(source_id, "2020", "nyc_intersecting_zcta.parquet"), index=False)
-        update_snapshot_details(
-            conn,
-            snapshot.snapshot_id,
-            boundaries,
-            warnings=[
-                f"bounding_box_features={len(payload.get('features', []))}",
-                f"nyc_intersecting_features={inserted}",
-                "ZCTAs approximate ZIP delivery areas and are not USPS boundaries.",
-            ],
-        )
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED_WITH_WARNINGS",
-            request_count=1,
-            downloaded_bytes=snapshot.byte_size,
-            inserted_records=inserted,
-            deleted_records=previous,
-            warnings=["ZCTAs are statistical ZIP approximations; the Raw bbox extract is filtered by the official NYC borough union."],
-        )
+        output = standardized_path(source_id, snapshot.snapshot_id, "nyc_intersecting_zcta.parquet")
+        frame.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            previous, inserted = _replace_boundaries(conn, source_id, boundaries, snapshot.snapshot_id)
+            update_snapshot_details(
+                conn,
+                snapshot.snapshot_id,
+                boundaries,
+                warnings=[
+                    f"bounding_box_features={len(payload.get('features', []))}",
+                    f"nyc_intersecting_features={inserted}",
+                    "ZCTAs approximate ZIP delivery areas and are not USPS boundaries.",
+                ],
+            )
+            finish_run(
+                conn,
+                run_id,
+                "SUCCEEDED_WITH_WARNINGS",
+                request_count=1,
+                downloaded_bytes=snapshot.byte_size,
+                inserted_records=inserted,
+                deleted_records=previous,
+                warnings=["ZCTAs are statistical ZIP approximations; the Raw bbox extract is filtered by the official NYC borough union."],
+            )
         return {
             "run_id": run_id,
             "snapshot_id": snapshot.snapshot_id,
             "bbox_features": len(payload.get("features", [])),
             "nyc_intersecting_zcta": inserted,
             "raw_bytes": snapshot.byte_size,
+            "standardized_parquet": str(output),
         }
     except Exception as exc:
         finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
@@ -473,19 +469,15 @@ def refresh_h3_grid(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 }
             )
         grid = pd.DataFrame(records)
-        previous = conn.execute(
-            "SELECT count(*) FROM geo_cell WHERE source_id IN ('derived_h3', 'derived_h3_grid')"
-        ).fetchone()[0]
-        conn.execute("BEGIN")
-        try:
-            conn.execute(
-                "DELETE FROM standardized_record WHERE entity_type='geo_cell' "
-                "AND source_id IN ('derived_h3', 'derived_h3_grid')"
-            )
+        output = standardized_path(source_id, snapshot.snapshot_id, "nyc_h3_grid.parquet")
+        grid.to_parquet(output, index=False)
+        with publication_transaction(conn):
+            previous = conn.execute(
+                "SELECT count(*) FROM geo_cell WHERE source_id IN ('derived_h3', 'derived_h3_grid')"
+            ).fetchone()[0]
             conn.execute("DELETE FROM geo_cell WHERE source_id IN ('derived_h3', 'derived_h3_grid')")
-            conn.register("_h3_grid", grid)
-            conn.execute("INSERT INTO geo_cell BY NAME SELECT * FROM _h3_grid")
-            conn.unregister("_h3_grid")
+            with registered_frame(conn, "_h3_grid", grid):
+                conn.execute("INSERT INTO geo_cell BY NAME SELECT * FROM _h3_grid")
             register_table_lineage(
                 conn,
                 table_name="geo_cell",
@@ -494,32 +486,24 @@ def refresh_h3_grid(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 source_id=source_id,
                 snapshot_id=snapshot.snapshot_id,
             )
-            conn.execute("COMMIT")
-        except Exception:
-            try:
-                conn.unregister("_h3_grid")
-            except Exception:
-                pass
-            conn.execute("ROLLBACK")
-            raise
-        grid.to_parquet(standardized_path(source_id, f"r{resolution}", "nyc_h3_grid.parquet"), index=False)
-        update_snapshot_details(conn, snapshot.snapshot_id, grid)
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED_WITH_WARNINGS",
-            request_count=0,
-            downloaded_bytes=0,
-            inserted_records=len(grid),
-            deleted_records=previous,
-            warnings=["H3 cells are modeled analysis units; parent borough snapshot IDs are stored in the derivation snapshot."],
-        )
+            update_snapshot_details(conn, snapshot.snapshot_id, grid)
+            finish_run(
+                conn,
+                run_id,
+                "SUCCEEDED_WITH_WARNINGS",
+                request_count=0,
+                downloaded_bytes=0,
+                inserted_records=len(grid),
+                deleted_records=previous,
+                warnings=["H3 cells are modeled analysis units; parent borough snapshot IDs are stored in the derivation snapshot."],
+            )
         return {
             "run_id": run_id,
             "snapshot_id": snapshot.snapshot_id,
             "resolution": resolution,
             "cells": len(grid),
             "parent_boundary_snapshot_ids": parent_snapshot_ids,
+            "standardized_parquet": str(output),
         }
     except Exception as exc:
         finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
