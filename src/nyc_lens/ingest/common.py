@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import hashlib
 import re
+from contextlib import contextmanager
 from pathlib import Path
 from typing import Any
 
@@ -53,6 +54,16 @@ def update_snapshot_details(
     )
 
 
+@contextmanager
+def registered_frame(conn: duckdb.DuckDBPyConnection, name: str, frame: pd.DataFrame):
+    """Release the temporary relation even when a publication is rolled back."""
+    conn.register(name, frame)
+    try:
+        yield
+    finally:
+        conn.unregister(name)
+
+
 def register_standardized_records(
     conn: duckdb.DuckDBPyConnection,
     frame: pd.DataFrame,
@@ -83,19 +94,18 @@ def register_standardized_records(
         }
     )
     records = records.drop_duplicates("standardized_record_id", keep="last")
-    conn.register("_standardized_records", records)
-    conn.execute(
-        """
-        INSERT INTO standardized_record
-        SELECT incoming.*
-        FROM _standardized_records incoming
-        WHERE NOT EXISTS (
-            SELECT 1 FROM standardized_record existing
-            WHERE existing.standardized_record_id=incoming.standardized_record_id
+    with registered_frame(conn, "_standardized_records", records):
+        conn.execute(
+            """
+            INSERT INTO standardized_record
+            SELECT incoming.*
+            FROM _standardized_records incoming
+            WHERE NOT EXISTS (
+                SELECT 1 FROM standardized_record existing
+                WHERE existing.standardized_record_id=incoming.standardized_record_id
+            )
+            """
         )
-        """
-    )
-    conn.unregister("_standardized_records")
 
 
 def register_table_lineage(
