@@ -1,0 +1,202 @@
+{
+  "observed_at": "2026-10-31T22:51:55.830071+00:00",
+  "scope": "Synthetic multi-snapshot publication; no live source refresh or human/product acceptance",
+  "base": "0e73f01e3db5c4e49a6d968ad57f71bbae62ad95",
+  "frozen_contract": "09ce02cd36202fb02d87aba375be40dce1ce3eda",
+  "first_runtime": "698e235042537464bc3901f63bc780d3f5ea3dec",
+  "recovery_runtime": "1ddf37d4a7d61273ae03547ad0ee79dba902099a",
+  "consumer_contract": "72ffdd03f58f3f2a68ab960ad479ce34b9c63afd",
+  "runtime_commit": "02f30ccf6056057331918aebff6ce592ba4cb32e",
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "geopandas": "1.2.0"
+  },
+  "observations": {
+    "frozen_before": {
+      "tests": 15,
+      "errors": 0,
+      "failures": 11,
+      "skipped": 0,
+      "passed": 4,
+      "seconds": 158.101,
+      "exit": 1,
+      "failing_cases": [
+        "test_failed_refresh_preserves_previous_publication[export-tiger]",
+        "test_failed_refresh_preserves_previous_publication[export-fema]",
+        "test_failed_refresh_preserves_previous_publication[freshness-tiger]",
+        "test_failed_refresh_preserves_previous_publication[freshness-fema]",
+        "test_reader_sees_complete_old_publication_until_commit[tiger]",
+        "test_reader_sees_complete_old_publication_until_commit[fema]",
+        "test_success_retains_parent_links_exports_and_manifest[tiger]",
+        "test_success_retains_parent_links_exports_and_manifest[fema]",
+        "test_interrupt_rolls_back_and_does_not_report_success[tiger]",
+        "test_interrupt_rolls_back_and_does_not_report_success[fema]",
+        "test_tiger_verified_cache_hit_records_zero_requests_and_keeps_raw_metadata"
+      ],
+      "log": "before.txt",
+      "xml": "before.xml"
+    },
+    "first_after": {
+      "tests": 15,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 15,
+      "seconds": 133.524,
+      "exit": 0,
+      "failing_cases": [],
+      "log": "first-after.txt",
+      "xml": "first-after.xml"
+    },
+    "commit_ack_before": {
+      "tests": 2,
+      "errors": 0,
+      "failures": 2,
+      "skipped": 0,
+      "passed": 0,
+      "seconds": 25.582,
+      "exit": 1,
+      "failing_cases": [
+        "test_lost_commit_acknowledgement_preserves_committed_outcome[tiger]",
+        "test_lost_commit_acknowledgement_preserves_committed_outcome[fema]"
+      ],
+      "log": "commit-ack-before.txt",
+      "xml": "commit-ack-before.xml"
+    },
+    "recovery": {
+      "tests": 32,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 32,
+      "seconds": 247.354,
+      "exit": 0,
+      "failing_cases": [],
+      "log": "recovery.txt",
+      "xml": "recovery.xml"
+    },
+    "consumers_before": {
+      "tests": 4,
+      "errors": 0,
+      "failures": 4,
+      "skipped": 0,
+      "passed": 0,
+      "seconds": 43.19,
+      "exit": 1,
+      "failing_cases": [
+        "test_refresh_cli_requires_inspection_after_lost_commit_ack[tiger]",
+        "test_refresh_cli_requires_inspection_after_lost_commit_ack[fema]",
+        "test_metric_uses_active_geometry_input_before_and_after_failed_refresh[tiger]",
+        "test_metric_uses_active_geometry_input_before_and_after_failed_refresh[fema]"
+      ],
+      "log": "consumers-before.txt",
+      "xml": "consumers-before.xml"
+    },
+    "consumer_command_error": {
+      "tests": 0,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 0,
+      "seconds": 0.013,
+      "exit": 4,
+      "failing_cases": [],
+      "log": "consumer-command-error.txt",
+      "xml": "consumer-command-error.xml"
+    },
+    "consumers_after": {
+      "tests": 10,
+      "errors": 0,
+      "failures": 0,
+      "skipped": 0,
+      "passed": 10,
+      "seconds": 89.67,
+      "exit": 0,
+      "failing_cases": [],
+      "log": "consumers-after.txt",
+      "xml": "consumers-after.xml"
+    }
+  },
+  "full_python": {
+    "status": "RUNNING_NOT_COUNTED_AS_PASS",
+    "log": "full-progress.txt",
+    "terminal_record": "Update PR verification and local GOAL ledger when the running check finishes; preserve this creation-time receipt."
+  },
+  "hosted": {
+    "status": "NOT_YET_OBSERVED_FOR_NEW_DELIVERY"
+  },
+  "fixtures": {
+    "tiger": "Four actual ZIP/shapefile containers, 30 synthetic county rows",
+    "fema": "30 synthetic county envelopes; actual 20x500 GeoJSON polygons, no lowered gate",
+    "owned_exit": "Two owned child processes exit 83 before commit; catalog reopened and explicit new attempts tested"
+  },
+  "consumer_regression": "The new derived receipt initially displaced actual geometry in latest-snapshot selection; frozen before/after checks retained. CLI also initially labelled unknown command outcomes FAILED.",
+  "command_error": "The first consumer-after command named a nonexistent unrelated test file. No tests ran, exit 4. Its log/XML are preserved separately; corrected invocation uses existing files.",
+  "artifact_transforms": [
+    "Original logs retained locally and hashed",
+    "Workspace/temp paths replaced in public logs/XML",
+    "LF line endings and trailing whitespace normalization; no test counts or statuses changed"
+  ],
+  "source_hashes": {
+    "src/nyc_lens/publication.py": "05086eeaea551040a145f8a7c69e10c5516d688f1ed0be7e385f81c9baaac8a9",
+    "src/nyc_lens/cli.py": "eb5eca524990770f21b8e9508ae3b0c97902bc44a4f91ff857cc26cdc098f1c9",
+    "src/nyc_lens/metrics/engine.py": "3087adc4a7add7b8823408a01c44a40afd3b70aa84904a7cf4111b1599a7c9a9",
+    "src/nyc_lens/ingest/common.py": "d0ce792d14f4728fd2446d3fcf54ee4899c2f15a1af6c3bbc00b490b6c24634c",
+    "src/nyc_lens/ingest/census.py": "89d2b0170df70001aa5cbf14bf6cb3d770abd2f5d51ab102a3cb4719f62c7dc3",
+    "src/nyc_lens/ingest/fema.py": "1e090f3e0ac09d87e8ae476f5dc9851fe227341b83c31beb4abadc42cb5ce5a0",
+    "src/nyc_lens/ingest/multisnapshot.py": "f0dbd024cab9e6c2ac7eca8fd99af113ee4cdd1e96b50ac7e03b5c8a8ba21c57",
+    "tests/unit/test_multisnapshot_publication.py": "10b441fd826833d5e38b0f9be1b187bcc24937be0a2704096fd1e7af3e2f2dae",
+    "tests/unit/test_multisnapshot_publication_recovery.py": "ba25b033082dbd3ec03bbe964b3253a4b6b25042af498b3e7c1ea33f69ce4d87",
+    "tests/unit/test_multisnapshot_commit_ack.py": "9e9d5b1b2aa53f2c72d334201569b80dad3cd059cb2759b2e092763eaa6e0af3",
+    "tests/unit/test_multisnapshot_cli_outcome.py": "e0b13d75cc306ab2ce5e92fdd7c0451954dca655ce50ee00bf7d42b13b36fd87",
+    "tests/unit/test_multisnapshot_metric_binding.py": "73dd272c6d9fe7bc2be0972bbb101ee7ad8d36c52c9f8eeee9a5a37d71d437cb",
+    "tests/fixtures/multisnapshot_publication_exit.py": "ebbd5740ef21140740e8f27d004d105facf7f99a376cd3c220bb289a0f5d1b6f",
+    ".github/workflows/tests.yml": "db32b5faa36ab8ac7d4bce7b577843f066e089a60ce25e75b7a6e68c762927a3"
+  },
+  "artifact_hashes": {
+    "before.txt": "4758573a65a86a9aec40d310d5f760c7733d67b7cdcb31a0cb4a62e47873d569",
+    "before.xml": "332febd6e2d94e531e087a1ab9b73f57733cdd492baa3ed6f03f902016f1fa6c",
+    "first-after.txt": "cd16f0caf13984686572c2d02de3c387f62266e1be73b07ec7709b6d879d7ebb",
+    "first-after.xml": "8c3bd692539f201970a70485f06b04c528b64563cdad1a040e845620e0c60885",
+    "commit-ack-before.txt": "b71074f7646564f5b8b4705b56407b010e4e3b6a6388338c8579bd2f7caa0d8a",
+    "commit-ack-before.xml": "a8d813758b5e6b3ff891b0ebe94471eae7536221b4d219818cbecc5239cdc71d",
+    "recovery.txt": "41e71218fbf8da0fdbc6dae00a9bee51cf27c6588a39b86e55e6ab0bc60924bd",
+    "recovery.xml": "d0f31465c16dc716419118055639b6182578ba66adb61c61b2d5ec04c87935b1",
+    "consumers-before.txt": "3f582bdb5eec0a3b249fb3f6c433c801f1ab0f5f90a47d014176ca8ba8ab42ad",
+    "consumers-before.xml": "d6ea164cd1b5adcff2780ee71722c9a1874caed90788ddcc2c127c23545b5e5a",
+    "consumer-command-error.txt": "efa6564403eff90474fd5c3ea5fd2ab97c480ce6f0bde86f752ee87334a1f9ec",
+    "consumer-command-error.xml": "b1eaf6bf71842d368fafd1404db73400d9bec791b1bd0d624661374457f72544",
+    "consumers-after.txt": "c047bdf3e8c5aa6e1a097ac6efa63621ed68d555f5fac954d853d98484cbbeb7",
+    "consumers-after.xml": "aeacd07da7ea96aabb4d24ec24249d50405ee13c0b1012cb61125e67ec794461",
+    "full-progress.txt": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+  },
+  "original_local_hashes": {
+    "task-artifacts/nyc-multisnapshot-before-20261031.log": "131a6a4322455162edbc1b5b4df951bb889e466e6fd357d28ae1f7407436177d",
+    "task-artifacts/nyc-multisnapshot-before-20261031.xml": "608d226f8307e6d2494b76842518570f4c10207cd1b72f85b581975e609bbeee",
+    "task-artifacts/nyc-multisnapshot-after-20261031.log": "ecce7be0b8d72cd5c6743461ce204ccac10a6f6a2ac51667209608a19b6a1704",
+    "task-artifacts/nyc-multisnapshot-after-20261031.xml": "28f926113021e647242e122f74ee102e6db042cba3413e70ed7bb4f1b18edc57",
+    "task-artifacts/nyc-multisnapshot-commit-ack-before-20261031.log": "5e37c516f78bd5c15a4376689375f1b0b7ede958afa06bc6423347570a76a9d1",
+    "task-artifacts/nyc-multisnapshot-commit-ack-before-20261031.xml": "4a4dff7e28ff16358f6df4783e777d4f2519d5ee484d1db58d9257f5e8cf2dbd",
+    "task-artifacts/nyc-multisnapshot-recovery-20261031.log": "80edce5bb2bb0d9f0fafb8e0110db07a64a0951eb8b2d109181c5030690c5e4d",
+    "task-artifacts/nyc-multisnapshot-recovery-20261031.xml": "380c7ec4aa00a47fa351b0a49572eacbec646a185e8c7694d20c394fd3cba8aa",
+    "task-artifacts/nyc-multisnapshot-consumers-before-20261031.log": "c1a918a451b11ed04543646e040248a3edbcee94a6f0ad7e9cbb34e82989d4fd",
+    "task-artifacts/nyc-multisnapshot-consumers-before-20261031.xml": "54d2645437598d4514005426cc5c12412141184b9c619ab150f8fe514e1749e8",
+    "task-artifacts/nyc-multisnapshot-consumers-after-20261031.log": "f3d931217443dddc66ccab661d7b349af23de722a4296fe324e513965952e305",
+    "task-artifacts/nyc-multisnapshot-consumers-after-20261031.xml": "07a245c48af43006d8f023210a4e40f981596d032dfcc5c6bcc61cc55d22653e",
+    "task-artifacts/nyc-multisnapshot-consumers-after-v2-20261031.log": "9afb527b8d10288eb46c8445e323789cbc34dca3e8331ec32df10e32154a5598",
+    "task-artifacts/nyc-multisnapshot-consumers-after-v2-20261031.xml": "cab2fb23b30732b40b8b2a99cdc0544b4e37851c564fb298c99cbfcf2d65e539"
+  },
+  "new_model_calls": 0,
+  "production_deployments": 0,
+  "schema_migrations": 0,
+  "M3_complete": false,
+  "remaining": [
+    "Full current regression/hosted checks as recorded above",
+    "Live FEMA stable pagination and strict upstream control parsing",
+    "Actual source-row/file binding, source effective dates and retained-file budgets",
+    "Other importers including uncertain-commit behavior",
+    "Full local data and original 12-scenario/independent-user acceptance"
+  ]
+}

@@ -1,0 +1,103 @@
+FFFF                                                                     [100%]
+================================== FAILURES ===================================
+______ test_refresh_cli_requires_inspection_after_lost_commit_ack[tiger] ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000190771120F0>, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-97/test_refresh_cli_requires_insp0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000019053936410>
+kind = 'tiger'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_refresh_cli_requires_inspection_after_lost_commit_ack(database, monkeypatch, kind):
+        conn, _ = database
+        seed(database, monkeypatch, kind)
+        def lose_ack(statement):
+            if statement == "COMMIT":
+                raise OSError("synthetic lost COMMIT acknowledgement")
+        @contextmanager
+        def session():
+            yield conn
+        monkeypatch.setattr(cli, "initialize_database", lambda: None)
+        monkeypatch.setattr(cli, "db_session", session)
+        monkeypatch.setattr(cli, "record_geoservice_status", lambda _conn: {"test": "synthetic; not queried"})
+        monkeypatch.setattr(cli, "REFRESHERS", {SOURCES[kind]: lambda _conn: refresh(ProbeConnection(conn, after=lose_ack), kind)})
+        result = CliRunner().invoke(cli.app, ["refresh", "--source", SOURCES[kind]])
+        assert result.exit_code == 1
+        payload = json.loads(result.stdout)
+        outcome = payload[SOURCES[kind]]
+>       assert outcome["status"] == "INDETERMINATE"
+E       AssertionError: assert 'FAILED' == 'INDETERMINATE'
+E
+E         - INDETERMINATE
+E         + FAILED
+
+tests\unit\test_multisnapshot_cli_outcome.py:30: AssertionError
+______ test_refresh_cli_requires_inspection_after_lost_commit_ack[fema] _______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000019078F5AE30>, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-97/test_refresh_cli_requires_insp1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000019078FAB5D0>
+kind = 'fema'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_refresh_cli_requires_inspection_after_lost_commit_ack(database, monkeypatch, kind):
+        conn, _ = database
+        seed(database, monkeypatch, kind)
+        def lose_ack(statement):
+            if statement == "COMMIT":
+                raise OSError("synthetic lost COMMIT acknowledgement")
+        @contextmanager
+        def session():
+            yield conn
+        monkeypatch.setattr(cli, "initialize_database", lambda: None)
+        monkeypatch.setattr(cli, "db_session", session)
+        monkeypatch.setattr(cli, "record_geoservice_status", lambda _conn: {"test": "synthetic; not queried"})
+        monkeypatch.setattr(cli, "REFRESHERS", {SOURCES[kind]: lambda _conn: refresh(ProbeConnection(conn, after=lose_ack), kind)})
+        result = CliRunner().invoke(cli.app, ["refresh", "--source", SOURCES[kind]])
+        assert result.exit_code == 1
+        payload = json.loads(result.stdout)
+        outcome = payload[SOURCES[kind]]
+>       assert outcome["status"] == "INDETERMINATE"
+E       AssertionError: assert 'FAILED' == 'INDETERMINATE'
+E
+E         - INDETERMINATE
+E         + FAILED
+
+tests\unit\test_multisnapshot_cli_outcome.py:30: AssertionError
+_ test_metric_uses_active_geometry_input_before_and_after_failed_refresh[tiger] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000019078C6E470>, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-97/test_metric_uses_active_geomet0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000019078FA8610>
+kind = 'tiger'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_metric_uses_active_geometry_input_before_and_after_failed_refresh(database, monkeypatch, kind):
+        conn, _ = database
+        seed(database, monkeypatch, kind)
+        parents = {row[0] for row in conn.execute("SELECT DISTINCT snapshot_id FROM geo_boundary WHERE source_id=?", [SOURCES[kind]]).fetchall()}
+        snapshot = _latest_snapshot(conn, SOURCES[kind])
+>       assert snapshot in parents
+E       AssertionError: assert 'snap_8ab3b66732e84b6b8ae573f7e1ac21fc' in {'snap_bf4440239a2f46819b5d44026913c74b', 'snap_c1c6a2854a754e818233a6fd2e63152d', 'snap_ccdd71819ae0406ba0317ce29cf5ad25', 'snap_f5bd9ba36797415dba0355f1bb042bc2'}
+
+tests\unit\test_multisnapshot_metric_binding.py:14: AssertionError
+_ test_metric_uses_active_geometry_input_before_and_after_failed_refresh[fema] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001907C750870>, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-97/test_metric_uses_active_geomet1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001907C753590>
+kind = 'fema'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_metric_uses_active_geometry_input_before_and_after_failed_refresh(database, monkeypatch, kind):
+        conn, _ = database
+        seed(database, monkeypatch, kind)
+        parents = {row[0] for row in conn.execute("SELECT DISTINCT snapshot_id FROM geo_boundary WHERE source_id=?", [SOURCES[kind]]).fetchall()}
+        snapshot = _latest_snapshot(conn, SOURCES[kind])
+>       assert snapshot in parents
+E       AssertionError: assert 'snap_b4f25c7a84bf48c9bfd5562976ab2ffb' in {'snap_006db52d2e0f48f4bd6abc003caecfe5', 'snap_04534225212c447796e9cf929006b54b', 'snap_05ffe2e817234cffbd19264e153b4...f9d85dce794ba3a995c8538bb1c709', 'snap_0ae249b337c44fa184221dafe04a3969', 'snap_0e9ec44bbb34445e8c7e1072f01b831c', ...}
+
+tests\unit\test_multisnapshot_metric_binding.py:14: AssertionError
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-multisnapshot-consumers-before-20261031.xml -
+=========================== short test summary info ===========================
+FAILED tests/unit/test_multisnapshot_cli_outcome.py::test_refresh_cli_requires_inspection_after_lost_commit_ack[tiger]
+FAILED tests/unit/test_multisnapshot_cli_outcome.py::test_refresh_cli_requires_inspection_after_lost_commit_ack[fema]
+FAILED tests/unit/test_multisnapshot_metric_binding.py::test_metric_uses_active_geometry_input_before_and_after_failed_refresh[tiger]
+FAILED tests/unit/test_multisnapshot_metric_binding.py::test_metric_uses_active_geometry_input_before_and_after_failed_refresh[fema]
+4 failed in 43.19s

@@ -16,6 +16,8 @@ Historical correctness work is retained in the [comparison/evidence](docs/compar
 
 The current release covers the five boroughs of New York City and the 30 county or county-equivalent areas in OMB New York–Newark CSA 408 across New York, New Jersey, Connecticut, and Pennsylvania.
 
+TIGER block groups and FEMA flood polygons now prepare separate exports for each ingestion run, retain their multiple source snapshots and historical lineage, and publish data/completion together. A local manifest links the inputs and export hash; it is not independent source evidence. [Multi-file recovery and compatibility](docs/multisnapshot-publication-2026-10-31.md) records the synthetic checks, cache accounting and remaining live-source limits.
+
 ## What it does
 
 - Standardizes public addresses and resolves coordinates, Census geography, state, county, and NYC tax lots where available.

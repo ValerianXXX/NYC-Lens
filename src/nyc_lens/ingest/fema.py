@@ -12,9 +12,11 @@ from shapely import from_wkt, union_all
 
 from ..config import get_source
 from ..db import begin_run, finish_run
-from ..provenance import download_snapshot
-from .common import register_table_lineage, stable_id, standardized_path, update_snapshot_details
+from ..provenance import Snapshot, download_snapshot
+from ..publication import publication_transaction
+from .common import registered_frame, register_table_lineage, stable_id, standardized_path, update_snapshot_summary
 from .geographies import _prepare_geometry
+from .multisnapshot import prepare_publication_manifest
 
 
 LAYER_URL = "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28"
@@ -146,18 +148,19 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
     duplicate_total = 0
     envelope_count_total = 0
     seen: set[str] = set()
-    snapshot_ids: list[str] = []
-    conn.execute(
-        "CREATE OR REPLACE TEMP TABLE _fema_sfha_staging AS "
-        "SELECT * FROM geo_boundary WHERE FALSE"
-    )
+    inputs: list[tuple[Snapshot, str]] = []
+    page_details: list[tuple[str, dict[str, Any]]] = []
+    staging_created = False
     try:
+        conn.execute("CREATE TEMP TABLE _fema_sfha_staging AS SELECT * FROM geo_boundary WHERE FALSE")
+        staging_created = True
         csa_union, envelopes = _csa_union_and_envelopes(conn)
         with httpx.Client(
             follow_redirects=True,
             timeout=300,
             limits=httpx.Limits(max_keepalive_connections=2, max_connections=2),
         ) as client:
+            request_count += 1
             metadata = download_snapshot(
                 conn,
                 source_id=source_id,
@@ -169,9 +172,8 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 timeout_seconds=300,
                 client=client,
             )
-            request_count += 1
             downloaded_bytes += metadata.byte_size
-            snapshot_ids.append(metadata.snapshot_id)
+            inputs.append((metadata, "metadata"))
             for county_geoid, min_x, min_y, max_x, max_y in envelopes:
                 envelope = f"{min_x},{min_y},{max_x},{max_y}"
                 common_params = {
@@ -182,6 +184,7 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                     "spatialRel": "esriSpatialRelIntersects",
                     "f": "geojson",
                 }
+                request_count += 1
                 count_snapshot = download_snapshot(
                     conn,
                     source_id=source_id,
@@ -198,9 +201,8 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                     timeout_seconds=300,
                     client=client,
                 )
-                request_count += 1
                 downloaded_bytes += count_snapshot.byte_size
-                snapshot_ids.append(count_snapshot.snapshot_id)
+                inputs.append((count_snapshot, "count"))
                 count_payload = json.loads(count_snapshot.path.read_text(encoding="utf-8"))
                 if "error" in count_payload:
                     raise RuntimeError(
@@ -210,6 +212,7 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 envelope_count_total += count
                 for page_index in range(math.ceil(count / PAGE_SIZE)):
                     offset = page_index * PAGE_SIZE
+                    request_count += 1
                     snapshot = download_snapshot(
                         conn,
                         source_id=source_id,
@@ -231,9 +234,8 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                         timeout_seconds=300,
                         client=client,
                     )
-                    request_count += 1
                     downloaded_bytes += snapshot.byte_size
-                    snapshot_ids.append(snapshot.snapshot_id)
+                    inputs.append((snapshot, "geometry"))
                     frame = gpd.read_file(snapshot.path)
                     if frame.empty and offset < count:
                         raise ValueError(
@@ -250,52 +252,26 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                     invalid_total += invalid
                     removed_total += removed
                     outside_total += outside
-                    update_snapshot_details(
-                        conn,
-                        snapshot.snapshot_id,
-                        boundaries,
-                        warnings=[
+                    page_details.append((snapshot.snapshot_id, {
+                        "row_count": len(boundaries),
+                        "schema": {column: str(dtype) for column, dtype in boundaries.dtypes.items()},
+                        "warnings": [
                             f"County-envelope query basis: {county_geoid}; exact CSA union clipping applied after download.",
                             "ArcGIS retrieval uses 5-decimal coordinate precision and a 0.00001-degree maximum allowable offset (approximately one metre) to bound transfer size.",
                             "SFHA_TF='T' only; current NFHL screening geometry, not an insurance or engineering determination.",
                         ],
-                    )
+                    }))
                     if not boundaries.empty:
-                        conn.register("_fema_page_boundaries", boundaries)
-                        conn.execute(
-                            "INSERT INTO _fema_sfha_staging BY NAME "
-                            "SELECT * FROM _fema_page_boundaries"
-                        )
-                        conn.unregister("_fema_page_boundaries")
+                        with registered_frame(conn, "_fema_page_boundaries", boundaries):
+                            conn.execute(
+                                "INSERT INTO _fema_sfha_staging BY NAME "
+                                "SELECT * FROM _fema_page_boundaries"
+                            )
 
         inserted = conn.execute("SELECT count(*) FROM _fema_sfha_staging").fetchone()[0]
         if inserted < 10_000:
             raise ValueError(f"FEMA CSA SFHA coverage is unexpectedly low: {inserted}")
-        previous = conn.execute(
-            "SELECT count(*) FROM geo_boundary WHERE source_id=?", [source_id]
-        ).fetchone()[0]
-        conn.execute("BEGIN")
-        try:
-            conn.execute(
-                "DELETE FROM standardized_record "
-                "WHERE entity_type='geo_boundary' AND source_id=?",
-                [source_id],
-            )
-            conn.execute("DELETE FROM geo_boundary WHERE source_id=?", [source_id])
-            conn.execute("INSERT INTO geo_boundary BY NAME SELECT * FROM _fema_sfha_staging")
-            register_table_lineage(
-                conn,
-                table_name="geo_boundary",
-                entity_type="geo_boundary",
-                id_column="boundary_id",
-                source_id=source_id,
-                snapshot_id=None,
-            )
-            conn.execute("COMMIT")
-        except Exception:
-            conn.execute("ROLLBACK")
-            raise
-        parquet_path = standardized_path(source_id, "current", "sfha_boundaries.parquet")
+        parquet_path = standardized_path(source_id, f"current/{run_id}", "sfha_boundaries.parquet")
         escaped = str(parquet_path).replace("'", "''")
         conn.execute(
             f"COPY (SELECT * FROM _fema_sfha_staging ORDER BY boundary_id) "
@@ -307,20 +283,34 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "Retrieved geometry is service-simplified to approximately one-metre tolerance before exact local intersection calculations.",
             "NFHL study coverage and effective dates vary by community and can change between refreshes.",
         ]
-        finish_run(
-            conn,
-            run_id,
-            "SUCCEEDED_WITH_WARNINGS",
-            request_count=request_count,
-            downloaded_bytes=downloaded_bytes,
-            inserted_records=inserted,
-            deleted_records=previous,
-            warnings=warnings,
+        manifest = prepare_publication_manifest(
+            conn, source_id=source_id, run_id=run_id, vintage="current",
+            inputs=inputs, export=parquet_path, row_count=inserted,
+            details={"county_envelopes": len(envelopes), "envelope_sfha_records": envelope_count_total,
+                     "warnings": warnings},
         )
+        with publication_transaction(conn):
+            previous = conn.execute(
+                "SELECT count(*) FROM geo_boundary WHERE source_id=?", [source_id]
+            ).fetchone()[0]
+            conn.execute("DELETE FROM geo_boundary WHERE source_id=?", [source_id])
+            conn.execute("INSERT INTO geo_boundary BY NAME SELECT * FROM _fema_sfha_staging")
+            register_table_lineage(
+                conn, table_name="geo_boundary", entity_type="geo_boundary",
+                id_column="boundary_id", source_id=source_id, snapshot_id=None,
+            )
+            for snapshot_id, details in page_details:
+                update_snapshot_summary(conn, snapshot_id, **details)
+            finish_run(
+                conn, run_id, "SUCCEEDED_WITH_WARNINGS",
+                request_count=request_count, downloaded_bytes=downloaded_bytes,
+                inserted_records=inserted, deleted_records=previous, warnings=warnings,
+            )
+            conn.execute("DROP TABLE _fema_sfha_staging")
         return {
             "run_id": run_id,
             "status": "SUCCEEDED_WITH_WARNINGS",
-            "snapshot_count": len(snapshot_ids),
+            "snapshot_count": len(inputs),
             "envelope_sfha_records": envelope_count_total,
             "standardized_sfha_polygons": inserted,
             "duplicate_or_nonpolygon_records_removed": duplicate_total,
@@ -329,19 +319,24 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "empty_geometries_removed": removed_total,
             "raw_bytes": downloaded_bytes,
             "standardized_parquet": str(parquet_path),
+            "publication_snapshot_id": manifest.snapshot_id,
+            "publication_manifest": str(manifest.path),
             "warnings": warnings,
         }
-    except Exception as exc:
-        try:
-            conn.unregister("_fema_page_boundaries")
-        except Exception:
-            pass
-        finish_run(
-            conn,
-            run_id,
-            "FAILED",
-            request_count=request_count,
-            downloaded_bytes=downloaded_bytes,
-            error={"type": type(exc).__name__, "message": str(exc)},
-        )
+    except BaseException as exc:
+        if getattr(exc, "publication_rollback_unconfirmed", False):
+            exc.ingestion_run_id = run_id
+        if staging_created:
+            try:
+                conn.execute("DROP TABLE IF EXISTS _fema_sfha_staging")
+            except BaseException:
+                exc.add_note("FEMA staging cleanup could not be confirmed; open a new connection before retrying.")
+        if isinstance(exc, Exception) and not getattr(exc, "publication_rollback_unconfirmed", False):
+            try:
+                finish_run(
+                    conn, run_id, "FAILED", request_count=request_count, downloaded_bytes=downloaded_bytes,
+                    error={"type": type(exc).__name__, "message": str(exc)},
+                )
+            except Exception:
+                exc.add_note("Failed ingestion status could not be recorded; inspect this run before retrying.")
         raise

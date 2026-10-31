@@ -275,6 +275,13 @@ def _latest_snapshot(conn: duckdb.DuckDBPyConnection, source_id: str) -> str | N
         """
         SELECT d.snapshot_id FROM dataset_snapshot d
         WHERE d.source_id=? AND d.status='SUCCEEDED'
+          AND (
+              d.source_id NOT IN ('tiger_bg_2024', 'fema_nfhl_special_flood_hazard_areas')
+              OR EXISTS (
+                  SELECT 1 FROM geo_boundary b
+                  WHERE b.source_id=d.source_id AND b.snapshot_id=d.snapshot_id
+              )
+          )
           AND EXISTS (
               SELECT 1 FROM ingestion_run r
               WHERE r.source_id=d.source_id

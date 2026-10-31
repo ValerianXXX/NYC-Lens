@@ -48,9 +48,21 @@ def update_snapshot_details(
     warnings: list[str] | None = None,
 ) -> None:
     schema = {column: str(dtype) for column, dtype in frame.dtypes.items()}
+    update_snapshot_summary(conn, snapshot_id, row_count=len(frame), schema=schema, warnings=warnings)
+
+
+def update_snapshot_summary(
+    conn: duckdb.DuckDBPyConnection,
+    snapshot_id: str,
+    *,
+    row_count: int,
+    schema: dict[str, str],
+    warnings: list[str] | None = None,
+) -> None:
+    """Publish compact page metadata without retaining every geometry in RAM."""
     conn.execute(
         "UPDATE dataset_snapshot SET row_count=?, schema_json=?::JSON, warnings_json=?::JSON WHERE snapshot_id=?",
-        [len(frame), json_dumps(schema), json_dumps(warnings or []), snapshot_id],
+        [row_count, json_dumps(schema), json_dumps(warnings or []), snapshot_id],
     )
 
 

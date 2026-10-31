@@ -13,16 +13,19 @@ import pandas as pd
 from ..config import get_source, geographies_config
 from ..db import begin_run, finish_run
 from ..provenance import Snapshot, download_snapshot, save_bytes_snapshot
+from ..publication import publication_transaction
 from ..util import sha256_file, utc_now
 from .common import (
     GREATER_NYC_COUNTY_FIPS,
     GREATER_NYC_STATE_FIPS,
     as_number,
+    registered_frame,
     register_table_lineage,
     stable_id,
     standardized_path,
     update_snapshot_details,
 )
+from .multisnapshot import prepare_publication_manifest
 
 
 ACS_SELECTIONS: dict[str, dict[str, str]] = {
@@ -93,6 +96,9 @@ ACS_SELECTIONS: dict[str, dict[str, str]] = {
 def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
     source_id = "tiger_bg_2024"
     run_id = begin_run(conn, source_id, "refresh")
+    request_count = 0
+    downloaded_bytes = 0
+    downloaded_snapshots: set[str] = set()
     try:
         snapshots: list[Snapshot] = []
         frames: list[gpd.GeoDataFrame] = []
@@ -102,6 +108,7 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             url = f"https://www2.census.gov/geo/tiger/TIGER2024/BG/{filename}"
             snapshot = _reusable_immutable_snapshot(conn, url, "2024")
             if snapshot is None:
+                request_count += 1
                 snapshot = download_snapshot(
                     conn,
                     source_id=source_id,
@@ -113,6 +120,8 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                     valid_to=date(2024, 12, 31),
                     timeout_seconds=300,
                 )
+                downloaded_bytes += snapshot.byte_size
+                downloaded_snapshots.add(snapshot.snapshot_id)
             state_frame = gpd.read_file(snapshot.path)
             state_frame = state_frame.loc[
                 (state_frame["STATEFP"] + state_frame["COUNTYFP"]).isin(GREATER_NYC_COUNTY_FIPS)
@@ -156,13 +165,20 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 "max_latitude": frame.geometry.bounds["maxy"],
             }
         )
-        conn.execute("BEGIN")
-        try:
-            conn.execute("DELETE FROM standardized_record WHERE source_id=? AND entity_type='geo_boundary'", [source_id])
+        output = standardized_path(source_id, f"2024/{run_id}", "greater_nyc_block_groups.parquet")
+        frame[["GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "NAMELSAD", "geometry"]].to_parquet(output, index=False)
+        manifest = prepare_publication_manifest(
+            conn, source_id=source_id, run_id=run_id, vintage="2024",
+            inputs=[(snapshot, "geometry") for snapshot in snapshots],
+            export=output, row_count=len(boundaries),
+            details={"county_equivalents": sorted(observed_counties),
+                     "invalid_geometries_repaired": invalid_before,
+                     "reused_snapshots": len(snapshots) - len(downloaded_snapshots)},
+        )
+        with publication_transaction(conn):
             conn.execute("DELETE FROM geo_boundary WHERE source_id=? AND geography_type='block_group'", [source_id])
-            conn.register("_boundaries", boundaries)
-            conn.execute("INSERT INTO geo_boundary BY NAME SELECT * FROM _boundaries")
-            conn.unregister("_boundaries")
+            with registered_frame(conn, "_boundaries", boundaries):
+                conn.execute("INSERT INTO geo_boundary BY NAME SELECT * FROM _boundaries")
             for snapshot in snapshots:
                 register_table_lineage(
                     conn,
@@ -172,21 +188,10 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                     source_id=source_id,
                     snapshot_id=snapshot.snapshot_id,
                 )
-            conn.execute("COMMIT")
-        except Exception:
-            conn.execute("ROLLBACK")
-            raise
-        output = standardized_path(source_id, "2024", "greater_nyc_block_groups.parquet")
-        frame[["GEOID", "STATEFP", "COUNTYFP", "TRACTCE", "BLKGRPCE", "NAMELSAD", "geometry"]].to_parquet(output, index=False)
-        for snapshot in snapshots:
-            state_rows = frame.loc[frame["_snapshot_id"] == snapshot.snapshot_id]
-            update_snapshot_details(conn, snapshot.snapshot_id, state_rows, warnings=[f"invalid_geometries_repaired={invalid_before}"])
-        downloaded_bytes = sum(
-            snapshot.byte_size for snapshot in snapshots if conn.execute(
-                "SELECT run_id=? FROM dataset_snapshot WHERE snapshot_id=?", [run_id, snapshot.snapshot_id]
-            ).fetchone()[0]
-        )
-        finish_run(conn, run_id, "SUCCEEDED", request_count=4, downloaded_bytes=downloaded_bytes, inserted_records=len(boundaries))
+                if snapshot.snapshot_id in downloaded_snapshots:
+                    state_rows = frame.loc[frame["_snapshot_id"] == snapshot.snapshot_id]
+                    update_snapshot_details(conn, snapshot.snapshot_id, state_rows, warnings=[f"invalid_geometries_repaired={invalid_before}"])
+            finish_run(conn, run_id, "SUCCEEDED", request_count=request_count, downloaded_bytes=downloaded_bytes, inserted_records=len(boundaries))
         return {
             "run_id": run_id,
             "snapshots": [snapshot.snapshot_id for snapshot in snapshots],
@@ -194,9 +199,20 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "county_equivalents": len(observed_counties),
             "invalid_repaired": invalid_before,
             "raw_bytes": downloaded_bytes,
+            "reused_snapshots": len(snapshots) - len(downloaded_snapshots),
+            "standardized_parquet": str(output),
+            "publication_snapshot_id": manifest.snapshot_id,
+            "publication_manifest": str(manifest.path),
         }
     except Exception as exc:
-        finish_run(conn, run_id, "FAILED", error={"type": type(exc).__name__, "message": str(exc)})
+        if getattr(exc, "publication_rollback_unconfirmed", False):
+            exc.ingestion_run_id = run_id
+        else:
+            try:
+                finish_run(conn, run_id, "FAILED", request_count=request_count, downloaded_bytes=downloaded_bytes,
+                           error={"type": type(exc).__name__, "message": str(exc)})
+            except Exception:
+                exc.add_note("Failed ingestion status could not be recorded; inspect this run before retrying.")
         raise
 
 

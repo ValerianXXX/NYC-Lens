@@ -263,11 +263,20 @@ def refresh_command(source: Annotated[Optional[str], typer.Option("--source", he
                 results[source_id] = REFRESHERS[source_id](conn)
             except Exception as exc:
                 failures.append(source_id)
+                uncertain = getattr(exc, "publication_rollback_unconfirmed", False)
                 results[source_id] = {
-                    "status": "FAILED",
+                    "status": "INDETERMINATE" if uncertain else "FAILED",
                     "error_type": type(exc).__name__,
-                    "message": str(exc),
+                    "message": (
+                        "Publication outcome is unconfirmed; inspect the recorded run and active snapshots before retrying."
+                        if uncertain else str(exc)
+                    ),
                 }
+                if uncertain:
+                    results[source_id].update({
+                        "recorded_run_id": getattr(exc, "ingestion_run_id", None),
+                        "requires_catalog_inspection": True,
+                    })
     _print(results)
     if failures:
         typer.echo(f"Failed sources: {', '.join(failures)}", err=True)

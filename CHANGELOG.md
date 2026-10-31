@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-10-31
 
+- Prepare per-run TIGER block-group and FEMA SFHA exports and a locally derived multi-input receipt before atomic publication. Retain historical lineage and original geometry snapshot IDs; publish page metadata, run status and freshness together. Count actual TIGER requests/cache reuse, release FEMA staging on failure, and preserve the stored outcome when a commit acknowledgement is lost and rollback cannot be confirmed. Preserve original county/polygon coverage gates. See [failure evidence, explicit recovery and export-path compatibility](docs/multisnapshot-publication-2026-10-31.md).
+
 - Check Socrata geography/hazard response counts against counts before and after download, and assemble TIGERweb ZCTAs from bounded, exact object-ID chunks with a final manifest check. Preserve HTTP/error responses and exclusive hash-linked audits, reject transfer-limit flags, malformed control data and lost geometry rows, and retain previous facts/lineage/exports on failure. Add `completeness_check` to refresh results without changing schema, source coverage floors or approval boundaries. See [evidence, source checks and recovery limits](docs/geojson-completeness-2026-10-31.md).
 - Preserve request accounting when a rejected-response audit also fails to write. Observe owner/CLI startup and analysis-worker readiness separately in the existing real-process tests; retain per-phase deadlines, all outcome assertions and product resource limits. Preserve initial full-run failures and subsequent diagnostics in the same verification record.
 

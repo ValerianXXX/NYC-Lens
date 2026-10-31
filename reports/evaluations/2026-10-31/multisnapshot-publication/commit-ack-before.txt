@@ -1,0 +1,63 @@
+FF                                                                       [100%]
+================================== FAILURES ===================================
+_____ test_lost_commit_acknowledgement_preserves_committed_outcome[tiger] _____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001DB1EF1F9F0>, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-95/test_lost_commit_acknowledgeme0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001DB1EFB2450>
+kind = 'tiger'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_lost_commit_acknowledgement_preserves_committed_outcome(database, monkeypatch, kind):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        def lose_ack(statement):
+            if statement == "COMMIT":
+                raise OSError("synthetic connection lost after actual COMMIT")
+        with pytest.raises(OSError, match="after actual COMMIT") as raised:
+            refresh(ProbeConnection(conn, after=lose_ack), kind)
+        assert any("rollback could not be confirmed" in note for note in raised.value.__notes__)
+        # The driver error is propagated. The stored outcome is not rewritten merely
+        # because the caller failed to receive the successful commit acknowledgement.
+        run_id, status, completed = conn.execute(
+            "SELECT run_id,status,completed_at FROM ingestion_run ORDER BY started_at DESC LIMIT 1"
+        ).fetchone()
+>       assert status == ("SUCCEEDED" if kind == "tiger" else "SUCCEEDED_WITH_WARNINGS")
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED'
+E
+E         - SUCCEEDED
+E         + FAILED
+
+tests\unit\test_multisnapshot_commit_ack.py:27: AssertionError
+_____ test_lost_commit_acknowledgement_preserves_committed_outcome[fema] ______
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001DB1EFB2BB0>, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-95/test_lost_commit_acknowledgeme1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001DB2023D890>
+kind = 'fema'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_lost_commit_acknowledgement_preserves_committed_outcome(database, monkeypatch, kind):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        def lose_ack(statement):
+            if statement == "COMMIT":
+                raise OSError("synthetic connection lost after actual COMMIT")
+        with pytest.raises(OSError, match="after actual COMMIT") as raised:
+            refresh(ProbeConnection(conn, after=lose_ack), kind)
+        assert any("rollback could not be confirmed" in note for note in raised.value.__notes__)
+        # The driver error is propagated. The stored outcome is not rewritten merely
+        # because the caller failed to receive the successful commit acknowledgement.
+        run_id, status, completed = conn.execute(
+            "SELECT run_id,status,completed_at FROM ingestion_run ORDER BY started_at DESC LIMIT 1"
+        ).fetchone()
+>       assert status == ("SUCCEEDED" if kind == "tiger" else "SUCCEEDED_WITH_WARNINGS")
+E       AssertionError: assert 'FAILED' == 'SUCCEEDED_WITH_WARNINGS'
+E
+E         - SUCCEEDED_WITH_WARNINGS
+E         + FAILED
+
+tests\unit\test_multisnapshot_commit_ack.py:27: AssertionError
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-multisnapshot-commit-ack-before-20261031.xml -
+=========================== short test summary info ===========================
+FAILED tests/unit/test_multisnapshot_commit_ack.py::test_lost_commit_acknowledgement_preserves_committed_outcome[tiger]
+FAILED tests/unit/test_multisnapshot_commit_ack.py::test_lost_commit_acknowledgement_preserves_committed_outcome[fema]
+2 failed in 25.58s
