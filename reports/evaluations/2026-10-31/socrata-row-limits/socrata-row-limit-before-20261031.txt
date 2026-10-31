@@ -1,0 +1,474 @@
+FFFFFFFFFFFFFFFFFFFF                                                     [100%]
+================================== FAILURES ===================================
+_______________ test_one_extra_record_detects_silent_truncation _______________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000018048CF5230>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_one_extra_record_detects_0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000018028576E10>
+
+    def test_one_extra_record_detects_silent_truncation(database, monkeypatch):
+        conn, _ = database
+        frame = pd.DataFrame({'id': range(5), 'label': ['synthetic'] * 5})
+        requests, snapshots = install_response(monkeypatch,
+            lambda params: frame.head(params['$limit']).to_csv(index=False).encode())
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_EXCEEDED'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:47: Failed
+________ test_exact_limit_accepts_eof_and_preserves_all_query_clauses _________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AC0BDF0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_exact_limit_accepts_eof_a0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AC0BB90>
+
+    def test_exact_limit_accepts_eof_and_preserves_all_query_clauses(database, monkeypatch):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'area,total\nA,10\nB,20\n')
+        snapshot = REAL_DOWNLOAD(conn, 'dohmh_restaurants', 'test', None,
+            select='area,sum(value) as total', where='year=2026', group='area', order='area', limit=2)
+>       assert requests == [{'$limit': 3, '$select': 'area,sum(value) as total', '$where': 'year=2026',
+                             '$group': 'area', '$order': 'area'}]
+E       AssertionError: assert [{'$group': '... total', ...}] == [{'$group': '... total', ...}]
+E
+E         At index 0 diff: {'$limit': 2, '$select': 'area,sum(value) as total', '$where': 'year=2026', '$group': 'area', '$order': 'area'} != {'$limit': 3, '$select': 'area,sum(value) as total', '$where': 'year=2026', '$group': 'area', '$order': 'area'}
+E         Use -v to get more diff
+
+tests\unit\test_socrata_row_limits.py:61: AssertionError
+_____ test_counts_csv_records_not_lines_or_aggregate_values[id,label\n-0] _____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AE44F70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AE44650>
+payload = b'id,label\n', rows = 0
+
+    @pytest.mark.parametrize('payload,rows', [
+        (b'id,label\n', 0),
+        (b'id,label\n1,"line one\nline two"\n2,last\n', 2),
+        (b'\xef\xbb\xbfid,label\n1,synthetic\n\n', 1),
+        (b'count\n9000000\n', 1),
+    ])
+    def test_counts_csv_records_not_lines_or_aggregate_values(database, monkeypatch, payload, rows):
+        conn, _ = database
+        install_response(monkeypatch, payload)
+        snapshot = REAL_DOWNLOAD(conn, 'dohmh_restaurants', 'test', None, limit=2)
+>       result = audit(snapshot)
+                 ^^^^^^^^^^^^^^^
+
+tests\unit\test_socrata_row_limits.py:80:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_socrata_row_limits.py:35: in audit
+    result = json.loads(snapshot.path.with_name('row-limit-check.json').read_text(encoding='utf-8'))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li0/data/raw/dohmh_restaurants/test/20261031T194852.727154Z/row-limit-check.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\AppData\\Local\\Temp\\pytest-of-<USER>\\pytest-74\\test_counts_csv_records_not_li0\\data\\raw\\dohmh_restaurants\\test\\20261031T194852.727154Z\\row-limit-check.json'
+
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1044: FileNotFoundError
+_ test_counts_csv_records_not_lines_or_aggregate_values[id,label\n1,"line one\nline two"\n2,last\n-2] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AEC88F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AEC8490>
+payload = b'id,label\n1,"line one\nline two"\n2,last\n', rows = 2
+
+    @pytest.mark.parametrize('payload,rows', [
+        (b'id,label\n', 0),
+        (b'id,label\n1,"line one\nline two"\n2,last\n', 2),
+        (b'\xef\xbb\xbfid,label\n1,synthetic\n\n', 1),
+        (b'count\n9000000\n', 1),
+    ])
+    def test_counts_csv_records_not_lines_or_aggregate_values(database, monkeypatch, payload, rows):
+        conn, _ = database
+        install_response(monkeypatch, payload)
+        snapshot = REAL_DOWNLOAD(conn, 'dohmh_restaurants', 'test', None, limit=2)
+>       result = audit(snapshot)
+                 ^^^^^^^^^^^^^^^
+
+tests\unit\test_socrata_row_limits.py:80:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_socrata_row_limits.py:35: in audit
+    result = json.loads(snapshot.path.with_name('row-limit-check.json').read_text(encoding='utf-8'))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li1/data/raw/dohmh_restaurants/test/20261031T194852.954617Z/row-limit-check.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\AppData\\Local\\Temp\\pytest-of-<USER>\\pytest-74\\test_counts_csv_records_not_li1\\data\\raw\\dohmh_restaurants\\test\\20261031T194852.954617Z\\row-limit-check.json'
+
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1044: FileNotFoundError
+_ test_counts_csv_records_not_lines_or_aggregate_values[\xef\xbb\xbfid,label\n1,synthetic\n\n-1] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AF14FB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AF16210>
+payload = b'\xef\xbb\xbfid,label\n1,synthetic\n\n', rows = 1
+
+    @pytest.mark.parametrize('payload,rows', [
+        (b'id,label\n', 0),
+        (b'id,label\n1,"line one\nline two"\n2,last\n', 2),
+        (b'\xef\xbb\xbfid,label\n1,synthetic\n\n', 1),
+        (b'count\n9000000\n', 1),
+    ])
+    def test_counts_csv_records_not_lines_or_aggregate_values(database, monkeypatch, payload, rows):
+        conn, _ = database
+        install_response(monkeypatch, payload)
+        snapshot = REAL_DOWNLOAD(conn, 'dohmh_restaurants', 'test', None, limit=2)
+>       result = audit(snapshot)
+                 ^^^^^^^^^^^^^^^
+
+tests\unit\test_socrata_row_limits.py:80:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_socrata_row_limits.py:35: in audit
+    result = json.loads(snapshot.path.with_name('row-limit-check.json').read_text(encoding='utf-8'))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li2/data/raw/dohmh_restaurants/test/20261031T194853.178515Z/row-limit-check.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\AppData\\Local\\Temp\\pytest-of-<USER>\\pytest-74\\test_counts_csv_records_not_li2\\data\\raw\\dohmh_restaurants\\test\\20261031T194853.178515Z\\row-limit-check.json'
+
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1044: FileNotFoundError
+__ test_counts_csv_records_not_lines_or_aggregate_values[count\n9000000\n-1] __
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804ABF11F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li3'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804ABF04D0>
+payload = b'count\n9000000\n', rows = 1
+
+    @pytest.mark.parametrize('payload,rows', [
+        (b'id,label\n', 0),
+        (b'id,label\n1,"line one\nline two"\n2,last\n', 2),
+        (b'\xef\xbb\xbfid,label\n1,synthetic\n\n', 1),
+        (b'count\n9000000\n', 1),
+    ])
+    def test_counts_csv_records_not_lines_or_aggregate_values(database, monkeypatch, payload, rows):
+        conn, _ = database
+        install_response(monkeypatch, payload)
+        snapshot = REAL_DOWNLOAD(conn, 'dohmh_restaurants', 'test', None, limit=2)
+>       result = audit(snapshot)
+                 ^^^^^^^^^^^^^^^
+
+tests\unit\test_socrata_row_limits.py:80:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_socrata_row_limits.py:35: in audit
+    result = json.loads(snapshot.path.with_name('row-limit-check.json').read_text(encoding='utf-8'))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_counts_csv_records_not_li3/data/raw/dohmh_restaurants/test/20261031T194853.412806Z/row-limit-check.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\AppData\\Local\\Temp\\pytest-of-<USER>\\pytest-74\\test_counts_csv_records_not_li3\\data\\raw\\dohmh_restaurants\\test\\20261031T194853.412806Z\\row-limit-check.json'
+
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1044: FileNotFoundError
+__________ test_invalid_limit_fails_before_network_or_snapshot[True] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804B2D04F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804B2D0CD0>
+limit = True
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+_________ test_invalid_limit_fails_before_network_or_snapshot[False] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804ABF7730>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001802851FFD0>
+limit = False
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+___________ test_invalid_limit_fails_before_network_or_snapshot[0] ____________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804ABA7B70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804ABA7990>
+limit = 0
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+___________ test_invalid_limit_fails_before_network_or_snapshot[-1] ___________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001802859C2B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor3'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001802859E3D0>
+limit = -1
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+__________ test_invalid_limit_fails_before_network_or_snapshot[1.5] ___________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804B30A370>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor4'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804B309A50>
+limit = 1.5
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+___________ test_invalid_limit_fails_before_network_or_snapshot[2] ____________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AEB9D70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor5'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AEB9AD0>
+limit = '2'
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+__________ test_invalid_limit_fails_before_network_or_snapshot[None] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000180492BCD30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_limit_fails_befor6'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000180494F2CD0>
+limit = None
+
+    @pytest.mark.parametrize('limit', [True, False, 0, -1, 1.5, '2', None])
+    def test_invalid_limit_fails_before_network_or_snapshot(database, monkeypatch, limit):
+        conn, _ = database
+        requests, snapshots = install_response(monkeypatch, b'id\n1\n')
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_INVALID'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:90: Failed
+_________ test_invalid_csv_is_retained_but_never_accepted_as_empty[] __________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AE97C30>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_csv_is_retained_b0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AE94F10>
+payload = b''
+
+    @pytest.mark.parametrize('payload', [b'', b'id,label\n1,"unterminated\n'])
+    def test_invalid_csv_is_retained_but_never_accepted_as_empty(database, monkeypatch, payload):
+        conn, _ = database
+        _, snapshots = install_response(monkeypatch, payload)
+>       with pytest.raises(ValueError, match='SOCRATA_CSV_UNVERIFIED'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:100: Failed
+_ test_invalid_csv_is_retained_but_never_accepted_as_empty[id,label\n1,"unterminated\n] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AEA6F70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_invalid_csv_is_retained_b1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AEA5710>
+payload = b'id,label\n1,"unterminated\n'
+
+    @pytest.mark.parametrize('payload', [b'', b'id,label\n1,"unterminated\n'])
+    def test_invalid_csv_is_retained_but_never_accepted_as_empty(database, monkeypatch, payload):
+        conn, _ = database
+        _, snapshots = install_response(monkeypatch, payload)
+>       with pytest.raises(ValueError, match='SOCRATA_CSV_UNVERIFIED'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:100: Failed
+______________ test_existing_check_record_cannot_be_overwritten _______________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804AF27F70>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_existing_check_record_can0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804AF27F10>
+
+    def test_existing_check_record_cannot_be_overwritten(database, monkeypatch):
+        conn, _ = database
+        _, snapshots = install_response(monkeypatch, b'id\n1\n', occupied_audit=True)
+>       with pytest.raises(FileExistsError):
+E       Failed: DID NOT RAISE <class 'FileExistsError'>
+
+tests\unit\test_socrata_row_limits.py:111: Failed
+_ test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports[restaurants] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804B3199B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_truncated_refresh_preserv0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804B31A1D0>
+kind = 'restaurants'
+
+    @pytest.mark.parametrize('kind', SPECS)
+    def test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports(database, monkeypatch, kind):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        response = pd.concat([input_frame(kind, 2), input_frame(kind, 3)], ignore_index=True)
+        requests, snapshots = install_response(monkeypatch,
+            lambda params: response.head(params['$limit']).to_csv(index=False).encode())
+        def limited(conn, source, vintage, run, **kwargs):
+            return REAL_DOWNLOAD(conn, source, vintage, run, **{**kwargs, 'limit': 1})
+        monkeypatch.setattr(socrata, 'download_socrata_csv', limited)
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_EXCEEDED'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:126: Failed
+_ test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports[hotels] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804B216730>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_truncated_refresh_preserv1'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000180494A3B50>
+kind = 'hotels'
+
+    @pytest.mark.parametrize('kind', SPECS)
+    def test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports(database, monkeypatch, kind):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        response = pd.concat([input_frame(kind, 2), input_frame(kind, 3)], ignore_index=True)
+        requests, snapshots = install_response(monkeypatch,
+            lambda params: response.head(params['$limit']).to_csv(index=False).encode())
+        def limited(conn, source, vintage, run, **kwargs):
+            return REAL_DOWNLOAD(conn, source, vintage, run, **{**kwargs, 'limit': 1})
+        monkeypatch.setattr(socrata, 'download_socrata_csv', limited)
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_EXCEEDED'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:126: Failed
+_ test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports[air] _
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804B2CB1B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_truncated_refresh_preserv2'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001804B2CA790>
+kind = 'air'
+
+    @pytest.mark.parametrize('kind', SPECS)
+    def test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports(database, monkeypatch, kind):
+        conn, _ = database
+        baseline, exports = seed(database, monkeypatch, kind)
+        response = pd.concat([input_frame(kind, 2), input_frame(kind, 3)], ignore_index=True)
+        requests, snapshots = install_response(monkeypatch,
+            lambda params: response.head(params['$limit']).to_csv(index=False).encode())
+        def limited(conn, source, vintage, run, **kwargs):
+            return REAL_DOWNLOAD(conn, source, vintage, run, **{**kwargs, 'limit': 1})
+        monkeypatch.setattr(socrata, 'download_socrata_csv', limited)
+>       with pytest.raises(ValueError, match='SOCRATA_ROW_LIMIT_EXCEEDED'):
+E       Failed: DID NOT RAISE <class 'ValueError'>
+
+tests\unit\test_socrata_row_limits.py:126: Failed
+_________ test_empty_checked_hotel_refresh_is_audited_and_can_publish _________
+
+database = (<_duckdb.DuckDBPyConnection object at 0x000001804B2EC2B0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_empty_checked_hotel_refre0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000180494F32D0>
+
+    def test_empty_checked_hotel_refresh_is_audited_and_can_publish(database, monkeypatch):
+        conn, _ = database
+        seed(database, monkeypatch, 'hotels')
+        _, snapshots = install_response(monkeypatch, input_frame('hotels', 2).iloc[:0].to_csv(index=False).encode())
+        monkeypatch.setattr(socrata, 'download_socrata_csv', REAL_DOWNLOAD)
+        socrata.refresh_hotels(conn)
+        assert conn.execute("SELECT count(*) FROM hotel WHERE source_id='nyc_hotels'").fetchone() == (0,)
+>       assert audit(snapshots[-1])['rows_read'] == 0
+               ^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_socrata_row_limits.py:141:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tests\unit\test_socrata_row_limits.py:35: in audit
+    result = json.loads(snapshot.path.with_name('row-limit-check.json').read_text(encoding='utf-8'))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1058: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-74/test_empty_checked_hotel_refre0/data/raw/nyc_hotels/current/20261031T194856.944928Z/row-limit-check.json')
+mode = 'r', buffering = -1, encoding = 'utf-8', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '<USER_HOME>\\AppData\\Local\\Temp\\pytest-of-<USER>\\pytest-74\\test_empty_checked_hotel_refre0\\data\\raw\\nyc_hotels\\current\\20261031T194856.944928Z\\row-limit-check.json'
+
+<USER_HOME>\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1044: FileNotFoundError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_socrata_row_limits.py::test_one_extra_record_detects_silent_truncation
+FAILED tests/unit/test_socrata_row_limits.py::test_exact_limit_accepts_eof_and_preserves_all_query_clauses
+FAILED tests/unit/test_socrata_row_limits.py::test_counts_csv_records_not_lines_or_aggregate_values[id,label\n-0]
+FAILED tests/unit/test_socrata_row_limits.py::test_counts_csv_records_not_lines_or_aggregate_values[id,label\n1,"line one\nline two"\n2,last\n-2]
+FAILED tests/unit/test_socrata_row_limits.py::test_counts_csv_records_not_lines_or_aggregate_values[\xef\xbb\xbfid,label\n1,synthetic\n\n-1]
+FAILED tests/unit/test_socrata_row_limits.py::test_counts_csv_records_not_lines_or_aggregate_values[count\n9000000\n-1]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[True]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[False]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[0]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[-1]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[1.5]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[2]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_limit_fails_before_network_or_snapshot[None]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_csv_is_retained_but_never_accepted_as_empty[]
+FAILED tests/unit/test_socrata_row_limits.py::test_invalid_csv_is_retained_but_never_accepted_as_empty[id,label\n1,"unterminated\n]
+FAILED tests/unit/test_socrata_row_limits.py::test_existing_check_record_cannot_be_overwritten
+FAILED tests/unit/test_socrata_row_limits.py::test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports[restaurants]
+FAILED tests/unit/test_socrata_row_limits.py::test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports[hotels]
+FAILED tests/unit/test_socrata_row_limits.py::test_truncated_refresh_preserves_prior_facts_lineage_freshness_and_exports[air]
+FAILED tests/unit/test_socrata_row_limits.py::test_empty_checked_hotel_refresh_is_audited_and_can_publish

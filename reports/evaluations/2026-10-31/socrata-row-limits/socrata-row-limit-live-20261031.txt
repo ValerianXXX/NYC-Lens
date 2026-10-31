@@ -1,0 +1,1 @@
+{"status": "PASS", "receipt": "<WORKSPACE>\\NYC-Lens-row-limits\\outputs\\socrata-row-limit-live-20261031\\receipt.json", "cases": [{"name": "aggregate", "passed": true, "error_code": null, "seconds": 0.5674}, {"name": "sentinel", "passed": true, "error_code": "SOCRATA_ROW_LIMIT_EXCEEDED", "seconds": 0.2123}]}
