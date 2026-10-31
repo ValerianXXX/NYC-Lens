@@ -123,6 +123,12 @@ remain open. macOS has no implemented guard and refuses these bounded analysis
 routes; the existing direct CLI/library remains available without this claim.
 The 120-second default has not been calibrated on the full local dataset.
 
+The subsequent [CLI milestone](bounded-cli-analysis-2026-10-30.md) extends the
+same execution boundary to all four CLI analysis commands and a new synchronous
+library entry point. Its observations are separate; the original HTTP results
+above do not certify the later source revision. Low-level connection-based
+calls, ingestion, export and macOS guard support remain outside that extension.
+
 No schema migration or production action is required for this source change.
 Before rollback, cancel/wait for owned tasks, stop the service, and preserve the
 database, source evidence, configuration and job journals. Revert these commits

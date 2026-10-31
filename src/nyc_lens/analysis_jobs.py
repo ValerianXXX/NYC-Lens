@@ -25,6 +25,7 @@ from .analyze import get_site
 from .comparison import get_comparison
 from .database_admission import DatabaseBusyError, database_admission
 from .paths import database_path, project_home
+from .receipt_io import ReceiptUnavailableError, read_receipt, write_receipt
 from .util import utc_now
 
 TERMINAL = {"SUCCEEDED", "FAILED", "CANCELLED", "TIMED_OUT", "INTERRUPTED"}
@@ -71,10 +72,11 @@ class AnalysisJobs:
     def _read(self, identifier: str) -> dict:
         path = self._path(identifier)
         try:
-            with path.open("rb") as stream:
-                raw = stream.read(65_537)
+            raw = read_receipt(path)
         except FileNotFoundError:
             raise KeyError("Unknown analysis job") from None
+        except ReceiptUnavailableError:
+            raise JobUnavailableError("JOB_RECEIPT_UNAVAILABLE") from None
         try:
             value = json.loads(raw)
             if (len(raw) > 65_536 or value["job_id"] != identifier or value["schema"] != 1 or
@@ -94,13 +96,10 @@ class AnalysisJobs:
         path = self._path(receipt["job_id"])
         # Only the job lease owner writes receipts. Cancellation uses a separate
         # marker, so it cannot overwrite a concurrently completed receipt.
-        target = path if create else path.with_suffix(".tmp")
-        with target.open("x" if create else "w", encoding="utf8") as stream:
-            json.dump(receipt, stream, ensure_ascii=True)
-            stream.flush()
-            os.fsync(stream.fileno())
-        if not create:
-            os.replace(target, path)
+        try:
+            write_receipt(path, receipt, create=create)
+        except ReceiptUnavailableError:
+            raise JobUnavailableError("JOB_RECEIPT_UNAVAILABLE") from None
 
     def start(self, operation: str, request: dict, *, request_id: str) -> dict:
         if os.name != "nt" and sys.platform != "linux":
@@ -217,6 +216,39 @@ class AnalysisJobs:
         if result is None:
             raise JobUnavailableError("SAVED_RESULT_UNAVAILABLE")
         return result
+
+
+def run_analysis_sync(operation: str, request: dict, *, request_id: str | None = None) -> dict:
+    """Bounded blocking entry point for CLI/library callers without a DB handle.
+
+    The same durable jobs own execution, admission and saved results. Reusing a
+    request ID reattaches, including to a failed attempt; it never retries it.
+    """
+    from uuid import uuid4
+    jobs = AnalysisJobs()
+    key = request_id if request_id is not None else uuid4().hex
+    identifier = "analysis_" + key
+    try:
+        receipt = jobs.start(operation, request, request_id=key)
+        while receipt["status"] not in TERMINAL:
+            time.sleep(.05)
+            receipt = jobs.get(identifier)
+        if receipt["status"] != "SUCCEEDED":
+            raise AnalysisFailedError(receipt)
+        return jobs.result(identifier)
+    except KeyboardInterrupt:
+        # Interruption can also arrive while the supervisor is creating its
+        # receipt. Wait only for this request, and never assume cleanup worked.
+        deadline = time.monotonic() + 10
+        while time.monotonic() < deadline:
+            try:
+                receipt = jobs.cancel(identifier)
+                if receipt["status"] in TERMINAL:
+                    break
+            except (KeyError, JobUnavailableError, DatabaseBusyError):
+                pass
+            time.sleep(.05)
+        raise
 
 
 async def run_analysis_async(operation: str, request: dict, *, request_id: str | None = None) -> dict:
