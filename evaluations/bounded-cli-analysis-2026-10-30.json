@@ -1,0 +1,228 @@
+{
+  "schema": 1,
+  "observedAt": "2026-10-31T12:24:05.980109+00:00",
+  "session_date": "2026-10-31",
+  "scope": "Bounded CLI and synchronous library analysis, durable recovery and coordinated receipt I/O; isolated synthetic data only",
+  "base": "fc53ceb8e1a4c8be725230d84bcdce7ed1089f3f",
+  "frozen_cli_contract": "53f4a8d8ef1a3d0b8bb76343eea48f044176a52c",
+  "initial_runtime": "da3d616b0b87b436ea480e98b4397f4946667c77",
+  "registration_contract": {
+    "initial_harness_error": "sources.yaml instead of sources.yml; original failed log retained",
+    "corrected_before": {
+      "failed": 1,
+      "seconds": 6.78
+    },
+    "after": {
+      "passed": 1,
+      "seconds": 10.16
+    },
+    "expectations": "New request refreshes source registration; identical replay preserves old registration/result; next new ID adopts new metadata"
+  },
+  "registration_fix": "68c3beea4b042d6b042a3f83159119f47d463962",
+  "receipt_contract": "199b9d796e40a3f701a0e0dacd513d9954a6135a",
+  "runtime_commit": "b9bf8f4e570f8c33a8b98d17c74ed9fe5323eb4d",
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "typer": "0.27.3",
+    "mcp": "2.3.0"
+  },
+  "baseline": {
+    "existing_api_error_contracts_passed": 3,
+    "cli_contracts_failed": 12,
+    "directly_interpretable_missing_behavior": 11,
+    "fixture_limitation": "One samples baseline stops at synthetic walking-area prohibition before its worker assertion; not counted as a separate product regression"
+  },
+  "first_implementation": {
+    "passed": 10,
+    "failed": 2,
+    "seconds": 50.4,
+    "failure": "Read-only export sessions incompatible with existing derived-record writes"
+  },
+  "expanded_after_export_repair": {
+    "passed": 13,
+    "failed": 1,
+    "seconds": 60.12,
+    "failure": "New harness incorrectly expected HTML in comparison JSON/CSV/XLSX export set"
+  },
+  "export_harness_correction": {
+    "passed": 2,
+    "seconds": 11.0,
+    "change": "Inspect synthetic label in existing shared JSON output, retain file and saved-result assertions"
+  },
+  "first_full": {
+    "passed": 194,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 238.41
+  },
+  "second_full": {
+    "passed": 194,
+    "failed": 1,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 243.19,
+    "failure": "MCP receipt read PermissionError during concurrent publication"
+  },
+  "receipt_contracts": {
+    "before_failed": 5,
+    "before_seconds": 4.43,
+    "after_plus_original_mcp_passed": 6,
+    "after_seconds": 18.56,
+    "native_windows_held_handle_failure_reproduced": true,
+    "cross_process_passed": 1,
+    "cross_process_seconds": 3.77,
+    "additional_fixture_failure": "Child isolated home lacked public configuration at import; static config copied, assertions unchanged; both diagnostic logs retained"
+  },
+  "full_local": {
+    "status": "PASS",
+    "passed": 201,
+    "failed": 0,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 253.77,
+    "skip_reason": "Complete populated database unavailable"
+  },
+  "actual_component_evidence": {
+    "site_comparison_values": [
+      1,
+      3
+    ],
+    "source_registration_refresh_and_replay": true,
+    "same_id_recalculation": false,
+    "child_status_on_cancel": [
+      "SUCCEEDED",
+      "CANCELLED",
+      "CANCELLED"
+    ],
+    "cross_process_cancel": true,
+    "receipt_cross_process_coordination": true,
+    "persistent_receipt_access_failure": "JOB_RECEIPT_UNAVAILABLE",
+    "native_human_console_ctrl_c_observed": false
+  },
+  "new_model_requests": 0,
+  "model_quality_improvement_claimed": false,
+  "production_actions": false,
+  "schema_migration": false,
+  "official_sources_checked": "2026-10-31",
+  "official_sources": [
+    "https://learn.microsoft.com/en-us/windows/win32/api/fileapi/nf-fileapi-createfilew",
+    "https://docs.python.org/3.11/library/os.html#os.replace"
+  ],
+  "remaining": [
+    "Raw connection-based library callers, ingestion and exports remain outside the worker boundary",
+    "Full populated dataset and freshness validation",
+    "macOS worker guard",
+    "Atomic data generations and external-writer coordination",
+    "Whole-database/report disk quotas",
+    "Native terminal Ctrl+C and independent human acceptance"
+  ],
+  "ci": "PENDING_PR_PUSH",
+  "logs": {
+    "bounded-cli-baseline-20261030": {
+      "path": "reports/bounded-cli-baseline-20261030.log",
+      "sha256": "a1ff7b18c450107a2b647ba9a8ab650d70cebe1a13a13684583ac4450ea9425a"
+    },
+    "bounded-cli-before-20261030": {
+      "path": "reports/bounded-cli-before-20261030.log",
+      "sha256": "8fc243969a75a0aac9f176cdefd53b49305134314ef36a40e9ec0cc1e2fc56e4"
+    },
+    "bounded-cli-first-20261030": {
+      "path": "reports/bounded-cli-first-20261030.log",
+      "sha256": "ecd9e34ee0b98f054ceda7e50f520525b00acdad4bd533391a471e709a0d482b"
+    },
+    "bounded-cli-after-20261030": {
+      "path": "reports/bounded-cli-after-20261030.log",
+      "sha256": "33b15b707a8a6aac586e0e90b33a26d17b1a341a2b90ce3c4c1136df4fc01de3"
+    },
+    "bounded-cli-export-repair-20261030": {
+      "path": "reports/bounded-cli-export-repair-20261030.log",
+      "sha256": "1e776e31ee025d0b85005f33c9baf608c7093be6ef1831184d8199adbf5f0c8d"
+    },
+    "bounded-cli-full-20261030": {
+      "path": "reports/bounded-cli-full-20261030.log",
+      "sha256": "967e8750b93522fbf2fd6d8bf42064922d46f69e49e5de4e9287fa56abede663"
+    },
+    "bounded-cli-registry-before-20261030": {
+      "path": "reports/bounded-cli-registry-before-20261030.log",
+      "sha256": "2fc699090290dfacbdf19fc83e21ab23718ec6d5b69961e465dc8dacae60d4dd"
+    },
+    "bounded-cli-registry-before-corrected-20261030": {
+      "path": "reports/bounded-cli-registry-before-corrected-20261030.log",
+      "sha256": "c23558d13ce99a88843356fdbf5e018d9e9d56b5c8a2a139d807793fcdd60903"
+    },
+    "bounded-cli-registry-after-20261030": {
+      "path": "reports/bounded-cli-registry-after-20261030.log",
+      "sha256": "1e3520e1db465ca319b36f3fc9597dd15be26c0803a298b99199a90110383ca7"
+    },
+    "bounded-cli-full-final-20261030": {
+      "path": "reports/bounded-cli-full-final-20261030.log",
+      "sha256": "659482a351f8ad564372ef733f54a725e0164c1b69390c2f47019ed03d5dd209"
+    },
+    "receipt-io-before-20261031": {
+      "path": "reports/receipt-io-before-20261031.log",
+      "sha256": "3cd92bd317d56ca2b1feb1ff034d094bcd06363e10ddb98cce4332491f1d6a53"
+    },
+    "receipt-io-after-20261031": {
+      "path": "reports/receipt-io-after-20261031.log",
+      "sha256": "b8882beb9e558d5fb104b181a56c11c4887814e563d8421014f512af5761c8e2"
+    },
+    "receipt-io-process-20261031": {
+      "path": "reports/receipt-io-process-20261031.log",
+      "sha256": "f744eb504d38b950e49a1d3174f4aa4bd9096114ef47b01ae57a6dd0d638ecd5"
+    },
+    "receipt-io-process-diagnostic-20261031": {
+      "path": "reports/receipt-io-process-diagnostic-20261031.log",
+      "sha256": "32229c9f8843cd50ecbe21ee6fa9675e0bac1ab2fc309f20170fda41d308f7e4"
+    },
+    "receipt-io-process-final-20261031": {
+      "path": "reports/receipt-io-process-final-20261031.log",
+      "sha256": "3ddbf1ae5ee10c35f0d5ece796556058301735f860f9681604aaff045d606fbd"
+    },
+    "bounded-cli-receipt-full-20261031": {
+      "path": "reports/bounded-cli-receipt-full-20261031.log",
+      "sha256": "77a2cd320c1ffaa834f2c706c50751015025871ceb3096dfd34a50ba60ad17a5"
+    }
+  },
+  "source_hashes": {
+    "src/nyc_lens/analysis_jobs.py": {
+      "git_blob_sha256": "fc858b8a16794b809f54127ec4a2af9b7ba3ef8bac39e91e5bd437c2133f9e55",
+      "tested_local_raw_sha256": "fc858b8a16794b809f54127ec4a2af9b7ba3ef8bac39e91e5bd437c2133f9e55"
+    },
+    "src/nyc_lens/cli.py": {
+      "git_blob_sha256": "a3943cee8e1d6971022ccd1bf9005af6939b7285ed6c7180321840dae71334d5",
+      "tested_local_raw_sha256": "a3943cee8e1d6971022ccd1bf9005af6939b7285ed6c7180321840dae71334d5"
+    },
+    "src/nyc_lens/receipt_io.py": {
+      "git_blob_sha256": "34890f3015c616c256b6162e9a9f00596c7a0843f29ed77e3f6510e5046d3b82",
+      "tested_local_raw_sha256": "34890f3015c616c256b6162e9a9f00596c7a0843f29ed77e3f6510e5046d3b82"
+    },
+    "tests/unit/test_bounded_cli.py": {
+      "git_blob_sha256": "4fc92cd82d5441d189477fcbfe17133ac2601639be48248efa203a4c28e1f332",
+      "tested_local_raw_sha256": "4fc92cd82d5441d189477fcbfe17133ac2601639be48248efa203a4c28e1f332"
+    },
+    "tests/unit/test_job_receipt_io.py": {
+      "git_blob_sha256": "595c65544b49d14dcf33b09da6a5a99401a3ea50171e7b8650e41e3a2fe7dbba",
+      "tested_local_raw_sha256": "595c65544b49d14dcf33b09da6a5a99401a3ea50171e7b8650e41e3a2fe7dbba"
+    },
+    "tests/fixtures/cli_job_owner.py": {
+      "git_blob_sha256": "0d87610457367f21fee5f68a7eb1f1ae03f99aaef8aae074f634db35f58cb289",
+      "tested_local_raw_sha256": "0d87610457367f21fee5f68a7eb1f1ae03f99aaef8aae074f634db35f58cb289"
+    },
+    "tests/fixtures/held_receipt_reader.py": {
+      "git_blob_sha256": "a4e311ad145a7746a4613a0a3a2d34be678c4647893910bc1d8ac437b9d01423",
+      "tested_local_raw_sha256": "a4e311ad145a7746a4613a0a3a2d34be678c4647893910bc1d8ac437b9d01423"
+    },
+    "tests/fixtures/held_analysis_worker.py": {
+      "git_blob_sha256": "3197b87c21f059b7ef1f814979073a8b7aa1099ba92c074aa1d2bc240eb90192",
+      "tested_local_raw_sha256": "3197b87c21f059b7ef1f814979073a8b7aa1099ba92c074aa1d2bc240eb90192"
+    },
+    ".github/workflows/tests.yml": {
+      "git_blob_sha256": "03976eb48cf9c8d5db7b09729918222ea1d3042e073445b2b120d13e8d7eaa38",
+      "tested_local_raw_sha256": "03976eb48cf9c8d5db7b09729918222ea1d3042e073445b2b120d13e8d7eaa38"
+    }
+  },
+  "hash_notes": "Git-blob SHA256 is portable across checkout line endings. Local raw hashes bind tested bytes. Original logs remain local and can include temporary paths.",
+  "registration_frozen_commit": "8990da8712689f4c47ba88a8998d51139a475842"
+}
