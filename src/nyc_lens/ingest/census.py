@@ -205,8 +205,12 @@ def refresh_tiger_boundaries(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
             "publication_manifest": str(manifest.path),
         }
     except Exception as exc:
-        finish_run(conn, run_id, "FAILED", request_count=request_count, downloaded_bytes=downloaded_bytes,
-                   error={"type": type(exc).__name__, "message": str(exc)})
+        if not getattr(exc, "publication_rollback_unconfirmed", False):
+            try:
+                finish_run(conn, run_id, "FAILED", request_count=request_count, downloaded_bytes=downloaded_bytes,
+                           error={"type": type(exc).__name__, "message": str(exc)})
+            except Exception:
+                exc.add_note("Failed ingestion status could not be recorded; inspect this run before retrying.")
         raise
 
 

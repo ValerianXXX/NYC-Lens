@@ -37,6 +37,9 @@ def publication_transaction(conn):
         try:
             conn.execute("ROLLBACK")
         except BaseException:
+            # A driver may fail after COMMIT already reached durable storage.
+            # Callers must inspect the catalog, not overwrite it with FAILED.
+            error.publication_rollback_unconfirmed = True
             error.add_note("Publication rollback could not be confirmed; inspect the active catalog before retrying.")
         raise
     finally:

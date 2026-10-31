@@ -329,7 +329,7 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                 conn.execute("DROP TABLE IF EXISTS _fema_sfha_staging")
             except BaseException:
                 exc.add_note("FEMA staging cleanup could not be confirmed; open a new connection before retrying.")
-        if isinstance(exc, Exception):
+        if isinstance(exc, Exception) and not getattr(exc, "publication_rollback_unconfirmed", False):
             try:
                 finish_run(
                     conn, run_id, "FAILED", request_count=request_count, downloaded_bytes=downloaded_bytes,
