@@ -1,0 +1,79 @@
+{
+  "observed_at": "2026-10-31T19:53:22.762861Z",
+  "source_url": "https://data.cityofnewyork.us/resource/43nn-pn8j.csv",
+  "cases": [
+    {
+      "name": "aggregate",
+      "query": {
+        "$select": "count(*) as record_count",
+        "$limit": 2
+      },
+      "row_limit": 1,
+      "expected_status": "WITHIN_REQUESTED_LIMIT",
+      "seconds": 0.5674,
+      "error_code": null,
+      "raw_sha256": "680c1eb51e681d0f248ecb04e1bdcf5360f2c61f7954984aa250ebe22a7ad403",
+      "raw_bytes": 24,
+      "manifest_sha256": "3ffcd8a8fbe73299c60359699ecfffea66392c1334ca0700827c678cdbc36c3f",
+      "http_status": 200,
+      "transport": "httpx",
+      "raw_relative_path": "data/raw/dohmh_restaurants/aggregate/20261031T195322.835844Z/43nn-pn8j.csv",
+      "check": {
+        "checked_at": "2026-10-31T19:53:23.398604+00:00",
+        "csv_eof_observed": true,
+        "error_type": null,
+        "full_upstream_snapshot_verified": false,
+        "method": "socrata-extra-record-v1",
+        "requested_limit": 2,
+        "row_limit": 1,
+        "rows_read": 1,
+        "snapshot_id": "snap_7ef29d4a60454be9932c97a6a03f8247",
+        "snapshot_sha256": "680c1eb51e681d0f248ecb04e1bdcf5360f2c61f7954984aa250ebe22a7ad403",
+        "source_id": "dohmh_restaurants",
+        "status": "WITHIN_REQUESTED_LIMIT"
+      },
+      "check_sha256": "cc14bacb6d22f750b16c54b0f6e5b173d910feb9b02f97e27bac26005671a953",
+      "passed": true
+    },
+    {
+      "name": "sentinel",
+      "query": {
+        "$select": "camis",
+        "$limit": 2
+      },
+      "row_limit": 1,
+      "expected_status": "ROW_LIMIT_EXCEEDED",
+      "seconds": 0.2123,
+      "error_code": "SOCRATA_ROW_LIMIT_EXCEEDED",
+      "raw_sha256": "c5a3d3c07dbd5ff84624797c63dd9280e3c742e0155d3ab0cd96bff5a1a3e751",
+      "raw_bytes": 30,
+      "manifest_sha256": "113ebfe2b293dc63aa8658d4c4c8a0cc7b68d2e66ebb6c93f4b5bb0061310d42",
+      "http_status": 200,
+      "transport": "httpx",
+      "raw_relative_path": "data/raw/dohmh_restaurants/sentinel/20261031T195323.418605Z/43nn-pn8j.csv",
+      "check": {
+        "checked_at": "2026-10-31T19:53:23.626609+00:00",
+        "csv_eof_observed": false,
+        "error_type": null,
+        "full_upstream_snapshot_verified": false,
+        "method": "socrata-extra-record-v1",
+        "requested_limit": 2,
+        "row_limit": 1,
+        "rows_read": 2,
+        "snapshot_id": "snap_89fae738567748ea8ec2d5da70086d40",
+        "snapshot_sha256": "c5a3d3c07dbd5ff84624797c63dd9280e3c742e0155d3ab0cd96bff5a1a3e751",
+        "source_id": "dohmh_restaurants",
+        "status": "ROW_LIMIT_EXCEEDED"
+      },
+      "check_sha256": "b3f018b2cdacf0ec09162024762df50b0b90d8be0a25be079ab3599a96747276",
+      "passed": true
+    }
+  ],
+  "requested_application_calls": 2,
+  "model_calls": 0,
+  "facts_imported": 0,
+  "full_upstream_snapshot_verified": false,
+  "business_conclusions": false,
+  "scope": "Live bounded-response contract only; current public data is not synthetic",
+  "status": "PASS"
+}

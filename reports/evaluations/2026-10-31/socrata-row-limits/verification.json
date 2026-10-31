@@ -1,0 +1,152 @@
+{
+  "schema_version": 1,
+  "observed_at": "2026-10-31T19:57:28.448573+00:00",
+  "status": "LOCAL_REGRESSION_AND_TWO_LIVE_INTERFACE_PROBES_PASS_HOSTED_PENDING",
+  "branch": "codex/socrata-row-limit-20261031",
+  "base_commit": "78ef184329d1ebae29a58c7c85f7cf772bb8b58d",
+  "frozen_contract_commit": "177465d1b71ad02ce0087d762eb91377316d2b4a",
+  "runtime_commit": "f9b151392890c04fb291868fa82d535ab17d77f6",
+  "before": {
+    "passed": 0,
+    "failed": 20,
+    "seconds": null,
+    "timing_not_emitted_by_before_command": true
+  },
+  "after": {
+    "frozen_passed": 20,
+    "frozen_assertions_unchanged": true
+  },
+  "related": {
+    "passed": 43,
+    "skipped": 0,
+    "seconds": 14.39
+  },
+  "full_suite": {
+    "passed": 276,
+    "skipped": 3,
+    "warnings": 90,
+    "seconds": 285.76,
+    "exit_code": 0,
+    "skips": "Existing populated-database checks; full local data absent"
+  },
+  "live_interface": {
+    "calls": 2,
+    "http_statuses": [
+      200,
+      200
+    ],
+    "passed": 2,
+    "scope": "One aggregate acceptance, one expected sentinel rejection; no fact import"
+  },
+  "probe_guards": [
+    {
+      "name": "offline_refused",
+      "exit_code": 2,
+      "network_calls": 0
+    },
+    {
+      "name": "existing_output_refused",
+      "exit_code": 1,
+      "network_calls": 0
+    }
+  ],
+  "environment": {
+    "platform": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "pandas": "2.3.3"
+  },
+  "javascript_syntax": {
+    "files": [
+      "ui/app.js",
+      "ui/assistant.js",
+      "ui/analysis-jobs.js"
+    ],
+    "status": "PASS"
+  },
+  "verification_level": {
+    "synthetic_csv_duckdb_parquet": "PASS",
+    "real_public_interface": "PASS_TWO_SMALL_CALLS",
+    "full_upstream_snapshot": "NOT_VERIFIED",
+    "full_data": "NOT_RUN",
+    "new_model_hermes_apps": "NOT_RUN",
+    "new_browser": "NOT_RUN_NO_UI_CHANGE",
+    "independent_users": "NOT_RUN",
+    "hosted_ci": "PENDING_DELIVERY"
+  },
+  "compatibility": {
+    "http_limit": "caller_limit_plus_one",
+    "no_new_dependency": true,
+    "no_schema_migration": true,
+    "no_new_configuration": true,
+    "raw_download_status_semantics_unchanged": true
+  },
+  "model_calls": 0,
+  "measured_ai_quality_gain": null,
+  "facts_imported_from_live_probe": 0,
+  "production_actions": 0,
+  "M3_complete": false,
+  "remaining": [
+    "Server caps/omissions and upstream snapshot consistency",
+    "Other transports and all-adapter atomic publication",
+    "Every-metric actual-record provenance and disk retention",
+    "Whole-download/cell/resource quotas and full-data overhead",
+    "Full dataset and independent-user/device/client acceptance"
+  ],
+  "official_docs_checked_on": "2026-10-31",
+  "official_docs": [
+    "https://dev.socrata.com/docs/queries/limit.html",
+    "https://dev.socrata.com/docs/queries/offset.html",
+    "https://dev.socrata.com/docs/functions/count.html"
+  ],
+  "source_sha256": {
+    "src/nyc_lens/ingest/socrata.py": "14e929df4e4efb5844e58eb281222c25f37ed8960b422b06f0c3e4697d2042e4",
+    "tests/unit/test_socrata_row_limits.py": "d50380be180d3d613436ce15064f0e17d7c2f49060696d7daacadfaf16d3e92e",
+    "tests/unit/test_socrata_publication.py": "591e81dbc1221759ea5eb581132a9a26e18e599f38b897d580df1086e6fc851b",
+    "tests/unit/test_socrata_publication_recovery.py": "5b2922c24b0d4f9e8054a994200c163d7981f8364e08c6ffa77c04bda5c75354",
+    "scripts/probe_socrata_row_limits.py": "319e8040084359e861d8590acff3b8bec72afd1c0561302da770a18aeb49dd2c",
+    ".github/workflows/tests.yml": "88d17172ed82eee025c0825c3bda9d7ae6258a0ff21b4503b930d50f5e1df20b"
+  },
+  "artifacts": {
+    "socrata-row-limit-before-20261031.txt": {
+      "sha256": "fb0ed8101288f4c3583607710466edc396622cdf243de5b6e54a09bfbce9ed05",
+      "original_log_sha256": "52e05acd6363b8052060ce4a87c811379c6323fb47b5a5e8359b7b4dfee32a4e"
+    },
+    "socrata-row-limit-related-20261031.txt": {
+      "sha256": "3ef5ec2955f69dfac6c8c91e219e3719d9b433d002e17175caf13ccddef7de68",
+      "original_log_sha256": "d598b42666d6effe2839d487b874bc120e39aaf0738ee804a8c96e0e74226203"
+    },
+    "socrata-row-limit-full-20261031.txt": {
+      "sha256": "a65c6319e1c748f30d6b900450b11aaf4088c35c9524d8595c614bdb36e35929",
+      "original_log_sha256": "94aa4f4e2a7760d1f2f68fca0cd523f2d754b90802a1eeb487bed2e57a4f3edf"
+    },
+    "socrata-row-limit-live-20261031.txt": {
+      "sha256": "9b1be8319107a559ee3a593364fedc3901306cdab370fe8b8107d03ec752d67b",
+      "original_log_sha256": "bc0e287a426e14db5285645b334a4115dcc63f3da444ce2259a3fc0979f4ce7c"
+    },
+    "live-interface-receipt.json": {
+      "sha256": "a1e9ba38b2e2bed5a0576abce44a23018e17b7a29856aa107e10ae2643424026",
+      "original_receipt_sha256": "291edb4df7f16a17de91da8969046870134adce82eab0c06ee7e04a6d5c3b88d"
+    }
+  },
+  "log_redaction": "Only workspace/user-home paths and pytest temporary username replaced; original local logs retained and hashed",
+  "delivery_review_preliminary": {
+    "status": "FAILED_PORTABLE_TEMP_USERNAME_REDACTION",
+    "fixed_before_commit": true,
+    "runtime_or_assertion_changes": false,
+    "original_logs_unchanged": true,
+    "changes": [
+      {
+        "file": "socrata-row-limit-before-20261031.txt",
+        "first_portable_copy_sha256": "ca8d272a1855a937d1a26828e0453bd3f6a46ba34024a23b9e2f3f7d57cc06c8",
+        "final_portable_copy_sha256": "3ba64acce047051b710da3c66ed296afeeaaa32a08114c7c2e2fb4042c20916b"
+      }
+    ]
+  },
+  "artifact_serialization": "UTF-8 LF; trailing display whitespace removed from portable logs; original local files and hashes retained",
+  "delivery_review_whitespace": {
+    "initial": "FAILED_STAGED_WHITESPACE_CHECK",
+    "repaired_before_commit": true,
+    "result_lines_unchanged": true
+  }
+}
