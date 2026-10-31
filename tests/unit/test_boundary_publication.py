@@ -44,7 +44,8 @@ def input_frame(kind, revision):
         "nta": {"nta2020": [f"synthetic-{i}" for i in range(count)],
                 "ntaname": [f"Synthetic area {i} revision {revision}" for i in range(count)],
                 "cdta2020": ["synthetic-parent"] * count},
-        "zcta": {"GEOID": [f"synthetic-{i}" for i in range(count)],
+        "zcta": {"OBJECTID": list(range(1, count + 1)),
+                 "GEOID": [f"synthetic-{i}" for i in range(count)],
                  "NAME": [f"Synthetic ZCTA {i} revision {revision}" for i in range(count)]},
         "hazard": {"hurricane_": [str(i + 1) for i in range(count)]},
         "taxi": {"LocationID": list(range(1, count + 1)),
@@ -79,15 +80,27 @@ def install_downloads(monkeypatch, kind, revision):
             content=content, source_url="synthetic://fixture/geometry", run_id=run_id,
             content_type="application/zip" if kind == "taxi" else "application/geo+json")
 
-    def post(url, **_kwargs):
-        return httpx.Response(200, content=input_frame("zcta", revision).to_json().encode(),
-                              request=httpx.Request("POST", url))
+    def get(url, **_kwargs):
+        return httpx.Response(200, json=[{"count": str(len(input_frame(kind, revision)))}],
+                              request=httpx.Request("GET", url))
+
+    def post(url, *, data, **_kwargs):
+        frame = input_frame("zcta", revision)
+        if data.get("returnIdsOnly") == "true":
+            payload = {"objectIdFieldName": "OBJECTID", "objectIds": frame.OBJECTID.tolist()}
+        else:
+            if data.get("objectIds"):
+                ids = [int(value) for value in data["objectIds"].split(",")]
+                frame = frame[frame.OBJECTID.isin(ids)]
+            payload = json.loads(frame.to_json())
+        return httpx.Response(200, json=payload, request=httpx.Request("POST", url))
 
     for module in (geographies, environment):
         monkeypatch.setattr(module, "fetch_metadata_snapshot", metadata)
     for module in (geographies, environment, tlc):
         monkeypatch.setattr(module, "download_snapshot", download)
     monkeypatch.setattr(geographies.httpx, "post", post)
+    monkeypatch.setattr(geographies.httpx, "get", get)
 
 
 def refresh(conn, kind):
