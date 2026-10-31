@@ -1,0 +1,22 @@
+.....F....                                                               [100%]
+================================== FAILURES ===================================
+____ test_swallowed_nested_failure_still_rolls_back_the_entire_publication ____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x00000157B03506F0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user'), WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-user/pytest-63/test_swallowed_nested_failure_0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x00000157B0350150>
+
+    def test_swallowed_nested_failure_still_rolls_back_the_entire_publication(database, monkeypatch):
+        conn, _, _ = database
+        before = catalogs(conn)
+        original = storage.rebuild_external_catalog
+        def fail_after_catalog(*args, **kwargs):
+            original(*args, **kwargs)
+            raise ValueError("synthetic late failure")
+        monkeypatch.setattr(storage, "rebuild_external_catalog", fail_after_catalog)
+>       with pytest.raises(RuntimeError, match="PUBLICATION_ABORTED"):
+E       Failed: DID NOT RAISE <class 'RuntimeError'>
+
+tests\unit\test_external_generation_recovery.py:106: Failed
+=========================== short test summary info ===========================
+FAILED tests/unit/test_external_generation_recovery.py::test_swallowed_nested_failure_still_rolls_back_the_entire_publication
+1 failed, 9 passed in 8.03s

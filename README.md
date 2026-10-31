@@ -2,6 +2,8 @@
 
 NYC Lens is a local-first, auditable trade-area and commercial-location intelligence system for Greater New York. It converts public datasets into address-level catchments, traceable metrics, site comparisons, maps, and exportable reports without sending the working database to a hosted service.
 
+**2026-10-31 data recovery:** external Parquet refreshes now retain immutable generations and commit their views/catalogs together. Existing readers keep their old files; failed candidates are not adopted at restart. Analysis refuses v2 generations whose recorded source runs have not completed. The same frozen contracts improve from 3/14 to 14/14; this is synthetic correctness evidence, not a real-location or model benchmark. [Verification, setup, backup/restore and remaining source-publication limits](docs/external-generations-2026-10-31.md).
+
 **2026-10-30 bounded analysis:** Web, HTTP, MCP, CLI `analyze`/`compare`/sample commands and the new synchronous library entry point share owned workers, a 120-second deadline, OS memory guards and DuckDB buffer/thread/spill limits. CLI requests can keep a stable ID and inspect, cancel or recover the original task without recalculating it. [CLI and library setup, evidence and limits](docs/bounded-cli-analysis-2026-10-30.md) and [HTTP compatibility](docs/bounded-legacy-http-2026-10-30.md) document the exact coverage. Low-level connection-based library calls, ingestion and exports remain direct. Earlier [worker/browser evidence](docs/bounded-analysis-2026-10-30.md) and [failure isolation](docs/analysis-failure-isolation-2026-10-30.md) retain their original observations; full-data and independent-user acceptance remain open.
 
 **2026-10-29 correctness milestone:** comparisons now withhold ranks and differences unless units, source snapshots, years and calculation versions agree. Evidence stays bound to the saved analysis after later ingestion. The frozen synthetic boundary set improved from 5/14 to 14/14 passing cases; one test-helper correction is disclosed, and this is not a model-quality or real-location benchmark. [Results, reproduction and limits](docs/comparison-evidence-boundaries-2026-10-29.md).
@@ -27,7 +29,7 @@ The current release covers the five boroughs of New York City and the 30 county 
 
 ## Why the 17 GB local data directory is not in Git
 
-The full local build contains roughly 17 GB of downloaded and standardized data, including a working DuckDB catalog of roughly 4.8 GB. It is intentionally excluded from Git for three reasons:
+An earlier local build documented roughly 17 GB of downloaded and standardized data, including a DuckDB catalog of roughly 4.8 GB. That complete dataset is unavailable in the current validation workspace; this milestone uses explicitly synthetic data. It is intentionally excluded from Git for three reasons:
 
 1. GitHub blocks regular Git files larger than 100 MiB and recommends keeping repositories far smaller than this dataset.
 2. Several upstream sources require source-specific attribution or have terms that should not be replaced by a blanket redistribution license.

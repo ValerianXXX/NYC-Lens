@@ -121,7 +121,11 @@ def test_external_source_replace_preserves_table_name_and_catalog(tmp_path, monk
     assert conn.execute("SELECT count(*) FROM building").fetchone()[0] == 1
     assert conn.execute("SELECT table_type FROM information_schema.tables WHERE table_name='building'").fetchone()[0] == "VIEW"
     assert conn.execute("SELECT row_count FROM external_table_catalog WHERE table_name='building'").fetchone()[0] == 1
-    assert list((tmp_path / "data" / "standardized" / "facts" / "building").rglob("part-*.parquet"))
+    partitions = conn.execute(
+        "SELECT relative_path, byte_size FROM external_partition_catalog WHERE table_name='building'"
+    ).fetchall()
+    assert partitions
+    assert all((tmp_path / path).is_file() and (tmp_path / path).stat().st_size == size for path, size in partitions)
     conn.close()
 
 

@@ -1,0 +1,52 @@
+.sss.................................................................... [ 30%]
+........................................................................ [ 61%]
+........................................................................ [ 91%]
+....................                                                     [100%]
+============================== warnings summary ===============================
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_spatial.py: 2 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\spatial\catchments.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    point_metric = transform(forward, Point(longitude, latitude))
+
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_spatial.py: 2 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\spatial\catchments.py:99: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, point_metric.buffer(distance_m, quad_segs=32))
+
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_spatial.py: 3 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\spatial\catchments.py:268: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return float(transform(metric_transform_for_geometry(geometry), geometry).area)
+
+tests/unit/test_analysis_interruption_integration.py: 1 warning
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\metrics\engine.py:742: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    catchment_area_m2 = float(transform(metric_transform, geometry).area)
+
+tests/unit/test_analysis_interruption_integration.py: 1 warning
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\metrics\engine.py:2238: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric_geometry = transform(metric_transform, geometry)
+
+tests/unit/test_spatial.py: 13 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\spatial\catchments.py:246: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    transform(forward, Point(graph.nodes[node]["lon"], graph.nodes[node]["lat"]))
+
+tests/unit/test_spatial.py: 16 warnings
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\spatial\catchments.py:258: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    edge_lines_metric.append(transform(forward, line))
+
+tests/unit/test_spatial.py::test_walk_isochrone_is_network_derived_not_radial
+  <WORKSPACE>\NYC-Lens\src\nyc_lens\spatial\catchments.py:264: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, polygon_metric)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+233 passed, 3 skipped, 90 warnings in 382.51s (0:06:22)
