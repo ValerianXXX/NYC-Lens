@@ -1,0 +1,5 @@
+
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-multisnapshot-consumers-after-20261031.xml -
+no tests ran in 0.11s
+ERROR: file or directory not found: tests/unit/test_metric_scope_contracts.py
+

@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="11" skipped="0" tests="15" time="158.101" timestamp="2026-10-31T18:36:18.060996-04:00" hostname="DESKTOP-FDD8E1N"><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[export-tiger]" time="2.698"><failure message="AssertionError: assert {'facts': (60...bfd13fcac29')} == {'facts': (60...bfd13fcac29')}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'facts': (60, '051c4c03b816a5232cd36e5d5e5fdb8a0a6c14aa90bb85c9307ea48064cf5635')} != {'facts': (60, '9bdab510fa5e33674e7dbdf38553014b1233949fdaa1926d3bd0fc7e9681c4eb')}&#10;  {'lineage': (30, '33c8b5b9da60f76a3abca81b83061452ed61b6a1a25d3397218577b77fda7f70')} != {'lineage': (30, '847b61dde257144ce7d697cacbbfe147450777f1464f544e9bea1d71421596e1')}&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x0000012992291AB0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_failed_refresh_preserves_0'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000012992291BD0&gt;
+kind = 'tiger', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("export", "lineage", "freshness", "commit"))
+    def test_failed_refresh_preserves_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        match = {"lineage": "INSERT INTO standardized_record", "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and ((match and match in statement) or
+                                  (stage == "export" and kind == "fema" and statement.startswith("COPY "))):
+                triggered = True
+                if stage == "export":
+                    output = re.search(r"TO '((?:[^']|'')+)'", statement).group(1).replace("''", "'")
+                    Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+        if stage == "export" and kind == "tiger":
+            def failed_export(self, output, **_kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+&gt;       assert active_state(conn) == baseline
+E       AssertionError: assert {'facts': (60...bfd13fcac29')} == {'facts': (60...bfd13fcac29')}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'facts': (60, '051c4c03b816a5232cd36e5d5e5fdb8a0a6c14aa90bb85c9307ea48064cf5635')} != {'facts': (60, '9bdab510fa5e33674e7dbdf38553014b1233949fdaa1926d3bd0fc7e9681c4eb')}
+E         {'lineage': (30, '33c8b5b9da60f76a3abca81b83061452ed61b6a1a25d3397218577b77fda7f70')} != {'lineage': (30, '847b61dde257144ce7d697cacbbfe147450777f1464f544e9bea1d71421596e1')}
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:185: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[export-fema]" time="20.669"><failure message="AssertionError: assert {'facts': (10...78684cb4102')} == {'facts': (10...78684cb4102')}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'facts': (10030, '6dd133fbe2ce0a73ef664386c1b7b1b04ae8bdb911fd81c13fffea9ce1f5bc7a')} != {'facts': (10030, '855045d9b8e5c5403a5aba191eb34c226f4c3b75c0162e9aafe729584ee45275')}&#10;  {'lineage': (10000, 'f4989004d30be764f6234855269e0b7fc5515b955d32dd24965d8b44148aee22')} != {'lineage': (10000, '49a0c4da93db52b19d55e8889f6b8099d8e4bc9db58719283efc687c4b4b9584')}&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129922B7B30&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_failed_refresh_preserves_1'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000012991ED7050&gt;
+kind = 'fema', stage = 'export'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("export", "lineage", "freshness", "commit"))
+    def test_failed_refresh_preserves_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        match = {"lineage": "INSERT INTO standardized_record", "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and ((match and match in statement) or
+                                  (stage == "export" and kind == "fema" and statement.startswith("COPY "))):
+                triggered = True
+                if stage == "export":
+                    output = re.search(r"TO '((?:[^']|'')+)'", statement).group(1).replace("''", "'")
+                    Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+        if stage == "export" and kind == "tiger":
+            def failed_export(self, output, **_kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+&gt;       assert active_state(conn) == baseline
+E       AssertionError: assert {'facts': (10...78684cb4102')} == {'facts': (10...78684cb4102')}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'facts': (10030, '6dd133fbe2ce0a73ef664386c1b7b1b04ae8bdb911fd81c13fffea9ce1f5bc7a')} != {'facts': (10030, '855045d9b8e5c5403a5aba191eb34c226f4c3b75c0162e9aafe729584ee45275')}
+E         {'lineage': (10000, 'f4989004d30be764f6234855269e0b7fc5515b955d32dd24965d8b44148aee22')} != {'lineage': (10000, '49a0c4da93db52b19d55e8889f6b8099d8e4bc9db58719283efc687c4b4b9584')}
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:185: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[lineage-tiger]" time="1.485" /><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[lineage-fema]" time="18.268" /><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[freshness-tiger]" time="1.921"><failure message="AssertionError: assert {'facts': (60...2a974029203')} == {'facts': (60...2a974029203')}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'facts': (60, 'd009b22c70ea497e526aa7f969705449490cec287bf7d3285dc06aa35363b549')} != {'facts': (60, 'd5036b1475933476c903ca627536c3d95ad67e5ed6bd381605be7481cbe4c40c')}&#10;  {'lineage': (30, '366a81be77182fe430464beab72539c550bd1285cb15c7c3a1b893d86198b14d')} != {'lineage': (30, '8e2277357be556a89934909bf500630ec05ce79813921ea0fc612c110c3d468d')}&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x0000012992238870&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_failed_refresh_preserves_4'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000012992238550&gt;
+kind = 'tiger', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("export", "lineage", "freshness", "commit"))
+    def test_failed_refresh_preserves_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        match = {"lineage": "INSERT INTO standardized_record", "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and ((match and match in statement) or
+                                  (stage == "export" and kind == "fema" and statement.startswith("COPY "))):
+                triggered = True
+                if stage == "export":
+                    output = re.search(r"TO '((?:[^']|'')+)'", statement).group(1).replace("''", "'")
+                    Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+        if stage == "export" and kind == "tiger":
+            def failed_export(self, output, **_kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+&gt;       assert active_state(conn) == baseline
+E       AssertionError: assert {'facts': (60...2a974029203')} == {'facts': (60...2a974029203')}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'facts': (60, 'd009b22c70ea497e526aa7f969705449490cec287bf7d3285dc06aa35363b549')} != {'facts': (60, 'd5036b1475933476c903ca627536c3d95ad67e5ed6bd381605be7481cbe4c40c')}
+E         {'lineage': (30, '366a81be77182fe430464beab72539c550bd1285cb15c7c3a1b893d86198b14d')} != {'lineage': (30, '8e2277357be556a89934909bf500630ec05ce79813921ea0fc612c110c3d468d')}
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:185: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[freshness-fema]" time="21.176"><failure message="AssertionError: assert {'facts': (10...b1b2e694578')} == {'facts': (10...b1b2e694578')}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'facts': (10030, '1860b1586b1f9954b358c285dfb114de72a4069f3b7e094db19d062aff1567a1')} != {'facts': (10030, 'a2b75b4ad823ecb9aa799ac2a42f98fc5aa35577d984f7f847fcf79fcfbb663b')}&#10;  {'lineage': (10000, 'e5bd9f4a15ee7afed337db0ba7a6dfe7a9cfabd1ab1490130ad8ff333c49623e')} != {'lineage': (10000, '571c5cea72f2cb5371c79ad033936746a6dce7f22e4ed5f60227b80ee6e5b6f1')}&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x0000012992270EF0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_failed_refresh_preserves_5'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129922587D0&gt;
+kind = 'fema', stage = 'freshness'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    @pytest.mark.parametrize("stage", ("export", "lineage", "freshness", "commit"))
+    def test_failed_refresh_preserves_previous_publication(database, monkeypatch, kind, stage):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        triggered = False
+        match = {"lineage": "INSERT INTO standardized_record", "freshness": "UPDATE source_registry", "commit": "COMMIT"}.get(stage)
+        def fail_once(statement):
+            nonlocal triggered
+            if not triggered and ((match and match in statement) or
+                                  (stage == "export" and kind == "fema" and statement.startswith("COPY "))):
+                triggered = True
+                if stage == "export":
+                    output = re.search(r"TO '((?:[^']|'')+)'", statement).group(1).replace("''", "'")
+                    Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+        if stage == "export" and kind == "tiger":
+            def failed_export(self, output, **_kwargs):
+                nonlocal triggered
+                triggered = True
+                Path(output).write_bytes(b"synthetic incomplete export")
+                raise OSError("synthetic publication failure")
+            monkeypatch.setattr(gpd.GeoDataFrame, "to_parquet", failed_export)
+        with pytest.raises(OSError, match="synthetic publication failure"):
+            refresh(ProbeConnection(conn, before=fail_once), kind)
+        assert triggered
+&gt;       assert active_state(conn) == baseline
+E       AssertionError: assert {'facts': (10...b1b2e694578')} == {'facts': (10...b1b2e694578')}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'facts': (10030, '1860b1586b1f9954b358c285dfb114de72a4069f3b7e094db19d062aff1567a1')} != {'facts': (10030, 'a2b75b4ad823ecb9aa799ac2a42f98fc5aa35577d984f7f847fcf79fcfbb663b')}
+E         {'lineage': (10000, 'e5bd9f4a15ee7afed337db0ba7a6dfe7a9cfabd1ab1490130ad8ff333c49623e')} != {'lineage': (10000, '571c5cea72f2cb5371c79ad033936746a6dce7f22e4ed5f60227b80ee6e5b6f1')}
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:185: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[commit-tiger]" time="2.032" /><testcase classname="tests.unit.test_multisnapshot_publication" name="test_failed_refresh_preserves_previous_publication[commit-fema]" time="21.431" /><testcase classname="tests.unit.test_multisnapshot_publication" name="test_reader_sees_complete_old_publication_until_commit[tiger]" time="1.958"><failure message="AssertionError: assert [{'facts': (6...6ae2b0ce69')}] == [{'facts': (6...832dfe5999')}]&#10;  &#10;  At index 0 diff: {'facts': (60, '0eff888360336ff0d8f521294705d84773b2037d90e5064ce41e1cfdd7dab2d5'), 'lineage': (30, 'f9784d3d97a33e938d8e20dfa223a04e0e32e615f98014770ea76000efdd9e69'), 'freshness': [('fema_nfhl_special_flood_hazard_areas', None), ('tiger_bg_2024', datetime.datetime(2026, 10, 31, 18, 37, 54, 118722))], 'successful_runs': (2, '96a4fa7924ce6c580104c220425fee4e9b65284a6518aaad2d83ab6ae2b0ce69')} != {'facts': (60, 'ff2d0dcb3c91b4eb903d28a0fedb43459ed03d9baeb8e59d1622f5921569f8aa'), 'lineage': (30, 'af0eeeb9466617d0111982c6712c80e368841bdab6c1f7a575cc1875737...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">database = (&lt;_duckdb.DuckDBPyConnection object at 0x0000012992239E30&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_reader_sees_complete_old_0'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129EF814F90&gt;
+kind = 'tiger'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_complete_old_publication_until_commit(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        refresh(ProbeConnection(conn, before=observe), kind)
+&gt;       assert observations == [baseline]
+E       AssertionError: assert [{'facts': (6...6ae2b0ce69')}] == [{'facts': (6...832dfe5999')}]
+E
+E         At index 0 diff: {'facts': (60, '0eff888360336ff0d8f521294705d84773b2037d90e5064ce41e1cfdd7dab2d5'), 'lineage': (30, 'f9784d3d97a33e938d8e20dfa223a04e0e32e615f98014770ea76000efdd9e69'), 'freshness': [('fema_nfhl_special_flood_hazard_areas', None), ('tiger_bg_2024', datetime.datetime(2026, 10, 31, 18, 37, 54, 118722))], 'successful_runs': (2, '96a4fa7924ce6c580104c220425fee4e9b65284a6518aaad2d83ab6ae2b0ce69')} != {'facts': (60, 'ff2d0dcb3c91b4eb903d28a0fedb43459ed03d9baeb8e59d1622f5921569f8aa'), 'lineage': (30, 'af0eeeb9466617d0111982c6712c80e368841bdab6c1f7a575cc1875737...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_multisnapshot_publication.py:200: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_reader_sees_complete_old_publication_until_commit[fema]" time="19.663"><failure message="AssertionError: assert [{'facts': (1...134fad5397')}] == [{'facts': (1...26e679f363')}]&#10;  &#10;  At index 0 diff: {'facts': (10030, '038e56b91841a7df50a4faae3be3d8711496a71cfadc21fafd0c1eb645bdb1d1'), 'lineage': (10000, '296ea09fc0bf5ee7e4cd4546638d8e5f5c79bbb0363f5042f1e9f60b75f9d6be'), 'freshness': [('fema_nfhl_special_flood_hazard_areas', datetime.datetime(2026, 10, 31, 18, 38, 4, 648180)), ('tiger_bg_2024', None)], 'successful_runs': (2, '24b984886d07ee634b3f42444a3034b055408757db84a4d213d512134fad5397')} != {'facts': (10030, '081295b07c1cea689b008ed1022c5e05409b8bcc72f75e53f16d7004ea2b9536'), 'lineage': (10000, '9e877a50f3bb349e7099bd64fa2743665034100ba5962017...&#10;  &#10;  ...Full output truncated (2 lines hidden), use '-vv' to show">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129936627B0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_reader_sees_complete_old_1'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129936616D0&gt;
+kind = 'fema'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_reader_sees_complete_old_publication_until_commit(database, monkeypatch, kind):
+        conn, root = database
+        _, baseline, _ = seed(database, monkeypatch, kind)
+        observations = []
+        def observe(statement):
+            if "UPDATE source_registry" in statement:
+                with duckdb.connect(str(root / "synthetic.duckdb")) as reader:
+                    observations.append(active_state(reader))
+        refresh(ProbeConnection(conn, before=observe), kind)
+&gt;       assert observations == [baseline]
+E       AssertionError: assert [{'facts': (1...134fad5397')}] == [{'facts': (1...26e679f363')}]
+E
+E         At index 0 diff: {'facts': (10030, '038e56b91841a7df50a4faae3be3d8711496a71cfadc21fafd0c1eb645bdb1d1'), 'lineage': (10000, '296ea09fc0bf5ee7e4cd4546638d8e5f5c79bbb0363f5042f1e9f60b75f9d6be'), 'freshness': [('fema_nfhl_special_flood_hazard_areas', datetime.datetime(2026, 10, 31, 18, 38, 4, 648180)), ('tiger_bg_2024', None)], 'successful_runs': (2, '24b984886d07ee634b3f42444a3034b055408757db84a4d213d512134fad5397')} != {'facts': (10030, '081295b07c1cea689b008ed1022c5e05409b8bcc72f75e53f16d7004ea2b9536'), 'lineage': (10000, '9e877a50f3bb349e7099bd64fa2743665034100ba5962017...
+E
+E         ...Full output truncated (2 lines hidden), use '-vv' to show
+
+tests\unit\test_multisnapshot_publication.py:200: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_success_retains_parent_links_exports_and_manifest[tiger]" time="1.869"><failure message="AssertionError: assert {('std_0126ab...a', ...), ...} &lt;= {('std_087bee...8', ...), ...}&#10;  &#10;  Extra items in the left set:&#10;  ('std_321efea4b7a54bf6277f0125', 'geo_boundary', 'boundary_6c83648ce133efd1982d6c2a', 'tiger_bg_2024', 'snap_56a2b728e4fd4059a89d2831230e9408', 'boundary_6c83648ce133efd1982d6c2a', ...)&#10;  ('std_37540b261f5dddd781278584', 'geo_boundary', 'boundary_3706d97a562aa328e59c3c82', 'tiger_bg_2024', 'snap_84280fe8a92e4dba958d9356999da352', 'boundary_3706d97a562aa328e59c3c82', ...)&#10;  ('std_c838a516ce758c5be3cccde9', 'geo_boundary', 'boundary_727204b4fdf299f990e911d0', 'tiger_bg_2024', 'snap_56a2b728e4fd4059a89d2831230e9408', 'boundary_727204b4fdf299f990e911d0...&#10;  &#10;  ...Full output truncated (28 lines hidden), use '-vv' to show">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129EF991E70&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_success_retains_parent_li0'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x0000012992290C50&gt;
+kind = 'tiger'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_parent_links_exports_and_manifest(database, monkeypatch, kind):
+        conn, _ = database
+        _, _, exports = seed(database, monkeypatch, kind)
+        old_links = set(conn.execute("SELECT * FROM standardized_record").fetchall())
+        result = refresh(conn, kind)
+&gt;       assert old_links &lt;= set(conn.execute("SELECT * FROM standardized_record").fetchall())
+E       AssertionError: assert {('std_0126ab...a', ...), ...} &lt;= {('std_087bee...8', ...), ...}
+E
+E         Extra items in the left set:
+E         ('std_321efea4b7a54bf6277f0125', 'geo_boundary', 'boundary_6c83648ce133efd1982d6c2a', 'tiger_bg_2024', 'snap_56a2b728e4fd4059a89d2831230e9408', 'boundary_6c83648ce133efd1982d6c2a', ...)
+E         ('std_37540b261f5dddd781278584', 'geo_boundary', 'boundary_3706d97a562aa328e59c3c82', 'tiger_bg_2024', 'snap_84280fe8a92e4dba958d9356999da352', 'boundary_3706d97a562aa328e59c3c82', ...)
+E         ('std_c838a516ce758c5be3cccde9', 'geo_boundary', 'boundary_727204b4fdf299f990e911d0', 'tiger_bg_2024', 'snap_56a2b728e4fd4059a89d2831230e9408', 'boundary_727204b4fdf299f990e911d0...
+E
+E         ...Full output truncated (28 lines hidden), use '-vv' to show
+
+tests\unit\test_multisnapshot_publication.py:210: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_success_retains_parent_links_exports_and_manifest[fema]" time="17.947"><failure message="AssertionError: assert {('std_0012ba...4', ...), ...} &lt;= {('std_0002a8...6', ...), ...}&#10;  &#10;  Extra items in the left set:&#10;  ('std_e0bb3c80bdb241cc2230b83e', 'geo_boundary', 'boundary_66718442d142dd3d0894f0d2', 'fema_nfhl_special_flood_hazard_areas', 'snap_6a344f5e5a6344b4979c446b71b3e1c1', 'boundary_66718442d142dd3d0894f0d2', ...)&#10;  ('std_61da41f48dc77d39069176eb', 'geo_boundary', 'boundary_57598806689e4fa0bc8e137b', 'fema_nfhl_special_flood_hazard_areas', 'snap_9970b99c66d94b959abd7ab1890b2a4b', 'boundary_57598806689e4fa0bc8e137b', ...)&#10;  ('std_b86bbf9495c218fbec6f4225', 'geo_boundary', 'boundary_1a1fa4fa4e9728507a3dc0f2', 'fema_nfhl_special_flood_hazard_areas', 'snap_...&#10;  &#10;  ...Full output truncated (9998 lines hidden), use '-vv' to show">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129D5A0AFB0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_success_retains_parent_li1'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129D59D5C90&gt;
+kind = 'fema'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_success_retains_parent_links_exports_and_manifest(database, monkeypatch, kind):
+        conn, _ = database
+        _, _, exports = seed(database, monkeypatch, kind)
+        old_links = set(conn.execute("SELECT * FROM standardized_record").fetchall())
+        result = refresh(conn, kind)
+&gt;       assert old_links &lt;= set(conn.execute("SELECT * FROM standardized_record").fetchall())
+E       AssertionError: assert {('std_0012ba...4', ...), ...} &lt;= {('std_0002a8...6', ...), ...}
+E
+E         Extra items in the left set:
+E         ('std_e0bb3c80bdb241cc2230b83e', 'geo_boundary', 'boundary_66718442d142dd3d0894f0d2', 'fema_nfhl_special_flood_hazard_areas', 'snap_6a344f5e5a6344b4979c446b71b3e1c1', 'boundary_66718442d142dd3d0894f0d2', ...)
+E         ('std_61da41f48dc77d39069176eb', 'geo_boundary', 'boundary_57598806689e4fa0bc8e137b', 'fema_nfhl_special_flood_hazard_areas', 'snap_9970b99c66d94b959abd7ab1890b2a4b', 'boundary_57598806689e4fa0bc8e137b', ...)
+E         ('std_b86bbf9495c218fbec6f4225', 'geo_boundary', 'boundary_1a1fa4fa4e9728507a3dc0f2', 'fema_nfhl_special_flood_hazard_areas', 'snap_...
+E
+E         ...Full output truncated (9998 lines hidden), use '-vv' to show
+
+tests\unit\test_multisnapshot_publication.py:210: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_interrupt_rolls_back_and_does_not_report_success[tiger]" time="1.848"><failure message="AssertionError: assert {'facts': (60...fb287516635')} == {'facts': (60...fb287516635')}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'facts': (60, '1c0a8d98368cc3673bff8676a47ae43a30e3d662832622d8f202926ab12435a6')} != {'facts': (60, 'b21d0e5afabe1036454b7a7dc6266ae567bc2a03f9961017289c60b39b20be1d')}&#10;  {'lineage': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945')} != {'lineage': (30, 'dcfd7ed6ed701af1d4cf0a873c576e14c1b73a28fece78e6f8b21df33e5c48e7')}&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129DA2244F0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_interrupt_rolls_back_and_0'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129DA224790&gt;
+kind = 'tiger'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_interrupt_rolls_back_and_does_not_report_success(database, monkeypatch, kind):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        def interrupt(statement):
+            if "INSERT INTO geo_boundary" in statement:
+                raise KeyboardInterrupt("synthetic interruption after inserting facts")
+        with pytest.raises(KeyboardInterrupt):
+            refresh(ProbeConnection(conn, after=interrupt), kind)
+&gt;       assert active_state(conn) == baseline
+E       AssertionError: assert {'facts': (60...fb287516635')} == {'facts': (60...fb287516635')}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'facts': (60, '1c0a8d98368cc3673bff8676a47ae43a30e3d662832622d8f202926ab12435a6')} != {'facts': (60, 'b21d0e5afabe1036454b7a7dc6266ae567bc2a03f9961017289c60b39b20be1d')}
+E         {'lineage': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945')} != {'lineage': (30, 'dcfd7ed6ed701af1d4cf0a873c576e14c1b73a28fece78e6f8b21df33e5c48e7')}
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:242: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_interrupt_rolls_back_and_does_not_report_success[fema]" time="18.012"><failure message="AssertionError: assert {'facts': (10...959c9c9be97')} == {'facts': (10...959c9c9be97')}&#10;  &#10;  Omitting 2 identical items, use -vv to show&#10;  Differing items:&#10;  {'facts': (10030, '9f250f0747e3e85177e1ed897122a0aa00c3eba55b72c97909b8eb96e35066a0')} != {'facts': (10030, '536fcce723fb341a3ab161ed62612a8a6460f78a5821a50341522e76533bc33d')}&#10;  {'lineage': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945')} != {'lineage': (10000, '0bf070edde9c6ea4e165a1c2f56d81a46fc6825f49b0094f49684d0d2feb73b8')}&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129DC57F3B0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_interrupt_rolls_back_and_1'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129DC57C550&gt;
+kind = 'fema'
+
+    @pytest.mark.parametrize("kind", SOURCES)
+    def test_interrupt_rolls_back_and_does_not_report_success(database, monkeypatch, kind):
+        conn, _ = database
+        _, baseline, exports = seed(database, monkeypatch, kind)
+        def interrupt(statement):
+            if "INSERT INTO geo_boundary" in statement:
+                raise KeyboardInterrupt("synthetic interruption after inserting facts")
+        with pytest.raises(KeyboardInterrupt):
+            refresh(ProbeConnection(conn, after=interrupt), kind)
+&gt;       assert active_state(conn) == baseline
+E       AssertionError: assert {'facts': (10...959c9c9be97')} == {'facts': (10...959c9c9be97')}
+E
+E         Omitting 2 identical items, use -vv to show
+E         Differing items:
+E         {'facts': (10030, '9f250f0747e3e85177e1ed897122a0aa00c3eba55b72c97909b8eb96e35066a0')} != {'facts': (10030, '536fcce723fb341a3ab161ed62612a8a6460f78a5821a50341522e76533bc33d')}
+E         {'lineage': (0, '4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945')} != {'lineage': (10000, '0bf070edde9c6ea4e165a1c2f56d81a46fc6825f49b0094f49684d0d2feb73b8')}
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:242: AssertionError</failure></testcase><testcase classname="tests.unit.test_multisnapshot_publication" name="test_tiger_verified_cache_hit_records_zero_requests_and_keeps_raw_metadata" time="1.968"><failure message="assert (4, 0) == (0, 0)&#10;  &#10;  At index 0 diff: 4 != 0&#10;  Use -v to get more diff">database = (&lt;_duckdb.DuckDBPyConnection object at 0x00000129DC5972F0&gt;, WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-93/test_tiger_verified_cache_hit_0'))
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x00000129DC597B50&gt;
+
+    def test_tiger_verified_cache_hit_records_zero_requests_and_keeps_raw_metadata(database, monkeypatch):
+        conn, root = database
+        first_calls = install_downloads(monkeypatch, "tiger", 1, force_tiger_download=False)
+        first = refresh(conn, "tiger")
+        assert len(first_calls) == len(GREATER_NYC_STATE_FIPS) == 4
+        raw_before = conn.execute("SELECT * FROM dataset_snapshot WHERE source_url LIKE 'https://www2.census.gov/%' ORDER BY snapshot_id").fetchall()
+        old_links = set(conn.execute("SELECT * FROM standardized_record").fetchall())
+        exports = {path: sha256_file(path) for path in (root / "data/standardized").rglob("*.parquet")}
+        second_calls = install_downloads(monkeypatch, "tiger", 2, force_tiger_download=False)
+        second = refresh(conn, "tiger")
+        assert second_calls == []
+        assert first["snapshots"] == second["snapshots"]
+&gt;       assert conn.execute("SELECT request_count,downloaded_bytes FROM ingestion_run WHERE run_id=?", [second["run_id"]]).fetchone() == (0, 0)
+E       assert (4, 0) == (0, 0)
+E
+E         At index 0 diff: 4 != 0
+E         Use -v to get more diff
+
+tests\unit\test_multisnapshot_publication.py:263: AssertionError</failure></testcase></testsuite></testsuites>
