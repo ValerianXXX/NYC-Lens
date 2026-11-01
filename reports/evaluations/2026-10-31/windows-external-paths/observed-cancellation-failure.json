@@ -1,0 +1,66 @@
+{
+  "fullObservationAtPreparation": {
+    "runtime": "ae972a47848e778e3bc6386d621f533c9024d9ba",
+    "startedAtUtc": "2026-11-01T02:45:29.176623+00:00",
+    "status": "RUNNING",
+    "retainedTestDirectory": "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-full-ae972-20261031",
+    "failures": [
+      {
+        "test": "tests/unit/test_analysis_jobs.py::test_http_actual_cancel_and_busy_are_distinct_from_success",
+        "phase": "call",
+        "receipts": [
+          {
+            "schema": 1,
+            "job_id": "analysis_8af556da2aa34bed840d70779f562118",
+            "operation": "assistant_comparison",
+            "status": "CANCELLED",
+            "request_sha256": "e6edd2eaf1fbc21a5796cb9897228617e4e349ae31829f3c820d1cdee6a50d71",
+            "site_ids": [
+              "site_e5d1be678c65490a86500f3d03a95673",
+              "site_373ae35163354770ab3047c2f86eec7b"
+            ],
+            "comparison_ids": [
+              "comparison_a274f05c3512437783b2c69768489fe5"
+            ],
+            "created_at": "2026-11-01 02:46:11.659311+00:00",
+            "completed_at": "2026-11-01 02:46:17.655556+00:00",
+            "result_id": null,
+            "process": {
+              "reason": "CANCELLED",
+              "returncode": 1,
+              "pid": 22408,
+              "process_stopped": true,
+              "memory_boundary": "WINDOWS_JOB_COMMITTED_MEMORY",
+              "elapsed_seconds": 5.938
+            },
+            "database_cleanup_confirmed": false,
+            "saved_states": {},
+            "error_code": "DATABASE_RECONCILIATION_UNAVAILABLE",
+            "database_settings": {}
+          }
+        ],
+        "failure": "tests\\unit\\test_analysis_jobs.py:113: in test_http_actual_cancel_and_busy_are_distinct_from_success\n    assert list(receipt[\"saved_states\"].values()) == [\"SUCCEEDED\", \"CANCELLED\", \"CANCELLED\"]\nE   AssertionError: assert [] == ['SUCCEEDED',..., 'CANCELLED']\nE     \nE     Right contains 3 more items, first extra item: 'SUCCEEDED'\nE     \nE     Full diff:\nE     + []\nE     - [\nE     -     'SUCCEEDED',...\nE     \nE     ...Full output truncated (3 lines hidden), use '-vv' to show"
+      }
+    ],
+    "observedFunctionCalls": {
+      "_record_failure": 13,
+      "execute_bounded_analysis": 3,
+      "_saved_states": 2
+    },
+    "newModelCalls": 0,
+    "scope": "Entire original suite plus frozen long-path cases; passive exception observation only"
+  },
+  "exceptions": [
+    {
+      "atUtc": "2026-11-01T02:46:17.651582+00:00",
+      "test": "tests/unit/test_analysis_jobs.py::test_http_actual_cancel_and_busy_are_distinct_from_success",
+      "function": "execute_bounded_analysis",
+      "line": 133,
+      "errorType": "IOException",
+      "message": "IO Error: Cannot open file \"<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-full-ae972-20261031\\test_http_actual_cancel_and_bu0\\data\\nyc_lens.duckdb\": 另一个程序正在使用此文件，进程无法访问。\r\n",
+      "operationId": "analysis_8af556da2aa34bed840d70779f562118",
+      "database": "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-full-ae972-20261031\\test_http_actual_cancel_and_bu0\\data\\nyc_lens.duckdb",
+      "threadId": 45872
+    }
+  ]
+}

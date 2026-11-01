@@ -1,0 +1,123 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 66 items
+
+tests/unit/test_external_generation_contract.py::test_an_existing_reader_retains_old_rows_after_source_replacement PASSED [  1%]
+tests/unit/test_external_generation_contract.py::test_other_connections_never_see_new_view_with_old_catalog PASSED [  3%]
+tests/unit/test_external_generation_contract.py::test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows[RuntimeError] PASSED [  4%]
+tests/unit/test_external_generation_contract.py::test_failure_after_catalog_write_rolls_back_view_and_all_catalog_rows[KeyboardInterrupt] PASSED [  6%]
+tests/unit/test_external_generation_contract.py::test_old_partition_paths_and_bytes_are_retained PASSED [  7%]
+tests/unit/test_external_generation_contract.py::test_old_manifest_bytes_are_retained PASSED [  9%]
+tests/unit/test_external_generation_contract.py::test_empty_replacement_does_not_break_an_existing_reader_or_resurrect_rows PASSED [ 10%]
+tests/unit/test_external_generation_contract.py::test_other_sources_survive_replacement_and_failed_publication PASSED [ 12%]
+tests/unit/test_external_generation_contract.py::test_source_moving_region_replaces_the_whole_source_once PASSED [ 13%]
+tests/unit/test_external_generation_contract.py::test_duplicate_input_is_rejected_without_changing_the_active_generation PASSED [ 15%]
+tests/unit/test_external_generation_contract.py::test_failed_staging_is_not_adopted_by_initialization PASSED [ 16%]
+tests/unit/test_external_generation_contract.py::test_initialization_does_not_promote_an_unregistered_parquet_file PASSED [ 18%]
+tests/unit/test_external_generation_contract.py::test_commit_failure_retains_the_old_generation PASSED [ 19%]
+tests/unit/test_external_generation_contract.py::test_process_death_before_catalog_commit_keeps_the_previous_generation PASSED [ 21%]
+tests/unit/test_external_generation_recovery.py::test_unregistered_files_are_ignored_even_before_first_source_publication PASSED [ 22%]
+tests/unit/test_external_generation_recovery.py::test_legacy_layout_is_imported_once_and_retained PASSED [ 24%]
+tests/unit/test_external_generation_recovery.py::test_legacy_manifest_is_linked_without_overwriting_it PASSED [ 25%]
+tests/unit/test_external_generation_recovery.py::test_conflicting_writer_does_not_displace_the_committed_winner PASSED [ 27%]
+tests/unit/test_external_generation_recovery.py::test_direct_caller_transaction_is_not_silently_committed PASSED [ 28%]
+tests/unit/test_external_generation_recovery.py::test_swallowed_nested_failure_still_rolls_back_the_entire_publication PASSED [ 30%]
+tests/unit/test_external_generation_recovery.py::test_damaged_active_generation_prevents_publication_without_rebinding[missing] PASSED [ 31%]
+tests/unit/test_external_generation_recovery.py::test_damaged_active_generation_prevents_publication_without_rebinding[resized] PASSED [ 33%]
+tests/unit/test_external_generation_recovery.py::test_damaged_active_generation_prevents_publication_without_rebinding[manifest] PASSED [ 34%]
+tests/unit/test_external_generation_recovery.py::test_closed_catalog_backup_restores_prior_rows_and_catalog_without_deleting_generations PASSED [ 36%]
+tests/unit/test_external_generation_analysis.py::test_two_address_reports_and_evidence_survive_external_source_replacement PASSED [ 37%]
+tests/unit/test_external_publication_readiness.py::test_missing_metadata_blocks_then_the_exact_completed_run_allows_analysis PASSED [ 39%]
+tests/unit/test_external_publication_readiness.py::test_incomplete_or_wrong_run_does_not_authorize_the_generation[options0] PASSED [ 40%]
+tests/unit/test_external_publication_readiness.py::test_incomplete_or_wrong_run_does_not_authorize_the_generation[options1] PASSED [ 42%]
+tests/unit/test_external_publication_readiness.py::test_incomplete_or_wrong_run_does_not_authorize_the_generation[options2] PASSED [ 43%]
+tests/unit/test_external_publication_readiness.py::test_incomplete_or_wrong_run_does_not_authorize_the_generation[options3] PASSED [ 45%]
+tests/unit/test_external_publication_readiness.py::test_success_with_warnings_is_an_existing_supported_terminal_run PASSED [ 46%]
+tests/unit/test_external_publication_readiness.py::test_changed_manifest_cannot_supply_the_snapshot_readiness_proof PASSED [ 48%]
+tests/unit/test_external_storage.py::test_external_source_replace_preserves_table_name_and_catalog PASSED [ 50%]
+tests/unit/test_external_storage.py::test_full_storage_migration_swaps_only_after_verification PASSED [ 51%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[../outside.parquet] PASSED [ 53%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[data/standardized/facts/../outside.parquet] PASSED [ 54%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[/outside.parquet] PASSED [ 56%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[C:/outside.parquet] PASSED [ 57%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[data\\standardized\\facts\\outside.parquet] PASSED [ 59%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[//?/C:/outside.parquet] PASSED [ 60%]
+tests/unit/test_external_path_boundary.py::test_native_addressing_does_not_expand_the_catalog_boundary[reports/outside.parquet] PASSED [ 62%]
+tests/unit/test_external_path_boundary.py::test_long_legacy_discovery_returns_logical_paths_and_readable_files[ascii] PASSED [ 63%]
+tests/unit/test_external_path_boundary.py::test_long_legacy_discovery_returns_logical_paths_and_readable_files[\u6750\u6599's folder] PASSED [ 65%]
+tests/unit/test_configuration_snapshot.py::test_changed_bytes_reload_even_when_size_and_timestamp_are_equal[sources_config-sources.yml] PASSED [ 66%]
+tests/unit/test_configuration_snapshot.py::test_changed_bytes_reload_even_when_size_and_timestamp_are_equal[geographies_config-geographies.yml] PASSED [ 68%]
+tests/unit/test_configuration_snapshot.py::test_changed_bytes_reload_even_when_size_and_timestamp_are_equal[metrics_config-metrics.yml] PASSED [ 69%]
+tests/unit/test_configuration_snapshot.py::test_changed_bytes_reload_even_when_size_and_timestamp_are_equal[taxonomy_config-business_taxonomy.yml] PASSED [ 71%]
+tests/unit/test_configuration_snapshot.py::test_changed_bytes_reload_even_when_size_and_timestamp_are_equal[test_sites_config-test_sites.yml] PASSED [ 72%]
+tests/unit/test_configuration_snapshot.py::test_callers_cannot_mutate_another_read[sources_config] PASSED [ 74%]
+tests/unit/test_configuration_snapshot.py::test_callers_cannot_mutate_another_read[geographies_config] PASSED [ 75%]
+tests/unit/test_configuration_snapshot.py::test_callers_cannot_mutate_another_read[metrics_config] PASSED [ 77%]
+tests/unit/test_configuration_snapshot.py::test_callers_cannot_mutate_another_read[taxonomy_config] PASSED [ 78%]
+tests/unit/test_configuration_snapshot.py::test_callers_cannot_mutate_another_read[test_sites_config] PASSED [ 80%]
+tests/unit/test_configuration_snapshot.py::test_configuration_directory_switch_cannot_reuse_another_project PASSED [ 81%]
+tests/unit/test_configuration_snapshot.py::test_invalid_update_does_not_silently_serve_old_content PASSED [ 83%]
+tests/unit/test_configuration_snapshot.py::test_same_content_reuses_parse_without_exposing_cached_mutable_object PASSED [ 84%]
+tests/unit/test_configuration_snapshot.py::test_snapshot_pins_values_and_fingerprint_then_next_request_refreshes PASSED [ 86%]
+tests/unit/test_configuration_snapshot.py::test_nested_snapshot_and_exception_restore_caller_context PASSED [ 87%]
+tests/unit/test_configuration_snapshot.py::test_simultaneous_requests_keep_their_own_configuration_snapshot PASSED [ 89%]
+tests/unit/test_configuration_snapshot.py::test_calculation_version_hashes_the_bytes_actually_used_in_the_snapshot PASSED [ 90%]
+tests/unit/test_configuration_snapshot.py::test_config_loader_itself_is_part_of_calculation_code_version PASSED [ 92%]
+tests/unit/test_configuration_snapshot.py::test_oversized_configuration_is_rejected_before_parse PASSED [ 93%]
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state PASSED [ 95%]
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded PASSED [ 96%]
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness PASSED [ 98%]
+tests/unit/test_evidence_snapshot_contract.py::test_nonfinite_or_boolean_values_cannot_acquire_a_rank PASSED [100%]
+
+============================== warnings summary ===============================
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+  <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation\src\nyc_lens\spatial\catchments.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    point_metric = transform(forward, Point(longitude, latitude))
+
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+  <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation\src\nyc_lens\spatial\catchments.py:99: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, point_metric.buffer(distance_m, quad_segs=32))
+
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+  <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation\src\nyc_lens\spatial\catchments.py:268: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return float(transform(metric_transform_for_geometry(geometry), geometry).area)
+
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+  <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation\src\nyc_lens\metrics\engine.py:749: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    catchment_area_m2 = float(transform(metric_transform, geometry).area)
+
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_missing_or_invalidated_catalogue_does_not_hide_its_state
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_evidence_pagination_and_identifiers_remain_bounded
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+tests/unit/test_evidence_snapshot_contract.py::test_csv_and_xlsx_keep_comparison_basis_and_missingness
+  <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation\src\nyc_lens\metrics\engine.py:2245: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric_geometry = transform(metric_transform, geometry)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+================= 66 passed, 30 warnings in 91.70s (0:01:31) ==================

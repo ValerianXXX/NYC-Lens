@@ -3,6 +3,7 @@ import hashlib
 import json
 
 from .storage import _catalog_file
+from .paths import filesystem_path
 
 
 MAX_MANIFEST_BYTES = 16 * 1024 * 1024
@@ -17,7 +18,7 @@ def require_ready_external_publications(conn) -> None:
             continue
         path = _catalog_file(str(root) + "/_manifest.json")
         try:
-            with path.open("rb") as stream:
+            with filesystem_path(path).open("rb") as stream:
                 raw = stream.read(MAX_MANIFEST_BYTES + 1)
             if len(raw) > MAX_MANIFEST_BYTES or hashlib.sha256(raw).hexdigest() != digest:
                 raise ValueError("EXTERNAL_PUBLICATION_MANIFEST_INVALID")
