@@ -1,0 +1,143 @@
+Browser tab: 9, Title: "NYC Lens | Commercial Location Intelligence", URL: "http://127.0.0.1:8790/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 57, 59, 114-115
+~		143 text Analysis complete. Evidence and exports refer to the saved result.
+~		16 button (disabled) Cancel computation, ID: job-cancel
+~		17 button Check original task status, ID: job-resume
+~		145 text Comparison ready. Review evidence and unresolved requirements below.
+~			142 button Confirm and compare
++			146 text Comparing 2 sites · 500 m · Synthetic demo
++				147 container
++					148 container Map
++					149 container Map marker
++						150 image
++					151 container Map marker
++						152 image
+~				105 text entry area (settable) One public address per line (2–20), ID: comparison-addresses, Value: 100 Demo Avenue, Newark, NJ
+200 Demo Avenue, Newark, NJ
++		153 text Comparison complete: 2 sites and 126 metric rows. Check comparability and missingness below; no composite score.
++		154 container Description: Export comparison, ID: comparison-exports
++			155 link Description: JSON, Value: 127.0.0.1:8790/api/comparison/comparison_ddf47b15befb4de1918dbf4a9b046968/report?format=json
++			156 link Description: CSV, Value: 127.0.0.1:8790/api/comparison/comparison_ddf47b15befb4de1918dbf4a9b046968/report?format=csv
++			157 link Description: XLSX, Value: 127.0.0.1:8790/api/comparison/comparison_ddf47b15befb4de1918dbf4a9b046968/report?format=xlsx
++		158 container comparison-result
++			159 table
++				160 row
++					161 cell
++						162 text Address
++					163 cell
++						164 text Resident population
++					165 cell
++						166 text Daytime jobs
++					167 cell
++						168 text Direct competitors
++					169 cell
++						170 text Regional rail stations
++					171 cell
++						172 text Regional transit-place proxies
++					173 cell
++						174 text Median household income
++					175 cell
++						176 text Historical public transaction cases
++				177 row
++					178 cell
++						179 text 100 Demo Avenue, Newark, NJ
++						180 text NJ · County 34013 · 110 missing
++					181 cell
++						182 text —
++						183 text Ranking unavailable: incomplete or different data bases.
++						184 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=resident_population
++						185 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							186 text Source dates and limits
++					187 cell
++						188 text —
++						189 text Ranking unavailable: incomplete or different data bases.
++						190 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=daytime_jobs
++						191 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							192 text Source dates and limits
++					193 cell
++						194 text 1
++						195 text Ranking unavailable: incomplete or different data bases.
++						196 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=direct_competitor_count
++						197 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							198 text Source dates and limits
++					199 cell
++						200 text —
++						201 text Ranking unavailable: incomplete or different data bases.
++						202 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=regional_rail_station_count
++						203 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							204 text Source dates and limits
++					205 cell
++						206 text 0
++						207 text Rank 1, high to low
++						208 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=regional_transit_poi_count
++						209 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							210 text Source dates and limits
++					211 cell
++						212 text —
++						213 text Ranking unavailable: incomplete or different data bases.
++						214 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=median_household_income
++						215 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							216 text Source dates and limits
++					217 cell
++						218 text —
++						219 text Ranking unavailable: incomplete or different data bases.
++						220 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_f57ad9ffb4a64521b1c59484d8447b40/evidence?catchment=500m&metric_id=historical_transaction_case_count
++						221 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							222 text Source dates and limits
++				223 row
++					224 cell
++						225 text 200 Demo Avenue, Newark, NJ
++						226 text NJ · County 34013 · 110 missing
++					227 cell
++						228 text —
++						229 text Ranking unavailable: incomplete or different data bases.
++						230 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=resident_population
++						231 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							232 text Source dates and limits
++					233 cell
++						234 text —
++						235 text Ranking unavailable: incomplete or different data bases.
++						236 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=daytime_jobs
++						237 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							238 text Source dates and limits
++					239 cell
++						240 text 3
++						241 text Ranking unavailable: incomplete or different data bases.
++						242 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=direct_competitor_count
++						243 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							244 text Source dates and limits
++					245 cell
++						246 text —
++						247 text Ranking unavailable: incomplete or different data bases.
++						248 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=regional_rail_station_count
++						249 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							250 text Source dates and limits
++					251 cell
++						252 text 0
++						253 text Rank 1, high to low
++						254 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=regional_transit_poi_count
++						255 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							256 text Source dates and limits
++					257 cell
++						258 text —
++						259 text Ranking unavailable: incomplete or different data bases.
++						260 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=median_household_income
++						261 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							262 text Source dates and limits
++					263 cell
++						264 text —
++						265 text Ranking unavailable: incomplete or different data bases.
++						266 link Description: View input evidence, Value: 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=historical_transaction_case_count
++						267 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							268 text Source dates and limits
++			269 text Rows are raw same-metric comparisons. High-to-low rank does not mean better, recommended, causal, or suitable. No composite site score is produced because NYC Lens has no approved real-project calibration set. Mixed jurisdictions can have different source coverage; each value retains its source, year, confidence, missingness and warnings. Within-batch percentiles describe only this small submitted address set and are not citywide or regional benchmarks. Ranks and differences are withheld when source snapshots, units, years, measure types or calculation versions are missing or inconsistent.
++			270 container assistant-brief
++				271 heading Decision differences and missing evidence, Value: 3
++					272 text Decision differences and missing evidence
++				273 text SYNTHETIC DEMO. Higher is not necessarily better; no composite score.
++				274 text Resident population: missing or incomparable source data
++				275 text Direct competitors: missing or incomparable source data
++				276 text Asking rent: missing or incomparable source data
++				277 text Requirements to verify: Compare "100 Demo Avenue, Newark, NJ" and "200 Demo Avenue, Newark, NJ" for a restaurant within 500m, focusing on competition, population and rent.
+The focused UI element is 1 AXWebArea NYC Lens | Commercial Location Intelligence, URL: 127.0.0.1:8790/

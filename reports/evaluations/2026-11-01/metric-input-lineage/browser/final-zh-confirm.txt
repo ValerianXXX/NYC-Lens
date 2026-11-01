@@ -1,0 +1,6 @@
+Browser tab: 9, Title: "NYC Lens｜纽约商圈情报", URL: "http://127.0.0.1:8790/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 165
+~			24 text entry area (settable) 选址要求, Value: 比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，在500米范围开正式餐饮，关注竞争、人口和租金。, ID: assistant-text
++		326 text 请确认地址、业态和直线半径。 AI 未启用；仅读取引号内地址与已知关键词，其余要求仍待核对。
+The focused UI element is 1 AXWebArea NYC Lens｜纽约商圈情报, URL: 127.0.0.1:8790/

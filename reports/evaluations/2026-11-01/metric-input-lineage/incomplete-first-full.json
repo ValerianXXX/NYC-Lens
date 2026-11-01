@@ -1,0 +1,15 @@
+{
+  "runtime": "a4e84a81b2f3ac502a3b2813076effd395d81a98",
+  "startedAtUtc": "2026-11-01T08:33:33.492630+00:00",
+  "status": "COMPLETED",
+  "retainedTestDirectory": "<USER_HOME>\\AppData\\Local\\Temp\\nyc-lineage-full-20261101",
+  "newModelCalls": 0,
+  "scope": "Entire suite with original assertions and skips; no per-frame tracing",
+  "interpreter": "3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]",
+  "exitCode": 4294967295,
+  "seconds": 233.875,
+  "finishedAtUtc": "2026-11-01T08:37:27.384335+00:00",
+  "testSuites": [],
+  "sourceUnchanged": true,
+  "deliveryHead": "a4e84a81b2f3ac502a3b2813076effd395d81a98"
+}

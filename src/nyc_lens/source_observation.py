@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from datetime import UTC, datetime
+import json
 from typing import Any
 
 import duckdb
@@ -61,10 +62,24 @@ class SourceObservationCapture:
         self.cache[key] = observation
         return observation
 
+    def capture_set(self, source_id: str | None, snapshot_id: str | None,
+                    references: list[dict[str, str]]) -> dict[str, Any]:
+        if not references:
+            return self.capture(source_id, snapshot_id)
+        if len(references) == 1:
+            ref = references[0]
+            return self.capture(ref['source_id'], ref['snapshot_id'])
+        return {'capture_state': 'MULTIPLE_SNAPSHOTS', 'observed_at': self.observed_at.isoformat(),
+            'retrieved_at': None, 'retrieval_age_days': None, 'reference_start': None, 'reference_end': None,
+            'vintage': None, 'snapshot_status': None, 'currentness': 'NOT_ASSESSED',
+            'sources': [{**ref, **self.capture(ref['source_id'], ref['snapshot_id'])} for ref in references],
+            'limitations': ['Several input snapshots contributed; inspect each saved source observation. No single retrieval date represents them all.']}
+
 
 def observation_columns(metric: dict[str, Any]) -> dict[str, Any]:
     """Export only the saved observation, never live catalog metadata."""
     observation = metric.get("source_observation") or {}
+    binding = metric.get('evidence_binding') or {}
     return {
         "source_observation_state": observation.get("capture_state", "NOT_RECORDED"),
         "source_observed_at": observation.get("observed_at"),
@@ -73,4 +88,12 @@ def observation_columns(metric: dict[str, Any]) -> dict[str, Any]:
         "source_reference_start": observation.get("reference_start"),
         "source_reference_end": observation.get("reference_end"),
         "source_currentness": observation.get("currentness", "NOT_ASSESSED"),
+        'source_snapshots_json': json.dumps(binding.get('source_snapshots', []), sort_keys=True),
+        'evidence_bound_records': len(binding['records']) if 'records' in binding else None,
+        'evidence_unresolved_ids': len(binding['unresolved_ids']) if 'unresolved_ids' in binding else None,
+        'source_observations_json': json.dumps(observation.get('sources', []), sort_keys=True),
+        'source_snapshot_dates_text': ' | '.join(
+            f"{item.get('source_id', '?')} / {item.get('snapshot_id', '?')}: Retrieved / 下载 {item.get('retrieved_at') or '?'}; "
+            f"Reference / 覆盖期 {item.get('reference_start') or '?'} - {item.get('reference_end') or '?'}"
+            for item in observation.get('sources', [])),
     }

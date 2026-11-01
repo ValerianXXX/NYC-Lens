@@ -1,0 +1,8 @@
+{
+  "directApiRoute": "http://127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/report?format=html",
+  "directBrowserNavigation": "BLOCKED_BY_CLIENT",
+  "message": "Browser tool reported net::ERR_BLOCKED_BY_CLIENT for direct navigation to the HTML export response.",
+  "separateHttpExport": "PASS; preserved exact response as site-report.html",
+  "plannedVisualCheck": "Read-only loopback static preview of that exact downloaded HTML, not a claim that direct browser navigation passed.",
+  "noBrowserProtectionChanged": true
+}

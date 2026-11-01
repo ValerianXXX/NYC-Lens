@@ -1,0 +1,43 @@
+{
+  "site_id": "site_f57ad9ffb4a64521b1c59484d8447b40",
+  "catchment": "500m",
+  "metric_id": "direct_competitor_count",
+  "total_evidence_ids": 1,
+  "offset": 0,
+  "limit": 50,
+  "evidence": [
+    {
+      "entity_id": "synthetic-poi-0-0",
+      "entity_type": "poi",
+      "source_record_id": "synthetic-poi-0-0",
+      "source_id": "overture_places",
+      "snapshot_id": "synthetic-places-v1",
+      "bound_source_id": "overture_places",
+      "bound_snapshot_id": "synthetic-places-v1",
+      "method_version": "synthetic-v1",
+      "vintage": "SYNTHETIC 2026",
+      "retrieved_at": "2026-11-01T08:39:56.940553",
+      "source_url": "synthetic://nyc-lens/demo-v1",
+      "license": "Original synthetic fixture; no actual businesses",
+      "snapshot_status_at_lookup": "SUCCEEDED",
+      "original_filename": null,
+      "raw_sha256": null,
+      "lineage_status": "RESOLVED",
+      "raw_file_binding": "UNAVAILABLE"
+    }
+  ],
+  "total_evidence_records": 1,
+  "next_offset": null,
+  "binding_version": "METRIC_INPUT_BINDINGS_V1",
+  "binding_scope": "METRIC_SNAPSHOT",
+  "calculation_version_id": "calc_b3849a6ba4394fa6ab206213272e91c1",
+  "metric_basis": {
+    "source_id": "overture_places",
+    "snapshot_id": "synthetic-places-v1",
+    "source_year": "SYNTHETIC 2026",
+    "unit": "locations",
+    "measure_type": "synthetic_fixture"
+  },
+  "unresolved_in_page": 0,
+  "raw_file_note": "Raw file references are snapshot-level candidates, not verified entity-to-file bindings."
+}

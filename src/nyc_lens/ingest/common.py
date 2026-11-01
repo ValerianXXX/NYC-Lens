@@ -130,33 +130,8 @@ def register_table_lineage(
     snapshot_id: str | None,
 ) -> None:
     """Register deterministic entity-to-snapshot links after a table refresh."""
-    allowed = {
-        "address": "address_id",
-        "region_definition": "region_definition_id",
-        "region_member": "region_member_id",
-        "parcel": "parcel_id",
-        "building": "building_id",
-        "geo_boundary": "boundary_id",
-        "geo_cell": "cell_id",
-        "census_estimate": "census_estimate_id",
-        "workforce_estimate": "workforce_estimate_id",
-        "business_location": "business_location_id",
-        "poi": "poi_id",
-        "license": "license_id",
-        "inspection": "inspection_id",
-        "transit_stop": "transit_stop_id",
-        "transit_ridership": "transit_ridership_id",
-        "hotel": "hotel_id",
-        "short_term_rental": "short_term_rental_id",
-        "traffic_observation": "traffic_observation_id",
-        "mobility_proxy": "mobility_proxy_id",
-        "health_indicator": "health_indicator_id",
-        "environment_indicator": "environment_indicator_id",
-        "property_record": "property_record_id",
-        "regulatory_record": "regulatory_record_id",
-        "transaction_case": "transaction_case_id",
-    }
-    if allowed.get(table_name) != id_column:
+    from ..record_identity import LINEAGE_TABLE_IDS
+    if LINEAGE_TABLE_IDS.get(table_name) != id_column:
         raise ValueError(f"Unsupported lineage table: {table_name}.{id_column}")
     snapshot_filter = " AND snapshot_id=?" if snapshot_id is not None else ""
     parameters: list[Any] = [utc_now(), source_id]

@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased — 2026-11-01
+
+- Bind declared metric evidence to active typed source/snapshot identities saved with each analysis. Preserve multiple source observations, ordinary-data catalogue vintages, secondary declared inputs and honest unresolved records; keep old saved-result behavior. Retain comparability for verified parts of one ingestion while withholding unsupported ranks. Add bounded row pagination metadata, report provenance columns and bilingual evidence links for incomparable values. No schema, dependency, model or production change. See [verification, compatibility and rollback](docs/metric-input-lineage-2026-11-01.md).
+
 ## Unreleased — 2026-10-31
 
 - Own the actual Windows CPython interpreter while preserving its virtual environment; bind internal start permission to its PID and environment. After confirmed exit, allow a bounded sharing-release check before database reconciliation without retrying analysis or hiding persistent failures. Four unchanged failure cases pass (previously 1/4), with 80 related checks and actual synthetic browser cancellation/reload verification. Complete local regression passed (511 passed, 3 skipped), as did all five hosted jobs, including actual Python 3.11–3.13 venvs. No public API/schema or model change. See [evidence, compatibility and rollback](docs/windows-worker-recovery-2026-10-31.md).

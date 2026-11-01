@@ -1,0 +1,76 @@
+{
+  "mode": "REAL_ENGINE_SYNTHETIC_DATABASE",
+  "sourceHead": "c0d720a2de7fc20fda439074ac719c02af386ceb",
+  "observations": [
+    {
+      "address": "100 Demo Avenue, Newark, NJ",
+      "activeInputRows": [
+        [
+          "synthetic-poi-0-0",
+          "synthetic-places-v1"
+        ]
+      ],
+      "metricBasis": {
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-v1",
+        "source_year": "SYNTHETIC 2026",
+        "unit": "locations",
+        "measure_type": "synthetic_fixture"
+      },
+      "totalEvidenceIds": 1,
+      "unresolved": 0,
+      "evidence": [
+        {
+          "entity_id": "synthetic-poi-0-0",
+          "snapshot_id": "synthetic-places-v1",
+          "lineage_status": "RESOLVED"
+        }
+      ]
+    },
+    {
+      "address": "200 Demo Avenue, Newark, NJ",
+      "activeInputRows": [
+        [
+          "synthetic-poi-1-0",
+          "synthetic-places-part-2"
+        ],
+        [
+          "synthetic-poi-1-1",
+          "synthetic-places-v1"
+        ],
+        [
+          "synthetic-poi-1-2",
+          "synthetic-places-v1"
+        ]
+      ],
+      "metricBasis": {
+        "source_id": "overture_places",
+        "snapshot_id": null,
+        "source_year": "SYNTHETIC 2026 / SYNTHETIC part 2",
+        "unit": "locations",
+        "measure_type": "synthetic_fixture"
+      },
+      "totalEvidenceIds": 3,
+      "unresolved": 0,
+      "evidence": [
+        {
+          "entity_id": "synthetic-poi-1-0",
+          "snapshot_id": "synthetic-places-part-2",
+          "lineage_status": "RESOLVED"
+        },
+        {
+          "entity_id": "synthetic-poi-1-1",
+          "snapshot_id": "synthetic-places-v1",
+          "lineage_status": "RESOLVED"
+        },
+        {
+          "entity_id": "synthetic-poi-1-2",
+          "snapshot_id": "synthetic-places-v1",
+          "lineage_status": "RESOLVED"
+        }
+      ]
+    }
+  ],
+  "newModelCalls": 0,
+  "realLocationConclusions": false
+}

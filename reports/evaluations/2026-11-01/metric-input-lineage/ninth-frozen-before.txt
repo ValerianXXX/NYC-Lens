@@ -1,0 +1,25 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_________ test_parts_of_one_verified_ingestion_can_remain_comparable __________
+
+    def test_parts_of_one_verified_ingestion_can_remain_comparable():
+        base = {'value': 4.0, 'unit': 'locations', 'source_id': 'source', 'snapshot_id': None,
+                'source_year': '2026', 'measure_type': 'count', 'calculation_version_id': 'same-version'}
+        values = []
+        for snapshot in ('part-a', 'part-b'):
+            item = deepcopy(base)
+            item['evidence_binding'] = {'schema': 'METRIC_INPUT_BINDINGS_V1', 'records': [], 'unresolved_ids': [],
+                'source_snapshots': [{'source_id': 'source', 'snapshot_id': snapshot}],
+                'generation_ids': [{'source_id': 'source', 'run_id': 'one-completed-source-ingestion'}]}
+            values.append(item)
+>       assert comparison_basis(values)['status'] == 'COMPARABLE'
+E       AssertionError: assert 'INCOMPARABLE' == 'COMPARABLE'
+E         
+E         - COMPARABLE
+E         + INCOMPARABLE
+E         ? ++
+
+tests\unit\test_metric_input_lineage.py:129: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_metric_input_lineage.py::test_parts_of_one_verified_ingestion_can_remain_comparable
+1 failed in 2.37s

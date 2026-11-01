@@ -13,6 +13,7 @@ from .execution_context import allocate_identity, result_json
 from .db import calculation_version
 from .publication_readiness import require_ready_external_publications
 from .source_observation import SourceObservationCapture
+from .metric_lineage import MetricLineageCapture, align_metric_snapshot
 from .entities.buildings import fetch_building_for_address
 from .entities.parcels import fetch_parcel_for_address
 from .geocoding.service import geocode_address
@@ -47,6 +48,7 @@ def _site_snapshot_set(
     building: dict[str, Any] | None,
     metric_values: list[Any],
     network_snapshot_id: str | None,
+    evidence_bindings: dict[str, dict[str, Any]] | None = None,
 ) -> dict[str, list[str]]:
     referenced: dict[str, set[str]] = {}
 
@@ -63,6 +65,11 @@ def _site_snapshot_set(
     for metric in metric_values:
         add(metric.source_id, metric.snapshot_id)
         evidence_ids.update(str(value) for value in (metric.evidence_ids or []))
+    if evidence_bindings is not None:
+        for binding in evidence_bindings.values():
+            for ref in binding['source_snapshots']:
+                add(ref['source_id'], ref['snapshot_id'])
+        evidence_ids.clear()
     ordered_evidence = sorted(evidence_ids)
     for start in range(0, len(ordered_evidence), 10_000):
         batch = ordered_evidence[start : start + 10_000]
@@ -160,6 +167,8 @@ def _analyze_site_impl(
     calculation_id = calculation_version(conn)
     now = utc_now()
     source_observations = SourceObservationCapture(conn, observed_at=now)
+    lineage_capture = MetricLineageCapture(conn)
+    all_bindings: dict[str, dict[str, Any]] = {}
     snapshot_set: dict[str, list[str]] = {}
     conn.execute(
         """
@@ -250,17 +259,27 @@ def _analyze_site_impl(
                 metric.text_value = None
                 metric.confidence = None
                 metric.warnings = [*(metric.warnings or []), "No completed source snapshot; absent records are not observed zero."]
+            binding = lineage_capture.capture(metric)
+            all_bindings[f'{catchment_type}:{metric.metric_id}'] = binding
+            align_metric_snapshot(metric, binding, source_observations)
+            if binding['unresolved_ids'] or binding['unverified_source_snapshots']:
+                metric.warnings = [*(metric.warnings or []), 'Some declared inputs lack an active identity or a verified completed source ingestion; source confirmation is required.']
             if synthetic:
                 metric.warnings = [*(metric.warnings or []), "SYNTHETIC_DEMO"]
-                if metric.snapshot_id:
-                    observation = source_observations.capture(metric.source_id, metric.snapshot_id)
-                    vintage = observation.get("vintage")
-                    metric.source_year = str(vintage) if vintage and str(vintage).startswith("SYNTHETIC") else "SYNTHETIC (reference year not recorded)"
+                if metric.snapshot_id or binding['source_snapshots']:
+                    observation = source_observations.capture_set(metric.source_id, metric.snapshot_id, binding['source_snapshots'])
+                    vintages = [entry.get('vintage') for entry in observation.get('sources', [observation])]
+                    labels = sorted({str(value) for value in vintages if value and str(value).startswith('SYNTHETIC')})
+                    metric.source_year = ' / '.join(labels) if labels else "SYNTHETIC (reference year not recorded)"
                     metric.measure_type = "synthetic_fixture"
                     metric.confidence = None
         if is_nyc:
             attach_benchmark_percentiles(conn, catchment_type, metric_values)
         metric_values.extend(derive_market_signals(conn, catchment_type, metric_values))
+        for metric in metric_values:
+            key = f'{catchment_type}:{metric.metric_id}'
+            if key not in all_bindings:
+                all_bindings[key] = lineage_capture.capture(metric)
         all_metric_values.extend(metric_values)
         persist_metrics(
             conn,
@@ -278,7 +297,9 @@ def _analyze_site_impl(
                 "source_id": metric.source_id,
                 "snapshot_id": metric.snapshot_id,
                 "source_year": metric.source_year,
-                "source_observation": source_observations.capture(metric.source_id, metric.snapshot_id),
+                "source_observation": source_observations.capture_set(metric.source_id, metric.snapshot_id,
+                    all_bindings[f'{catchment_type}:{metric.metric_id}']['source_snapshots']),
+                'evidence_binding': all_bindings[f'{catchment_type}:{metric.metric_id}'],
                 "measure_type": metric.measure_type,
                 "confidence": metric.confidence,
                 "margin_of_error": metric.margin_of_error,
@@ -311,6 +332,7 @@ def _analyze_site_impl(
         building=building,
         metric_values=all_metric_values,
         network_snapshot_id=network.snapshot_id if network is not None else None,
+        evidence_bindings=all_bindings,
     )
     result = {
         "site_id": site_id,

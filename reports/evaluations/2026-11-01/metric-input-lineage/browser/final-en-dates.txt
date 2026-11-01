@@ -1,0 +1,8 @@
+Browser tab: 9, Title: "NYC Lens | Commercial Location Intelligence", URL: "http://127.0.0.1:8790/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 243-244
++						278 container
++							279 button (expanded) Source dates and limits, Secondary Actions: Collapse
++								280 text Source dates and limits
++							281 text Contributing source snapshots: 2. overture_places / synthetic-part-2 — Retrieved: 2026-11-01T08:39:57.045223+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | overture_places / synthetic-places-v1 — Retrieved: 2026-11-01T08:39:56.940553+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.
+The focused UI element is 279 button (expanded) Source dates and limits, Secondary Actions: Collapse

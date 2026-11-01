@@ -1,0 +1,9 @@
+{
+  "status": "FAILED_VERIFIER_ASSUMPTION",
+  "artifactMutation": false,
+  "expected": "Metric rows read from the comparison workbook",
+  "actual": "Verifier incorrectly selected first sheet, which is the existing comparison overview; no metric rows were found there.",
+  "evidence": "Workbook has 比较概览 (17x6), 同口径指标 (253x32), 来源与限制 (55x5). The actual 同口径指标 sheet contains competitor values 1 and 3.",
+  "correction": "Select the documented metric worksheet; retain and byte-check the original browser downloads. No application or assertion threshold change.",
+  "initialException": "AssertionError at verifier line 42: expected competitor values [1, 3]"
+}

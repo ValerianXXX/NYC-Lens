@@ -1,0 +1,38 @@
+{
+  "observedAtUtc": "2026-11-01T08:43:47.458959+00:00",
+  "runtime": "c0d720a2de7fc20fda439074ac719c02af386ceb",
+  "status": "PASS",
+  "mode": "ACTUAL_BROWSER_DOWNLOADS_WITH_SYNTHETIC_REAL_ENGINE_RESULTS",
+  "comparisonId": "comparison_ddf47b15befb4de1918dbf4a9b046968",
+  "files": [
+    {
+      "file": "actual-browser-comparison.json",
+      "sha256": "7c2758d97a8e766aed91264a065e5dc5d924676233b2cc311e17602680665873"
+    },
+    {
+      "file": "actual-browser-comparison.csv",
+      "sha256": "3cdfbbd78884ea116e73d8771713d23c1c7a4dc13154e4ef1497573731828596"
+    },
+    {
+      "file": "actual-browser-comparison.xlsx",
+      "sha256": "3b40411431e49938a225b82dcf7b87dba3c40eb56dea24326e885e71303a0635"
+    }
+  ],
+  "csvRows": 252,
+  "xlsxRows": 252,
+  "counts": [
+    1,
+    3
+  ],
+  "resolvedEvidenceRecords": [
+    1,
+    3
+  ],
+  "populationMissing": true,
+  "incomparableRanksWithheld": true,
+  "siteHtmlMultipleSourceDates": true,
+  "siteHtmlAccess": "DIRECT_HTTP_EXPORT_ROUTE",
+  "newModelCalls": 0,
+  "realLocationConclusions": false,
+  "independentHumanAcceptance": false
+}

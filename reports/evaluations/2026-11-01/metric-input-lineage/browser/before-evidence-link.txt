@@ -1,0 +1,137 @@
+Browser tab: 9, Title: "NYC Lens | Commercial Location Intelligence", URL: "http://127.0.0.1:8789/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 56, 58, 113-114
+~		142 text Analysis complete. Evidence and exports refer to the saved result.
+~		15 button (disabled) Cancel computation, ID: job-cancel
+~		16 button Check original task status, ID: job-resume
+~		144 text Comparison ready. Review evidence and unresolved requirements below.
+~			141 button Confirm and compare
++			145 text Comparing 2 sites · 500 m · Synthetic demo
++				146 container
++					147 container Map
++					148 container Map marker
++						149 image
++					150 container Map marker
++						151 image
+~				104 text entry area (settable) One public address per line (2–20), ID: comparison-addresses, Value: 100 Demo Avenue, Newark, NJ
+200 Demo Avenue, Newark, NJ
++		152 text Comparison complete: 2 sites and 126 metric rows. Check comparability and missingness below; no composite score.
++		153 container Description: Export comparison, ID: comparison-exports
++			154 link Description: JSON, Value: 127.0.0.1:8789/api/comparison/comparison_b59eb5006a5e4844a35f8b543b5f482b/report?format=json
++			155 link Description: CSV, Value: 127.0.0.1:8789/api/comparison/comparison_b59eb5006a5e4844a35f8b543b5f482b/report?format=csv
++			156 link Description: XLSX, Value: 127.0.0.1:8789/api/comparison/comparison_b59eb5006a5e4844a35f8b543b5f482b/report?format=xlsx
++		157 container comparison-result
++			158 table
++				159 row
++					160 cell
++						161 text Address
++					162 cell
++						163 text Resident population
++					164 cell
++						165 text Daytime jobs
++					166 cell
++						167 text Direct competitors
++					168 cell
++						169 text Regional rail stations
++					170 cell
++						171 text Regional transit-place proxies
++					172 cell
++						173 text Median household income
++					174 cell
++						175 text Historical public transaction cases
++				176 row
++					177 cell
++						178 text 100 Demo Avenue, Newark, NJ
++						179 text NJ · County 34013 · 110 missing
++					180 cell
++						181 text —
++						182 text Ranking unavailable: incomplete or different data bases.
++						183 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							184 text Source dates and limits
++					185 cell
++						186 text —
++						187 text Ranking unavailable: incomplete or different data bases.
++						188 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							189 text Source dates and limits
++					190 cell
++						191 text 1
++						192 text Ranking unavailable: incomplete or different data bases.
++						193 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							194 text Source dates and limits
++					195 cell
++						196 text —
++						197 text Ranking unavailable: incomplete or different data bases.
++						198 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							199 text Source dates and limits
++					200 cell
++						201 text 0
++						202 text Rank 1, high to low
++						203 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							204 text Source dates and limits
++					205 cell
++						206 text —
++						207 text Ranking unavailable: incomplete or different data bases.
++						208 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							209 text Source dates and limits
++					210 cell
++						211 text —
++						212 text Ranking unavailable: incomplete or different data bases.
++						213 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							214 text Source dates and limits
++				215 row
++					216 cell
++						217 text 200 Demo Avenue, Newark, NJ
++						218 text NJ · County 34013 · 110 missing
++					219 cell
++						220 text —
++						221 text Ranking unavailable: incomplete or different data bases.
++						222 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							223 text Source dates and limits
++					224 cell
++						225 text —
++						226 text Ranking unavailable: incomplete or different data bases.
++						227 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							228 text Source dates and limits
++					229 cell
++						230 text 3
++						231 text Ranking unavailable: incomplete or different data bases.
++						232 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							233 text Source dates and limits
++					234 cell
++						235 text —
++						236 text Ranking unavailable: incomplete or different data bases.
++						237 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							238 text Source dates and limits
++					239 cell
++						240 text 0
++						241 text Rank 1, high to low
++						242 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							243 text Source dates and limits
++					244 cell
++						245 text —
++						246 text Ranking unavailable: incomplete or different data bases.
++						247 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							248 text Source dates and limits
++					249 cell
++						250 text —
++						251 text Ranking unavailable: incomplete or different data bases.
++						252 button (collapsed) Source dates and limits, Secondary Actions: Expand
++							253 text Source dates and limits
++			254 text Rows are raw same-metric comparisons. High-to-low rank does not mean better, recommended, causal, or suitable. No composite site score is produced because NYC Lens has no approved real-project calibration set. Mixed jurisdictions can have different source coverage; each value retains its source, year, confidence, missingness and warnings. Within-batch percentiles describe only this small submitted address set and are not citywide or regional benchmarks. Ranks and differences are withheld when source snapshots, units, years, measure types or calculation versions are missing or inconsistent.
++			255 container assistant-brief
++				256 heading Decision differences and missing evidence, Value: 3
++					257 text Decision differences and missing evidence
++				258 text SYNTHETIC DEMO. Higher is not necessarily better; no composite score.
++				259 text Resident population: missing or incomparable source data
++				260 text Direct competitors: missing or incomparable source data
++				261 text Asking rent: missing or incomparable source data
++				262 text Requirements to verify: Compare "100 Demo Avenue, Newark, NJ" and "200 Demo Avenue, Newark, NJ" for a restaurant within 500m, focusing on competition, population and rent.
+The focused UI element is 0 AXWebArea NYC Lens | Commercial Location Intelligence, URL: 127.0.0.1:8789/
+Browser tab: 9, Title: "NYC Lens | Commercial Location Intelligence", URL: "http://127.0.0.1:8789/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 232-233
++						263 container
++							264 button (expanded) Source dates and limits, Secondary Actions: Collapse
++								265 text Source dates and limits
++							266 text Contributing source snapshots: 2. overture_places / synthetic-part-2 — Retrieved: 2026-11-01T08:33:58.475187+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | overture_places / synthetic-places-v1 — Retrieved: 2026-11-01T08:33:58.364781+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.
+The focused UI element is 264 button (expanded) Source dates and limits, Secondary Actions: Collapse

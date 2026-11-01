@@ -1,0 +1,13 @@
+{
+  "status": "INTERRUPTED_BY_AGENT_FOR_NEW_COUNTEREXAMPLE",
+  "runObservation": "nyc-metric-lineage-full-observation-20261101.json",
+  "runtime": "a4e84a81b2f3ac502a3b2813076effd395d81a98",
+  "collected": 527,
+  "completedSuite": false,
+  "observedExitCode": 4294967295,
+  "ownedPytestPid": 40008,
+  "verifiedParentPid": 22396,
+  "reason": "Browser review exposed unavailable evidence links for incomparable metrics. Code review then identified an ordinary-data catalogue-vintage mismatch, reproduced in a separately frozen failing contract. The incomplete suite was stopped before runtime edits and retained; it is not a PASS.",
+  "finalRunDriver": "run-nyc-metric-lineage-final-full-20261101.py",
+  "newModelCalls": 0
+}

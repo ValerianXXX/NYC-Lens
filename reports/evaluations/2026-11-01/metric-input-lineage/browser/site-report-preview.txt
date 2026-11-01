@@ -1,0 +1,2584 @@
+Browser tab: 10, Title: "NYC Lens｜200 Demo Avenue, Newark, NJ", URL: "http://127.0.0.1:8791/site-report.html".
+1 AXWebArea NYC Lens｜200 Demo Avenue, Newark, NJ, URL: 127.0.0.1:8791/site-report.html
+	2 container
+		3 heading NYC Lens｜商圈分析报告, Value: 1
+			4 text NYC Lens｜商圈分析报告
+		5 text 200 Demo Avenue, Newark, NJ
+	6 container
+		7 text 行政区 None 坐标 40.73500, -74.15000 地块 BBL 未匹配 H3 RESOLUTION 10 8a2a10715797fff ACS 是区域调查估计并保留 Margin of Error；LODES 统计岗位而非独立自然人；游客及客群判断是模型代理，不是精确人数或占比。健康、收入、语言与族裔数据仅描述公开地理范围，不代表具体个人、家庭或建筑。
+		8 heading 指标与证据, Value: 2
+			9 text 指标与证据
+		10 table
+			11 row
+				12 cell
+					13 text 商圈
+				14 cell
+					15 text 指标
+				16 cell
+					17 text 数值
+				18 cell
+					19 text 单位
+				20 cell
+					21 text NYC百分位
+				22 cell
+					23 text 来源
+				24 cell
+					25 text 年份
+				26 cell
+					27 text 类型
+				28 cell
+					29 text 置信度
+				30 cell
+					31 text MOE
+				32 cell
+					33 text 说明
+			34 row
+				35 cell
+					36 text 500m
+				37 cell
+					38 text 近24个月311噪音请求数
+					39 text 311_noise_request_count_24m
+				40 cell
+					41 text noise_service_requests
+				42 cell
+					43 text nyc_311_recent_aggregates
+				44 cell
+					45 container
+						46 text 下载 / Retrieved: 未记录 / not recorded
+						47 text 来源覆盖期 / Reference period: ? — ?
+						48 text 当前有效性未评估 / Currentness not assessed
+				49 cell
+					50 text server_aggregated_administrative_request_sum
+				51 cell
+					52 text The Raw source is already aggregated by BBL, problem and agency; no individual request id, incident address, descriptor, free text or coordinate was downloaded. | A 311 request is a report to the City, not an independently verified condition, unique incident, legal finding or proof the issue remains open. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			53 row
+				54 cell
+					55 text 500m
+				56 cell
+					57 text 每百地块近24个月311噪音请求数
+					58 text 311_noise_requests_per_100_parcels_24m
+				59 cell
+					60 text noise_service_requests_per_100_intersecting_parcels
+				61 cell
+					62 text derived
+				63 cell
+					64 container
+						65 text 下载 / Retrieved: 未记录 / not recorded
+						66 text 来源覆盖期 / Reference period: ? — ?
+						67 text 当前有效性未评估 / Currentness not assessed
+				68 cell
+					69 text derived_request_density
+				70 cell
+					71 text The Raw source is already aggregated by BBL, problem and agency; no individual request id, incident address, descriptor, free text or coordinate was downloaded. | A 311 request is a report to the City, not an independently verified condition, unique incident, legal finding or proof the issue remains open. | SYNTHETIC_DEMO
+			72 row
+				73 cell
+					74 text 500m
+				75 cell
+					76 text 近24个月311请求数
+					77 text 311_request_count_24m
+				78 cell
+					79 text service_requests
+				80 cell
+					81 text nyc_311_recent_aggregates
+				82 cell
+					83 container
+						84 text 下载 / Retrieved: 未记录 / not recorded
+						85 text 来源覆盖期 / Reference period: ? — ?
+						86 text 当前有效性未评估 / Currentness not assessed
+				87 cell
+					88 text server_aggregated_administrative_request_sum
+				89 cell
+					90 text The Raw source is already aggregated by BBL, problem and agency; no individual request id, incident address, descriptor, free text or coordinate was downloaded. | A 311 request is a report to the City, not an independently verified condition, unique incident, legal finding or proof the issue remains open. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			91 row
+				92 cell
+					93 text 500m
+				94 cell
+					95 text 每百地块近24个月311请求数
+					96 text 311_requests_per_100_parcels_24m
+				97 cell
+					98 text service_requests_per_100_intersecting_parcels
+				99 cell
+					100 text derived
+				101 cell
+					102 container
+						103 text 下载 / Retrieved: 未记录 / not recorded
+						104 text 来源覆盖期 / Reference period: ? — ?
+						105 text 当前有效性未评估 / Currentness not assessed
+				106 cell
+					107 text derived_request_density
+				108 cell
+					109 text The Raw source is already aggregated by BBL, problem and agency; no individual request id, incident address, descriptor, free text or coordinate was downloaded. | A 311 request is a report to the City, not an independently verified condition, unique incident, legal finding or proof the issue remains open. | SYNTHETIC_DEMO
+			110 row
+				111 cell
+					112 text 500m
+				113 cell
+					114 text 近24个月ACRIS契据文书-地块记录数
+					115 text acris_deed_document_count_24m
+				116 cell
+					117 text deed_document_lot_records
+				118 cell
+					119 text acris_real_property_master_recent
+				120 cell
+					121 container
+						122 text 下载 / Retrieved: 未记录 / not recorded
+						123 text 来源覆盖期 / Reference period: ? — ?
+						124 text 当前有效性未评估 / Currentness not assessed
+				125 cell
+					126 text administrative_property_document_count
+				127 cell
+					128 text Counts ACRIS documents linked locally to intersecting tax lots; one document affecting multiple lots is counted once per linked lot. | Only DEED, RPTT&RET, MTGE, SAT and ASST document types are in the bounded 2021-present extract. | No party, name, street-address or unit data is retained. Filing records and amounts are not appraisals, title opinions or legal conclusions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			129 row
+				130 cell
+					131 text 500m
+				132 cell
+					133 text 近24个月ACRIS文书-地块记录数
+					134 text acris_document_record_count_24m
+				135 cell
+					136 text document_lot_records
+				137 cell
+					138 text acris_real_property_master_recent
+				139 cell
+					140 container
+						141 text 下载 / Retrieved: 未记录 / not recorded
+						142 text 来源覆盖期 / Reference period: ? — ?
+						143 text 当前有效性未评估 / Currentness not assessed
+				144 cell
+					145 text administrative_property_document_count
+				146 cell
+					147 text Counts ACRIS documents linked locally to intersecting tax lots; one document affecting multiple lots is counted once per linked lot. | Only DEED, RPTT&RET, MTGE, SAT and ASST document types are in the bounded 2021-present extract. | No party, name, street-address or unit data is retained. Filing records and amounts are not appraisals, title opinions or legal conclusions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			148 row
+				149 cell
+					150 text 500m
+				151 cell
+					152 text 每百地块近24个月ACRIS文书记录数
+					153 text acris_document_records_per_100_parcels_24m
+				154 cell
+					155 text document_lot_records_per_100_intersecting_parcels
+				156 cell
+					157 text derived
+				158 cell
+					159 container
+						160 text 下载 / Retrieved: 未记录 / not recorded
+						161 text 来源覆盖期 / Reference period: ? — ?
+						162 text 当前有效性未评估 / Currentness not assessed
+				163 cell
+					164 text derived_property_document_density
+				165 cell
+					166 text Counts ACRIS documents linked locally to intersecting tax lots; one document affecting multiple lots is counted once per linked lot. | Only DEED, RPTT&RET, MTGE, SAT and ASST document types are in the bounded 2021-present extract. | No party, name, street-address or unit data is retained. Filing records and amounts are not appraisals, title opinions or legal conclusions. | SYNTHETIC_DEMO
+			167 row
+				168 cell
+					169 text 500m
+				170 cell
+					171 text 近24个月ACRIS抵押文书-地块记录数
+					172 text acris_mortgage_document_count_24m
+				173 cell
+					174 text mortgage_document_lot_records
+				175 cell
+					176 text acris_real_property_master_recent
+				177 cell
+					178 container
+						179 text 下载 / Retrieved: 未记录 / not recorded
+						180 text 来源覆盖期 / Reference period: ? — ?
+						181 text 当前有效性未评估 / Currentness not assessed
+				182 cell
+					183 text administrative_property_document_count
+				184 cell
+					185 text Counts ACRIS documents linked locally to intersecting tax lots; one document affecting multiple lots is counted once per linked lot. | Only DEED, RPTT&RET, MTGE, SAT and ASST document types are in the bounded 2021-present extract. | No party, name, street-address or unit data is retained. Filing records and amounts are not appraisals, title opinions or legal conclusions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			186 row
+				187 cell
+					188 text 500m
+				189 cell
+					190 text 现行DOB违规记录数
+					191 text active_dob_violation_count
+				192 cell
+					193 text active_dob_records
+				194 cell
+					195 text derived
+				196 cell
+					197 text current active inventories
+					198 container
+						199 text 下载 / Retrieved: 未记录 / not recorded
+						200 text 来源覆盖期 / Reference period: ? — ?
+						201 text 当前有效性未评估 / Currentness not assessed
+				202 cell
+					203 text deduplicated_administrative_record_count
+				204 cell
+					205 text Available legacy/DOB NOW civil-penalty systems: []. | Counts currently published administrative records linked by BBL; they are screening facts, not safety conclusions or legal opinions. | Legacy and DOB NOW civil-penalty records are deduplicated when the same BBL and violation number are available; residual overlap may remain. | No linked record does not prove absence of a violation, hazard or compliance issue. | SYNTHETIC_DEMO
+			206 row
+				207 cell
+					208 text 500m
+				209 cell
+					210 text 每百地块现行DOB违规记录数
+					211 text active_dob_violations_per_100_parcels
+				212 cell
+					213 text active_dob_records_per_100_intersecting_parcels
+				214 cell
+					215 text derived
+				216 cell
+					217 text current active inventories
+					218 container
+						219 text 下载 / Retrieved: 未记录 / not recorded
+						220 text 来源覆盖期 / Reference period: ? — ?
+						221 text 当前有效性未评估 / Currentness not assessed
+				222 cell
+					223 text deduplicated_administrative_record_density
+				224 cell
+					225 text Available legacy/DOB NOW civil-penalty systems: []. | Counts currently published administrative records linked by BBL; they are screening facts, not safety conclusions or legal opinions. | Legacy and DOB NOW civil-penalty records are deduplicated when the same BBL and violation number are available; residual overlap may remain. | No linked record does not prove absence of a violation, hazard or compliance issue. | SYNTHETIC_DEMO
+			226 row
+				227 cell
+					228 text 500m
+				229 cell
+					230 text 现行DOB-ECB传票记录数
+					231 text active_ecb_violation_count
+				232 cell
+					233 text active_ecb_records
+				234 cell
+					235 text dob_ecb_violations_active
+				236 cell
+					237 text current active inventories
+					238 container
+						239 text 下载 / Retrieved: 未记录 / not recorded
+						240 text 来源覆盖期 / Reference period: ? — ?
+						241 text 当前有效性未评估 / Currentness not assessed
+				242 cell
+					243 text deduplicated_administrative_record_count
+				244 cell
+					245 text Available legacy/DOB NOW civil-penalty systems: []. | Counts currently published administrative records linked by BBL; they are screening facts, not safety conclusions or legal opinions. | Legacy and DOB NOW civil-penalty records are deduplicated when the same BBL and violation number are available; residual overlap may remain. | No linked record does not prove absence of a violation, hazard or compliance issue. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			246 row
+				247 cell
+					248 text 500m
+				249 cell
+					250 text 每百地块现行DOB-ECB传票记录数
+					251 text active_ecb_violations_per_100_parcels
+				252 cell
+					253 text active_ecb_records_per_100_intersecting_parcels
+				254 cell
+					255 text derived
+				256 cell
+					257 text current active inventories
+					258 container
+						259 text 下载 / Retrieved: 未记录 / not recorded
+						260 text 来源覆盖期 / Reference period: ? — ?
+						261 text 当前有效性未评估 / Currentness not assessed
+				262 cell
+					263 text deduplicated_administrative_record_density
+				264 cell
+					265 text Available legacy/DOB NOW civil-penalty systems: []. | Counts currently published administrative records linked by BBL; they are screening facts, not safety conclusions or legal opinions. | Legacy and DOB NOW civil-penalty records are deduplicated when the same BBL and violation number are available; residual overlap may remain. | No linked record does not prove absence of a violation, hazard or compliance issue. | SYNTHETIC_DEMO
+			266 row
+				267 cell
+					268 text 500m
+				269 cell
+					270 text 25至44岁人口
+					271 text age_25_44
+				272 cell
+					273 text people
+				274 cell
+					275 text acs_2024_5yr
+				276 cell
+					277 text 2020-2024
+					278 container
+						279 text 下载 / Retrieved: 未记录 / not recorded
+						280 text 来源覆盖期 / Reference period: ? — ?
+						281 text 当前有效性未评估 / Currentness not assessed
+				282 cell
+					283 text survey_estimate
+				284 cell
+					285 text No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			286 row
+				287 cell
+					288 text 500m
+				289 cell
+					290 text 45至64岁人口
+					291 text age_45_64
+				292 cell
+					293 text people
+				294 cell
+					295 text acs_2024_5yr
+				296 cell
+					297 text 2020-2024
+					298 container
+						299 text 下载 / Retrieved: 未记录 / not recorded
+						300 text 来源覆盖期 / Reference period: ? — ?
+						301 text 当前有效性未评估 / Currentness not assessed
+				302 cell
+					303 text survey_estimate
+				304 cell
+					305 text No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			306 row
+				307 cell
+					308 text 500m
+				309 cell
+					310 text 65岁及以上人口
+					311 text age_65_plus
+				312 cell
+					313 text people
+				314 cell
+					315 text acs_2024_5yr
+				316 cell
+					317 text 2020-2024
+					318 container
+						319 text 下载 / Retrieved: 未记录 / not recorded
+						320 text 来源覆盖期 / Reference period: ? — ?
+						321 text 当前有效性未评估 / Currentness not assessed
+				322 cell
+					323 text survey_estimate
+				324 cell
+					325 text No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			326 row
+				327 cell
+					328 text 500m
+				329 cell
+					330 text 25岁以下人口
+					331 text age_under_25
+				332 cell
+					333 text people
+				334 cell
+					335 text acs_2024_5yr
+				336 cell
+					337 text 2020-2024
+					338 container
+						339 text 下载 / Retrieved: 未记录 / not recorded
+						340 text 来源覆盖期 / Reference period: ? — ?
+						341 text 当前有效性未评估 / Currentness not assessed
+				342 cell
+					343 text survey_estimate
+				344 cell
+					345 text No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			346 row
+				347 cell
+					348 text 500m
+				349 cell
+					350 text 现行酒牌数量
+					351 text alcohol_license_count
+				352 cell
+					353 text active_licenses
+				354 cell
+					355 text nysla_active_licenses
+				356 cell
+					357 text current active inventory
+					358 container
+						359 text 下载 / Retrieved: 未记录 / not recorded
+						360 text 来源覆盖期 / Reference period: ? — ?
+						361 text 当前有效性未评估 / Currentness not assessed
+				362 cell
+					363 text administrative_record_count
+				364 cell
+					365 text Current active-license inventory, not a complete license history or a measure of alcohol sales. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			366 row
+				367 cell
+					368 text 500m
+				369 cell
+					370 text 使用亚洲及太平洋语言人口占比
+					371 text asian_pacific_language_share
+				372 cell
+					373 text share
+				374 cell
+					375 text acs_2024_5yr
+				376 cell
+					377 text 2020-2024
+					378 container
+						379 text 下载 / Retrieved: 未记录 / not recorded
+						380 text 来源覆盖期 / Reference period: ? — ?
+						381 text 当前有效性未评估 / Currentness not assessed
+				382 cell
+					383 text derived_survey_estimate
+				384 cell
+					385 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			386 row
+				387 cell
+					388 text 500m
+				389 cell
+					390 text 景点与吸引物数量
+					391 text attraction_count
+				392 cell
+					393 text 0.00
+				394 cell
+					395 text locations
+				396 cell
+					397 text overture_places
+					398 text synthetic-part-2
+				399 cell
+					400 text SYNTHETIC part 2
+					401 container
+						402 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						403 text 来源覆盖期 / Reference period: ? — ?
+						404 text 当前有效性未评估 / Currentness not assessed
+				405 cell
+					406 text synthetic_fixture
+				407 cell
+					408 text SYNTHETIC_DEMO
+			409 row
+				410 cell
+					411 text 500m
+				412 cell
+					413 text 客群类型判断
+					414 text audience_type
+				415 cell
+					416 text 证据不足
+				417 cell
+					418 text derived
+				419 cell
+					420 text mixed latest local snapshots; component years in evidence
+					421 container
+						422 text 下载 / Retrieved: 未记录 / not recorded
+						423 text 来源覆盖期 / Reference period: ? — ?
+						424 text 当前有效性未评估 / Currentness not assessed
+				425 cell
+					426 text model_classification
+				427 cell
+					428 text 55%
+				429 cell
+					430 text Compared proxy indices: {"nightlife_index": 0.0, "resident_index": 0.0, "transit_hub_index": 0.0, "visitor_proxy_index": 0.0, "worker_index": 0.0} | Classification uses open-data proxies and does not claim exact audience percentages. | SYNTHETIC_DEMO
+			431 row
+				432 cell
+					433 text 500m
+				434 cell
+					435 text 学士及以上学历占比
+					436 text bachelors_or_higher_share
+				437 cell
+					438 text share
+				439 cell
+					440 text acs_2024_5yr
+				441 cell
+					442 text 2020-2024
+					443 container
+						444 text 下载 / Retrieved: 未记录 / not recorded
+						445 text 来源覆盖期 / Reference period: ? — ?
+						446 text 当前有效性未评估 / Currentness not assessed
+				447 cell
+					448 text derived_survey_estimate
+				449 cell
+					450 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			451 row
+				452 cell
+					453 text 500m
+				454 cell
+					455 text 建筑楼面面积密度
+					456 text building_floor_area_density
+				457 cell
+					458 text floor_sqft_per_catchment_sqft
+				459 cell
+					460 text derived
+				461 cell
+					462 container
+						463 text 下载 / Retrieved: 未记录 / not recorded
+						464 text 来源覆盖期 / Reference period: ? — ?
+						465 text 当前有效性未评估 / Currentness not assessed
+				466 cell
+					467 text derived_spatial_density
+				468 cell
+					469 text Gross floor area is divided by total catchment area, including streets, parks and water; this is not parcel FAR. | No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | SYNTHETIC_DEMO
+			470 row
+				471 cell
+					472 text 500m
+				473 cell
+					474 text 建筑总楼面面积
+					475 text building_floor_area_sqft
+				476 cell
+					477 text square_feet
+				478 cell
+					479 text mappluto_26v2
+				480 cell
+					481 container
+						482 text 下载 / Retrieved: 未记录 / not recorded
+						483 text 来源覆盖期 / Reference period: ? — ?
+						484 text 当前有效性未评估 / Currentness not assessed
+				485 cell
+					486 text parcel_overlap_weighted_administrative_sum
+				487 cell
+					488 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			489 row
+				490 cell
+					491 text 500m
+				492 cell
+					493 text 相交建筑轮廓数量
+					494 text building_footprint_count
+				495 cell
+					496 text intersecting_building_footprints
+				497 cell
+					498 text overture_buildings
+				499 cell
+					500 text current published snapshot
+					501 container
+						502 text 下载 / Retrieved: 未记录 / not recorded
+						503 text 来源覆盖期 / Reference period: ? — ?
+						504 text 当前有效性未评估 / Currentness not assessed
+				505 cell
+					506 text intersecting_compiled_record_count
+				507 cell
+					508 text Counts each intersecting footprint once, including footprints that only cross the catchment edge; footprint does not always equal a separately occupied building. | Regional footprint coverage is compiled from Overture Buildings under ODbL and is not an authoritative parcel or occupancy record. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			509 row
+				510 cell
+					511 text 500m
+				512 cell
+					513 text 近24个月建筑许可记录数
+					514 text building_permit_issued_24m_count
+				515 cell
+					516 text permit_records
+				517 cell
+					518 text derived
+				519 cell
+					520 container
+						521 text 下载 / Retrieved: 未记录 / not recorded
+						522 text 来源覆盖期 / Reference period: ? — ?
+						523 text 当前有效性未评估 / Currentness not assessed
+				524 cell
+					525 text combined_administrative_record_count
+				526 cell
+					527 text Available permit systems: []. | Counts permit records, including renewals and multiple work types; it is not a count of unique projects or proof work occurred. | DOB NOW source excludes separate electrical, elevator and LAA permit systems. | SYNTHETIC_DEMO
+			528 row
+				529 cell
+					530 text 500m
+				531 cell
+					532 text 公交计划站点数
+					533 text bus_stop_count
+				534 cell
+					535 text scheduled_stop_points
+				536 cell
+					537 text mta_bus_gtfs_static
+				538 cell
+					539 text current quarterly schedule
+					540 container
+						541 text 下载 / Retrieved: 未记录 / not recorded
+						542 text 来源覆盖期 / Reference period: ? — ?
+						543 text 当前有效性未评估 / Currentness not assessed
+				544 cell
+					545 text scheduled_transit_record_count
+				546 cell
+					547 text Counts scheduled stop points after exact name-and-rounded-coordinate deduplication across six MTA feeds. | Static GTFS omits most temporary detours and does not measure arrivals, reliability, or observed ridership. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			548 row
+				549 cell
+					550 text 500m
+				551 cell
+					552 text CDC PLACES成人当前哮喘估计
+					553 text cdc_places_current_asthma_pct
+				554 cell
+					555 text percent
+				556 cell
+					557 text cdc_places_2024_tract_fallback
+				558 cell
+					559 text 2022 model estimate / 2024 release fallback
+					560 container
+						561 text 下载 / Retrieved: 未记录 / not recorded
+						562 text 来源覆盖期 / Reference period: ? — ?
+						563 text 当前有效性未评估 / Currentness not assessed
+				564 cell
+					565 text population_weighted_small_area_model_estimate
+				566 cell
+					567 text CDC PLACES tract values are model-based population estimates and are not attributes of this site, any address, household, building or person. | Catchment value is population-weighted using tract overlap and ACS total population; measure-specific adult denominators differ, so use it as a screening aggregate. | The displayed uncertainty propagates published tract 95% confidence-interval half-widths under an independence approximation; it is not an official CDC catchment confidence interval. | The current 2025 release is used; no older fallback was applied. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			568 row
+				569 cell
+					570 text 500m
+				571 cell
+					572 text CDC PLACES成人糖尿病估计
+					573 text cdc_places_diagnosed_diabetes_pct
+				574 cell
+					575 text percent
+				576 cell
+					577 text cdc_places_2024_tract_fallback
+				578 cell
+					579 text 2022 model estimate / 2024 release fallback
+					580 container
+						581 text 下载 / Retrieved: 未记录 / not recorded
+						582 text 来源覆盖期 / Reference period: ? — ?
+						583 text 当前有效性未评估 / Currentness not assessed
+				584 cell
+					585 text population_weighted_small_area_model_estimate
+				586 cell
+					587 text CDC PLACES tract values are model-based population estimates and are not attributes of this site, any address, household, building or person. | Catchment value is population-weighted using tract overlap and ACS total population; measure-specific adult denominators differ, so use it as a screening aggregate. | The displayed uncertainty propagates published tract 95% confidence-interval half-widths under an independence approximation; it is not an official CDC catchment confidence interval. | The current 2025 release is used; no older fallback was applied. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			588 row
+				589 cell
+					590 text 500m
+				591 cell
+					592 text CDC PLACES成人食物不安全估计
+					593 text cdc_places_food_insecurity_pct
+				594 cell
+					595 text percent
+				596 cell
+					597 text cdc_places_2024_tract_fallback
+				598 cell
+					599 text 2022 model estimate / 2024 release fallback
+					600 container
+						601 text 下载 / Retrieved: 未记录 / not recorded
+						602 text 来源覆盖期 / Reference period: ? — ?
+						603 text 当前有效性未评估 / Currentness not assessed
+				604 cell
+					605 text population_weighted_small_area_model_estimate
+				606 cell
+					607 text CDC PLACES tract values are model-based population estimates and are not attributes of this site, any address, household, building or person. | Catchment value is population-weighted using tract overlap and ACS total population; measure-specific adult denominators differ, so use it as a screening aggregate. | The displayed uncertainty propagates published tract 95% confidence-interval half-widths under an independence approximation; it is not an official CDC catchment confidence interval. | The current 2025 release is used; no older fallback was applied. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			608 row
+				609 cell
+					610 text 500m
+				611 cell
+					612 text CDC PLACES成人肥胖估计
+					613 text cdc_places_obesity_pct
+				614 cell
+					615 text percent
+				616 cell
+					617 text cdc_places_2024_tract_fallback
+				618 cell
+					619 text 2022 model estimate / 2024 release fallback
+					620 container
+						621 text 下载 / Retrieved: 未记录 / not recorded
+						622 text 来源覆盖期 / Reference period: ? — ?
+						623 text 当前有效性未评估 / Currentness not assessed
+				624 cell
+					625 text population_weighted_small_area_model_estimate
+				626 cell
+					627 text CDC PLACES tract values are model-based population estimates and are not attributes of this site, any address, household, building or person. | Catchment value is population-weighted using tract overlap and ACS total population; measure-specific adult denominators differ, so use it as a screening aggregate. | The displayed uncertainty propagates published tract 95% confidence-interval half-widths under an independence approximation; it is not an official CDC catchment confidence interval. | The current 2025 release is used; no older fallback was applied. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			628 row
+				629 cell
+					630 text 500m
+				631 cell
+					632 text CDC PLACES成人无医保估计
+					633 text cdc_places_uninsured_pct
+				634 cell
+					635 text percent
+				636 cell
+					637 text cdc_places_2024_tract_fallback
+				638 cell
+					639 text 2022 model estimate / 2024 release fallback
+					640 container
+						641 text 下载 / Retrieved: 未记录 / not recorded
+						642 text 来源覆盖期 / Reference period: ? — ?
+						643 text 当前有效性未评估 / Currentness not assessed
+				644 cell
+					645 text population_weighted_small_area_model_estimate
+				646 cell
+					647 text CDC PLACES tract values are model-based population estimates and are not attributes of this site, any address, household, building or person. | Catchment value is population-weighted using tract overlap and ACS total population; measure-specific adult denominators differ, so use it as a screening aggregate. | The displayed uncertainty propagates published tract 95% confidence-interval half-widths under an independence approximation; it is not an official CDC catchment confidence interval. | The current 2025 release is used; no older fallback was applied. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			648 row
+				649 cell
+					650 text 500m
+				651 cell
+					652 text 近24个月使用证书记录数
+					653 text certificate_of_occupancy_issued_24m_count
+				654 cell
+					655 text certificate_records
+				656 cell
+					657 text derived
+				658 cell
+					659 container
+						660 text 下载 / Retrieved: 未记录 / not recorded
+						661 text 来源覆盖期 / Reference period: ? — ?
+						662 text 当前有效性未评估 / Currentness not assessed
+				663 cell
+					664 text combined_administrative_record_count
+				665 cell
+					666 text Available certificate systems: []. | Counts issued certificate records in the latest source-relative 24-month window, not unique buildings or proof of present use. | SYNTHETIC_DEMO
+			667 row
+				668 cell
+					669 text 500m
+				670 cell
+					671 text Citi Bike当前可借车辆
+					672 text citibike_bikes_available_current
+				673 cell
+					674 text bikes
+				675 cell
+					676 text citibike_gbfs_current
+				677 cell
+					678 text current GBFS snapshot
+					679 container
+						680 text 下载 / Retrieved: 未记录 / not recorded
+						681 text 来源覆盖期 / Reference period: ? — ?
+						682 text 当前有效性未评估 / Currentness not assessed
+				683 cell
+					684 text real_time_station_status_sum
+				685 cell
+					686 text Citi Bike availability is a point-in-time operational snapshot and can change within seconds. | Counts are station-level supply near the site, not completed trips, unique riders, or forecast demand. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			687 row
+				688 cell
+					689 text 500m
+				690 cell
+					691 text Citi Bike当前可还空位
+					692 text citibike_docks_available_current
+				693 cell
+					694 text docks
+				695 cell
+					696 text citibike_gbfs_current
+				697 cell
+					698 text current GBFS snapshot
+					699 container
+						700 text 下载 / Retrieved: 未记录 / not recorded
+						701 text 来源覆盖期 / Reference period: ? — ?
+						702 text 当前有效性未评估 / Currentness not assessed
+				703 cell
+					704 text real_time_station_status_sum
+				705 cell
+					706 text Citi Bike availability is a point-in-time operational snapshot and can change within seconds. | Counts are station-level supply near the site, not completed trips, unique riders, or forecast demand. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			707 row
+				708 cell
+					709 text 500m
+				710 cell
+					711 text Citi Bike站点数
+					712 text citibike_station_count
+				713 cell
+					714 text stations
+				715 cell
+					716 text citibike_gbfs_current
+				717 cell
+					718 text current GBFS snapshot
+					719 container
+						720 text 下载 / Retrieved: 未记录 / not recorded
+						721 text 来源覆盖期 / Reference period: ? — ?
+						722 text 当前有效性未评估 / Currentness not assessed
+				723 cell
+					724 text published_bikeshare_station_count
+				725 cell
+					726 text Published station locations are current network infrastructure, not evidence of station use or trip demand. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			727 row
+				728 cell
+					729 text 500m
+				730 cell
+					731 text 民用劳动力就业率
+					732 text civilian_labor_force_employment_rate
+				733 cell
+					734 text share
+				735 cell
+					736 text acs_2024_5yr
+				737 cell
+					738 text 2020-2024
+					739 container
+						740 text 下载 / Retrieved: 未记录 / not recorded
+						741 text 来源覆盖期 / Reference period: ? — ?
+						742 text 当前有效性未评估 / Currentness not assessed
+				743 cell
+					744 text derived_survey_estimate
+				745 cell
+					746 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			747 row
+				748 cell
+					749 text 500m
+				750 cell
+					751 text 民用劳动力失业率
+					752 text civilian_labor_force_unemployment_rate
+				753 cell
+					754 text share
+				755 cell
+					756 text acs_2024_5yr
+				757 cell
+					758 text 2020-2024
+					759 container
+						760 text 下载 / Retrieved: 未记录 / not recorded
+						761 text 来源覆盖期 / Reference period: ? — ?
+						762 text 当前有效性未评估 / Currentness not assessed
+				763 cell
+					764 text derived_survey_estimate
+				765 cell
+					766 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			767 row
+				768 cell
+					769 text 500m
+				770 cell
+					771 text 已关闭直接竞争者数量
+					772 text closed_competitor_count
+				773 cell
+					774 text 0.00
+				775 cell
+					776 text locations
+				777 cell
+					778 text overture_places
+				779 cell
+					780 text SYNTHETIC 2026 / SYNTHETIC part 2
+					781 container
+						782 text 多个来源快照 / Multiple input snapshots:
+						783 text overture_places / synthetic-part-2: Retrieved / 下载 2026-11-01T08:39:57.045223+00:00; Reference / 覆盖期 ? - ? | overture_places / synthetic-places-v1: Retrieved / 下载 2026-11-01T08:39:56.940553+00:00; Reference / 覆盖期 ? - ?
+						784 text 当前有效性未评估 / Currentness not assessed
+				785 cell
+					786 text synthetic_fixture
+				787 cell
+					788 text Regional direct categories: ["restaurant"]. | Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry. | SYNTHETIC_DEMO
+			789 row
+				790 cell
+					791 text 500m
+				792 cell
+					793 text 每千个岗位直接竞争者数
+					794 text competitors_per_1000_jobs
+				795 cell
+					796 text locations_per_1000_jobs
+				797 cell
+					798 text derived
+				799 cell
+					800 text SYNTHETIC 2026 / SYNTHETIC part 2
+					801 container
+						802 text 多个来源快照 / Multiple input snapshots:
+						803 text overture_places / synthetic-part-2: Retrieved / 下载 2026-11-01T08:39:57.045223+00:00; Reference / 覆盖期 ? - ? | overture_places / synthetic-places-v1: Retrieved / 下载 2026-11-01T08:39:56.940553+00:00; Reference / 覆盖期 ? - ?
+						804 text 当前有效性未评估 / Currentness not assessed
+				805 cell
+					806 text synthetic_fixture
+				807 cell
+					808 text SYNTHETIC_DEMO
+			809 row
+				810 cell
+					811 text 500m
+				812 cell
+					813 text 每千名居民直接竞争者数
+					814 text competitors_per_1000_residents
+				815 cell
+					816 text locations_per_1000_residents
+				817 cell
+					818 text derived
+				819 cell
+					820 text SYNTHETIC 2026 / SYNTHETIC part 2
+					821 container
+						822 text 多个来源快照 / Multiple input snapshots:
+						823 text overture_places / synthetic-part-2: Retrieved / 下载 2026-11-01T08:39:57.045223+00:00; Reference / 覆盖期 ? - ? | overture_places / synthetic-places-v1: Retrieved / 下载 2026-11-01T08:39:56.940553+00:00; Reference / 覆盖期 ? - ?
+						824 text 当前有效性未评估 / Currentness not assessed
+				825 cell
+					826 text synthetic_fixture
+				827 cell
+					828 text SYNTHETIC_DEMO
+			829 row
+				830 cell
+					831 text 500m
+				832 cell
+					833 text 文化与图书馆设施数量
+					834 text culture_and_library_count
+				835 cell
+					836 text facilities
+				837 cell
+					838 text nyc_facilities
+				839 cell
+					840 text current compiled publication
+					841 container
+						842 text 下载 / Retrieved: 未记录 / not recorded
+						843 text 来源覆盖期 / Reference period: ? — ?
+						844 text 当前有效性未评估 / Currentness not assessed
+				845 cell
+					846 text compiled_administrative_record_count
+				847 cell
+					848 text Compiled from heterogeneous agency sources with different update cycles and capacity definitions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			849 row
+				850 cell
+					851 text 500m
+				852 cell
+					853 text 白天岗位数
+					854 text daytime_jobs
+				855 cell
+					856 text jobs
+				857 cell
+					858 text lodes_2023
+				859 cell
+					860 text 2023
+					861 container
+						862 text 下载 / Retrieved: 未记录 / not recorded
+						863 text 来源覆盖期 / Reference period: ? — ?
+						864 text 当前有效性未评估 / Currentness not assessed
+				865 cell
+					866 text administrative_estimate
+				867 cell
+					868 text LODES counts jobs, not necessarily distinct natural persons. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			869 row
+				870 cell
+					871 text 500m
+				872 cell
+					873 text 2020年十年人口普查人口
+					874 text decennial_population_2020
+				875 cell
+					876 text people
+				877 cell
+					878 text census_decennial_2020_pl
+				879 cell
+					880 text 2020-04-01
+					881 container
+						882 text 下载 / Retrieved: 未记录 / not recorded
+						883 text 来源覆盖期 / Reference period: ? — ?
+						884 text 当前有效性未评估 / Currentness not assessed
+				885 cell
+					886 text area_weighted_decennial_enumeration_count
+				887 cell
+					888 text Area-weighted allocation of published 2020 Census block counts; not a current population estimate. | Disclosure-avoidance methods apply, and the statistic does not describe any individual address. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			889 row
+				890 cell
+					891 text 500m
+				892 cell
+					893 text 需求补充设施数量
+					894 text demand_complement_count
+				895 cell
+					896 text 0.00
+				897 cell
+					898 text locations
+				899 cell
+					900 text overture_places
+					901 text synthetic-part-2
+				902 cell
+					903 text SYNTHETIC part 2
+					904 container
+						905 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						906 text 来源覆盖期 / Reference period: ? — ?
+						907 text 当前有效性未评估 / Currentness not assessed
+				908 cell
+					909 text synthetic_fixture
+				910 cell
+					911 text SYNTHETIC_DEMO
+			912 row
+				913 cell
+					914 text 500m
+				915 cell
+					916 text 直接竞争者数量
+					917 text direct_competitor_count
+				918 cell
+					919 text 3.00
+				920 cell
+					921 text locations
+				922 cell
+					923 text overture_places
+				924 cell
+					925 text SYNTHETIC 2026 / SYNTHETIC part 2
+					926 container
+						927 text 多个来源快照 / Multiple input snapshots:
+						928 text overture_places / synthetic-part-2: Retrieved / 下载 2026-11-01T08:39:57.045223+00:00; Reference / 覆盖期 ? - ? | overture_places / synthetic-places-v1: Retrieved / 下载 2026-11-01T08:39:56.940553+00:00; Reference / 覆盖期 ? - ?
+						929 text 当前有效性未评估 / Currentness not assessed
+				930 cell
+					931 text synthetic_fixture
+				932 cell
+					933 text Regional direct categories: ["restaurant"]. | Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry. | SYNTHETIC_DEMO
+			934 row
+				935 cell
+					936 text 500m
+				937 cell
+					938 text 独自驾车通勤占比
+					939 text drove_alone_commute_share
+				940 cell
+					941 text share
+				942 cell
+					943 text acs_2024_5yr
+				944 cell
+					945 text 2020-2024
+					946 container
+						947 text 下载 / Retrieved: 未记录 / not recorded
+						948 text 来源覆盖期 / Reference period: ? — ?
+						949 text 当前有效性未评估 / Currentness not assessed
+				950 cell
+					951 text derived_survey_estimate
+				952 cell
+					953 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			954 row
+				955 cell
+					956 text 500m
+				957 cell
+					958 text 仅使用英语人口占比
+					959 text english_only_language_share
+				960 cell
+					961 text share
+				962 cell
+					963 text acs_2024_5yr
+				964 cell
+					965 text 2020-2024
+					966 container
+						967 text 下载 / Retrieved: 未记录 / not recorded
+						968 text 来源覆盖期 / Reference period: ? — ?
+						969 text 当前有效性未评估 / Currentness not assessed
+				970 cell
+					971 text derived_survey_estimate
+				972 cell
+					973 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			974 row
+				975 cell
+					976 text 500m
+				977 cell
+					978 text 家庭住户占比
+					979 text family_household_share
+				980 cell
+					981 text share
+				982 cell
+					983 text acs_2024_5yr
+				984 cell
+					985 text 2020-2024
+					986 container
+						987 text 下载 / Retrieved: 未记录 / not recorded
+						988 text 来源覆盖期 / Reference period: ? — ?
+						989 text 当前有效性未评估 / Currentness not assessed
+				990 cell
+					991 text derived_survey_estimate
+				992 cell
+					993 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			994 row
+				995 cell
+					996 text 500m
+				997 cell
+					998 text FEMA特殊洪水危险区覆盖率
+					999 text fema_special_flood_hazard_overlap_pct
+				1000 cell
+					1001 text percent_of_catchment_area
+				1002 cell
+					1003 text fema_nfhl_special_flood_hazard_areas
+				1004 cell
+					1005 text current FEMA NFHL service snapshot at retrieval time
+					1006 container
+						1007 text 下载 / Retrieved: 未记录 / not recorded
+						1008 text 来源覆盖期 / Reference period: ? — ?
+						1009 text 当前有效性未评估 / Currentness not assessed
+				1010 cell
+					1011 text exact_projected_area_overlap
+				1012 cell
+					1013 text Includes only NFHL records whose SFHA_TF flag is T and clips retained geometry to the official CSA 408 county union. | The service response is simplified to approximately one-metre tolerance before local projected-area calculations. | NFHL study coverage and effective dates vary by community; consult the official FEMA map service for current determinations. | Geometric overlap is a planning-screening signal, not an engineering, insurance, legal, regulatory, or expected-loss conclusion. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1014 row
+				1015 cell
+					1016 text 500m
+				1017 cell
+					1018 text 外国出生人口占比
+					1019 text foreign_born_share
+				1020 cell
+					1021 text share
+				1022 cell
+					1023 text acs_2024_5yr
+				1024 cell
+					1025 text 2020-2024
+					1026 container
+						1027 text 下载 / Retrieved: 未记录 / not recorded
+						1028 text 来源覆盖期 / Reference period: ? — ?
+						1029 text 当前有效性未评估 / Currentness not assessed
+				1030 cell
+					1031 text derived_survey_estimate
+				1032 cell
+					1033 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1034 row
+				1035 cell
+					1036 text 500m
+				1037 cell
+					1038 text 2050年代百年一遇洪泛区覆盖率
+					1039 text future_2050_floodplain_overlap_pct
+				1040 cell
+					1041 text percent_of_catchment_area
+				1042 cell
+					1043 text nyc_future_floodplain_2050s
+				1044 cell
+					1045 text 2050s planning scenario
+					1046 container
+						1047 text 下载 / Retrieved: 未记录 / not recorded
+						1048 text 来源覆盖期 / Reference period: ? — ?
+						1049 text 当前有效性未评估 / Currentness not assessed
+				1050 cell
+					1051 text exact_projected_area_overlap
+				1052 cell
+					1053 text Published 2050s 100-year floodplain scenario based on preliminary FEMA mapping and an NPCC high sea-level-rise projection. | The underlying source warns against using this layer for current risk, insurance ratings, regulation, or site-scale design. | Geometric overlap is a planning-screening signal, not an engineering, insurance, legal, regulatory, or expected-loss conclusion. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1054 row
+				1055 cell
+					1056 text 500m
+				1057 cell
+					1058 text 医疗健康设施数量
+					1059 text health_facility_count
+				1060 cell
+					1061 text facilities
+				1062 cell
+					1063 text nyc_facilities
+				1064 cell
+					1065 text current compiled publication
+					1066 container
+						1067 text 下载 / Retrieved: 未记录 / not recorded
+						1068 text 来源覆盖期 / Reference period: ? — ?
+						1069 text 当前有效性未评估 / Currentness not assessed
+				1070 cell
+					1071 text compiled_administrative_record_count
+				1072 cell
+					1073 text Compiled from heterogeneous agency sources with different update cycles and capacity definitions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1074 row
+				1075 cell
+					1076 text 500m
+				1077 cell
+					1078 text 西语裔或拉丁裔占比
+					1079 text hispanic_or_latino_share
+				1080 cell
+					1081 text share
+				1082 cell
+					1083 text acs_2024_5yr
+				1084 cell
+					1085 text 2020-2024
+					1086 container
+						1087 text 下载 / Retrieved: 未记录 / not recorded
+						1088 text 来源覆盖期 / Reference period: ? — ?
+						1089 text 当前有效性未评估 / Currentness not assessed
+				1090 cell
+					1091 text derived_survey_estimate
+				1092 cell
+					1093 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1094 row
+				1095 cell
+					1096 text 500m
+				1097 cell
+					1098 text 历史公开交易案例金额中位数
+					1099 text historical_transaction_amount_median
+				1100 cell
+					1101 text USD
+				1102 cell
+					1103 text derived_public_transaction_cases
+				1104 cell
+					1105 container
+						1106 text 下载 / Retrieved: 未记录 / not recorded
+						1107 text 来源覆盖期 / Reference period: ? — ?
+						1108 text 当前有效性未评估 / Currentness not assessed
+				1109 cell
+					1110 text median_positive_public_case_amount
+				1111 cell
+					1112 text Privacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount. | They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables. | Names, parties, street and unit addresses, contact details, and personal profiles are excluded. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1113 row
+				1114 cell
+					1115 text 500m
+				1116 cell
+					1117 text 历史公开交易案例数量
+					1118 text historical_transaction_case_count
+				1119 cell
+					1120 text public_cases
+				1121 cell
+					1122 text derived_public_transaction_cases
+				1123 cell
+					1124 container
+						1125 text 下载 / Retrieved: 未记录 / not recorded
+						1126 text 来源覆盖期 / Reference period: ? — ?
+						1127 text 当前有效性未评估 / Currentness not assessed
+				1128 cell
+					1129 text privacy_minimized_public_case_count
+				1130 cell
+					1131 text Privacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount. | They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables. | Names, parties, street and unit addresses, contact details, and personal profiles are excluded. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1132 row
+				1133 cell
+					1134 text 500m
+				1135 cell
+					1136 text 酒店物业数量
+					1137 text hotel_count
+				1138 cell
+					1139 text properties
+				1140 cell
+					1141 text nyc_hotels
+				1142 cell
+					1143 text current published snapshot
+					1144 container
+						1145 text 下载 / Retrieved: 未记录 / not recorded
+						1146 text 来源覆盖期 / Reference period: ? — ?
+						1147 text 当前有效性未评估 / Currentness not assessed
+				1148 cell
+					1149 text administrative_record_count
+				1150 cell
+					1151 text 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1152 row
+				1153 cell
+					1154 text 500m
+				1155 cell
+					1156 text 飓风疏散区覆盖率
+					1157 text hurricane_evacuation_overlap_pct
+				1158 cell
+					1159 text percent_of_catchment_area
+				1160 cell
+					1161 text nyc_hurricane_evacuation_zones
+				1162 cell
+					1163 text current published evacuation planning layer
+					1164 container
+						1165 text 下载 / Retrieved: 未记录 / not recorded
+						1166 text 来源覆盖期 / Reference period: ? — ?
+						1167 text 当前有效性未评估 / Currentness not assessed
+				1168 cell
+					1169 text exact_projected_area_overlap
+				1170 cell
+					1171 text Includes numbered evacuation zones and excludes the source's X area. | An actual evacuation order and current instructions must be confirmed with NYC Emergency Management. | Geometric overlap is a planning-screening signal, not an engineering, insurance, legal, regulatory, or expected-loss conclusion. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1172 row
+				1173 cell
+					1174 text 500m
+				1175 cell
+					1176 text 相交地块面积
+					1177 text intersecting_lot_area_sqft
+				1178 cell
+					1179 text square_feet
+				1180 cell
+					1181 text mappluto_26v2
+				1182 cell
+					1183 container
+						1184 text 下载 / Retrieved: 未记录 / not recorded
+						1185 text 来源覆盖期 / Reference period: ? — ?
+						1186 text 当前有效性未评估 / Currentness not assessed
+				1187 cell
+					1188 text parcel_overlap_weighted_administrative_sum
+				1189 cell
+					1190 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1191 row
+				1192 cell
+					1193 text 500m
+				1194 cell
+					1195 text 合法短租登记数量
+					1196 text legal_short_term_rental_count
+				1197 cell
+					1198 text registrations
+				1199 cell
+					1200 text nyc_str_registration
+				1201 cell
+					1202 text 2026-01-07
+					1203 container
+						1204 text 下载 / Retrieved: 未记录 / not recorded
+						1205 text 来源覆盖期 / Reference period: ? — ?
+						1206 text 当前有效性未评估 / Currentness not assessed
+				1207 cell
+					1208 text administrative_record_count
+				1209 cell
+					1210 text Official registration status as of 2026-01-07; later changes are not represented. | Registration does not prove every stay complies with occupancy rules; building points are used instead of unit locations. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1211 row
+				1212 cell
+					1213 text 500m
+				1214 cell
+					1215 text 管理商业科学与艺术职业占比
+					1216 text management_business_science_arts_occupation_share
+				1217 cell
+					1218 text share
+				1219 cell
+					1220 text acs_2024_5yr
+				1221 cell
+					1222 text 2020-2024
+					1223 container
+						1224 text 下载 / Retrieved: 未记录 / not recorded
+						1225 text 来源覆盖期 / Reference period: ? — ?
+						1226 text 当前有效性未评估 / Currentness not assessed
+				1227 cell
+					1228 text derived_survey_estimate
+				1229 cell
+					1230 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1231 row
+				1232 cell
+					1233 text 500m
+				1234 cell
+					1235 text 年龄中位数
+					1236 text median_age
+				1237 cell
+					1238 text years
+				1239 cell
+					1240 text acs_2024_5yr
+				1241 cell
+					1242 text 2020-2024
+					1243 container
+						1244 text 下载 / Retrieved: 未记录 / not recorded
+						1245 text 来源覆盖期 / Reference period: ? — ?
+						1246 text 当前有效性未评估 / Currentness not assessed
+				1247 cell
+					1248 text survey_estimate
+				1249 cell
+					1250 text Weighted neighborhood summary; not an individual or household attribute. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1251 row
+				1252 cell
+					1253 text 500m
+				1254 cell
+					1255 text 家庭收入中位数
+					1256 text median_household_income
+				1257 cell
+					1258 text USD
+				1259 cell
+					1260 text acs_2024_5yr
+				1261 cell
+					1262 text 2020-2024
+					1263 container
+						1264 text 下载 / Retrieved: 未记录 / not recorded
+						1265 text 来源覆盖期 / Reference period: ? — ?
+						1266 text 当前有效性未评估 / Currentness not assessed
+				1267 cell
+					1268 text survey_estimate
+				1269 cell
+					1270 text Weighted neighborhood summary; not an individual or household attribute. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1271 row
+				1272 cell
+					1273 text 500m
+				1274 cell
+					1275 text 自然资源建筑与维修职业占比
+					1276 text natural_resources_construction_maintenance_occupation_share
+				1277 cell
+					1278 text share
+				1279 cell
+					1280 text acs_2024_5yr
+				1281 cell
+					1282 text 2020-2024
+					1283 container
+						1284 text 下载 / Retrieved: 未记录 / not recorded
+						1285 text 来源覆盖期 / Reference period: ? — ?
+						1286 text 当前有效性未评估 / Currentness not assessed
+				1287 cell
+					1288 text derived_survey_estimate
+				1289 cell
+					1290 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1291 row
+				1292 cell
+					1293 text 500m
+				1294 cell
+					1295 text 夜生活指数
+					1296 text nightlife_index
+				1297 cell
+					1298 text 0.00
+				1299 cell
+					1300 text index_0_100
+				1301 cell
+					1302 text derived
+				1303 cell
+					1304 text mixed latest local snapshots; component years in evidence
+					1305 container
+						1306 text 下载 / Retrieved: 未记录 / not recorded
+						1307 text 来源覆盖期 / Reference period: ? — ?
+						1308 text 当前有效性未评估 / Currentness not assessed
+				1309 cell
+					1310 text model_proxy
+				1311 cell
+					1312 text 55%
+				1313 cell
+					1314 text Component metrics: ["nightlife_location_count"] | Transparent uncalibrated proxy index; not a population share or composite site score. | SYNTHETIC_DEMO
+			1315 row
+				1316 cell
+					1317 text 500m
+				1318 cell
+					1319 text 夜生活场所数量
+					1320 text nightlife_location_count
+				1321 cell
+					1322 text 0.00
+				1323 cell
+					1324 text locations
+				1325 cell
+					1326 text overture_places
+					1327 text synthetic-part-2
+				1328 cell
+					1329 text SYNTHETIC part 2
+					1330 container
+						1331 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1332 text 来源覆盖期 / Reference period: ? — ?
+						1333 text 当前有效性未评估 / Currentness not assessed
+				1334 cell
+					1335 text synthetic_fixture
+				1336 cell
+					1337 text SYNTHETIC_DEMO
+			1338 row
+				1339 cell
+					1340 text 500m
+				1341 cell
+					1342 text 无车辆住户占比
+					1343 text no_vehicle_household_share
+				1344 cell
+					1345 text share
+				1346 cell
+					1347 text acs_2024_5yr
+				1348 cell
+					1349 text 2020-2024
+					1350 container
+						1351 text 下载 / Retrieved: 未记录 / not recorded
+						1352 text 来源覆盖期 / Reference period: ? — ?
+						1353 text 当前有效性未评估 / Currentness not assessed
+				1354 cell
+					1355 text derived_survey_estimate
+				1356 cell
+					1357 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1358 row
+				1359 cell
+					1360 text 500m
+				1361 cell
+					1362 text 非西语裔亚裔占比
+					1363 text non_hispanic_asian_share
+				1364 cell
+					1365 text share
+				1366 cell
+					1367 text acs_2024_5yr
+				1368 cell
+					1369 text 2020-2024
+					1370 container
+						1371 text 下载 / Retrieved: 未记录 / not recorded
+						1372 text 来源覆盖期 / Reference period: ? — ?
+						1373 text 当前有效性未评估 / Currentness not assessed
+				1374 cell
+					1375 text derived_survey_estimate
+				1376 cell
+					1377 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1378 row
+				1379 cell
+					1380 text 500m
+				1381 cell
+					1382 text 非西语裔黑人占比
+					1383 text non_hispanic_black_share
+				1384 cell
+					1385 text share
+				1386 cell
+					1387 text acs_2024_5yr
+				1388 cell
+					1389 text 2020-2024
+					1390 container
+						1391 text 下载 / Retrieved: 未记录 / not recorded
+						1392 text 来源覆盖期 / Reference period: ? — ?
+						1393 text 当前有效性未评估 / Currentness not assessed
+				1394 cell
+					1395 text derived_survey_estimate
+				1396 cell
+					1397 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1398 row
+				1399 cell
+					1400 text 500m
+				1401 cell
+					1402 text 非西语裔白人占比
+					1403 text non_hispanic_white_share
+				1404 cell
+					1405 text share
+				1406 cell
+					1407 text acs_2024_5yr
+				1408 cell
+					1409 text 2020-2024
+					1410 container
+						1411 text 下载 / Retrieved: 未记录 / not recorded
+						1412 text 来源覆盖期 / Reference period: ? — ?
+						1413 text 当前有效性未评估 / Currentness not assessed
+				1414 cell
+					1415 text derived_survey_estimate
+				1416 cell
+					1417 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1418 row
+				1419 cell
+					1420 text 500m
+				1421 cell
+					1422 text 非家庭住户占比
+					1423 text nonfamily_household_share
+				1424 cell
+					1425 text share
+				1426 cell
+					1427 text acs_2024_5yr
+				1428 cell
+					1429 text 2020-2024
+					1430 container
+						1431 text 下载 / Retrieved: 未记录 / not recorded
+						1432 text 来源覆盖期 / Reference period: ? — ?
+						1433 text 当前有效性未评估 / Currentness not assessed
+				1434 cell
+					1435 text derived_survey_estimate
+				1436 cell
+					1437 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1438 row
+				1439 cell
+					1440 text 500m
+				1441 cell
+					1442 text 办公楼面面积密度
+					1443 text office_floor_area_density
+				1444 cell
+					1445 text floor_sqft_per_catchment_sqft
+				1446 cell
+					1447 text derived
+				1448 cell
+					1449 container
+						1450 text 下载 / Retrieved: 未记录 / not recorded
+						1451 text 来源覆盖期 / Reference period: ? — ?
+						1452 text 当前有效性未评估 / Currentness not assessed
+				1453 cell
+					1454 text derived_spatial_density
+				1455 cell
+					1456 text Gross floor area is divided by total catchment area, including streets, parks and water; this is not parcel FAR. | No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | SYNTHETIC_DEMO
+			1457 row
+				1458 cell
+					1459 text 500m
+				1460 cell
+					1461 text 办公楼面面积
+					1462 text office_floor_area_sqft
+				1463 cell
+					1464 text square_feet
+				1465 cell
+					1466 text mappluto_26v2
+				1467 cell
+					1468 container
+						1469 text 下载 / Retrieved: 未记录 / not recorded
+						1470 text 来源覆盖期 / Reference period: ? — ?
+						1471 text 当前有效性未评估 / Currentness not assessed
+				1472 cell
+					1473 text parcel_overlap_weighted_administrative_sum
+				1474 cell
+					1475 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1476 row
+				1477 cell
+					1478 text 500m
+				1479 cell
+					1480 text 使用其他印欧语言人口占比
+					1481 text other_indo_european_language_share
+				1482 cell
+					1483 text share
+				1484 cell
+					1485 text acs_2024_5yr
+				1486 cell
+					1487 text 2020-2024
+					1488 container
+						1489 text 下载 / Retrieved: 未记录 / not recorded
+						1490 text 来源覆盖期 / Reference period: ? — ?
+						1491 text 当前有效性未评估 / Currentness not assessed
+				1492 cell
+					1493 text derived_survey_estimate
+				1494 cell
+					1495 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1496 row
+				1497 cell
+					1498 text 500m
+				1499 cell
+					1500 text 自有住房占比
+					1501 text owner_occupied_share
+				1502 cell
+					1503 text share
+				1504 cell
+					1505 text acs_2024_5yr
+				1506 cell
+					1507 text 2020-2024
+					1508 container
+						1509 text 下载 / Retrieved: 未记录 / not recorded
+						1510 text 来源覆盖期 / Reference period: ? — ?
+						1511 text 当前有效性未评估 / Currentness not assessed
+				1512 cell
+					1513 text derived_survey_estimate
+				1514 cell
+					1515 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1516 row
+				1517 cell
+					1518 text 500m
+				1519 cell
+					1520 text 相交税地块数量
+					1521 text parcel_count
+				1522 cell
+					1523 text intersecting_tax_lots
+				1524 cell
+					1525 text mappluto_26v2
+				1526 cell
+					1527 container
+						1528 text 下载 / Retrieved: 未记录 / not recorded
+						1529 text 来源覆盖期 / Reference period: ? — ?
+						1530 text 当前有效性未评估 / Currentness not assessed
+				1531 cell
+					1532 text intersecting_administrative_record_count
+				1533 cell
+					1534 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1535 row
+				1536 cell
+					1537 text 500m
+				1538 cell
+					1539 text 公园与休闲设施数量
+					1540 text park_facility_count
+				1541 cell
+					1542 text facilities
+				1543 cell
+					1544 text nyc_facilities
+				1545 cell
+					1546 text current compiled publication
+					1547 container
+						1548 text 下载 / Retrieved: 未记录 / not recorded
+						1549 text 来源覆盖期 / Reference period: ? — ?
+						1550 text 当前有效性未评估 / Currentness not assessed
+				1551 cell
+					1552 text compiled_administrative_record_count
+				1553 cell
+					1554 text Compiled from heterogeneous agency sources with different update cycles and capacity definitions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1555 row
+				1556 cell
+					1557 text 500m
+				1558 cell
+					1559 text 最新行人时段计数中位数
+					1560 text pedestrian_count_latest_median
+				1561 cell
+					1562 text pedestrians_per_published_count_period
+				1563 cell
+					1564 text nyc_dot_pedestrian_counts
+				1565 cell
+					1566 text 2026-05
+					1567 container
+						1568 text 下载 / Retrieved: 未记录 / not recorded
+						1569 text 来源覆盖期 / Reference period: ? — ?
+						1570 text 当前有效性未评估 / Currentness not assessed
+				1571 cell
+					1572 text median_published_count
+				1573 cell
+					1574 text Median of published AM, midday, and PM periods at sparse selected sites; periods are not interchangeable with daily footfall. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1575 row
+				1576 cell
+					1577 text 500m
+				1578 cell
+					1579 text 附近行人监测点数
+					1580 text pedestrian_monitor_count
+				1581 cell
+					1582 text count_sites
+				1583 cell
+					1584 text nyc_dot_pedestrian_counts
+				1585 cell
+					1586 text 2026-05
+					1587 container
+						1588 text 下载 / Retrieved: 未记录 / not recorded
+						1589 text 来源覆盖期 / Reference period: ? — ?
+						1590 text 当前有效性未评估 / Currentness not assessed
+				1591 cell
+					1592 text observed_site_count
+				1593 cell
+					1594 text Only 114 selected citywide locations are monitored; zero means no nearby published site, not zero pedestrians. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1595 row
+				1596 cell
+					1597 text 500m
+				1598 cell
+					1599 text 人均收入
+					1600 text per_capita_income
+				1601 cell
+					1602 text USD
+				1603 cell
+					1604 text acs_2024_5yr
+				1605 cell
+					1606 text 2020-2024
+					1607 container
+						1608 text 下载 / Retrieved: 未记录 / not recorded
+						1609 text 来源覆盖期 / Reference period: ? — ?
+						1610 text 当前有效性未评估 / Currentness not assessed
+				1611 cell
+					1612 text survey_estimate
+				1613 cell
+					1614 text Weighted neighborhood summary; not an individual or household attribute. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1615 row
+				1616 cell
+					1617 text 500m
+				1618 cell
+					1619 text 生产运输与物料搬运职业占比
+					1620 text production_transport_material_moving_occupation_share
+				1621 cell
+					1622 text share
+				1623 cell
+					1624 text acs_2024_5yr
+				1625 cell
+					1626 text 2020-2024
+					1627 container
+						1628 text 下载 / Retrieved: 未记录 / not recorded
+						1629 text 来源覆盖期 / Reference period: ? — ?
+						1630 text 当前有效性未评估 / Currentness not assessed
+				1631 cell
+					1632 text derived_survey_estimate
+				1633 cell
+					1634 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1635 row
+				1636 cell
+					1637 text 500m
+				1638 cell
+					1639 text 公共及规划设施数量
+					1640 text public_facility_count
+				1641 cell
+					1642 text facilities
+				1643 cell
+					1644 text nyc_facilities
+				1645 cell
+					1646 text current compiled publication
+					1647 container
+						1648 text 下载 / Retrieved: 未记录 / not recorded
+						1649 text 来源覆盖期 / Reference period: ? — ?
+						1650 text 当前有效性未评估 / Currentness not assessed
+				1651 cell
+					1652 text compiled_administrative_record_count
+				1653 cell
+					1654 text Compiled from heterogeneous agency sources with different update cycles and capacity definitions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1655 row
+				1656 cell
+					1657 text 500m
+				1658 cell
+					1659 text 公共交通通勤占比
+					1660 text public_transit_commute_share
+				1661 cell
+					1662 text share
+				1663 cell
+					1664 text acs_2024_5yr
+				1665 cell
+					1666 text 2020-2024
+					1667 container
+						1668 text 下载 / Retrieved: 未记录 / not recorded
+						1669 text 来源覆盖期 / Reference period: ? — ?
+						1670 text 当前有效性未评估 / Currentness not assessed
+				1671 cell
+					1672 text derived_survey_estimate
+				1673 cell
+					1674 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1675 row
+				1676 cell
+					1677 text 500m
+				1678 cell
+					1679 text 区域医疗设施代理数量
+					1680 text regional_healthcare_poi_count
+				1681 cell
+					1682 text 0.00
+				1683 cell
+					1684 text compiled_place_points
+				1685 cell
+					1686 text overture_places
+					1687 text synthetic-part-2
+				1688 cell
+					1689 text SYNTHETIC part 2
+					1690 container
+						1691 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1692 text 来源覆盖期 / Reference period: ? — ?
+						1693 text 当前有效性未评估 / Currentness not assessed
+				1694 cell
+					1695 text synthetic_fixture
+				1696 cell
+					1697 text Overture is a compiled POI inventory with mixed upstream freshness; categories may be duplicated, stale, incomplete or misclassified. | This is a regional screening proxy, not an operator, regulator or local-government authoritative inventory. | SYNTHETIC_DEMO
+			1698 row
+				1699 cell
+					1700 text 500m
+				1701 cell
+					1702 text 区域住宿设施代理数量
+					1703 text regional_hotel_poi_count
+				1704 cell
+					1705 text 0.00
+				1706 cell
+					1707 text compiled_place_points
+				1708 cell
+					1709 text overture_places
+					1710 text synthetic-part-2
+				1711 cell
+					1712 text SYNTHETIC part 2
+					1713 container
+						1714 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1715 text 来源覆盖期 / Reference period: ? — ?
+						1716 text 当前有效性未评估 / Currentness not assessed
+				1717 cell
+					1718 text synthetic_fixture
+				1719 cell
+					1720 text Overture is a compiled POI inventory with mixed upstream freshness; categories may be duplicated, stale, incomplete or misclassified. | This is a regional screening proxy, not an operator, regulator or local-government authoritative inventory. | SYNTHETIC_DEMO
+			1721 row
+				1722 cell
+					1723 text 500m
+				1724 cell
+					1725 text 区域图书馆代理数量
+					1726 text regional_library_poi_count
+				1727 cell
+					1728 text 0.00
+				1729 cell
+					1730 text compiled_place_points
+				1731 cell
+					1732 text overture_places
+					1733 text synthetic-part-2
+				1734 cell
+					1735 text SYNTHETIC part 2
+					1736 container
+						1737 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1738 text 来源覆盖期 / Reference period: ? — ?
+						1739 text 当前有效性未评估 / Currentness not assessed
+				1740 cell
+					1741 text synthetic_fixture
+				1742 cell
+					1743 text Overture is a compiled POI inventory with mixed upstream freshness; categories may be duplicated, stale, incomplete or misclassified. | This is a regional screening proxy, not an operator, regulator or local-government authoritative inventory. | SYNTHETIC_DEMO
+			1744 row
+				1745 cell
+					1746 text 500m
+				1747 cell
+					1748 text 区域公园代理数量
+					1749 text regional_park_poi_count
+				1750 cell
+					1751 text 0.00
+				1752 cell
+					1753 text compiled_place_points
+				1754 cell
+					1755 text overture_places
+					1756 text synthetic-part-2
+				1757 cell
+					1758 text SYNTHETIC part 2
+					1759 container
+						1760 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1761 text 来源覆盖期 / Reference period: ? — ?
+						1762 text 当前有效性未评估 / Currentness not assessed
+				1763 cell
+					1764 text synthetic_fixture
+				1765 cell
+					1766 text Overture is a compiled POI inventory with mixed upstream freshness; categories may be duplicated, stale, incomplete or misclassified. | This is a regional screening proxy, not an operator, regulator or local-government authoritative inventory. | SYNTHETIC_DEMO
+			1767 row
+				1768 cell
+					1769 text 500m
+				1770 cell
+					1771 text 区域铁路站点数量
+					1772 text regional_rail_station_count
+				1773 cell
+					1774 text scheduled_parent_stations
+				1775 cell
+					1776 text regional_mta_rail_gtfs_static
+				1777 cell
+					1778 text current timetable
+					1779 container
+						1780 text 下载 / Retrieved: 未记录 / not recorded
+						1781 text 来源覆盖期 / Reference period: ? — ?
+						1782 text 当前有效性未评估 / Currentness not assessed
+				1783 cell
+					1784 text scheduled_transit_record_count
+				1785 cell
+					1786 text MTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers. | NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1787 row
+				1788 cell
+					1789 text 500m
+				1790 cell
+					1791 text 区域学校代理数量
+					1792 text regional_school_poi_count
+				1793 cell
+					1794 text 0.00
+				1795 cell
+					1796 text compiled_place_points
+				1797 cell
+					1798 text overture_places
+					1799 text synthetic-part-2
+				1800 cell
+					1801 text SYNTHETIC part 2
+					1802 container
+						1803 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1804 text 来源覆盖期 / Reference period: ? — ?
+						1805 text 当前有效性未评估 / Currentness not assessed
+				1806 cell
+					1807 text synthetic_fixture
+				1808 cell
+					1809 text Overture is a compiled POI inventory with mixed upstream freshness; categories may be duplicated, stale, incomplete or misclassified. | This is a regional screening proxy, not an operator, regulator or local-government authoritative inventory. | SYNTHETIC_DEMO
+			1810 row
+				1811 cell
+					1812 text 500m
+				1813 cell
+					1814 text 区域交通设施代理数量
+					1815 text regional_transit_poi_count
+				1816 cell
+					1817 text 0.00
+				1818 cell
+					1819 text compiled_place_points
+				1820 cell
+					1821 text overture_places
+					1822 text synthetic-part-2
+				1823 cell
+					1824 text SYNTHETIC part 2
+					1825 container
+						1826 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						1827 text 来源覆盖期 / Reference period: ? — ?
+						1828 text 当前有效性未评估 / Currentness not assessed
+				1829 cell
+					1830 text synthetic_fixture
+				1831 cell
+					1832 text Overture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory. | Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership. | SYNTHETIC_DEMO
+			1833 row
+				1834 cell
+					1835 text 500m
+				1836 cell
+					1837 text 租赁住房占比
+					1838 text renter_occupied_share
+				1839 cell
+					1840 text share
+				1841 cell
+					1842 text acs_2024_5yr
+				1843 cell
+					1844 text 2020-2024
+					1845 container
+						1846 text 下载 / Retrieved: 未记录 / not recorded
+						1847 text 来源覆盖期 / Reference period: ? — ?
+						1848 text 当前有效性未评估 / Currentness not assessed
+				1849 cell
+					1850 text derived_survey_estimate
+				1851 cell
+					1852 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1853 row
+				1854 cell
+					1855 text 500m
+				1856 cell
+					1857 text 居民指数
+					1858 text resident_index
+				1859 cell
+					1860 text 0.00
+				1861 cell
+					1862 text index_0_100
+				1863 cell
+					1864 text derived
+				1865 cell
+					1866 text mixed latest local snapshots; component years in evidence
+					1867 container
+						1868 text 下载 / Retrieved: 未记录 / not recorded
+						1869 text 来源覆盖期 / Reference period: ? — ?
+						1870 text 当前有效性未评估 / Currentness not assessed
+				1871 cell
+					1872 text model_proxy
+				1873 cell
+					1874 text 55%
+				1875 cell
+					1876 text Component metrics: ["resident_population"] | Transparent uncalibrated proxy index; not a population share or composite site score. | SYNTHETIC_DEMO
+			1877 row
+				1878 cell
+					1879 text 500m
+				1880 cell
+					1881 text 常住人口
+					1882 text resident_population
+				1883 cell
+					1884 text people
+				1885 cell
+					1886 text acs_2024_5yr
+				1887 cell
+					1888 text 2020-2024
+					1889 container
+						1890 text 下载 / Retrieved: 未记录 / not recorded
+						1891 text 来源覆盖期 / Reference period: ? — ?
+						1892 text 当前有效性未评估 / Currentness not assessed
+				1893 cell
+					1894 text survey_estimate
+				1895 cell
+					1896 text Area-weighted estimate; ACS block-group statistics do not describe an individual address. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1897 row
+				1898 cell
+					1899 text 500m
+				1900 cell
+					1901 text 常住人口密度
+					1902 text resident_population_density_per_sq_mile
+				1903 cell
+					1904 text people_per_square_mile
+				1905 cell
+					1906 text acs_2024_5yr
+				1907 cell
+					1908 text 2020-2024
+					1909 container
+						1910 text 下载 / Retrieved: 未记录 / not recorded
+						1911 text 来源覆盖期 / Reference period: ? — ?
+						1912 text 当前有效性未评估 / Currentness not assessed
+				1913 cell
+					1914 text derived_area_weighted_survey_density
+				1915 cell
+					1916 text ACS population is area-weighted to the catchment and divided by projected catchment area; it is not parcel occupancy or an individual attribute. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1917 row
+				1918 cell
+					1919 text 500m
+				1920 cell
+					1921 text 住宅楼面面积密度
+					1922 text residential_floor_area_density
+				1923 cell
+					1924 text floor_sqft_per_catchment_sqft
+				1925 cell
+					1926 text derived
+				1927 cell
+					1928 container
+						1929 text 下载 / Retrieved: 未记录 / not recorded
+						1930 text 来源覆盖期 / Reference period: ? — ?
+						1931 text 当前有效性未评估 / Currentness not assessed
+				1932 cell
+					1933 text derived_spatial_density
+				1934 cell
+					1935 text Gross floor area is divided by total catchment area, including streets, parks and water; this is not parcel FAR. | No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | SYNTHETIC_DEMO
+			1936 row
+				1937 cell
+					1938 text 500m
+				1939 cell
+					1940 text 住宅楼面面积
+					1941 text residential_floor_area_sqft
+				1942 cell
+					1943 text square_feet
+				1944 cell
+					1945 text mappluto_26v2
+				1946 cell
+					1947 container
+						1948 text 下载 / Retrieved: 未记录 / not recorded
+						1949 text 来源覆盖期 / Reference period: ? — ?
+						1950 text 当前有效性未评估 / Currentness not assessed
+				1951 cell
+					1952 text parcel_overlap_weighted_administrative_sum
+				1953 cell
+					1954 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1955 row
+				1956 cell
+					1957 text 500m
+				1958 cell
+					1959 text 住宅单元数
+					1960 text residential_units
+				1961 cell
+					1962 text dwelling_units
+				1963 cell
+					1964 text mappluto_26v2
+				1965 cell
+					1966 container
+						1967 text 下载 / Retrieved: 未记录 / not recorded
+						1968 text 来源覆盖期 / Reference period: ? — ?
+						1969 text 当前有效性未评估 / Currentness not assessed
+				1970 cell
+					1971 text parcel_overlap_weighted_administrative_sum
+				1972 cell
+					1973 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			1974 row
+				1975 cell
+					1976 text 500m
+				1977 cell
+					1978 text 零售楼面面积密度
+					1979 text retail_floor_area_density
+				1980 cell
+					1981 text floor_sqft_per_catchment_sqft
+				1982 cell
+					1983 text derived
+				1984 cell
+					1985 container
+						1986 text 下载 / Retrieved: 未记录 / not recorded
+						1987 text 来源覆盖期 / Reference period: ? — ?
+						1988 text 当前有效性未评估 / Currentness not assessed
+				1989 cell
+					1990 text derived_spatial_density
+				1991 cell
+					1992 text Gross floor area is divided by total catchment area, including streets, parks and water; this is not parcel FAR. | No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | SYNTHETIC_DEMO
+			1993 row
+				1994 cell
+					1995 text 500m
+				1996 cell
+					1997 text 零售楼面面积
+					1998 text retail_floor_area_sqft
+				1999 cell
+					2000 text square_feet
+				2001 cell
+					2002 text mappluto_26v2
+				2003 cell
+					2004 container
+						2005 text 下载 / Retrieved: 未记录 / not recorded
+						2006 text 来源覆盖期 / Reference period: ? — ?
+						2007 text 当前有效性未评估 / Currentness not assessed
+				2008 cell
+					2009 text parcel_overlap_weighted_administrative_sum
+				2010 cell
+					2011 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2012 row
+				2013 cell
+					2014 text 500m
+				2015 cell
+					2016 text 近十二个月正价成交中位数
+					2017 text rolling_sale_price_median
+				2018 cell
+					2019 text USD
+				2020 cell
+					2021 text nyc_rolling_sales
+				2022 cell
+					2023 text current rolling twelve-month publication
+					2024 container
+						2025 text 下载 / Retrieved: 未记录 / not recorded
+						2026 text 来源覆盖期 / Reference period: ? — ?
+						2027 text 当前有效性未评估 / Currentness not assessed
+				2028 cell
+					2029 text median_positive_recorded_sale_price
+				2030 cell
+					2031 text Rolling calendar source covers the publisher's preceding twelve months; records are transactions, not current appraisals. | Zero-dollar and non-market transfers remain in record counts but are excluded from the median positive sale price. | Apartment number is intentionally excluded; tax-lot linkage can place multiple unit sales on the same BBL. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2032 row
+				2033 cell
+					2034 text 500m
+				2035 cell
+					2036 text 近十二个月成交记录数
+					2037 text rolling_sale_record_count
+				2038 cell
+					2039 text sale_records
+				2040 cell
+					2041 text nyc_rolling_sales
+				2042 cell
+					2043 text current rolling twelve-month publication
+					2044 container
+						2045 text 下载 / Retrieved: 未记录 / not recorded
+						2046 text 来源覆盖期 / Reference period: ? — ?
+						2047 text 当前有效性未评估 / Currentness not assessed
+				2048 cell
+					2049 text administrative_transaction_record_count
+				2050 cell
+					2051 text Rolling calendar source covers the publisher's preceding twelve months; records are transactions, not current appraisals. | Zero-dollar and non-market transfers remain in record counts but are excluded from the median positive sale price. | Apartment number is intentionally excluded; tax-lot linkage can place multiple unit sales on the same BBL. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2052 row
+				2053 cell
+					2054 text 500m
+				2055 cell
+					2056 text 每百地块近十二个月成交记录数
+					2057 text rolling_sales_per_100_parcels
+				2058 cell
+					2059 text sale_records_per_100_intersecting_parcels
+				2060 cell
+					2061 text derived
+				2062 cell
+					2063 text current rolling twelve-month publication
+					2064 container
+						2065 text 下载 / Retrieved: 未记录 / not recorded
+						2066 text 来源覆盖期 / Reference period: ? — ?
+						2067 text 当前有效性未评估 / Currentness not assessed
+				2068 cell
+					2069 text derived_transaction_density
+				2070 cell
+					2071 text Rolling calendar source covers the publisher's preceding twelve months; records are transactions, not current appraisals. | Zero-dollar and non-market transfers remain in record counts but are excluded from the median positive sale price. | Apartment number is intentionally excluded; tax-lot linkage can place multiple unit sales on the same BBL. | SYNTHETIC_DEMO
+			2072 row
+				2073 cell
+					2074 text 500m
+				2075 cell
+					2076 text 销售与办公室职业占比
+					2077 text sales_office_occupation_share
+				2078 cell
+					2079 text share
+				2080 cell
+					2081 text acs_2024_5yr
+				2082 cell
+					2083 text 2020-2024
+					2084 container
+						2085 text 下载 / Retrieved: 未记录 / not recorded
+						2086 text 来源覆盖期 / Reference period: ? — ?
+						2087 text 当前有效性未评估 / Currentness not assessed
+				2088 cell
+					2089 text derived_survey_estimate
+				2090 cell
+					2091 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2092 row
+				2093 cell
+					2094 text 500m
+				2095 cell
+					2096 text 学校与教育设施数量
+					2097 text school_count
+				2098 cell
+					2099 text facilities
+				2100 cell
+					2101 text nyc_facilities
+				2102 cell
+					2103 text current compiled publication
+					2104 container
+						2105 text 下载 / Retrieved: 未记录 / not recorded
+						2106 text 来源覆盖期 / Reference period: ? — ?
+						2107 text 当前有效性未评估 / Currentness not assessed
+				2108 cell
+					2109 text compiled_administrative_record_count
+				2110 cell
+					2111 text Compiled from heterogeneous agency sources with different update cycles and capacity definitions. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2112 row
+				2113 cell
+					2114 text 500m
+				2115 cell
+					2116 text 2100年百年一遇洪泛区覆盖率
+					2117 text sea_level_2100_floodplain_overlap_pct
+				2118 cell
+					2119 text percent_of_catchment_area
+				2120 cell
+					2121 text nyc_sea_level_rise_2100_floodplain
+				2122 cell
+					2123 text 2100 planning scenario
+					2124 container
+						2125 text 下载 / Retrieved: 未记录 / not recorded
+						2126 text 来源覆盖期 / Reference period: ? — ?
+						2127 text 当前有效性未评估 / Currentness not assessed
+				2128 cell
+					2129 text exact_projected_area_overlap
+				2130 cell
+					2131 text Published 2100 100-year floodplain scenario using a 90th-percentile 75-inch sea-level-rise projection. | This is a long-range planning scenario, not a prediction of a specific event or a parcel-level risk determination. | Geometric overlap is a planning-screening signal, not an engineering, insurance, legal, regulatory, or expected-loss conclusion. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2132 row
+				2133 cell
+					2134 text 500m
+				2135 cell
+					2136 text 服务职业占比
+					2137 text service_occupation_share
+				2138 cell
+					2139 text share
+				2140 cell
+					2141 text acs_2024_5yr
+				2142 cell
+					2143 text 2020-2024
+					2144 container
+						2145 text 下载 / Retrieved: 未记录 / not recorded
+						2146 text 来源覆盖期 / Reference period: ? — ?
+						2147 text 当前有效性未评估 / Currentness not assessed
+				2148 cell
+					2149 text derived_survey_estimate
+				2150 cell
+					2151 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2152 row
+				2153 cell
+					2154 text 500m
+				2155 cell
+					2156 text 使用西班牙语人口占比
+					2157 text spanish_language_share
+				2158 cell
+					2159 text share
+				2160 cell
+					2161 text acs_2024_5yr
+				2162 cell
+					2163 text 2020-2024
+					2164 container
+						2165 text 下载 / Retrieved: 未记录 / not recorded
+						2166 text 来源覆盖期 / Reference period: ? — ?
+						2167 text 当前有效性未评估 / Currentness not assessed
+				2168 cell
+					2169 text derived_survey_estimate
+				2170 cell
+					2171 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2172 row
+				2173 cell
+					2174 text 500m
+				2175 cell
+					2176 text 替代品数量
+					2177 text substitute_count
+				2178 cell
+					2179 text 0.00
+				2180 cell
+					2181 text locations
+				2182 cell
+					2183 text overture_places
+					2184 text synthetic-part-2
+				2185 cell
+					2186 text SYNTHETIC part 2
+					2187 container
+						2188 text 下载 / Retrieved: 2026-11-01T08:39:57.045223+00:00
+						2189 text 来源覆盖期 / Reference period: ? — ?
+						2190 text 当前有效性未评估 / Currentness not assessed
+				2191 cell
+					2192 text synthetic_fixture
+				2193 cell
+					2194 text SYNTHETIC_DEMO
+			2195 row
+				2196 cell
+					2197 text 500m
+				2198 cell
+					2199 text 地铁站群数量
+					2200 text subway_complex_count
+				2201 cell
+					2202 text complexes
+				2203 cell
+					2204 text mta_subway_stations
+				2205 cell
+					2206 text current
+					2207 container
+						2208 text 下载 / Retrieved: 未记录 / not recorded
+						2209 text 来源覆盖期 / Reference period: ? — ?
+						2210 text 当前有效性未评估 / Currentness not assessed
+				2211 cell
+					2212 text administrative_record_count
+				2213 cell
+					2214 text 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2215 row
+				2216 cell
+					2217 text 500m
+				2218 cell
+					2219 text 地铁出入口物理点数量
+					2220 text subway_entrance_exit_count
+				2221 cell
+					2222 text entrance_exit_points
+				2223 cell
+					2224 text mta_subway_entrances_2024
+				2225 cell
+					2226 text 2024
+					2227 container
+						2228 text 下载 / Retrieved: 未记录 / not recorded
+						2229 text 来源覆盖期 / Reference period: ? — ?
+						2230 text 当前有效性未评估 / Currentness not assessed
+				2231 cell
+					2232 text deduplicated_administrative_point_count
+				2233 cell
+					2234 text Physical points are deduplicated by coordinate, entrance type and entry/exit permissions because one entrance can be associated with multiple station complexes. | The 2024 static inventory does not guarantee current construction access, elevator operation, hours, or ADA routing. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2235 row
+				2236 cell
+					2237 text 500m
+				2238 cell
+					2239 text 2025年地铁进站客流
+					2240 text subway_entries_2025
+				2241 cell
+					2242 text entries
+				2243 cell
+					2244 text mta_hourly_2025
+				2245 cell
+					2246 text 2025
+					2247 container
+						2248 text 下载 / Retrieved: 未记录 / not recorded
+						2249 text 来源覆盖期 / Reference period: ? — ?
+						2250 text 当前有效性未评估 / Currentness not assessed
+				2251 cell
+					2252 text administrative_estimate
+				2253 cell
+					2254 text 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2255 row
+				2256 cell
+					2257 text 500m
+				2258 cell
+					2259 text 允许进站的地铁入口点数量
+					2260 text subway_entry_allowed_count
+				2261 cell
+					2262 text entrance_exit_points
+				2263 cell
+					2264 text mta_subway_entrances_2024
+				2265 cell
+					2266 text 2024
+					2267 container
+						2268 text 下载 / Retrieved: 未记录 / not recorded
+						2269 text 来源覆盖期 / Reference period: ? — ?
+						2270 text 当前有效性未评估 / Currentness not assessed
+				2271 cell
+					2272 text deduplicated_administrative_point_count
+				2273 cell
+					2274 text Physical points are deduplicated by coordinate, entrance type and entry/exit permissions because one entrance can be associated with multiple station complexes. | The 2024 static inventory does not guarantee current construction access, elevator operation, hours, or ADA routing. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2275 row
+				2276 cell
+					2277 text 500m
+				2278 cell
+					2279 text TLC日均下车行程估计
+					2280 text tlc_dropoff_trips_average_daily_area_weighted
+				2281 cell
+					2282 text estimated_trips_per_day
+				2283 cell
+					2284 text tlc_trip_record_monthly_aggregates
+				2285 cell
+					2286 container
+						2287 text 下载 / Retrieved: 未记录 / not recorded
+						2288 text 来源覆盖期 / Reference period: ? — ?
+						2289 text 当前有效性未评估 / Currentness not assessed
+				2290 cell
+					2291 text derived_daily_area_weighted_mobility_proxy
+				2292 cell
+					2293 text Estimate area-weights taxi-zone monthly aggregates under a uniform-within-zone assumption; it is not exact site footfall. | Yellow and green taxi trips are included; other for-hire, transit, walking, cycling, and private-vehicle activity are excluded. | Cells below five trips and source rows without a published taxi-zone geometry were excluded before standardization. | No individual trip rows or linked origin-destination pairs are retained locally. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2294 row
+				2295 cell
+					2296 text 500m
+				2297 cell
+					2298 text TLC月度下车行程估计
+					2299 text tlc_dropoff_trips_monthly_area_weighted
+				2300 cell
+					2301 text estimated_trips_per_source_month
+				2302 cell
+					2303 text tlc_trip_record_monthly_aggregates
+				2304 cell
+					2305 container
+						2306 text 下载 / Retrieved: 未记录 / not recorded
+						2307 text 来源覆盖期 / Reference period: ? — ?
+						2308 text 当前有效性未评估 / Currentness not assessed
+				2309 cell
+					2310 text privacy_guarded_area_weighted_mobility_proxy
+				2311 cell
+					2312 text Estimate area-weights taxi-zone monthly aggregates under a uniform-within-zone assumption; it is not exact site footfall. | Yellow and green taxi trips are included; other for-hire, transit, walking, cycling, and private-vehicle activity are excluded. | Cells below five trips and source rows without a published taxi-zone geometry were excluded before standardization. | No individual trip rows or linked origin-destination pairs are retained locally. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2313 row
+				2314 cell
+					2315 text 500m
+				2316 cell
+					2317 text TLC日均上车行程估计
+					2318 text tlc_pickup_trips_average_daily_area_weighted
+				2319 cell
+					2320 text estimated_trips_per_day
+				2321 cell
+					2322 text tlc_trip_record_monthly_aggregates
+				2323 cell
+					2324 container
+						2325 text 下载 / Retrieved: 未记录 / not recorded
+						2326 text 来源覆盖期 / Reference period: ? — ?
+						2327 text 当前有效性未评估 / Currentness not assessed
+				2328 cell
+					2329 text derived_daily_area_weighted_mobility_proxy
+				2330 cell
+					2331 text Estimate area-weights taxi-zone monthly aggregates under a uniform-within-zone assumption; it is not exact site footfall. | Yellow and green taxi trips are included; other for-hire, transit, walking, cycling, and private-vehicle activity are excluded. | Cells below five trips and source rows without a published taxi-zone geometry were excluded before standardization. | No individual trip rows or linked origin-destination pairs are retained locally. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2332 row
+				2333 cell
+					2334 text 500m
+				2335 cell
+					2336 text TLC月度上车行程估计
+					2337 text tlc_pickup_trips_monthly_area_weighted
+				2338 cell
+					2339 text estimated_trips_per_source_month
+				2340 cell
+					2341 text tlc_trip_record_monthly_aggregates
+				2342 cell
+					2343 container
+						2344 text 下载 / Retrieved: 未记录 / not recorded
+						2345 text 来源覆盖期 / Reference period: ? — ?
+						2346 text 当前有效性未评估 / Currentness not assessed
+				2347 cell
+					2348 text privacy_guarded_area_weighted_mobility_proxy
+				2349 cell
+					2350 text Estimate area-weights taxi-zone monthly aggregates under a uniform-within-zone assumption; it is not exact site footfall. | Yellow and green taxi trips are included; other for-hire, transit, walking, cycling, and private-vehicle activity are excluded. | Cells below five trips and source rows without a published taxi-zone geometry were excluded before standardization. | No individual trip rows or linked origin-destination pairs are retained locally. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2351 row
+				2352 cell
+					2353 text 500m
+				2354 cell
+					2355 text 相交出租车分区数
+					2356 text tlc_taxi_zone_count
+				2357 cell
+					2358 text intersecting_taxi_zones
+				2359 cell
+					2360 text tlc_taxi_zones
+				2361 cell
+					2362 text current published taxi-zone boundaries
+					2363 container
+						2364 text 下载 / Retrieved: 未记录 / not recorded
+						2365 text 来源覆盖期 / Reference period: ? — ?
+						2366 text 当前有效性未评估 / Currentness not assessed
+				2367 cell
+					2368 text exact_geometry_intersection_count
+				2369 cell
+					2370 text Taxi zones are coarse operating geographies, not neighborhoods or exact trip locations. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2371 row
+				2372 cell
+					2373 text 500m
+				2374 cell
+					2375 text 全部单元数
+					2376 text total_units
+				2377 cell
+					2378 text units
+				2379 cell
+					2380 text mappluto_26v2
+				2381 cell
+					2382 container
+						2383 text 下载 / Retrieved: 未记录 / not recorded
+						2384 text 来源覆盖期 / Reference period: ? — ?
+						2385 text 当前有效性未评估 / Currentness not assessed
+				2386 cell
+					2387 text parcel_overlap_weighted_administrative_sum
+				2388 cell
+					2389 text No cross-state parcel metric is reported: regional parcel systems are fragmented and no non-authoritative substitute is presented as a parcel layer. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2390 row
+				2391 cell
+					2392 text 500m
+				2393 cell
+					2394 text 当前道路速度中位数
+					2395 text traffic_speed_current_median_mph
+				2396 cell
+					2397 text miles_per_hour
+				2398 cell
+					2399 text nyc_dot_traffic_speed_current
+				2400 cell
+					2401 text latest refresh snapshot
+					2402 container
+						2403 text 下载 / Retrieved: 未记录 / not recorded
+						2404 text 来源覆盖期 / Reference period: ? — ?
+						2405 text 当前有效性未评估 / Currentness not assessed
+				2406 cell
+					2407 text median_real_time_sensor_estimate
+				2408 cell
+					2409 text Point-in-time median across nearby monitored links, not a typical or neighborhood-wide speed. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2410 row
+				2411 cell
+					2412 text 500m
+				2413 cell
+					2414 text 附近实时速度监测链路数
+					2415 text traffic_speed_link_count
+				2416 cell
+					2417 text monitored_links
+				2418 cell
+					2419 text nyc_dot_traffic_speed_current
+				2420 cell
+					2421 text latest refresh snapshot
+					2422 container
+						2423 text 下载 / Retrieved: 未记录 / not recorded
+						2424 text 来源覆盖期 / Reference period: ? — ?
+						2425 text 当前有效性未评估 / Currentness not assessed
+				2426 cell
+					2427 text sensor_link_count
+				2428 cell
+					2429 text Sensor coverage is concentrated on arterials and highways; link centroids are spatial proxies. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2430 row
+				2431 cell
+					2432 text 500m
+				2433 cell
+					2434 text 交通换乘指数
+					2435 text transit_hub_index
+				2436 cell
+					2437 text 0.00
+				2438 cell
+					2439 text index_0_100
+				2440 cell
+					2441 text derived
+				2442 cell
+					2443 text mixed latest local snapshots; component years in evidence
+					2444 container
+						2445 text 下载 / Retrieved: 未记录 / not recorded
+						2446 text 来源覆盖期 / Reference period: ? — ?
+						2447 text 当前有效性未评估 / Currentness not assessed
+				2448 cell
+					2449 text model_proxy
+				2450 cell
+					2451 text 55%
+				2452 cell
+					2453 text Component metrics: ["regional_rail_station_count", "regional_transit_poi_count"] | Transparent uncalibrated proxy index; not a population share or composite site score. | SYNTHETIC_DEMO
+			2454 row
+				2455 cell
+					2456 text 500m
+				2457 cell
+					2458 text 车流15分钟观测中位数
+					2459 text vehicle_volume_median_15min
+				2460 cell
+					2461 text vehicles_per_15_minutes
+				2462 cell
+					2463 text nyc_dot_traffic_counts
+				2464 cell
+					2465 text 2025-present
+					2466 container
+						2467 text 下载 / Retrieved: 未记录 / not recorded
+						2468 text 来源覆盖期 / Reference period: ? — ?
+						2469 text 当前有效性未评估 / Currentness not assessed
+				2470 cell
+					2471 text median_of_road_segment_time_medians
+				2472 cell
+					2473 text Median across nearby sampled segments; it is not a unique-vehicle total or neighborhood traffic census. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2474 row
+				2475 cell
+					2476 text 500m
+				2477 cell
+					2478 text 附近车流监测路段数
+					2479 text vehicle_volume_monitor_count
+				2480 cell
+					2481 text road_segments
+				2482 cell
+					2483 text nyc_dot_traffic_counts
+				2484 cell
+					2485 text 2025-present
+					2486 container
+						2487 text 下载 / Retrieved: 未记录 / not recorded
+						2488 text 来源覆盖期 / Reference period: ? — ?
+						2489 text 当前有效性未评估 / Currentness not assessed
+				2490 cell
+					2491 text observed_site_count
+				2492 cell
+					2493 text DOT volume monitors are a sparse roadway sample, not complete street coverage. | 该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。 | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2494 row
+				2495 cell
+					2496 text 500m
+				2497 cell
+					2498 text 游客代理指数
+					2499 text visitor_proxy_index
+				2500 cell
+					2501 text 0.00
+				2502 cell
+					2503 text index_0_100
+				2504 cell
+					2505 text derived
+				2506 cell
+					2507 text mixed latest local snapshots; component years in evidence
+					2508 container
+						2509 text 下载 / Retrieved: 未记录 / not recorded
+						2510 text 来源覆盖期 / Reference period: ? — ?
+						2511 text 当前有效性未评估 / Currentness not assessed
+				2512 cell
+					2513 text model_proxy
+				2514 cell
+					2515 text 55%
+				2516 cell
+					2517 text Component metrics: ["attraction_count", "regional_hotel_poi_count"] | Transparent uncalibrated proxy index; not a population share or composite site score. | SYNTHETIC_DEMO
+			2518 row
+				2519 cell
+					2520 text 500m
+				2521 cell
+					2522 text 步行通勤占比
+					2523 text walked_commute_share
+				2524 cell
+					2525 text share
+				2526 cell
+					2527 text acs_2024_5yr
+				2528 cell
+					2529 text 2020-2024
+					2530 container
+						2531 text 下载 / Retrieved: 未记录 / not recorded
+						2532 text 来源覆盖期 / Reference period: ? — ?
+						2533 text 当前有效性未评估 / Currentness not assessed
+				2534 cell
+					2535 text derived_survey_estimate
+				2536 cell
+					2537 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2538 row
+				2539 cell
+					2540 text 500m
+				2541 cell
+					2542 text 居家工作占比
+					2543 text worked_from_home_share
+				2544 cell
+					2545 text share
+				2546 cell
+					2547 text acs_2024_5yr
+				2548 cell
+					2549 text 2020-2024
+					2550 container
+						2551 text 下载 / Retrieved: 未记录 / not recorded
+						2552 text 来源覆盖期 / Reference period: ? — ?
+						2553 text 当前有效性未评估 / Currentness not assessed
+				2554 cell
+					2555 text derived_survey_estimate
+				2556 cell
+					2557 text Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address. | Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance. | No completed source snapshot; absent records are not observed zero. | SYNTHETIC_DEMO
+			2558 row
+				2559 cell
+					2560 text 500m
+				2561 cell
+					2562 text 工作者指数
+					2563 text worker_index
+				2564 cell
+					2565 text 0.00
+				2566 cell
+					2567 text index_0_100
+				2568 cell
+					2569 text derived
+				2570 cell
+					2571 text mixed latest local snapshots; component years in evidence
+					2572 container
+						2573 text 下载 / Retrieved: 未记录 / not recorded
+						2574 text 来源覆盖期 / Reference period: ? — ?
+						2575 text 当前有效性未评估 / Currentness not assessed
+				2576 cell
+					2577 text model_proxy
+				2578 cell
+					2579 text 55%
+				2580 cell
+					2581 text Component metrics: ["daytime_jobs"] | Transparent uncalibrated proxy index; not a population share or composite site score. | SYNTHETIC_DEMO
+
+The focused UI element is 1 AXWebArea NYC Lens｜200 Demo Avenue, Newark, NJ, URL: 127.0.0.1:8791/site-report.html

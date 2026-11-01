@@ -1,0 +1,26 @@
+{
+  "runtime": "c0d720a2de7fc20fda439074ac719c02af386ceb",
+  "startedAtUtc": "2026-11-01T08:39:44.293386+00:00",
+  "status": "COMPLETED",
+  "retainedTestDirectory": "<USER_HOME>\\AppData\\Local\\Temp\\nyc-lineage-final-full-20261101",
+  "newModelCalls": 0,
+  "scope": "Entire suite with original assertions and skips; no per-frame tracing",
+  "interpreter": "3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]",
+  "exitCode": 0,
+  "seconds": 696.344,
+  "finishedAtUtc": "2026-11-01T08:51:20.656962+00:00",
+  "testSuites": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "3",
+      "tests": "528",
+      "time": "694.830",
+      "timestamp": "2026-11-01T03:39:45.027759-05:00",
+      "hostname": "<LOCAL_TEST_HOST>"
+    }
+  ],
+  "sourceUnchanged": true,
+  "deliveryHead": "c0d720a2de7fc20fda439074ac719c02af386ceb"
+}
