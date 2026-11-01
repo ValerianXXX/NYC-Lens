@@ -1,0 +1,44 @@
+{
+  "observed_at_utc": "2026-11-01T10:50:28.023449+00:00",
+  "comparison_id": "comparison_72237d54f91e4860a7ac26c183ca475c",
+  "browser_journey": "initial-en",
+  "mode": "ACTUAL_BROWSER_HTTP_AND_DOWNLOAD_SYNTHETIC_INPUTS",
+  "download_method": "CUA browser file-link download",
+  "csv_rows": 252,
+  "xlsx_rows": 252,
+  "population": [
+    300,
+    null
+  ],
+  "weighted_income": [
+    59999.99999999999,
+    null
+  ],
+  "income_evidence_records": 6,
+  "calculation_version_id": "calc_78e07701299f4c14afe724fb2f87dc09",
+  "new_provider_calls": 0,
+  "independent_human_acceptance": false,
+  "complete_regional_data_acceptance": false,
+  "head_at_verification": "32ca46710edf16c55210530000547785e3876575",
+  "checks": "Saved report bytes, complete/missing values, explicit reasons and two source sets match in JSON/CSV/XLSX",
+  "files": [
+    {
+      "name": "comparison_72237d54f91e4860a7ac26c183ca475c.json",
+      "bytes": 844726,
+      "sha256": "26fc18a1ad6c7f3d1b418484c5b8438dd65c4fa8cf236f0bc787090a49d6424b",
+      "matches_saved_server_report": true
+    },
+    {
+      "name": "comparison_72237d54f91e4860a7ac26c183ca475c.csv",
+      "bytes": 269125,
+      "sha256": "3f3c2bf290bdeada8433000ada4112a3791de82f08dc80e062eea13397683269",
+      "matches_saved_server_report": true
+    },
+    {
+      "name": "comparison_72237d54f91e4860a7ac26c183ca475c.xlsx",
+      "bytes": 63912,
+      "sha256": "d7aeb4a702d7368f2a1944b202a090c791cf703226834798368108c6fcb9cb98",
+      "matches_saved_server_report": true
+    }
+  ]
+}

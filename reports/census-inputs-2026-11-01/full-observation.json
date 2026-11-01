@@ -1,0 +1,27 @@
+{
+  "runtime": "32ca46710edf16c55210530000547785e3876575",
+  "startedAtUtc": "2026-11-01T10:42:28.129507+00:00",
+  "status": "COMPLETED",
+  "retainedTestDirectory": "<HOME>\\AppData\\Local\\Temp\\nyc-census-full-20261101",
+  "newModelCalls": 0,
+  "scope": "Entire suite with original assertions and skips",
+  "interpreter": "3.11.3 (tags/v3.11.3:f3909b8, Apr  4 2023, 23:49:59) [MSC v.1934 64 bit (AMD64)]",
+  "ownerPid": 14092,
+  "exitCode": 0,
+  "seconds": 708.031,
+  "finishedAtUtc": "2026-11-01T10:54:16.167307+00:00",
+  "testSuites": [
+    {
+      "name": "pytest",
+      "errors": "0",
+      "failures": "0",
+      "skipped": "3",
+      "tests": "551",
+      "time": "706.535",
+      "timestamp": "2026-11-01T05:42:28.838614-05:00",
+      "hostname": "<LOCAL_TEST_HOST>"
+    }
+  ],
+  "sourceUnchanged": true,
+  "deliveryHead": "32ca46710edf16c55210530000547785e3876575"
+}

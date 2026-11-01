@@ -957,6 +957,33 @@ function sourceObservationText(metric) {
     + " · " + copy("Currentness not assessed; these dates do not establish expiry or a source change.", "当前有效性未评估；这些日期不能证明数据已过期或来源已变化。");
 }
 
+function calculationNoteText(warning) {
+  const text = String(warning);
+  if (currentLanguage !== "zh") return text;
+  const exact = {
+    "Unavailable: no source boundary intersects the catchment.": "无法计算：当前范围内没有可用的来源边界记录。",
+    "Unavailable: a boundary overlap fraction exceeds one.": "无法计算：边界相交比例超过有效范围。",
+    "Unavailable: tract area denominators are missing an intersecting block group.": "无法计算：普查区面积分母缺少一个相交街区组。",
+    "Unavailable: total observed population weight is zero; no area-only substitute is used.": "无法计算：已知人口权重总和为零；没有改用面积权重替代。",
+    "Unavailable: a required Census component is missing; a partial total is not reported.": "无法计算：缺少必要的普查组成项；不把部分合计显示成完整总数。",
+    "Unavailable: the observed denominator is zero.": "无法计算：已知分母为零。",
+    "Uncertainty unavailable: at least one contributing input lacks a usable published margin of error.": "误差范围不可用：至少一个参与计算的记录缺少有效的已发布误差范围。",
+    "A weighted mean of published summaries is not a pooled neighborhood median.": "这里是已发布统计摘要的加权平均，不等于将地区原始数据合并后得到的中位数。",
+  };
+  if (exact[text]) return exact[text];
+  let match = text.match(/^Unavailable: (.+) is missing one or more required geographies\.$/);
+  if (match) return "无法计算：" + match[1] + " 缺少一个或多个必要地区的记录。";
+  match = text.match(/^Unavailable: (.+) has duplicate active geography records\.$/);
+  if (match) return "无法计算：" + match[1] + " 存在同一地区的重复有效记录。";
+  match = text.match(/^Unavailable: (.+) contains missing or unusable values\.$/);
+  if (match) return "无法计算：" + match[1] + " 包含缺失或不可用的数值。";
+  match = text.match(/^Unavailable: ACS (.+) has no selected block-group or tract observations\.$/);
+  if (match) return "无法计算：ACS " + match[1] + " 没有所选街区组或普查区的观测记录。";
+  match = text.match(/^ACS (.+) uses published tract estimates allocated by block-group overlap\.$/);
+  if (match) return "ACS " + match[1] + " 使用已发布普查区估计值，按街区组相交面积分配。";
+  return text;
+}
+
 function renderComparison(payload) {
   const metricIds = [
     "resident_population", "daytime_jobs", "direct_competitor_count", "regional_rail_station_count",
@@ -979,9 +1006,13 @@ function renderComparison(payload) {
         + encodeURIComponent(site.site_id) + "/evidence?catchment=" + encodeURIComponent(payload.comparison_catchment)
         + "&amp;metric_id=" + encodeURIComponent(id) + "\">"
         + escapeHtml(currentLanguage === "zh" ? "查看输入证据" : "View input evidence") + "</a></small>" : "";
+      const notes = Array.isArray(item?.warnings) && item.warnings.length
+        ? "<small><strong>" + escapeHtml(currentLanguage === "zh" ? "计算说明" : "Calculation notes")
+          + "</strong></small><ul>" + item.warnings.map((warning) => "<li><small>"
+          + escapeHtml(calculationNoteText(warning)) + "</small></li>").join("") + "</ul>" : "";
       return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank + evidence
         + "<details class=\"source-observation\"><summary>" + escapeHtml(currentLanguage === "zh" ? "来源日期与限制" : "Source dates and limits")
-        + "</summary><small>" + escapeHtml(sourceObservationText(item)) + "</small></details></td>";
+        + "</summary><small>" + escapeHtml(sourceObservationText(item)) + "</small>" + notes + "</details></td>";
     }).join("");
     return "<tr><td><strong>" + escapeHtml(site.standardized_address) + "</strong><br><small>"
       + escapeHtml(site.state_abbr || "") + " · County " + escapeHtml(site.county_geoid || "—")

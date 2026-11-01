@@ -8,12 +8,18 @@ parser.add_argument("--home", type=Path, required=True)
 parser.add_argument("--port", type=int, required=True)
 parser.add_argument("--held", action="store_true")
 parser.add_argument("--split-source", action="store_true", help="Synthetic multi-snapshot provenance exercise")
+parser.add_argument("--census-inputs", action="store_true", help="Synthetic complete/incomplete Census inputs")
 args = parser.parse_args()
 if args.home.exists() or os.getenv("NYC_LENS_HOME") or os.getenv("NYC_LENS_DATABASE"):
     raise SystemExit("Only a new isolated synthetic home is permitted")
 from nyc_lens.demo import seed_demo
 seed_demo(args.home.resolve())
 os.environ["NYC_LENS_AI_PROVIDER"] = "disabled"
+if args.census_inputs:
+    from census_scenario import seed_census_scenario
+    from nyc_lens.db import db_session
+    with db_session() as conn:
+        seed_census_scenario(conn)
 if args.split_source:
     from nyc_lens.db import db_session
     with db_session() as conn:

@@ -2,6 +2,8 @@
 
 ## Unreleased — 2026-11-01
 
+- Extract Census/health aggregation into a focused module, scope surveys and denominators to their declared sources, require all selected geographies and requested components, distinguish missing from observed zero, and preserve geometry/population inputs. Keep missing uncertainty unavailable and show bilingual calculation notes. Fixed synthetic checks improve from 4/8 to 8/8 for values and 0/8 to 8/8 with complete declared evidence. Full local regression: 548 passed, 3 original data-dependent skips. No model, schema, dependency or production change. See [evidence, browser/report checks and rollback](docs/census-inputs-2026-11-01.md).
+
 - Bind declared metric evidence to active typed source/snapshot identities saved with each analysis. Preserve multiple source observations, ordinary-data catalogue vintages, secondary declared inputs and honest unresolved records; keep old saved-result behavior. Retain comparability for verified parts of one ingestion while withholding unsupported ranks. Add bounded row pagination metadata, report provenance columns and bilingual evidence links for incomparable values. No schema, dependency, model or production change. See [verification, compatibility and rollback](docs/metric-input-lineage-2026-11-01.md).
 
 ## Unreleased — 2026-10-31

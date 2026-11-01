@@ -1,0 +1,12 @@
+Processing <WORKSPACE>\nyc-lens-census-inputs
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: nyc-lens
+  Building wheel for nyc-lens (pyproject.toml): started
+  Building wheel for nyc-lens (pyproject.toml): finished with status 'done'
+  Created wheel for nyc-lens: filename=nyc_lens-0.2.0-py3-none-any.whl size=299117 sha256=7153fec5582933fa7b8f4f6b21e70979254cd4594d6f0a58f29e3d33bcab9ac0
+  Stored in directory: <HOME>\appdata\local\pip\cache\wheels\a0\00\a0\aa9e0792b03002762e9f16db6dd76de30aa0687b04f50b931a
+Successfully built nyc-lens
+
+[notice] A new release of pip available: 22.3.1 -> 26.2.2
+[notice] To update, run: <WORKSPACE>\task-artifacts\nyc-census-build-env-20261101\Scripts\python.exe -m pip install --upgrade pip

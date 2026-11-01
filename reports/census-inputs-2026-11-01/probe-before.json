@@ -1,0 +1,187 @@
+{
+  "observed_at_utc": "2026-11-01T10:29:59.045497+00:00",
+  "checkout_commit": "71f1760fc91046a2e52e57a7ee9e194aef1241aa",
+  "fixture_lf_sha256": "5822550296e762f4e0e8ab08d7c5c3556c7762400495109c926331cea78f9345",
+  "evaluator_lf_sha256": "9266521adacd63001cd3fe45dbe5f735dcc3d97416639e9c79290ab8499be31a",
+  "mode": "REAL_DUCKDB_AGGREGATION_SYNTHETIC_INPUTS",
+  "new_provider_calls": 0,
+  "whole_metric_lineage_acceptance": false,
+  "observations": [
+    {
+      "scenario": "count",
+      "expected": {
+        "value": 100,
+        "evidence": [
+          "b0",
+          "b1",
+          "p0",
+          "p1"
+        ]
+      },
+      "actual": {
+        "value": 100.0,
+        "evidence": [
+          "p0",
+          "p1"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "foreign-source",
+      "expected": {
+        "value": 100,
+        "evidence": [
+          "b0",
+          "b1",
+          "p0",
+          "p1"
+        ]
+      },
+      "actual": {
+        "value": 550.0,
+        "evidence": [
+          "other-source",
+          "p0",
+          "p1"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "weighted-summary",
+      "expected": {
+        "value": 50000,
+        "evidence": [
+          "b0",
+          "b1",
+          "m0",
+          "m1",
+          "p0",
+          "p1"
+        ]
+      },
+      "actual": {
+        "value": 50000.0,
+        "evidence": [
+          "m0",
+          "m1"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "tract-denominator",
+      "expected": {
+        "value": 175,
+        "evidence": [
+          "b0",
+          "b1",
+          "b2",
+          "ct0",
+          "ct1"
+        ]
+      },
+      "actual": {
+        "value": 93.18181818181819,
+        "evidence": [
+          "ct0",
+          "ct1"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "tract-population",
+      "expected": {
+        "value": 30000,
+        "evidence": [
+          "b0",
+          "b1",
+          "b2",
+          "mt0",
+          "mt1",
+          "p0",
+          "p1",
+          "p2"
+        ]
+      },
+      "actual": {
+        "value": 30000.0,
+        "evidence": [
+          "mt0",
+          "mt1"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "missing-area",
+      "expected": {
+        "value": null,
+        "evidence": [
+          "b0",
+          "b1",
+          "p0"
+        ]
+      },
+      "actual": {
+        "value": 50.0,
+        "evidence": [
+          "p0"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "missing-component",
+      "expected": {
+        "value": null,
+        "evidence": [
+          "age0",
+          "age1",
+          "b0",
+          "b1"
+        ]
+      },
+      "actual": {
+        "value": 15.0,
+        "evidence": [
+          "age0",
+          "age1"
+        ]
+      },
+      "passed": false
+    },
+    {
+      "scenario": "health-geometry",
+      "expected": {
+        "value": 30,
+        "evidence": [
+          "b0",
+          "b1",
+          "h0",
+          "h1",
+          "pt0",
+          "pt1",
+          "t0",
+          "t1"
+        ]
+      },
+      "actual": {
+        "value": 30.0,
+        "evidence": [
+          "h0",
+          "h1",
+          "pt0",
+          "pt1"
+        ]
+      },
+      "passed": false
+    }
+  ],
+  "summary": {
+    "passed": 0,
+    "scenarios": 8
+  }
+}

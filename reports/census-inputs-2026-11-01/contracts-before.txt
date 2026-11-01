@@ -1,0 +1,98 @@
+FFFFFFFFFFFF                                                             [100%]
+================================== FAILURES ===================================
+_________ test_context_and_intersection_keep_exact_boundary_identity __________
+tests\unit\test_census_input_contract.py:52: in test_context_and_intersection_keep_exact_boundary_identity
+    assert context is not None and 'boundary_id' in context[0].columns
+E   AssertionError: assert ((   geography_id  ...   snapshot_id\n0  340130001001  ...  synthetic-bg\n1  340130002001  ...  synthetic-bg\n2  340130001...40.734, -74.169 40.736, -74.171 40.736, -74.171 40.734, -...>], <shapely.strtree.STRtree object at 0x000002C5AF114090>) is not None and 'boundary_id' in Index(['geography_id', 'geom_wkt', 'area_m2', 'snapshot_id'], dtype='object'))
+E    +  where Index(['geography_id', 'geom_wkt', 'area_m2', 'snapshot_id'], dtype='object') =    geography_id  ...   snapshot_id\n0  340130001001  ...  synthetic-bg\n1  340130002001  ...  synthetic-bg\n2  340130001002  ...  synthetic-bg\n\n[3 rows x 4 columns].columns
+_____ test_area_count_keeps_arithmetic_and_declares_intersecting_geometry _____
+tests\unit\test_census_input_contract.py:67: in test_area_count_keeps_arithmetic_and_declares_intersecting_geometry
+    assert set(evidence) == {'p0', 'p1', 'b0', 'b1'}
+E   AssertionError: assert {'p0', 'p1'} == {'b0', 'b1', 'p0', 'p1'}
+E
+E     Extra items in the right set:
+E     'b0'
+E     'b1'
+E     Use -v to get more diff
+_ test_other_source_with_the_same_geography_and_variable_cannot_change_acs_count _
+tests\unit\test_census_input_contract.py:75: in test_other_source_with_the_same_geography_and_variable_cannot_change_acs_count
+    assert value == 100
+E   assert 550.0 == 100
+________ test_weighted_summary_declares_population_and_boundary_inputs ________
+tests\unit\test_census_input_contract.py:86: in test_weighted_summary_declares_population_and_boundary_inputs
+    assert set(evidence) == {'m0', 'm1', 'p0', 'p1', 'b0', 'b1'}
+E   AssertionError: assert {'m0', 'm1'} == {'b0', 'b1', ...', 'p0', 'p1'}
+E
+E     Extra items in the right set:
+E     'b0'
+E     'p0'
+E     'p1'
+E     'b1'
+E     Use -v to get more diff
+_ test_tract_fallback_declares_all_denominator_boundaries_without_other_sources _
+tests\unit\test_census_input_contract.py:101: in test_tract_fallback_declares_all_denominator_boundaries_without_other_sources
+    assert value == 175
+E   assert 93.18181818181819 == 175
+_______ test_tract_summary_records_population_outside_the_intersection ________
+tests\unit\test_census_input_contract.py:113: in test_tract_summary_records_population_outside_the_intersection
+    assert set(evidence) == {'mt0', 'mt1', 'p0', 'p1', 'p2', 'b0', 'b1', 'b2'}
+E   AssertionError: assert {'mt0', 'mt1'} == {'b0', 'b1', ...1', 'p0', ...}
+E
+E     Extra items in the right set:
+E     'b1'
+E     'b0'
+E     'p1'
+E     'b2'
+E     'p2'
+E     'p0'
+E     Use -v to get more diff
+_ test_missing_selected_geography_withholds_full_count_but_retains_known_inputs _
+tests\unit\test_census_input_contract.py:120: in test_missing_selected_geography_withholds_full_count_but_retains_known_inputs
+    assert value is None and margin is None and confidence is None
+E   assert (50.0 is None)
+_______ test_duplicate_active_geography_variable_is_not_double_counted ________
+tests\unit\test_census_input_contract.py:129: in test_duplicate_active_geography_variable_is_not_double_counted
+    assert value is None
+E   assert 150.0 is None
+__ test_population_weighting_does_not_silently_drop_missing_or_zero_weights ___
+tests\unit\test_census_input_contract.py:138: in test_population_weighting_does_not_silently_drop_missing_or_zero_weights
+    assert engine._acs_aggregate(conn, weights, 'B19013_001', median=True)[0] is None
+E   assert 20000.0 is None
+______________ test_age_total_requires_every_requested_component ______________
+tests\unit\test_census_input_contract.py:151: in test_age_total_requires_every_requested_component
+    assert value is None
+E   assert 15.0 is None
+_ test_decennial_count_includes_boundary_evidence_and_missing_values_do_not_become_zero _
+tests\unit\test_census_input_contract.py:164: in test_decennial_count_includes_boundary_evidence_and_missing_values_do_not_become_zero
+    assert set(evidence) == {'dc0', 'dc1', 'b0', 'b1'}
+E   AssertionError: assert {'dc0', 'dc1'} == {'b0', 'b1', 'dc0', 'dc1'}
+E
+E     Extra items in the right set:
+E     'b0'
+E     'b1'
+E     Use -v to get more diff
+______ test_health_summary_declares_both_geometry_layers_and_population _______
+tests\unit\test_census_input_contract.py:177: in test_health_summary_declares_both_geometry_layers_and_population
+    assert set(evidence) == {'h0', 'h1', 'pt0', 'pt1', 'b0', 'b1', 't0', 't1'}
+E   AssertionError: assert {'h0', 'h1', 'pt0', 'pt1'} == {'b0', 'b1', ...', 'pt1', ...}
+E
+E     Extra items in the right set:
+E     'b0'
+E     't1'
+E     'b1'
+E     't0'
+E     Use -v to get more diff
+=========================== short test summary info ===========================
+FAILED tests/unit/test_census_input_contract.py::test_context_and_intersection_keep_exact_boundary_identity
+FAILED tests/unit/test_census_input_contract.py::test_area_count_keeps_arithmetic_and_declares_intersecting_geometry
+FAILED tests/unit/test_census_input_contract.py::test_other_source_with_the_same_geography_and_variable_cannot_change_acs_count
+FAILED tests/unit/test_census_input_contract.py::test_weighted_summary_declares_population_and_boundary_inputs
+FAILED tests/unit/test_census_input_contract.py::test_tract_fallback_declares_all_denominator_boundaries_without_other_sources
+FAILED tests/unit/test_census_input_contract.py::test_tract_summary_records_population_outside_the_intersection
+FAILED tests/unit/test_census_input_contract.py::test_missing_selected_geography_withholds_full_count_but_retains_known_inputs
+FAILED tests/unit/test_census_input_contract.py::test_duplicate_active_geography_variable_is_not_double_counted
+FAILED tests/unit/test_census_input_contract.py::test_population_weighting_does_not_silently_drop_missing_or_zero_weights
+FAILED tests/unit/test_census_input_contract.py::test_age_total_requires_every_requested_component
+FAILED tests/unit/test_census_input_contract.py::test_decennial_count_includes_boundary_evidence_and_missing_values_do_not_become_zero
+FAILED tests/unit/test_census_input_contract.py::test_health_summary_declares_both_geometry_layers_and_population
+12 failed in 2.42s
