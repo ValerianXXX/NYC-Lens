@@ -29,10 +29,13 @@ CALCULATION_CODE_FILES = (
     "entities/parcels.py",
     "geocoding/service.py",
     "metrics/engine.py",
+    "paths.py",
     "provenance.py",
     "publication_readiness.py",
     "source_observation.py",
     "spatial/catchments.py",
+    "storage.py",
+    "util.py",
 )
 
 

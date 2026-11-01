@@ -8,6 +8,8 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Iterable
 
+from .paths import filesystem_path
+
 
 def utc_now() -> datetime:
     return datetime.now(UTC)
@@ -28,7 +30,7 @@ def safe_component(value: str) -> str:
 
 def sha256_file(path: Path, chunk_size: int = 1024 * 1024) -> str:
     digest = hashlib.sha256()
-    with path.open("rb") as handle:
+    with filesystem_path(path).open("rb") as handle:
         for chunk in iter(lambda: handle.read(chunk_size), b""):
             digest.update(chunk)
     return digest.hexdigest()

@@ -12,7 +12,7 @@ from typing import Any
 
 import duckdb
 
-from .paths import data_dir, project_home
+from .paths import data_dir, filesystem_path, project_home
 from .publication import atomic_publication
 from .util import new_id, safe_component, sha256_file, utc_now
 
@@ -140,7 +140,9 @@ def external_facts_root() -> Path:
 
 
 def _sql_path(path: Path) -> str:
-    return str(path.resolve()).replace("\\", "/").replace("'", "''")
+    # The Windows extended prefix cannot be converted to forward slashes.
+    # SQL string quoting remains independent of the filesystem representation.
+    return str(filesystem_path(path.resolve())).replace("'", "''")
 
 
 def _quoted_identifier(value: str) -> str:
@@ -179,9 +181,9 @@ def _ensure_empty_parquet(
     root: Path | None = None,
 ) -> Path:
     table_root = _table_root(spec.table_name, root=root)
-    table_root.mkdir(parents=True, exist_ok=True)
+    filesystem_path(table_root).mkdir(parents=True, exist_ok=True)
     empty_path = table_root / "_empty.parquet"
-    if empty_path.is_file():
+    if filesystem_path(empty_path).is_file():
         return empty_path
     select_list = ", ".join(
         f"CAST(NULL AS {data_type}) AS {_quoted_identifier(column)}"
@@ -201,7 +203,7 @@ def _catalog_file(relative: str) -> Path:
     path = project_home() / value
     allowed = [external_facts_root().resolve(), (data_dir() / "standardized/_external_generations").resolve()]
     resolved = path.resolve()
-    if path.is_symlink() or not any(parent in resolved.parents for parent in allowed):
+    if filesystem_path(path).is_symlink() or not any(parent in resolved.parents for parent in allowed):
         raise ValueError("EXTERNAL_CATALOG_PATH_INVALID")
     return path
 
@@ -212,7 +214,7 @@ def _generation_root(table_name: str) -> Path:
     parent = data_dir() / "standardized/_external_generations" / table_name
     result = parent / new_id("generation")
     _assert_within(result, parent)
-    result.mkdir(parents=True, exist_ok=False)
+    filesystem_path(result).mkdir(parents=True, exist_ok=False)
     return result
 
 
@@ -228,12 +230,15 @@ def external_parquet_files(table_name: str, *, root: Path | None = None,
             files = []
             for relative, _, size in rows:
                 path = _catalog_file(str(relative))
-                if not path.is_file() or path.stat().st_size != int(size):
+                io_path = filesystem_path(path)
+                if not io_path.is_file() or io_path.stat().st_size != int(size):
                     raise ValueError("EXTERNAL_ACTIVE_FILE_UNAVAILABLE")
                 files.append(path)
             seed = _table_root(table_name) / "_empty.parquet"
-            return [seed, *files] if seed.is_file() else files
-    return sorted(_table_root(table_name, root=root).rglob("*.parquet"))
+            return [seed, *files] if filesystem_path(seed).is_file() else files
+    logical_root = _table_root(table_name, root=root)
+    io_root = filesystem_path(logical_root)
+    return sorted(logical_root / path.relative_to(io_root) for path in io_root.rglob("*.parquet"))
 
 
 def _read_parquet_expression(files: list[Path]) -> str:
@@ -346,7 +351,7 @@ def _write_source_partitions(
         if record_year != "unknown" and not re.fullmatch(r"\d{4}", record_year):
             raise ValueError(f"Unexpected partition year for {spec.table_name}: {record_year}")
         year_dir = destination / f"year={record_year}"
-        year_dir.mkdir(parents=True, exist_ok=True)
+        filesystem_path(year_dir).mkdir(parents=True, exist_ok=True)
         buckets = max(1, math.ceil(row_count / MAX_ROWS_PER_FILE))
         year_filter = (
             f"{date_sql} IS NULL" if record_year == "unknown"
@@ -365,7 +370,7 @@ def _write_source_partitions(
                 """,
                 [source_id],
             )
-            byte_size = output.stat().st_size
+            byte_size = filesystem_path(output).stat().st_size
             if byte_size >= MAX_SINGLE_FILE_BYTES:
                 raise ValueError(f"External partition exceeds 5 GB safety cap: {output}")
             file_count, distinct_ids, minimum, maximum = conn.execute(
@@ -425,7 +430,7 @@ def rebuild_external_catalog(
     previous = {"relative_path": str(prior[0]) + "/_manifest.json", "sha256": str(prior[1])} if prior else None
     if previous:
         prior_manifest = _catalog_file(previous["relative_path"])
-        if not prior_manifest.is_file() or sha256_file(prior_manifest) != previous["sha256"]:
+        if not filesystem_path(prior_manifest).is_file() or sha256_file(prior_manifest) != previous["sha256"]:
             raise ValueError("EXTERNAL_ACTIVE_MANIFEST_MISMATCH")
     manifest_root = manifest_root or _generation_root(table_name)
     _assert_within(manifest_root, data_dir() / "standardized/_external_generations" / table_name)
@@ -459,7 +464,7 @@ def rebuild_external_catalog(
                 "relative_path": relative_path,
                 "row_count": int(row_count),
                 "distinct_id_count": int(distinct_count),
-                "byte_size": path.stat().st_size,
+                "byte_size": filesystem_path(path).stat().st_size,
                 "sha256": path_sha256,
                 "min_record_date": minimum,
                 "max_record_date": maximum,
@@ -487,7 +492,7 @@ def rebuild_external_catalog(
         ],
     }
     manifest_path = manifest_root / "_manifest.json"
-    with manifest_path.open("x", encoding="utf-8", newline="\n") as stream:
+    with filesystem_path(manifest_path).open("x", encoding="utf-8", newline="\n") as stream:
         stream.write(json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True))
         stream.flush()
         os.fsync(stream.fileno())
@@ -570,7 +575,7 @@ def replace_source_from_relation(
     source_slug = safe_component(source_id)
     region_slug = safe_component(region)
     staged_source = generation_root / f"region={region_slug}" / f"source={source_slug}"
-    staged_source.mkdir(parents=True, exist_ok=False)
+    filesystem_path(staged_source).mkdir(parents=True, exist_ok=False)
     entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)
     if sum(item["row_count"] for item in entries) != incoming:
         raise ValueError(f"External staging row mismatch for {table_name}/{source_id}")
