@@ -72,7 +72,11 @@ def test_actual_interpreter_is_owned_before_payload_even_with_delayed_assignment
         thread.join(10)
         if handle:
             # Only the exact process from this fixture's retained handle.
-            if native.WaitForSingleObject(handle, 0) != 0:
-                assert native.TerminateProcess(handle, 1)
-                native.WaitForSingleObject(handle, 5000)
-            native.CloseHandle(handle)
+            try:
+                if native.WaitForSingleObject(handle, 0) != 0:
+                    # The launcher may already be terminating its interpreter.
+                    # Observe actual exit even if that racing terminate fails.
+                    native.TerminateProcess(handle, 1)
+                    assert native.WaitForSingleObject(handle, 5000) == 0
+            finally:
+                native.CloseHandle(handle)
