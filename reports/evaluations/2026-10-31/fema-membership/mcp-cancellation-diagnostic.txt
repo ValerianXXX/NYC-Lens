@@ -1,0 +1,19 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <WORKSPACE>\NYC-Lens-fema-membership
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 2 items
+
+tests/unit/test_analysis_jobs.py::test_actual_mcp_client_cancellation_stops_worker[2026-07-28] PASSED [ 50%]
+tests/unit/test_analysis_jobs.py::test_actual_mcp_client_cancellation_stops_worker[legacy] PASSED [100%]
+
+============================= 2 passed in 33.45s ==============================
+{
+  "exitCode": 0,
+  "observedExceptionTypes": [
+    "FileNotFoundError",
+    "FileNotFoundError"
+  ]
+}

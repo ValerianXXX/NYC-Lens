@@ -1,0 +1,297 @@
+{
+  "schemaVersion": 1,
+  "observedAtUtc": "2026-11-01T01:40:31.662520+00:00",
+  "status": "FOCUSED_CONTRACTS_PASS_INITIAL_FULL_HAS_ONE_CLEANUP_FAILURE_REGIONAL_INCOMPLETE_FINAL_FULL_PENDING",
+  "repository": "ValerianXXX/NYC-Lens",
+  "branch": "codex/fema-id-retrieval-20261031",
+  "baseCommit": "6b194dfafbedccc7607cc0ba875a1c2ce45f50ec",
+  "membershipRuntime": "f62e3ace65840580077c676480d71581e0e9e90e",
+  "finalRuntime": "67b1ee372dd6acfb97b9bae81edb89ea812829d5",
+  "frozenMembershipCommit": "f7683b4f02612d13eb09ef3fc0f71a9cb3c25615",
+  "frozenIdentityCommit": "76d7d9585312c78db1c697199946aa778924241a",
+  "frozenIdRetrievalCommit": "63399fd0f632546b4532652ad0cce2078c91b65e",
+  "before": {
+    "membershipFailed": 6,
+    "incorrectPublicationCases": 5,
+    "missingCoverageReceiptCases": 1,
+    "identityFailed": 1,
+    "retainedOfThreeDistinctPolygons": 1,
+    "idRequestWorkflowFailed": 1,
+    "testAssertionsUnchanged": true
+  },
+  "afterAtMembershipRuntime": {
+    "frozenPassed": 7,
+    "seconds": 35.2,
+    "relatedPassed": 129,
+    "relatedWarnings": 1,
+    "relatedSeconds": 484.28,
+    "full": {
+      "runtime": "f62e3ace65840580077c676480d71581e0e9e90e",
+      "passed": 460,
+      "failed": 1,
+      "skipped": 3,
+      "warnings": 91,
+      "seconds": 1457.95,
+      "skips": "Existing complete-local-data prerequisites",
+      "finalRuntimeFullPassTransferred": false,
+      "failure": "2026-07-28 MCP cancellation stopped the worker but database_cleanup_confirmed was false",
+      "diagnostic": "Both unchanged MCP modes passed in 33.45s with exception observation; original cleanup failure not reproduced or explained",
+      "originalAssertionKept": true,
+      "rootCauseResolved": false
+    }
+  },
+  "afterAtFinalRuntime": {
+    "femaPassed": 58,
+    "femaSeconds": 55.71,
+    "publicationPassed": 29,
+    "publicationSeconds": 433.98,
+    "allThreeFrozenTestFilesUnchanged": true,
+    "currentConfigPassed": 35,
+    "currentConfigSeconds": 35.27,
+    "fullFinalHosted": "PENDING_DRAFT_PR",
+    "fullFinalLocal": "PLANNED_WITH_EXCEPTION_OBSERVATION_AFTER_DELIVERY_COMMIT"
+  },
+  "realPublicObservation": {
+    "smallProbeHttpRequests": 6,
+    "smallProbeMembers": 5,
+    "smallProbeDistinctGlobalIds": 5,
+    "smallProbeSharedGfidCount": 1,
+    "singleIdDiagnosticMembers": 355,
+    "officialCensusDownloads": 2,
+    "retainedActualBytesOfflineReplay": "PASS; zero new requests or catalog writes",
+    "regionalCampaign": {
+      "requests": 82,
+      "decodedBytes": 41847574,
+      "requestLimit": 512,
+      "decodedByteLimit": 2000000000,
+      "automaticRetries": false
+    },
+    "regionalAttemptStatuses": [
+      "INCOMPLETE",
+      "INCOMPLETE",
+      "INCOMPLETE",
+      "INCOMPLETE"
+    ],
+    "regionalFailureKinds": [
+      "HARNESS_30_SECOND_READ_TIMEOUT",
+      "UPSTREAM_HTTP_500",
+      "LOCAL_WINDOWS_PATH_WRITE_FAILURE_AFTER_HTTP_200",
+      "UPSTREAM_HTTP_500"
+    ],
+    "acceptedCountyBoundariesPerAttempt": 31,
+    "publishedFemaPolygonsPerAttempt": 0,
+    "causalLatencyGainEstablished": false,
+    "regionalAdapterAcceptance": false,
+    "completeProductDataAvailable": false,
+    "tradeAreaConclusion": false
+  },
+  "wheel": {
+    "filename": "nyc_lens-0.2.0-py3-none-any.whl",
+    "sha256": "bd50fd47e98c8cd28bc0e4b1e2ddc2bacaee2f41b3a2f4314031f103319014a1",
+    "bytes": 288090,
+    "changedRuntimeBytesMatch": true,
+    "published": false,
+    "trustedProductionSigning": false
+  },
+  "initialBuildFailure": "The test interpreter lacks wheel and has an older setuptools; original failed metadata-generation log retained. Build rerun in a separate existing prepared build environment; no changes to the active test interpreter.",
+  "buildBackendEnvironment": {
+    "setuptools": "80.10.2",
+    "wheel": "0.48.0",
+    "pip": "22.3.1",
+    "dependencyDownloads": 0
+  },
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "geopandas": "1.2.0",
+    "httpx": "0.28.1",
+    "pandas": "2.3.3",
+    "pyarrow": "22.0.0"
+  },
+  "compatibility": {
+    "schemaMigration": false,
+    "newDependencies": false,
+    "newConfigurationVariables": false,
+    "addedResultKey": "response_coverage",
+    "addedManifestInputRole": "membership",
+    "geometryIdentityFallbackChanged": "Never use shared GFID; scoped flood-area/object ID fallback",
+    "originalRegionalFloorsAndTransactionRulesRetained": true,
+    "configChange": "Descriptive FEMA retrieval method and upstream limitations only; endpoint and numeric rules unchanged",
+    "windowsLongPaths": "Known unsupported host configuration; short isolated home workaround observed; general support unverified"
+  },
+  "officialReferences": {
+    "checkedOn": "2026-10-31 America/New_York",
+    "query": "https://developers.arcgis.com/rest/services-reference/enterprise/query-map-service-layer/",
+    "metadata": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28?f=json"
+  },
+  "sourceSha256": {
+    "src/nyc_lens/ingest/fema.py": "dad88ae3a79a623b93ae8d5ae87fd991fa12265360ee08dccc4416f0165ecd2d",
+    "src/nyc_lens/ingest/fema_query.py": "035f4bf32800a041992f098ca2a75dd75ada9a09032e2f30813f7ba0bc6bef19",
+    "src/nyc_lens/ingest/source_response.py": "1f332a2cc7378e21060eeb173dade780f087c879f04880512df3855131c2eded",
+    "src/nyc_lens/ingest/geojson.py": "ae6552c0118100dce1d7bbfa6531be09d5a5077ef327f8215f6720c922752a0f",
+    "src/nyc_lens/ingest/multisnapshot.py": "7c13d978661db1e6a487f2c4b7ef5fa9e7a02593a6a7e02cfaed5996b762476e",
+    "tests/unit/test_fema_membership.py": "be7b102402a4476ac3a4cc104cdc18fe1fee8cdda68bd759d5bec16796ffe143",
+    "tests/unit/test_fema_source_identity.py": "b8ea977df4a4460272e3c9c2b0f3a4fa682dc3a37f204dabf4bd00de4d3ae88a",
+    "tests/unit/test_fema_response_contract.py": "e77edc3cbe8b9037f838de9146909553bf512334f05d2f606bbe72ffec386851",
+    "tests/unit/test_fema_id_retrieval.py": "de78a82811cfc52582366554191bde472ab131ce6b113eb74ede272bd195f83e",
+    "config/sources.yml": "ac7eb80af89257eeff57870c6d75a19d16790748e956bb11ac6210343474716d",
+    ".github/workflows/tests.yml": "cf9207588e319fb4327a3a0a3973c804fe16c8149db74fc06640b9b3bf11c537",
+    "scripts/verify_fema_observations.py": "6991ded0cc9f4226500e2a7c28c6f4ac92ddb959ca3447a535d1dfe9e6a5db15"
+  },
+  "logs": {
+    "membership-before.txt": {
+      "sha256": "dbb226e31dad20cda9a023b49f8742828028a689e006309b1cbe4d0b879561ab",
+      "originalLocalLogSha256": "780d8c1d9b392fff1f29cad6cfcba7e8b5398b549445f3a3e2b79e5f62e75de8"
+    },
+    "identity-before.txt": {
+      "sha256": "311507b3c5c065c9b422c7e41e98df8383600bc78f00d4820b7448fdad6886a2",
+      "originalLocalLogSha256": "adf482ac2cde4ebd093179de31cb1b72c85fe66ea1654b25d916ec75ae9be2a5"
+    },
+    "frozen-after.txt": {
+      "sha256": "5dac07287cd65b30f817479e822c37b1e0f0ba67395f905633763cdfa0113d2c",
+      "originalLocalLogSha256": "424abf280b43225442e90bbbc6cece3266a14aa6d72426e91ce3143b4b2ff0df"
+    },
+    "related-initial.txt": {
+      "sha256": "44ae5a6c9221a249c24dda4cf4e83f8cdcd11c97985b45a52eb833a7d339b5bc",
+      "originalLocalLogSha256": "5fd503d0b55dd003701dfdb06c5dda2fd26ac59d08e167e2f7d22741d878b9a2"
+    },
+    "id-request-before.txt": {
+      "sha256": "f0e409f55588cfbc7ed061ef8f183461103431b15a0c316768b162687d1ac41c",
+      "originalLocalLogSha256": "1beb91e085fd27a40ff5864432196bb9c90937ff0f3c6f065d7ed85415e71799"
+    },
+    "final-fema.txt": {
+      "sha256": "661d0bf5eaba96a59b311b1769dbfe4ea467a272d9692a25e537079dae948dd8",
+      "originalLocalLogSha256": "2515957ea573fa1a0394bf8a66d9095f7b3f9abe29a18fe71a9cf54a8050b66f"
+    },
+    "final-publication.txt": {
+      "sha256": "dfd1e1fa4e8be8ea7f4a30631e003fc3cda5a797597af5fa0c9251eabf166394",
+      "originalLocalLogSha256": "6ef1486f73630ac27ae89022ac123a4049265b6e2f680918410fd2cadbdacdeb"
+    },
+    "full-at-membership-runtime.txt": {
+      "sha256": "18b0de950ae106f352ba844a6b7196ae1280f8405216566e253c05d8a68333d5",
+      "originalLocalLogSha256": "8a748c4a4c4cb49d49c562672914414a5e2ad77c3c430107bdbbda7689d0a085"
+    },
+    "mcp-cancellation-diagnostic.txt": {
+      "sha256": "feb9f511cc5eaf959a51467c6d39efa54abceba70348eddc0e52d8dd087b2034",
+      "originalLocalLogSha256": "6b5c90a2ccfb653d841d6e844713033efc1bbb65119359ab8105bf1e49b74ac7"
+    },
+    "public-offline-replay.txt": {
+      "sha256": "bdc19e638ea3cf833a907e54cf0dc06b990529f46c3644bb92b34fe0011b6187",
+      "originalLocalLogSha256": "0840f356fedb6dda2a99d786bd172355988b0ef0de0129241547b686f5d944d5"
+    },
+    "initial-wheel-build.txt": {
+      "sha256": "966f024e545d07eec5673357480288202668af6cc5186ae7ce49b2124f5a398c",
+      "originalLocalLogSha256": "d3c5d3b844a3af12edd7fa4d3594de3a37bf6c5769627ba0878592dfb263bc1e"
+    },
+    "wheel-build.txt": {
+      "sha256": "0cf98fc05bbab8226d8002a0475ff619c16be1ffcf0aae94482dd5b4670671b2",
+      "originalLocalLogSha256": "6d1ba85f97c6fba5b2f0c10ae2ce9822700097b5b6734b5dfdc18d243c8195b5"
+    },
+    "final-config.txt": {
+      "sha256": "303c84a9ad6dec67dff17638ddc02d23901e49854f2b96d3ea64b377a7b33ee7",
+      "originalLocalLogSha256": "1573c984a7c1f6730180a4b40f1bd949072dcc1c0fbefaffafee704f747d5d6a"
+    },
+    "initial-config-invocation.txt": {
+      "sha256": "6ff534edc37cf85d15793f6f6da5013f6e3d3a929a80759c56327309d2dcc58c",
+      "originalLocalLogSha256": "90a43786e4e4fdfa414747e639359c8d0d1f9cd561e25b55169debc68f34f531"
+    }
+  },
+  "publicArtifacts": {
+    "public/.gitattributes": {
+      "sha256": "cfb2d3ff5c7c231ead9bb25477f08e9424de2ee96cbc74b1a8bc327cfc4fa4af",
+      "bytes": 17
+    },
+    "public/census-retrieval.json": {
+      "sha256": "12ee416d70b1a883031b5ada1ae5f11a0fe91a2c9eeda196c599f95ca8457eee",
+      "bytes": 1582
+    },
+    "public/layer-metadata.response": {
+      "sha256": "217a61bbf81aa87380b8441b749e3810b1ff39746299d073ee22a52b830ae4c9",
+      "bytes": 60213
+    },
+    "public/metadata-observation.json": {
+      "sha256": "d01940a23df55963628fcc9c947cfd10f9e673ca4ebb47a3e439de45bbb30a3e",
+      "bytes": 2123
+    },
+    "public/README.md": {
+      "sha256": "40068ab480700235accda2f56298468af26c52d902abf46443fd88f1bd0f3ae0",
+      "bytes": 1793
+    },
+    "public/regional-attempts.json": {
+      "sha256": "ae157fffb18a3fef1c42b4821abb4c6d13c1577e22b97be36e3a7c04e980dfd2",
+      "bytes": 56436
+    },
+    "public/response-index.json": {
+      "sha256": "e8790391cebe07d5f27bb639fefa207e137ff27242ecb3e648c0a33759145dd1",
+      "bytes": 1329
+    },
+    "public/same-ids-features.response": {
+      "sha256": "cc92cb921e4eba45ea7e3e541ebdc67cbf98a8e5ffc7a73072fcb87955f4e59c",
+      "bytes": 622990
+    },
+    "public/same-ids-observation.json": {
+      "sha256": "62386155eb7eb397c9e4b9a09a87843d7bb1ff79a7b6939876afd85031a72770",
+      "bytes": 4068
+    },
+    "public/tiny-candidate-validation.json": {
+      "sha256": "d8fccb13bfd340a6ab1dd3227c5c2a81d3177d44578ec821b85b0397195c08c8",
+      "bytes": 816
+    },
+    "public/tiny-count-after.response": {
+      "sha256": "a7b59f14220279bf034e35863bb5c8f0e489b130e214b6eead2d04fe26f2ea8b",
+      "bytes": 11
+    },
+    "public/tiny-count-before.response": {
+      "sha256": "a7b59f14220279bf034e35863bb5c8f0e489b130e214b6eead2d04fe26f2ea8b",
+      "bytes": 11
+    },
+    "public/tiny-features.response": {
+      "sha256": "5e45a05ab31e62eac64b75f9d17b03e74cb71f982748e8a994d2f1853bfe8b9b",
+      "bytes": 137344
+    },
+    "public/tiny-ids-after.response": {
+      "sha256": "f5e33794384cff4a2eb941b6382db41fb78c3b85bf19f4a32009aa718b5c21f3",
+      "bytes": 86
+    },
+    "public/tiny-ids-before.response": {
+      "sha256": "f5e33794384cff4a2eb941b6382db41fb78c3b85bf19f4a32009aa718b5c21f3",
+      "bytes": 86
+    },
+    "public/tiny-observation.json": {
+      "sha256": "d6a449fc4a6b05e1a2ea8303aff025769bfe676d2d7af1a07092fab8ac62568a",
+      "bytes": 6038
+    },
+    "public/windows-path-observation.json": {
+      "sha256": "2f1f42694f923e4884f8744abf4f28804107668de7a6c4550ab9cce65a4636c3",
+      "bytes": 655
+    }
+  },
+  "portableProcessing": "Local path/user placeholders; UTF-8 LF and trailing display whitespace normalized; original logs retained and hashed; raw .response bytes unchanged",
+  "packagingSetupFailures": {
+    "status": "LOCAL_EXPORT_REDACTION_ASSERTION_FAILED_BEFORE_REGIONAL_FILE_WRITE",
+    "cause": "FileNotFoundError repr paths contain doubled separators which JSON serialization escapes again; the first sanitizer handled fewer levels",
+    "affectedProductCode": false,
+    "published": false,
+    "networkRequests": 0,
+    "fix": "Handle the additional escaped representation, retain the no-personal-path assertion, and permit only byte-identical reuse of already prepared public files",
+    "firstResume": "Stopped at CRLF versus LF attribute-file comparison; subsequently compare its universal-newline text and normalize only this authored .gitattributes file to LF, leaving every raw response unchanged",
+    "logExport": "A later log-export guard rejected lowercase Windows paths from pip. Fixed case-insensitive path matching; serialize and validate before opening output; only empty owned export targets or byte-identical existing outputs can be resumed. No unsafe log was written."
+  },
+  "initialConfigInvocation": "Incorrect test filename: exit 4, zero tests. Original output retained separately before the correct three existing configuration files were run.",
+  "newModelCalls": 0,
+  "newIndependentUsers": 0,
+  "newBrowserSession": false,
+  "productionActions": 0,
+  "M3_complete": false,
+  "wholeGoalComplete": false,
+  "remaining": [
+    "Unexplained initial MCP cancellation cleanup failure; retain all original assertions and diagnose in final full run",
+    "Regional upstream acceptance and full dataset",
+    "Final exact-head local and hosted checks",
+    "Same-ID changes outside observations and nontransactional upstream service",
+    "General Windows long-path behavior, ingest transport/disk/retention limits",
+    "All-adapter/source-row provenance and original twelve scenarios",
+    "Independent-user and complete real business-flow acceptance"
+  ]
+}

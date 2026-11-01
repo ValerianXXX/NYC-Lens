@@ -1,0 +1,10 @@
+{
+  "status": "RETAINED_PUBLIC_BYTES_OFFLINE_VALIDATION_PASS",
+  "tinyExactMembers": 5,
+  "singleQueryExactMembers": 355,
+  "candidateChunkSize": 500,
+  "networkCalls": 0,
+  "databaseWrites": 0,
+  "fullRegionalAcceptance": false,
+  "locationConclusion": false
+}

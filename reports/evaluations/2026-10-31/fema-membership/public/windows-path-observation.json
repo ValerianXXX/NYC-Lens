@@ -1,0 +1,30 @@
+{
+  "checkedAtUtc": "2026-11-01T01:25:38.506227+00:00",
+  "networkCalls": 0,
+  "systemSettingsChanged": false,
+  "observations": [
+    {
+      "kind": "normal_long_path",
+      "characters": 263,
+      "existsBefore": false,
+      "status": "WRITE_FAILED",
+      "type": "FileNotFoundError",
+      "errno": 2,
+      "winerror": null
+    },
+    {
+      "kind": "extended_long_path",
+      "characters": 267,
+      "existsBefore": false,
+      "status": "WRITE_SUCCEEDED",
+      "bytes": 32
+    },
+    {
+      "kind": "short_home_probe",
+      "characters": 114,
+      "existsBefore": false,
+      "status": "WRITE_SUCCEEDED",
+      "bytes": 32
+    }
+  ]
+}

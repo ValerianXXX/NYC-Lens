@@ -1,0 +1,127 @@
+{
+  "observedAtUtc": "2026-11-01T00:46:26.496331+00:00",
+  "requestLimit": 5,
+  "maxFeatures": 100,
+  "purpose": "Bounded public API observation, not a location conclusion",
+  "productionCatalogChanged": false,
+  "modelCalls": 0,
+  "requests": [
+    {
+      "label": "count-before",
+      "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+      "parameters": {
+        "where": "SFHA_TF='T'",
+        "geometry": "-74.016,40.702,-74.012,40.706",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "f": "json",
+        "returnCountOnly": "true",
+        "returnGeometry": "false"
+      },
+      "observedAtUtc": "2026-11-01T00:46:26.804356+00:00",
+      "byteLimit": 2000000,
+      "httpStatus": 200,
+      "finalUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?where=SFHA_TF%3D%27T%27&geometry=-74.016%2C40.702%2C-74.012%2C40.706&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&f=json&returnCountOnly=true&returnGeometry=false",
+      "seconds": 0.21899999992456287,
+      "bytes": 11,
+      "sha256": "a7b59f14220279bf034e35863bb5c8f0e489b130e214b6eead2d04fe26f2ea8b",
+      "file": "count-before.response"
+    },
+    {
+      "label": "ids-before",
+      "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+      "parameters": {
+        "where": "SFHA_TF='T'",
+        "geometry": "-74.016,40.702,-74.012,40.706",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "f": "json",
+        "returnIdsOnly": "true",
+        "returnGeometry": "false"
+      },
+      "observedAtUtc": "2026-11-01T00:46:27.023345+00:00",
+      "byteLimit": 2000000,
+      "httpStatus": 200,
+      "finalUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?where=SFHA_TF%3D%27T%27&geometry=-74.016%2C40.702%2C-74.012%2C40.706&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&f=json&returnIdsOnly=true&returnGeometry=false",
+      "seconds": 0.0779999999795109,
+      "bytes": 86,
+      "sha256": "f5e33794384cff4a2eb941b6382db41fb78c3b85bf19f4a32009aa718b5c21f3",
+      "file": "ids-before.response"
+    },
+    {
+      "label": "features",
+      "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+      "parameters": {
+        "where": "SFHA_TF='T'",
+        "geometry": "-74.016,40.702,-74.012,40.706",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "f": "geojson",
+        "objectIds": "4443202,4443573,4444030,4445112,4445242",
+        "outFields": "OBJECTID,DFIRM_ID,FLD_AR_ID,FLD_ZONE,ZONE_SUBTY,SFHA_TF,GFID,GlobalID",
+        "returnGeometry": "true",
+        "outSR": "4326",
+        "geometryPrecision": 5,
+        "maxAllowableOffset": 1e-05
+      },
+      "observedAtUtc": "2026-11-01T00:46:27.106361+00:00",
+      "byteLimit": 20000000,
+      "httpStatus": 200,
+      "finalUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?where=SFHA_TF%3D%27T%27&geometry=-74.016%2C40.702%2C-74.012%2C40.706&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&f=geojson&objectIds=4443202%2C4443573%2C4444030%2C4445112%2C4445242&outFields=OBJECTID%2CDFIRM_ID%2CFLD_AR_ID%2CFLD_ZONE%2CZONE_SUBTY%2CSFHA_TF%2CGFID%2CGlobalID&returnGeometry=true&outSR=4326&geometryPrecision=5&maxAllowableOffset=1e-05",
+      "seconds": 0.15600000007543713,
+      "bytes": 137344,
+      "sha256": "5e45a05ab31e62eac64b75f9d17b03e74cb71f982748e8a994d2f1853bfe8b9b",
+      "file": "features.response"
+    },
+    {
+      "label": "ids-after",
+      "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+      "parameters": {
+        "where": "SFHA_TF='T'",
+        "geometry": "-74.016,40.702,-74.012,40.706",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "f": "json",
+        "returnIdsOnly": "true",
+        "returnGeometry": "false"
+      },
+      "observedAtUtc": "2026-11-01T00:46:27.265723+00:00",
+      "byteLimit": 2000000,
+      "httpStatus": 200,
+      "finalUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?where=SFHA_TF%3D%27T%27&geometry=-74.016%2C40.702%2C-74.012%2C40.706&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&f=json&returnIdsOnly=true&returnGeometry=false",
+      "seconds": 0.06299999996554106,
+      "bytes": 86,
+      "sha256": "f5e33794384cff4a2eb941b6382db41fb78c3b85bf19f4a32009aa718b5c21f3",
+      "file": "ids-after.response"
+    },
+    {
+      "label": "count-after",
+      "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+      "parameters": {
+        "where": "SFHA_TF='T'",
+        "geometry": "-74.016,40.702,-74.012,40.706",
+        "geometryType": "esriGeometryEnvelope",
+        "inSR": "4326",
+        "spatialRel": "esriSpatialRelIntersects",
+        "f": "json",
+        "returnCountOnly": "true",
+        "returnGeometry": "false"
+      },
+      "observedAtUtc": "2026-11-01T00:46:27.331799+00:00",
+      "byteLimit": 2000000,
+      "httpStatus": 200,
+      "finalUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?where=SFHA_TF%3D%27T%27&geometry=-74.016%2C40.702%2C-74.012%2C40.706&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&f=json&returnCountOnly=true&returnGeometry=false",
+      "seconds": 0.0779999999795109,
+      "bytes": 11,
+      "sha256": "a7b59f14220279bf034e35863bb5c8f0e489b130e214b6eead2d04fe26f2ea8b",
+      "file": "count-after.response"
+    }
+  ],
+  "initialCount": 5,
+  "collectedFeatureCount": 5,
+  "status": "COLLECTED_FOR_PRODUCT_VALIDATOR; not full-adapter or stable-source acceptance"
+}

@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "files": {
+    "layer-metadata.response": {
+      "bytes": 60213,
+      "sha256": "217a61bbf81aa87380b8441b749e3810b1ff39746299d073ee22a52b830ae4c9"
+    },
+    "tiny-count-before.response": {
+      "bytes": 11,
+      "sha256": "a7b59f14220279bf034e35863bb5c8f0e489b130e214b6eead2d04fe26f2ea8b"
+    },
+    "tiny-ids-before.response": {
+      "bytes": 86,
+      "sha256": "f5e33794384cff4a2eb941b6382db41fb78c3b85bf19f4a32009aa718b5c21f3"
+    },
+    "tiny-features.response": {
+      "bytes": 137344,
+      "sha256": "5e45a05ab31e62eac64b75f9d17b03e74cb71f982748e8a994d2f1853bfe8b9b"
+    },
+    "tiny-ids-after.response": {
+      "bytes": 86,
+      "sha256": "f5e33794384cff4a2eb941b6382db41fb78c3b85bf19f4a32009aa718b5c21f3"
+    },
+    "tiny-count-after.response": {
+      "bytes": 11,
+      "sha256": "a7b59f14220279bf034e35863bb5c8f0e489b130e214b6eead2d04fe26f2ea8b"
+    },
+    "same-ids-features.response": {
+      "bytes": 622990,
+      "sha256": "cc92cb921e4eba45ea7e3e541ebdc67cbf98a8e5ffc7a73072fcb87955f4e59c"
+    }
+  },
+  "source": "FEMA public NFHL layer 28",
+  "observedOn": "2026-10-31 America/New_York",
+  "originalResponsesRetainedByteForByte": true,
+  "rawResponseLicense": "Upstream public data terms remain applicable",
+  "locationConclusion": false,
+  "fullRegionalAcceptance": false
+}

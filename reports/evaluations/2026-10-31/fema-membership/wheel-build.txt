@@ -1,0 +1,9 @@
+Processing <WORKSPACE>\nyc-lens-fema-id-retrieval
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: nyc-lens
+  Building wheel for nyc-lens (pyproject.toml): started
+  Building wheel for nyc-lens (pyproject.toml): finished with status 'done'
+  Created wheel for nyc-lens: filename=nyc_lens-0.2.0-py3-none-any.whl size=288090 sha256=bd50fd47e98c8cd28bc0e4b1e2ddc2bacaee2f41b3a2f4314031f103319014a1
+  Stored in directory: <USER_HOME>\appdata\local\pip\cache\wheels\8a\b9\20\c2d58470daf6f93e183b24949aa4af161d1784f8f8f95b21e1
+Successfully built nyc-lens

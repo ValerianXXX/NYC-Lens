@@ -1,0 +1,10 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+_ test_missing_global_id_does_not_collapse_distinct_flood_areas_with_shared_gfid _
+tests\unit\test_fema_source_identity.py:20: in test_missing_global_id_does_not_collapse_distinct_flood_areas_with_shared_gfid
+    assert len(result) == 3
+E   assert 1 == 3
+E    +  where 1 = len(                         boundary_id  ... max_latitude\n0  boundary_de65e74c1e82ac6b6e6da29a  ...      40.0107\n\n[1 rows x 19 columns])
+=========================== short test summary info ===========================
+FAILED tests/unit/test_fema_source_identity.py::test_missing_global_id_does_not_collapse_distinct_flood_areas_with_shared_gfid
+1 failed in 5.49s

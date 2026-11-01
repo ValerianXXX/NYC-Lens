@@ -18,6 +18,8 @@ The current release covers the five boroughs of New York City and the 30 county 
 
 TIGER block groups and FEMA flood polygons now prepare separate exports for each ingestion run, retain their multiple source snapshots and historical lineage, and publish data/completion together. A local manifest links the inputs and export hash; it is not independent source evidence. [Multi-file recovery and compatibility](docs/multisnapshot-publication-2026-10-31.md) records the synthetic checks, cache accounting and remaining live-source limits.
 
+FEMA retrieval now checks exact object-ID membership before/after bounded downloads, rejects incomplete or conflicting pages before publication, and keeps distinct flood areas when `GFID` is shared. Geometry requests use selected IDs without repeating spatial filters. [Membership, identity and real-interface observations](docs/fema-membership-2026-10-31.md) record actual public-data probes, regional failures, unchanged coverage floors and remaining full-data acceptance. These checks are not real trade-area conclusions.
+
 ## What it does
 
 - Standardizes public addresses and resolves coordinates, Census geography, state, county, and NYC tax lots where available.
@@ -33,7 +35,7 @@ TIGER block groups and FEMA flood polygons now prepare separate exports for each
 
 ## Why the 17 GB local data directory is not in Git
 
-An earlier local build documented roughly 17 GB of downloaded and standardized data, including a DuckDB catalog of roughly 4.8 GB. That complete dataset is unavailable in the current validation workspace; this milestone uses explicitly synthetic data. It is intentionally excluded from Git for three reasons:
+An earlier local build documented roughly 17 GB of downloaded and standardized data, including a DuckDB catalog of roughly 4.8 GB. That complete dataset is unavailable in the current validation workspace. Automated product scenarios use explicitly synthetic data; separately retained official Census files and bounded FEMA observations cover only part of the real data requirements. The full dataset is intentionally excluded from Git for three reasons:
 
 1. GitHub blocks regular Git files larger than 100 MiB and recommends keeping repositories far smaller than this dataset.
 2. Several upstream sources require source-specific attribution or have terms that should not be replaced by a blanket redistribution license.

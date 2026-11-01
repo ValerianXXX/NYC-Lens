@@ -835,9 +835,9 @@ sources:
     temporal_precision: current service snapshot at retrieval time
     license: U.S. federal public data; FEMA attribution and source/disclaimer retained
     estimated_size: preflight envelope count was 169587 for all flood-zone records; filtered SFHA Raw pages and standardized geometry are expected under 2 GB
-    incremental_method: county-envelope count preflight, stable OBJECTID pagination, exact CSA-union clipping and GlobalID/FLD_AR_ID deduplication; retain every Raw response and hash
+    incremental_method: county-envelope counts and OBJECTID manifests before explicit-ID geometry chunks; recheck all memberships and counts after download; exact CSA-union clipping and validated polygon identities; retain raw responses and hashes
     last_successful_update: null
-    known_limitations: NFHL coverage and effective-study dates vary; overlap is a screening fact, not an insurance, engineering, legal, regulatory, expected-loss or parcel-level determination.
+    known_limitations: NFHL coverage and effective-study dates vary; membership checks are not an atomic upstream snapshot and can miss unobserved same-ID edits. Overlap is a screening fact, not an insurance, engineering, legal, regulatory, expected-loss or parcel-level determination.
   cdc_places_2025_tract:
     name: "PLACES: Census Tract Data (GIS Friendly Format), 2025 release"
     steward: Centers for Disease Control and Prevention, Division of Population Health
