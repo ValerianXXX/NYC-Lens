@@ -13,6 +13,12 @@ from shapely.geometry.base import BaseGeometry
 from shapely.ops import transform
 from shapely.strtree import STRtree
 
+from .census import (
+    _acs_context, _decennial_context, _acs_weights,
+    _acs_aggregate, _tract_health_aggregate, _decennial_aggregate, _sum_age_variables,
+    _sum_components,
+)
+
 from ..config import taxonomy_config
 from ..spatial.catchments import metric_transform_for_geometry
 from ..util import json_dumps, new_id, utc_now
@@ -451,290 +457,18 @@ def _case_key(row: pd.Series, preferred_fields: tuple[str, ...]) -> str:
     return str(row.get("regulatory_record_id"))
 
 
-def _acs_context(conn: duckdb.DuckDBPyConnection) -> tuple[pd.DataFrame, list[BaseGeometry], STRtree] | None:
-    boundaries = conn.execute(
-        """
-        SELECT geography_id, geom_wkt, area_m2, snapshot_id
-        FROM geo_boundary
-        WHERE geography_type='block_group' AND source_id='tiger_bg_2024'
-        """
-    ).fetchdf()
-    if boundaries.empty:
-        return None
-    geometries = list(from_wkt(boundaries["geom_wkt"].to_numpy()))
-    return boundaries, geometries, STRtree(geometries)
 
 
-def _decennial_context(conn: duckdb.DuckDBPyConnection) -> tuple[pd.DataFrame, list[BaseGeometry], STRtree] | None:
-    boundaries = conn.execute(
-        """
-        SELECT geography_id, geom_wkt, area_m2, snapshot_id
-        FROM geo_boundary
-        WHERE geography_type='census_block' AND source_id='nyc_census_blocks_2020'
-        """
-    ).fetchdf()
-    if boundaries.empty:
-        return None
-    geometries = list(from_wkt(boundaries["geom_wkt"].to_numpy()))
-    return boundaries, geometries, STRtree(geometries)
 
 
-def _acs_weights(
-    geometry: BaseGeometry,
-    context: tuple[pd.DataFrame, list[BaseGeometry], STRtree],
-) -> pd.DataFrame:
-    boundaries, geometries, tree = context
-    candidate_indices = tree.query(geometry, predicate="intersects")
-    metric_transform = metric_transform_for_geometry(geometry)
-    target_metric = transform(metric_transform, geometry)
-    rows: list[dict[str, Any]] = []
-    for index in candidate_indices:
-        boundary = geometries[int(index)]
-        boundary_metric = transform(metric_transform, boundary)
-        if boundary_metric.area <= 0:
-            continue
-        intersection_area = target_metric.intersection(boundary_metric).area
-        if intersection_area <= 0:
-            continue
-        rows.append(
-            {
-                "geography_id": boundaries.iloc[int(index)]["geography_id"],
-                "fraction": min(1.0, intersection_area / boundary_metric.area),
-                "intersection_area_m2": intersection_area,
-                "boundary_area_m2": boundary_metric.area,
-            }
-        )
-    return pd.DataFrame(rows)
 
 
-def _acs_aggregate(
-    conn: duckdb.DuckDBPyConnection,
-    weights: pd.DataFrame,
-    variable: str,
-    *,
-    median: bool = False,
-) -> tuple[float | None, float | None, list[str], float | None]:
-    if weights.empty:
-        return None, None, [], None
-    geoids = weights["geography_id"].tolist()
-    placeholders = ",".join("?" for _ in geoids)
-    estimates = conn.execute(
-        f"""
-        SELECT census_estimate_id, geography_id, geography_type,
-               estimate, margin_of_error, confidence
-        FROM census_estimate
-        WHERE variable=? AND geography_type='block_group'
-          AND geography_id IN ({placeholders})
-        """,
-        [variable, *geoids],
-    ).fetchdf()
-    working_weights = weights[["geography_id", "fraction"]].copy()
-    if estimates.empty:
-        # Some ACS detailed tables are only published at tract level. Derive
-        # tract overlap from the already-computed block-group intersections.
-        tract_ids = sorted({str(geoid)[:11] for geoid in geoids})
-        tract_placeholders = ",".join("?" for _ in tract_ids)
-        tract_areas = conn.execute(
-            f"""
-            SELECT substr(geography_id, 1, 11) AS geography_id, sum(area_m2) AS tract_area_m2
-            FROM geo_boundary
-            WHERE geography_type='block_group'
-              AND substr(geography_id, 1, 11) IN ({tract_placeholders})
-            GROUP BY 1
-            """,
-            tract_ids,
-        ).fetchdf()
-        tract_weights = weights.assign(
-            geography_id=weights["geography_id"].astype(str).str[:11]
-        ).groupby("geography_id", as_index=False)["intersection_area_m2"].sum()
-        tract_weights = tract_weights.merge(tract_areas, on="geography_id", how="left")
-        tract_weights["fraction"] = (
-            tract_weights["intersection_area_m2"] / tract_weights["tract_area_m2"]
-        ).clip(upper=1.0)
-        working_weights = tract_weights[["geography_id", "fraction"]]
-        estimates = conn.execute(
-            f"""
-            SELECT census_estimate_id, geography_id, geography_type,
-                   estimate, margin_of_error, confidence
-            FROM census_estimate
-            WHERE variable=? AND geography_type='tract'
-              AND geography_id IN ({tract_placeholders})
-            """,
-            [variable, *tract_ids],
-        ).fetchdf()
-        if estimates.empty:
-            return None, None, [], None
-    values = estimates.merge(working_weights, on="geography_id", how="inner")
-    values = values.loc[values["estimate"].notna()].copy()
-    if values.empty:
-        return None, None, [], None
-    if median:
-        if values["geography_type"].eq("tract").all():
-            population = conn.execute(
-                f"""
-                SELECT substr(geography_id,1,11) AS geography_id, sum(estimate) AS population
-                FROM census_estimate
-                WHERE variable='B01003_001' AND geography_type='block_group'
-                  AND substr(geography_id,1,11) IN ({tract_placeholders})
-                GROUP BY 1
-                """,
-                tract_ids,
-            ).fetchdf()
-        else:
-            population = conn.execute(
-                f"SELECT geography_id, estimate AS population FROM census_estimate WHERE variable='B01003_001' AND geography_id IN ({placeholders})",
-                geoids,
-            ).fetchdf()
-        values = values.merge(population, on="geography_id", how="left")
-        values["weight"] = values["population"].fillna(0).clip(lower=0) * values["fraction"]
-        if values["weight"].sum() <= 0:
-            values["weight"] = values["fraction"]
-        value = float(np.average(values["estimate"], weights=values["weight"]))
-        normalized = values["weight"] / values["weight"].sum()
-        moe = float(np.sqrt(np.nansum((values["margin_of_error"].fillna(0) * normalized) ** 2)))
-    else:
-        value = float((values["estimate"] * values["fraction"]).sum())
-        moe = float(np.sqrt(np.nansum((values["margin_of_error"].fillna(0) * values["fraction"]) ** 2)))
-    confidence = float(np.average(values["confidence"].fillna(0.5), weights=values["fraction"]))
-    return value, moe, values["census_estimate_id"].astype(str).tolist(), confidence
-
-
-def _tract_health_aggregate(
-    conn: duckdb.DuckDBPyConnection,
-    weights: pd.DataFrame,
-    indicator_id: str,
-    *,
-    source_id: str = "cdc_places_2025_tract",
-) -> tuple[float | None, float | None, list[str], float | None]:
-    if weights.empty:
-        return None, None, [], None
-    tract_overlap = (
-        weights.assign(geography_id=weights["geography_id"].astype(str).str[:11])
-        .groupby("geography_id", as_index=False)["intersection_area_m2"]
-        .sum()
-    )
-    tract_ids = tract_overlap["geography_id"].astype(str).tolist()
-    placeholders = ",".join("?" for _ in tract_ids)
-    tract_areas = conn.execute(
-        f"""
-        SELECT geography_id, area_m2
-        FROM geo_boundary
-        WHERE source_id='tiger_tract_2024'
-          AND geography_type='tract_2024'
-          AND geography_id IN ({placeholders})
-        """,
-        tract_ids,
-    ).fetchdf()
-    if tract_areas.empty:
-        return None, None, [], None
-    tract_overlap = tract_overlap.merge(tract_areas, on="geography_id", how="inner")
-    tract_overlap["fraction"] = (
-        tract_overlap["intersection_area_m2"] / tract_overlap["area_m2"]
-    ).clip(lower=0.0, upper=1.0)
-    health = conn.execute(
-        f"""
-        SELECT health_indicator_id, geography_id, value, margin_of_error, confidence
-        FROM health_indicator
-        WHERE source_id=?
-          AND indicator_id=?
-          AND geography_id IN ({placeholders})
-        """,
-        [source_id, indicator_id, *tract_ids],
-    ).fetchdf()
-    if health.empty:
-        return None, None, [], None
-    population = conn.execute(
-        f"""
-        SELECT census_estimate_id, geography_id, estimate AS population
-        FROM census_estimate
-        WHERE source_id='acs_2024_5yr'
-          AND variable='B01003_001'
-          AND geography_type='tract'
-          AND geography_id IN ({placeholders})
-        """,
-        tract_ids,
-    ).fetchdf()
-    values = health.merge(tract_overlap[["geography_id", "fraction"]], on="geography_id")
-    values = values.merge(population, on="geography_id", how="left")
-    values = values.loc[values["value"].notna() & (values["fraction"] > 0)].copy()
-    if values.empty:
-        return None, None, [], None
-    values["weight"] = values["population"].fillna(0).clip(lower=0) * values["fraction"]
-    if values["weight"].sum() <= 0:
-        values["weight"] = values["fraction"]
-    normalized = values["weight"] / values["weight"].sum()
-    value = float(np.average(values["value"].astype(float), weights=values["weight"]))
-    margin = float(
-        np.sqrt(
-            np.nansum(
-                (pd.to_numeric(values["margin_of_error"], errors="coerce").fillna(0) * normalized)
-                ** 2
-            )
-        )
-    )
-    confidence = float(
-        np.average(values["confidence"].fillna(0.5), weights=values["weight"])
-    )
-    evidence = values["health_indicator_id"].astype(str).tolist()
-    evidence.extend(
-        values["census_estimate_id"].dropna().astype(str).tolist()
-    )
-    return value, margin, evidence, confidence
-
-
-def _decennial_aggregate(
-    conn: duckdb.DuckDBPyConnection,
-    weights: pd.DataFrame,
-    variable: str,
-) -> tuple[float | None, list[str]]:
-    if weights.empty:
-        return None, []
-    geoids = weights["geography_id"].astype(str).tolist()
-    placeholders = ",".join("?" for _ in geoids)
-    estimates = conn.execute(
-        f"""
-        SELECT census_estimate_id, geography_id, estimate
-        FROM census_estimate
-        WHERE source_id='census_decennial_2020_pl'
-          AND geography_type='census_block' AND variable=?
-          AND geography_id IN ({placeholders})
-        """,
-        [variable, *geoids],
-    ).fetchdf()
-    if estimates.empty:
-        return None, []
-    values = estimates.merge(weights[["geography_id", "fraction"]], on="geography_id", how="inner")
-    values = values.loc[values["estimate"].notna()].copy()
-    if values.empty:
-        return None, []
-    return (
-        float((values["estimate"] * values["fraction"]).sum()),
-        values["census_estimate_id"].astype(str).tolist(),
-    )
 
 
 def _safe_ratio(numerator: float | None, denominator: float | None) -> float | None:
     if numerator is None or denominator is None or denominator <= 0:
         return None
     return numerator / denominator
-
-
-def _sum_age_variables(
-    conn: duckdb.DuckDBPyConnection,
-    weights: pd.DataFrame,
-    lines: list[int],
-) -> tuple[float | None, float | None, list[str], float | None]:
-    results = [_acs_aggregate(conn, weights, f"B01001_{line:03d}") for line in lines]
-    usable = [result for result in results if result[0] is not None]
-    if not usable:
-        return None, None, [], None
-    value = sum(result[0] or 0 for result in usable)
-    moe = math.sqrt(sum((result[1] or 0) ** 2 for result in usable))
-    evidence = [evidence for result in usable for evidence in result[2]]
-    confidence = float(np.mean([result[3] for result in usable if result[3] is not None]))
-    return value, moe, evidence, confidence
-
-
 def calculate_metrics(
     conn: duckdb.DuckDBPyConnection,
     geometry: BaseGeometry,
@@ -752,8 +486,9 @@ def calculate_metrics(
         conn, "acs_2024_5yr", "B01003_001"
     )
 
+    population_warnings: list[str] = []
     population, population_moe, population_evidence, population_confidence = _acs_aggregate(
-        conn, weights, "B01003_001"
+        conn, weights, "B01003_001", diagnostics=population_warnings
     )
     metrics.append(
         MetricValue(
@@ -768,7 +503,8 @@ def calculate_metrics(
             margin_of_error=population_moe,
             geography_type="area_weighted_block_groups",
             evidence_ids=population_evidence,
-            warnings=["Area-weighted estimate; ACS block-group statistics do not describe an individual address."],
+            warnings=["Area-weighted estimate; ACS block-group statistics do not describe an individual address.",
+                      *population_warnings],
         )
     )
     catchment_area_sq_mile = catchment_area_m2 / 2_589_988.110336
@@ -794,13 +530,15 @@ def calculate_metrics(
             geography_type="area_weighted_block_groups_to_projected_catchment_area",
             evidence_ids=population_evidence,
             warnings=[
-                "ACS population is area-weighted to the catchment and divided by projected catchment area; it is not parcel occupancy or an individual attribute."
+                "ACS population is area-weighted to the catchment and divided by projected catchment area; it is not parcel occupancy or an individual attribute.",
+                *population_warnings,
             ],
         )
     )
     decennial_weights = _acs_weights(geometry, decennial_context) if decennial_context else pd.DataFrame()
+    decennial_warnings: list[str] = []
     decennial_population, decennial_evidence = _decennial_aggregate(
-        conn, decennial_weights, "P0010001"
+        conn, decennial_weights, "P0010001", diagnostics=decennial_warnings
     )
     metrics.append(
         MetricValue(
@@ -817,6 +555,7 @@ def calculate_metrics(
             warnings=[
                 "Area-weighted allocation of published 2020 Census block counts; not a current population estimate.",
                 "Disclosure-avoidance methods apply, and the statistic does not describe any individual address.",
+                *decennial_warnings,
             ],
         )
     )
@@ -825,7 +564,10 @@ def calculate_metrics(
         ("per_capita_income", "B19301_001", "USD"),
         ("median_age", "B01002_001", "years"),
     ):
-        value, moe, evidence, confidence = _acs_aggregate(conn, weights, variable, median=True)
+        summary_warnings: list[str] = []
+        value, moe, evidence, confidence = _acs_aggregate(
+            conn, weights, variable, median=True, diagnostics=summary_warnings
+        )
         metrics.append(
             MetricValue(
                 metric_id,
@@ -841,7 +583,9 @@ def calculate_metrics(
                 margin_of_error=moe,
                 geography_type="population_weighted_block_groups",
                 evidence_ids=evidence,
-                warnings=["Weighted neighborhood summary; not an individual or household attribute."],
+                warnings=["Weighted neighborhood summary; not an individual or household attribute.",
+                          "A weighted mean of published summaries is not a pooled neighborhood median.",
+                          *summary_warnings],
             )
         )
     age_groups = {
@@ -851,7 +595,8 @@ def calculate_metrics(
         "age_65_plus": list(range(20, 26)) + list(range(44, 50)),
     }
     for metric_id, lines in age_groups.items():
-        value, moe, evidence, confidence = _sum_age_variables(conn, weights, lines)
+        age_warnings: list[str] = []
+        value, moe, evidence, confidence = _sum_age_variables(conn, weights, lines, diagnostics=age_warnings)
         metrics.append(
             MetricValue(
                 metric_id,
@@ -867,6 +612,7 @@ def calculate_metrics(
                 margin_of_error=moe,
                 geography_type="area_weighted_block_groups",
                 evidence_ids=evidence,
+                warnings=age_warnings,
             )
         )
     derived_ratios = {
@@ -913,17 +659,19 @@ def calculate_metrics(
         ),
     }
     for metric_id, (numerators, denominator_variable) in derived_ratios.items():
-        numerator_parts = [_acs_aggregate(conn, weights, variable) for variable in numerators]
-        numerator = sum(result[0] or 0 for result in numerator_parts) if any(result[0] is not None for result in numerator_parts) else None
-        numerator_moe = (
-            math.sqrt(sum((result[1] or 0.0) ** 2 for result in numerator_parts))
-            if numerator is not None
-            else None
+        ratio_warnings: list[str] = []
+        numerator_parts = [
+            _acs_aggregate(conn, weights, variable, diagnostics=ratio_warnings) for variable in numerators
+        ]
+        numerator, numerator_moe, numerator_evidence, _ = _sum_components(
+            numerator_parts, ratio_warnings
         )
         denominator, denominator_moe, denominator_evidence, denominator_confidence = _acs_aggregate(
-            conn, weights, denominator_variable
+            conn, weights, denominator_variable, diagnostics=ratio_warnings
         )
         ratio = _safe_ratio(numerator, denominator)
+        if denominator == 0:
+            ratio_warnings.append("Unavailable: the observed denominator is zero.")
         ratio_moe = None
         if (
             ratio is not None
@@ -937,7 +685,7 @@ def calculate_metrics(
                 (numerator_moe / denominator) ** 2
                 + (numerator * denominator_moe / (denominator**2)) ** 2
             )
-        evidence = [item for result in numerator_parts for item in result[2]] + denominator_evidence
+        evidence = list(dict.fromkeys(numerator_evidence + denominator_evidence))
         component_confidences = [
             result[3] for result in numerator_parts if result[3] is not None
         ]
@@ -954,13 +702,14 @@ def calculate_metrics(
                 ),
                 source_year="2020-2024",
                 measure_type="derived_survey_estimate",
-                confidence=(min(component_confidences) if component_confidences else None),
+                confidence=(min(component_confidences) if component_confidences and ratio is not None else None),
                 margin_of_error=ratio_moe,
                 geography_type="area_weighted_published_census_geographies",
                 evidence_ids=evidence,
                 warnings=[
                     "Aggregated regional survey statistic; it does not describe any person, household, resident, worker, or address.",
                     "Displayed margin of error is a conservative first-order propagation from published ACS component MOEs and does not model covariance.",
+                    *ratio_warnings,
                 ],
             )
         )
@@ -2525,16 +2274,20 @@ def calculate_metrics(
     ):
         health_source_id = "cdc_places_2025_tract"
         health_source_year = "2023 model estimate / 2025 release"
+        health_warnings: list[str] = []
         value, margin, evidence, confidence = _tract_health_aggregate(
-            conn, weights, indicator_id, source_id=health_source_id
+            conn, weights, indicator_id, source_id=health_source_id, diagnostics=health_warnings
         )
         fallback_used = value is None
         if fallback_used:
+            current_evidence = evidence
             health_source_id = "cdc_places_2024_tract_fallback"
             health_source_year = "2022 model estimate / 2024 release fallback"
             value, margin, evidence, confidence = _tract_health_aggregate(
-                conn, weights, indicator_id, source_id=health_source_id
+                conn, weights, indicator_id, source_id=health_source_id, diagnostics=health_warnings
             )
+            if value is None:
+                evidence = list(dict.fromkeys(current_evidence + evidence))
         metrics.append(
             MetricValue(
                 metric_id,
@@ -2561,10 +2314,12 @@ def calculate_metrics(
                     "Catchment value is population-weighted using tract overlap and ACS total population; measure-specific adult denominators differ, so use it as a screening aggregate.",
                     "The displayed uncertainty propagates published tract 95% confidence-interval half-widths under an independence approximation; it is not an official CDC catchment confidence interval.",
                     (
-                        "The 2025 release had no usable selected tract estimate for this catchment, so the explicitly labeled 2024 release fallback is shown."
+                        "The 2025 release could not supply a complete weighted estimate; the explicitly labeled 2024 release fallback is shown."
                         if fallback_used and value is not None
-                        else "The current 2025 release is used; no older fallback was applied."
+                        else ("Neither the 2025 release nor the 2024 fallback supplied a complete weighted estimate."
+                              if value is None else "The current 2025 release is used; no older fallback was applied.")
                     ),
+                    *health_warnings,
                 ],
             )
         )
@@ -2580,10 +2335,11 @@ def calculate_metrics(
                 source_id="derived",
                 source_year=f"{competitor_source_year} / ACS 2020-2024",
                 measure_type="derived_ratio",
-                confidence=min(population_confidence or 0.5, 0.85),
+                confidence=min(population_confidence or 0.5, 0.85) if population_for_rate > 0 else None,
                 evidence_ids=sorted(
                     set(competitor_evidence_ids + population_evidence)
                 ),
+                warnings=population_warnings,
             ),
             MetricValue(
                 "competitors_per_1000_jobs",
