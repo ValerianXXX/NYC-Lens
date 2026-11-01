@@ -110,12 +110,28 @@ def install_downloads(monkeypatch, kind, revision, *, force_tiger_download=True)
             content = tiger_zip(filename.split("_")[2], revision)
             media = "application/zip"
         elif filename == "nfhl_layer_28_metadata.json":
-            content, media = b'{"synthetic":true,"maxRecordCount":500}', "application/json"
-        elif filename.startswith("count_"):
-            count = 10_000 if filename == f"count_{COUNTIES[0]}.json" else 0
+            # The transport fixture now advertises the query contract and
+            # answers pre/post ID manifests. The publication assertions remain.
+            metadata = {"synthetic": True, "type": "Feature Layer", "geometryType": "esriGeometryPolygon",
+                "maxRecordCount": 500, "capabilities": "Map,Query,Data", "supportedQueryFormats": "JSON,geoJSON",
+                "fields": [{"name": name, "type": "esriFieldTypeOID" if name == "OBJECTID" else "esriFieldTypeString"}
+                    for name in ("OBJECTID", "DFIRM_ID", "FLD_AR_ID", "FLD_ZONE", "ZONE_SUBTY", "SFHA_TF", "GFID", "GlobalID")]}
+            content, media = json.dumps(metadata).encode(), "application/json"
+        elif params.get("returnCountOnly") == "true":
+            count = 10_000 if params["geometry"] == "-74.0,40.0,-73.8,40.2" else 0
             content, media = json.dumps({"count": count}).encode(), "application/json"
+        elif params.get("returnIdsOnly") == "true":
+            ids = list(range(1, 10_001)) if params["geometry"] == "-74.0,40.0,-73.8,40.2" else []
+            content, media = json.dumps({"objectIdFieldName": "OBJECTID", "objectIds": ids}).encode(), "application/json"
         else:
-            content, media = fema_page(int(params["resultOffset"]), revision), "application/geo+json"
+            requested = list(map(int, params["objectIds"].split(",")))
+            pages, features = {}, []
+            for oid in requested:
+                offset = (oid - 1) // 500 * 500
+                if offset not in pages:
+                    pages[offset] = json.loads(fema_page(offset, revision))["features"]
+                features.append(pages[offset][(oid - 1) % 500])
+            content, media = json.dumps({"type": "FeatureCollection", "features": features}).encode(), "application/geo+json"
         return save_bytes_snapshot(conn, source_id=source_id, vintage=vintage,
             filename=filename, content=content, source_url=url, run_id=run_id,
             content_type=media, query={"synthetic": True, "revision": revision, "params": params},
@@ -218,8 +234,8 @@ def test_success_retains_parent_links_exports_and_manifest(database, monkeypatch
     assert manifest["export"]["sha256"] == sha256_file(output)
     assert manifest["row_count"] == (30 if kind == "tiger" else 10_000)
     parents = {item["snapshot_id"]: item for item in manifest["inputs"]}
-    assert len(parents) == (4 if kind == "tiger" else 51)
-    assert all(item["role"] in {"metadata", "count", "geometry"} for item in parents.values())
+    assert len(parents) == (4 if kind == "tiger" else 141)
+    assert all(item["role"] in {"metadata", "count", "geometry", "membership"} for item in parents.values())
     fact_parents = {row[0] for row in conn.execute("SELECT DISTINCT snapshot_id FROM geo_boundary WHERE source_id=?", [SOURCES[kind]]).fetchall()}
     assert len(fact_parents) == (4 if kind == "tiger" else 20)
     assert fact_parents == {key for key, item in parents.items() if item["role"] == "geometry"}

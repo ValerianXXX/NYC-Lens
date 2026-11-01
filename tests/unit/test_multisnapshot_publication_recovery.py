@@ -48,7 +48,7 @@ def test_actual_owned_process_exit_before_commit_keeps_old_publication(database,
         assert active_state(reader) == baseline
         assert reader.execute("SELECT status FROM ingestion_run ORDER BY started_at DESC LIMIT 1").fetchone() == ("INDETERMINATE",)
         # Both attempts' raw sources and locally derived receipts survive.
-        assert reader.execute("SELECT count(*) FROM dataset_snapshot WHERE source_id=?", [SOURCES[kind]]).fetchone() == ((10 if kind == "tiger" else 104),)
+        assert reader.execute("SELECT count(*) FROM dataset_snapshot WHERE source_id=?", [SOURCES[kind]]).fetchone() == ((10 if kind == "tiger" else 284),)
         assert reader.execute("SELECT count(*) FROM duckdb_tables() WHERE table_name='_fema_sfha_staging'").fetchone() == (0,)
         # An explicit new attempt succeeds; the crashed attempt is never relabelled.
         install_downloads(monkeypatch, kind, 2)
@@ -87,7 +87,17 @@ def test_original_county_and_polygon_floors_still_reject(database, monkeypatch, 
     original_download = module.download_snapshot
     def incomplete(conn, **kwargs):
         filename = kwargs["filename"]
-        if kind == "fema" and filename == f"sfha_{COUNTIES[0]}_0009500.geojson":
+        params = kwargs.get("params") or {}
+        if (kind == "fema" and params.get("geometry") == "-74.0,40.0,-73.8,40.2"
+                and params.get("returnCountOnly") == "true"):
+            # A complete 9,999-record response must still fail the unchanged
+            # regional floor, independently of the new membership checks.
+            content, media = b'{"count":9999}', "application/json"
+        elif (kind == "fema" and params.get("geometry") == "-74.0,40.0,-73.8,40.2"
+                and params.get("returnIdsOnly") == "true"):
+            content = json.dumps({"objectIdFieldName": "OBJECTID", "objectIds": list(range(1, 10_000))}).encode()
+            media = "application/json"
+        elif kind == "fema" and filename == f"sfha_{COUNTIES[0]}_0009500.geojson":
             payload = json.loads(fixture.fema_page(9500, 2))
             payload["features"].pop()
             content = json.dumps(payload).encode()

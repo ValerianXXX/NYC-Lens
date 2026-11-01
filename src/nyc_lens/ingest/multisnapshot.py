@@ -25,7 +25,7 @@ def prepare_publication_manifest(
     """
     if not inputs or len({snapshot.snapshot_id for snapshot, _ in inputs}) != len(inputs):
         raise ValueError("Publication requires distinct input snapshots")
-    if any(snapshot.source_id != source_id or role not in {"geometry", "count", "metadata"}
+    if any(snapshot.source_id != source_id or role not in {"geometry", "count", "metadata", "membership"}
            for snapshot, role in inputs):
         raise ValueError("Publication input source or role mismatch")
     if type(row_count) is not int or row_count < 1:
