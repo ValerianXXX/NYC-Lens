@@ -1,0 +1,200 @@
+{
+  "observedAtUtc": "2026-11-01T02:20:34.777582+00:00",
+  "status": "SCENARIOS_AND_DESKTOP_FLOW_VERIFIED_FULL_SUITE_PENDING",
+  "branch": "codex/nyc-scenario-acceptance-20261031",
+  "base": "f64ce8c30c8db021d8bd4e730bf32811a1dcb547",
+  "frozen": "d5ef9b1e477f7c120b2cd62d0251754b5d366fd9",
+  "runtime": "0effac1ac58af1fbc4a4def7df99cf62d3aefa20",
+  "before": {
+    "passed": 9,
+    "failed": 3,
+    "seconds": 130.37
+  },
+  "after": {
+    "passed": 12,
+    "failed": 0,
+    "seconds": 114.89
+  },
+  "related": {
+    "passed": 66,
+    "warnings": 15,
+    "seconds": 186.08
+  },
+  "finalUiContracts": {
+    "passed": 3,
+    "seconds": 0.3,
+    "overlapsWithRelated": 3
+  },
+  "javascriptSyntax": "app.js and assistant.js exit 0",
+  "frozenFilesUnchanged": [
+    "tests/unit/test_comparison_acceptance_scenarios.py",
+    "tests/fixtures/comparison_acceptance_20261031.json"
+  ],
+  "sourceLfSha256": {
+    ".github/workflows/tests.yml": "af425b9150ee2f00fa3af3dffb5109351b7bc53effc0a15531c764d5d0040eb9",
+    "src/nyc_lens/analyze.py": "435a5bcd50af20dba9dfd81e3c0021c64cad05342c61c88671ad8a09b6049e37",
+    "src/nyc_lens/comparison.py": "ee888426d5a0795019193261d53f0b7b50026e187d79e4bb09be4b1d3b483051",
+    "src/nyc_lens/db.py": "273859596cafea04e705f7d413830d78abfdd007088c483ff3d02101afa30893",
+    "src/nyc_lens/geocoding/service.py": "1ee7636abee14357bee78fdb30f88b25ddd338e96f1ac7f5164453f2aa3cb2f4",
+    "src/nyc_lens/reporting/comparison_export.py": "cc9955384910a2d9f01c3ac7fb790c4fe38088c2f9cfdd9d0db4e9ec49a22fef",
+    "src/nyc_lens/reporting/export.py": "1ed57790db68560ba32a357abe4c5b1a6837d70b301ce23cd540fddda4d5f7c0",
+    "src/nyc_lens/reporting/templates/site_report.html.j2": "5e2af852e4b336a920598588315a33737f34b780b42f6743e548e0c58e55a12f",
+    "src/nyc_lens/source_observation.py": "52620ddddc5ef13364227f40d0c804e27ac534ec4def25472efee63e24fa97cb",
+    "tests/fixtures/comparison_acceptance_20261031.json": "2f7afc24899b2f69f553959711ff909f07b95f4eaeb30d56c141d0b68f06bdeb",
+    "tests/unit/test_comparison_acceptance_scenarios.py": "e222a76c54cd57341703f30949fa07dfa6631648007398698d4a277b50ecc397",
+    "tests/unit/test_geocoding_ambiguity.py": "002ca0f9dfe80479c9068660a63669948de7489c380f43c9c74bdc4eed310bd4",
+    "tests/unit/test_source_observation.py": "f5eeded1073d31d28e63c08e63eac1ffac2966e382f7d51f6b82158eb45ef4c9",
+    "ui/app.js": "956438242e4c53c67b0cf1c7ec6317284b15dfaad600d7e6c504af16fffa6577",
+    "ui/assistant.js": "bea8e856d9d46a45057c9212144c42910a21ceba668181983e5e4ec990303e64",
+    "ui/styles.css": "f7d0108b317679cce74954592d08ff930971541e9137ba6a3a684cf0784a0ee4"
+  },
+  "browser": {
+    "client": "Codex in-app browser",
+    "desktopDocumentClientSize": [
+      1265,
+      720
+    ],
+    "english": {
+      "job": "analysis_eb0f865706474b8b86d2ac781c83bd00",
+      "comparison": "comparison_52e2319550e04ab0b3f33e6f591cff04",
+      "status": "COMPLETED"
+    },
+    "chinese": {
+      "job": "analysis_98e2dec25ec049088be1a79554448780",
+      "comparison": "comparison_c28e8b628d1146f8b116ba5a14847a30",
+      "status": "COMPLETED"
+    },
+    "explicitConfirmation": true,
+    "refreshRestoredSameJob": true,
+    "map": "Two markers plus synthetic label; no comparison catchment overlays",
+    "download": {
+      "report": "comparison_c28e8b628d1146f8b116ba5a14847a30.xlsx",
+      "bytes": 53861,
+      "sha256": "daf84a43128273d7206e5c0e7d5672b4d042e12f9175480f49335e4ba73468f7",
+      "rows": 252,
+      "direct_competitor_values": [
+        1,
+        3
+      ],
+      "dates_verified": true,
+      "download": "actual browser XLSX link",
+      "scope": "SYNTHETIC"
+    },
+    "narrowViewport": [
+      390,
+      640
+    ],
+    "narrowMethod": "Actual application in a CSS-width iframe",
+    "narrowStatus": "DISPLAY_AND_RESULT_RESTORATION_ONLY",
+    "narrowButtons": "Browser tool click target unavailable; full narrow interaction not established",
+    "initialNavigation": "Connection refused before server readiness; later navigation after readiness succeeded",
+    "independentUsers": 0,
+    "physicalMobileDevices": 0
+  },
+  "baseFullTerminal": {
+    "runtime": "f64ce8c30c8db021d8bd4e730bf32811a1dcb547",
+    "passed": 462,
+    "skipped": 3,
+    "warnings": 91,
+    "seconds": 2030.28,
+    "hostedLinux": {
+      "passed": 460,
+      "skipped": 5,
+      "seconds": 361.24
+    },
+    "hostedWindowsGroups": [
+      77,
+      34,
+      43,
+      49,
+      50,
+      29,
+      58
+    ],
+    "originalMcpFailureCause": "UNRESOLVED; original failure retained, later passes not a root cause"
+  },
+  "newRuntimeFull": {
+    "status": "RUNNING_SEPARATELY",
+    "runtime": "0effac1ac58af1fbc4a4def7df99cf62d3aefa20",
+    "nativeSession": 16932
+  },
+  "artifacts": [
+    {
+      "source": "nyc-scenario-before-20261031.log",
+      "rawSha256": "920f83d74466a09b382402eea71ecf1d532b778778592525db12ae382dfec022",
+      "portable": "nyc-scenario-before-20261031.txt",
+      "portableSha256": "a9b02e2b1333d6e5336454eb9c74d867aac6c57bf84defe06e64c62e84f66e84"
+    },
+    {
+      "source": "nyc-scenario-after-20261031.log",
+      "rawSha256": "45a1b90b4a134a0af3f7bc5845ff50f9516a3eb74f82fb4f4b62f5d3b1d229fb",
+      "portable": "nyc-scenario-after-20261031.txt",
+      "portableSha256": "8bec12d25df060ef40895540bd065b822ee1396358005e31d28028e85e6b263f"
+    },
+    {
+      "source": "nyc-scenario-related-20261031.log",
+      "rawSha256": "a167babc108d8bc001b85f5609da160630b8fa4ac13612b7b5928941661bbac2",
+      "portable": "nyc-scenario-related-20261031.txt",
+      "portableSha256": "4dbc47b469837b6ef6a48fca58423d7ab27e138d6f8db5df7739aa9e300cfd81"
+    },
+    {
+      "source": "nyc-scenario-ui-final-20261031.log",
+      "rawSha256": "42067ee9dbe9781206c44e8731fdb1cb358cce59de59698e457f8c1528477491",
+      "portable": "nyc-scenario-ui-final-20261031.txt",
+      "portableSha256": "bbc4830d0dd1deac17d0c6b57589c3ab0679fc20e05ce5d45ab82ac17ac105c3"
+    },
+    {
+      "source": "nyc-scenario-desktop-zh-details-20261031.png",
+      "portable": "desktop-zh.jpg",
+      "bytes": 87331,
+      "sha256": "252c79a282100068ec56626f15be6515f4e724c13113d61469d2a2970dd20333",
+      "format": "JPEG",
+      "imageSize": [
+        1265,
+        712
+      ],
+      "sensitiveData": "None; synthetic fixture only"
+    },
+    {
+      "source": "nyc-scenario-map-20261031.png",
+      "portable": "map.jpg",
+      "bytes": 184103,
+      "sha256": "3358b37be6c463f8cc3907e8e5f39efadb9a3e565333e42c9b9ff4625f73dc17",
+      "format": "JPEG",
+      "imageSize": [
+        1265,
+        712
+      ],
+      "sensitiveData": "None; synthetic fixture only"
+    },
+    {
+      "source": "nyc-scenario-narrow-390-details-20261031.png",
+      "portable": "narrow-390.jpg",
+      "bytes": 64555,
+      "sha256": "73ed4d3f0b7e7e8f5b4b4a0a3532a095df2c3b97d5566527cd5cbdb5f1806dae",
+      "format": "JPEG",
+      "imageSize": [
+        1265,
+        712
+      ],
+      "sensitiveData": "None; synthetic fixture only"
+    }
+  ],
+  "packagingObservation": "Initial PNG magic assertion failed: browser returned JPEG bytes under a caller-chosen png filename. Existing Pillow in the prepared JobFlow test environment identified JPEG 1265x712. Published filenames use jpg; screenshot bytes unchanged. NYC environment had no Pillow and was not modified.",
+  "newModelCalls": 0,
+  "aiQualityBenefitMeasured": false,
+  "latencyImprovementClaimed": false,
+  "schemaMigration": false,
+  "productionDeployment": false,
+  "newDependencies": false,
+  "remaining": [
+    "New runtime full regression and hosted checks",
+    "Complete real regional data and real-location acceptance",
+    "Prior MCP cleanup failure root cause",
+    "Comparison catchment overlays",
+    "Currentness policy independent of retrieval/reference dates",
+    "Physical/mobile interaction and independent users",
+    "New live-model comparison, when separately authorized"
+  ],
+  "wholeGoalComplete": false
+}
