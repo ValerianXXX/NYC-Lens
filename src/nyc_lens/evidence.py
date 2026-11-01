@@ -19,7 +19,8 @@ def query_metric_evidence(conn: duckdb.DuckDBPyConnection, *, site_id: str, metr
         raise ValueError("Invalid bounded evidence query")
     metric = conn.execute(
         """SELECT m.evidence_record_ids_json, m.source_id, m.snapshot_id,
-                  m.calculation_version_id, q.snapshot_set_json, m.source_year, m.unit, m.measure_type
+                  m.calculation_version_id, q.snapshot_set_json, m.source_year, m.unit, m.measure_type,
+                  q.result_json
            FROM site_metric m JOIN catchment c ON c.catchment_id=m.catchment_id
            JOIN site_query q ON q.site_id=m.site_id
            WHERE m.site_id=? AND c.catchment_type=? AND m.metric_id=? AND q.status='SUCCEEDED'
@@ -27,6 +28,9 @@ def query_metric_evidence(conn: duckdb.DuckDBPyConnection, *, site_id: str, metr
     ).fetchone()
     if metric is None:
         raise KeyError("Site metric not found")
+    saved = json.loads(metric[8]) if isinstance(metric[8], str) else metric[8] or {}
+    binding = saved.get('catchments', {}).get(catchment, {}).get('metrics', {}).get(metric_id, {}).get('evidence_binding')
+    ids = json.loads(metric[0]) if isinstance(metric[0], str) else metric[0] or []
     snapshot_set = json.loads(metric[4]) if isinstance(metric[4], str) else metric[4] or {}
     bounds = [{'source_id': source, 'snapshot_id': snapshot}
               for source, snapshots in snapshot_set.items() for snapshot in snapshots]
@@ -36,34 +40,66 @@ def query_metric_evidence(conn: duckdb.DuckDBPyConnection, *, site_id: str, metr
         # entity merely because ingestion retained their historical lineage.
         bounds = [row for row in bounds if row == {'source_id': metric[1], 'snapshot_id': metric[2]}]
         scope = 'METRIC_SNAPSHOT'
-    total = conn.execute("SELECT count(DISTINCT json_extract_string(value, '$')) FROM json_each(?::JSON)",
-                         [metric[0]]).fetchone()[0]
-    cursor = conn.execute(
-        """WITH evidence_ids AS (
+    total = len(set(ids))
+    bound_records = []
+    if binding is not None:
+        if not isinstance(binding, dict) or binding.get('schema') != 'METRIC_INPUT_BINDINGS_V1':
+            raise ValueError('Saved metric evidence binding is invalid')
+        records = binding.get('records')
+        unresolved = binding.get('unresolved_ids')
+        if (not isinstance(records, list) or not isinstance(unresolved, list)
+                or any(not isinstance(record, dict) or set(record) != {'entity_id', 'entity_type', 'source_id', 'snapshot_id'}
+                    or any(not isinstance(value, str) or not value for value in record.values())
+                    or record['entity_id'] not in ids for record in records)
+                or any(not isinstance(value, str) for value in unresolved)
+                or {record['entity_id'] for record in records} | set(unresolved) != set(ids)
+                or {record['entity_id'] for record in records} & set(unresolved)):
+            raise ValueError('Saved metric evidence binding is incomplete')
+        bound_records = [*records, *({'entity_id': identifier, 'entity_type': None,
+            'source_id': None, 'snapshot_id': None} for identifier in unresolved)]
+        scope = ('METRIC_SNAPSHOT' if len(binding.get('source_snapshots', [])) == 1
+            and binding['source_snapshots'][0] == {'source_id': metric[1], 'snapshot_id': metric[2]}
+            else 'METRIC_RECORD_BINDINGS')
+        binding_sql = """SELECT DISTINCT json_extract_string(value, '$.entity_id') AS entity_id,
+            json_extract_string(value, '$.entity_type') AS entity_type,
+            json_extract_string(value, '$.source_id') AS source_id,
+            json_extract_string(value, '$.snapshot_id') AS snapshot_id FROM json_each(?::JSON)"""
+    else:
+        # Old results do not have active-record bindings. Preserve their bounded
+        # historical lookup instead of reconstructing inputs from current rows.
+        binding_sql = """SELECT DISTINCT e.entity_id, s.entity_type, s.source_id, s.snapshot_id
+            FROM evidence_ids e LEFT JOIN (
+                SELECT s.* FROM standardized_record s JOIN bounds b
+                  ON b.source_id=s.source_id AND b.snapshot_id=s.snapshot_id
+            ) s ON s.entity_id=e.entity_id"""
+    query = """WITH evidence_ids AS (
                SELECT DISTINCT json_extract_string(value, '$') AS entity_id FROM json_each(?::JSON)
            ), bounds AS (
                SELECT json_extract_string(value, '$.source_id') AS source_id,
                       json_extract_string(value, '$.snapshot_id') AS snapshot_id FROM json_each(?::JSON)
-           ), bound_lineage AS (
-               SELECT s.* FROM standardized_record s
-               JOIN bounds b ON b.source_id=s.source_id AND b.snapshot_id=s.snapshot_id
-               JOIN evidence_ids e ON e.entity_id=s.entity_id
-           ), resolved AS (
-               SELECT e.entity_id, s.entity_type, s.source_record_id, s.source_id, s.snapshot_id,
+           ), bindings AS (""" + binding_sql + """), resolved AS (
+               SELECT b.entity_id, s.entity_type, s.source_record_id, s.source_id, s.snapshot_id,
+                      b.snapshot_id AS bound_snapshot_id, b.source_id AS bound_source_id,
                       s.method_version, d.vintage, d.retrieved_at, d.source_url, d.license,
                       d.status AS snapshot_status_at_lookup,
                       r.original_filename, r.sha256 AS raw_sha256,
-                      row_number() OVER (PARTITION BY e.entity_id, s.source_id, s.snapshot_id
-                                         ORDER BY r.original_filename NULLS LAST) AS raw_rank
-               FROM evidence_ids e LEFT JOIN bound_lineage s ON s.entity_id=e.entity_id
-               LEFT JOIN dataset_snapshot d ON d.snapshot_id=s.snapshot_id
+                      row_number() OVER (PARTITION BY b.entity_id, b.entity_type, b.source_id, b.snapshot_id
+                                         ORDER BY r.original_filename NULLS LAST, s.standardized_record_id) AS raw_rank
+               FROM bindings b LEFT JOIN standardized_record s ON s.entity_id=b.entity_id
+                    AND s.entity_type=b.entity_type AND s.source_id=b.source_id AND s.snapshot_id=b.snapshot_id
+               LEFT JOIN dataset_snapshot d ON d.snapshot_id=s.snapshot_id AND d.source_id=s.source_id
                LEFT JOIN raw_file r ON r.snapshot_id=d.snapshot_id
-           ) SELECT entity_id, entity_type, source_record_id, source_id, snapshot_id, method_version,
+           ) """
+    parameters = [metric[0], json_dumps(bounds)]
+    if binding is not None:
+        parameters.append(json_dumps(bound_records))
+    total_rows = conn.execute(query + "SELECT count(*) FROM resolved WHERE raw_rank=1", parameters).fetchone()[0]
+    cursor = conn.execute(query + """SELECT entity_id, entity_type, source_record_id, source_id, snapshot_id,
+                    bound_source_id, bound_snapshot_id, method_version,
                     vintage, retrieved_at, source_url, license, snapshot_status_at_lookup, original_filename, raw_sha256
-             FROM resolved WHERE raw_rank=1 OR raw_rank IS NULL
-             ORDER BY entity_id, source_id, snapshot_id LIMIT ? OFFSET ?""",
-        [metric[0], json_dumps(bounds), limit, offset],
-    )
+             FROM resolved WHERE raw_rank=1
+             ORDER BY entity_id, bound_source_id, bound_snapshot_id, entity_type LIMIT ? OFFSET ?""",
+        [*parameters, limit, offset])
     names = [column[0] for column in cursor.description]
     rows = [dict(zip(names, row)) for row in cursor.fetchall()]
     for row in rows:
@@ -72,6 +108,8 @@ def query_metric_evidence(conn: duckdb.DuckDBPyConnection, *, site_id: str, metr
         row['raw_file_binding'] = 'SNAPSHOT_LEVEL_ONLY' if row['raw_sha256'] else 'UNAVAILABLE'
     return {'site_id': site_id, 'catchment': catchment, 'metric_id': metric_id,
             'total_evidence_ids': total, 'offset': offset, 'limit': limit, 'evidence': rows,
+            'total_evidence_records': total_rows, 'next_offset': offset + len(rows) if offset + len(rows) < total_rows else None,
+            'binding_version': binding.get('schema') if binding is not None else 'LEGACY_SNAPSHOT_SCOPE',
             'binding_scope': scope, 'calculation_version_id': metric[3],
             'metric_basis': dict(zip(['source_id', 'snapshot_id', 'source_year', 'unit', 'measure_type'],
                                      [metric[1], metric[2], metric[5], metric[6], metric[7]])),

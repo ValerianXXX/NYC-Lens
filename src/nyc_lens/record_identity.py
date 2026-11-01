@@ -1,0 +1,28 @@
+"""The bounded typed tables that can identify a standardized input record."""
+
+LINEAGE_TABLE_IDS = {
+    'address': 'address_id',
+    'region_definition': 'region_definition_id',
+    'region_member': 'region_member_id',
+    'parcel': 'parcel_id',
+    'building': 'building_id',
+    'geo_boundary': 'boundary_id',
+    'geo_cell': 'cell_id',
+    'census_estimate': 'census_estimate_id',
+    'workforce_estimate': 'workforce_estimate_id',
+    'business_location': 'business_location_id',
+    'poi': 'poi_id',
+    'license': 'license_id',
+    'inspection': 'inspection_id',
+    'transit_stop': 'transit_stop_id',
+    'transit_ridership': 'transit_ridership_id',
+    'hotel': 'hotel_id',
+    'short_term_rental': 'short_term_rental_id',
+    'traffic_observation': 'traffic_observation_id',
+    'mobility_proxy': 'mobility_proxy_id',
+    'health_indicator': 'health_indicator_id',
+    'environment_indicator': 'environment_indicator_id',
+    'property_record': 'property_record_id',
+    'regulatory_record': 'regulatory_record_id',
+    'transaction_case': 'transaction_case_id',
+}

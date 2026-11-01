@@ -17,7 +17,7 @@ from .util import json_dumps, new_id, utc_now
 
 DEFAULT_COMPARISON_CATCHMENTS = ["500m", "1km"]
 MAX_COMPARISON_SITES = 20
-COMPARISON_METHOD_VERSION = "comparable-basis-2026-10-29-v1"
+COMPARISON_METHOD_VERSION = "comparable-basis-2026-11-01-v2"
 
 
 def comparison_basis(values: list[dict[str, Any]]) -> dict[str, Any]:
@@ -27,12 +27,35 @@ def comparison_basis(values: list[dict[str, Any]]) -> dict[str, Any]:
     reasons = []
     if len(available) < 2:
         reasons.append("INSUFFICIENT_NUMERIC_DATA")
-    for field in ("unit", "source_id", "snapshot_id", "source_year", "measure_type", "calculation_version_id"):
+    bound = [row.get('evidence_binding') for row in available]
+    new_bindings = bool(bound) and all(isinstance(item, dict) and item.get('schema') == 'METRIC_INPUT_BINDINGS_V1' for item in bound)
+    fields = ["unit", "source_id", "source_year", "measure_type", "calculation_version_id"]
+    if not new_bindings:
+        fields.insert(2, 'snapshot_id')
+    for field in fields:
         observed = [row.get(field) for row in available]
         if any(value is None or not str(value).strip() or str(value).casefold() == "unknown" for value in observed):
             reasons.append(f"MISSING_{field.upper()}")
         elif len(set(observed)) > 1:
             reasons.append(f"MISMATCHED_{field.upper()}")
+    if new_bindings:
+        generations = [item.get('generation_ids', []) for item in bound]
+        common_generation = all(generations) and len({json_dumps(value) for value in generations}) == 1
+        snapshots = [item.get('source_snapshots', []) for item in bound]
+        if any(item.get('unresolved_ids') for item in bound):
+            reasons.append('UNRESOLVED_INPUT_BINDINGS')
+        if any(item.get('unverified_source_snapshots') for item in bound):
+            reasons.append('UNVERIFIED_INPUT_SNAPSHOTS')
+        if not all(snapshots):
+            # Empty evidence can legitimately support a zero when a completed
+            # source snapshot exists. Keep the original scalar basis for it.
+            scalar = [row.get('snapshot_id') for row in available]
+            if not all(scalar):
+                reasons.append('MISSING_SNAPSHOT_ID')
+            elif len(set(scalar)) > 1:
+                reasons.append('MISMATCHED_SNAPSHOT_ID')
+        elif not common_generation and len({json_dumps(value) for value in snapshots}) > 1:
+            reasons.append('different_source_snapshots')
     return {"status": "INCOMPARABLE" if reasons else "COMPARABLE" if len(available) == len(values) else "PARTIAL_COMPARABLE",
             "reasons": reasons, "available_sites": len(available), "total_sites": len(values),
             "method_version": COMPARISON_METHOD_VERSION}
@@ -74,6 +97,7 @@ def _metric_comparisons(
                     "snapshot_id": metric.get("snapshot_id"),
                     "source_year": metric.get("source_year"),
                     "source_observation": metric.get("source_observation"),
+                    'evidence_binding': metric.get('evidence_binding'),
                     "measure_type": metric.get("measure_type"),
                     "confidence": metric.get("confidence"),
                     "margin_of_error": metric.get("margin_of_error"),

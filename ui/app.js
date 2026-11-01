@@ -942,6 +942,11 @@ function sourceObservationText(metric) {
   const copy = (en, zh) => currentLanguage === "zh" ? zh : en;
   const absent = copy("not recorded", "未记录");
   if (!observation) return copy("Source dates were not saved with this result; currentness not assessed.", "此结果未保存来源日期；当前有效性未评估。");
+  if (observation.capture_state === "MULTIPLE_SNAPSHOTS" && Array.isArray(observation.sources)) {
+    return copy("Contributing source snapshots: ", "参与计算的来源快照：") + observation.sources.length + ". "
+      + observation.sources.map((source) => (source.source_id || absent) + " / " + (source.snapshot_id || absent) + " — "
+        + sourceObservationText({ source_observation: source })).join(" | ");
+  }
   if (observation.capture_state !== "CAPTURED") {
     return copy("Source dates unavailable", "来源日期不可用") + " (" + observation.capture_state + "); "
       + copy("currentness not assessed.", "当前有效性未评估。");

@@ -50,7 +50,7 @@
             <td>{{ row.catchment }}</td><td>{{ row.label_zh }}<div class="small">{{ row.metric_id }}</div></td>
             <td>{% if row.text_value is not none %}{{ row.text_value }}{% elif row.value is none %}{% elif row.unit == "share" %}{{ "%.1f%%"|format(row.value * 100) }}{% elif row.unit == "USD" %}${{ "{:,.0f}".format(row.value) }}{% else %}{{ "{:,.2f}".format(row.value) }}{% endif %}</td><td>{{ row.unit or "" }}</td><td>{{ "%.1f"|format(row.percentile) if row.percentile is not none else "" }}</td>
             <td>{{ row.source_id or "" }}<div class="small">{{ row.snapshot_id or "" }}</div></td>
-            <td>{{ row.source_year or "" }}<div class="small">下载 / Retrieved: {{ row.source_retrieved_at or "未记录 / not recorded" }}<br>来源覆盖期 / Reference period: {{ row.source_reference_start or "?" }} — {{ row.source_reference_end or "?" }}<br>当前有效性未评估 / Currentness not assessed</div></td><td>{{ row.measure_type }}</td>
+            <td>{{ row.source_year or "" }}<div class="small">{% if row.source_snapshot_dates_text %}多个来源快照 / Multiple input snapshots:<br>{{ row.source_snapshot_dates_text }}{% else %}下载 / Retrieved: {{ row.source_retrieved_at or "未记录 / not recorded" }}<br>来源覆盖期 / Reference period: {{ row.source_reference_start or "?" }} — {{ row.source_reference_end or "?" }}{% endif %}<br>当前有效性未评估 / Currentness not assessed</div></td><td>{{ row.measure_type }}</td>
             <td>{{ "%.0f%%"|format(row.confidence * 100) if row.confidence is not none else "" }}</td>
             <td>{% if row.margin_of_error is not none and row.unit == "share" %}±{{ "%.1f"|format(row.margin_of_error * 100) }} 个百分点{% elif row.margin_of_error is not none %}±{{ "{:,.2f}".format(row.margin_of_error) }}{% endif %}</td><td>{{ row.warnings }}</td>
           </tr>
