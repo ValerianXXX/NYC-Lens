@@ -1,0 +1,9 @@
+{
+  "date": "2026-11-01",
+  "scope": "Retained harness observations, not product defects or successful acceptance",
+  "observations": [
+    {"operation": "Read-only DOM probe as function string with trailing semicolon", "result": "SyntaxError: Unexpected token ';'", "correction": "The browser string-evaluation API needs an expression invoking the unchanged frozen function."},
+    {"operation": "Read-only DOM probe as uninvoked function expression", "result": "Undefined result could not be written as JSON", "correction": "Invoke the same frozen function explicitly with items=14 and metrics=7; no fixture or expectation changed."},
+    {"operation": "Reload after changing worktree UI", "result": "New mobile selector absent", "diagnosis": "The synthetic demo deliberately copies UI files into its isolated home at seed time. The served asset URLs still identify the unchanged baseline UI, which successfully restored the original table/task.", "correction": "Preserve the three old copied UI files and synchronize only those test-owned assets from the new worktree; verify database, saved reports, configuration and other files unchanged."}
+  ]
+}

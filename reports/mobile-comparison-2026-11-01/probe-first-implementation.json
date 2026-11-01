@@ -1,0 +1,305 @@
+{
+  "checks": {
+    "actualReportLinks": true,
+    "groupedMobilePresentation": true,
+    "noDuplicateVisibleValues": true,
+    "noHorizontalMobileResultOverflow": true,
+    "sameFourteenBoundValues": true,
+    "sevenMetricGroups": true
+  },
+  "comparisonHref": "/api/comparison/comparison_f931bdcd1539482bb96f74204dda4324/report?format=json",
+  "documentOverflow": false,
+  "items": [
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesArea-weighted estimate; ACS block-group statistics do not describe an individual address.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=resident_population",
+      "metric": "resident_population",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "300",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesLODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=daytime_jobs",
+      "metric": "daytime_jobs",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesRegional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=direct_competitor_count",
+      "metric": "direct_competitor_count",
+      "presentation": "table",
+      "rank": "Rank 2, high to low",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "1",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesMTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=regional_rail_station_count",
+      "metric": "regional_rail_station_count",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesOverture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+      "metric": "regional_transit_poi_count",
+      "presentation": "table",
+      "rank": "Rank 1, high to low",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "0",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesWeighted neighborhood summary; not an individual or household attribute.A weighted mean of published summaries is not a pooled neighborhood median.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=median_household_income",
+      "metric": "median_household_income",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "$60,000",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesPrivacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+      "metric": "historical_transaction_case_count",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesArea-weighted estimate; ACS block-group statistics do not describe an individual address.Unavailable: ACS B01003_001 is missing one or more required geographies.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=resident_population",
+      "metric": "resident_population",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesLODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=daytime_jobs",
+      "metric": "daytime_jobs",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesRegional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=direct_competitor_count",
+      "metric": "direct_competitor_count",
+      "presentation": "table",
+      "rank": "Rank 1, high to low",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "3",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesMTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=regional_rail_station_count",
+      "metric": "regional_rail_station_count",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesOverture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+      "metric": "regional_transit_poi_count",
+      "presentation": "table",
+      "rank": "Rank 1, high to low",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "0",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesWeighted neighborhood summary; not an individual or household attribute.A weighted mean of published summaries is not a pooled neighborhood median.Unavailable: ACS population weights is missing one or more required geographies.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=median_household_income",
+      "metric": "median_household_income",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesPrivacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+      "metric": "historical_transaction_case_count",
+      "presentation": "table",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": false
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesArea-weighted estimate; ACS block-group statistics do not describe an individual address.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=resident_population",
+      "metric": "resident_population",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "300",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesArea-weighted estimate; ACS block-group statistics do not describe an individual address.Unavailable: ACS B01003_001 is missing one or more required geographies.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=resident_population",
+      "metric": "resident_population",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesLODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=daytime_jobs",
+      "metric": "daytime_jobs",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesLODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=daytime_jobs",
+      "metric": "daytime_jobs",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesRegional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=direct_competitor_count",
+      "metric": "direct_competitor_count",
+      "presentation": "mobile",
+      "rank": "Rank 2, high to low",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "1",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesRegional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=direct_competitor_count",
+      "metric": "direct_competitor_count",
+      "presentation": "mobile",
+      "rank": "Rank 1, high to low",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "3",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesMTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=regional_rail_station_count",
+      "metric": "regional_rail_station_count",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesMTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=regional_rail_station_count",
+      "metric": "regional_rail_station_count",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesOverture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+      "metric": "regional_transit_poi_count",
+      "presentation": "mobile",
+      "rank": "Rank 1, high to low",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "0",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsRetrieved: 2026-11-01T12:30:27.955097+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesOverture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+      "metric": "regional_transit_poi_count",
+      "presentation": "mobile",
+      "rank": "Rank 1, high to low",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "0",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesWeighted neighborhood summary; not an individual or household attribute.A weighted mean of published summaries is not a pooled neighborhood median.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=median_household_income",
+      "metric": "median_household_income",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "$60,000",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsContributing source snapshots: 2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — Retrieved: 2026-11-01T12:30:29.372760+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change. | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — Retrieved: 2026-11-01T12:30:29.363202+00:00 · Source reference period: not recorded — not recorded · Currentness not assessed; these dates do not establish expiry or a source change.Calculation notesWeighted neighborhood summary; not an individual or household attribute.A weighted mean of published summaries is not a pooled neighborhood median.Unavailable: ACS population weights is missing one or more required geographies.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=median_household_income",
+      "metric": "median_household_income",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesPrivacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_4ca7915299aa4584ab5face169e5e399/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+      "metric": "historical_transaction_case_count",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_4ca7915299aa4584ab5face169e5e399",
+      "value": "—",
+      "visible": true
+    },
+    {
+      "detail": "Source dates and limitsSource dates unavailable (MISSING); currentness not assessed.Calculation notesPrivacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+      "evidence": "/api/site/site_584a9bb1800f4e769a2dc06a5d7479c6/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+      "metric": "historical_transaction_case_count",
+      "presentation": "mobile",
+      "rank": "Ranking unavailable: incomplete or different data bases.",
+      "site": "site_584a9bb1800f4e769a2dc06a5d7479c6",
+      "value": "—",
+      "visible": true
+    }
+  ],
+  "job": "analysis_7f7fb73abf7541c8aca9a1473ba47d81",
+  "language": "en",
+  "mismatches": [],
+  "passed": true,
+  "resultScrollWidth": 329,
+  "resultWidth": 329,
+  "viewport": {
+    "height": 844,
+    "width": 390
+  },
+  "originalFourteenDisplaysPreserved": false
+}

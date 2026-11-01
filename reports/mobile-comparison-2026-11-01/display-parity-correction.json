@@ -1,0 +1,6 @@
+{
+  "originalFourteenDisplaysPreserved": true,
+  "comparedFields": 56,
+  "method": "Compare named fields, ignoring JSON object key insertion order.",
+  "priorFailure": "The first verifier used JSON.stringify on objects with different key order; no value/rank/evidence/detail differed."
+}

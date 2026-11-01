@@ -1,0 +1,327 @@
+{
+  "comparison": {
+    "checks": {
+      "actualReportLinks": true,
+      "groupedMobilePresentation": true,
+      "noDuplicateVisibleValues": true,
+      "noHorizontalMobileResultOverflow": true,
+      "sameFourteenBoundValues": true,
+      "sevenMetricGroups": true
+    },
+    "comparisonHref": "/api/comparison/comparison_d74142c3c22241719945564eae68ed9d/report?format=json",
+    "documentOverflow": false,
+    "items": [
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Area-weighted estimate; ACS block-group statistics do not describe an individual address.无法计算：ACS B01003_001 缺少一个或多个必要地区的记录。SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=resident_population",
+        "metric": "resident_population",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明LODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=daytime_jobs",
+        "metric": "daytime_jobs",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Regional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=direct_competitor_count",
+        "metric": "direct_competitor_count",
+        "presentation": "table",
+        "rank": "高到低第 1",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "3",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明MTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=regional_rail_station_count",
+        "metric": "regional_rail_station_count",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Overture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+        "metric": "regional_transit_poi_count",
+        "presentation": "table",
+        "rank": "高到低第 1",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "0",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Weighted neighborhood summary; not an individual or household attribute.这里是已发布统计摘要的加权平均，不等于将地区原始数据合并后得到的中位数。无法计算：ACS population weights 缺少一个或多个必要地区的记录。SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=median_household_income",
+        "metric": "median_household_income",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明Privacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+        "metric": "historical_transaction_case_count",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Area-weighted estimate; ACS block-group statistics do not describe an individual address.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=resident_population",
+        "metric": "resident_population",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "300",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明LODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=daytime_jobs",
+        "metric": "daytime_jobs",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Regional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=direct_competitor_count",
+        "metric": "direct_competitor_count",
+        "presentation": "table",
+        "rank": "高到低第 2",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "1",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明MTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=regional_rail_station_count",
+        "metric": "regional_rail_station_count",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Overture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+        "metric": "regional_transit_poi_count",
+        "presentation": "table",
+        "rank": "高到低第 1",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "0",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Weighted neighborhood summary; not an individual or household attribute.这里是已发布统计摘要的加权平均，不等于将地区原始数据合并后得到的中位数。SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=median_household_income",
+        "metric": "median_household_income",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "$60,000",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明Privacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+        "metric": "historical_transaction_case_count",
+        "presentation": "table",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "—",
+        "visible": false
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Area-weighted estimate; ACS block-group statistics do not describe an individual address.无法计算：ACS B01003_001 缺少一个或多个必要地区的记录。SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=resident_population",
+        "metric": "resident_population",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Area-weighted estimate; ACS block-group statistics do not describe an individual address.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=resident_population",
+        "metric": "resident_population",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "300",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明LODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=daytime_jobs",
+        "metric": "daytime_jobs",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明LODES counts jobs, not necessarily distinct natural persons.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=daytime_jobs",
+        "metric": "daytime_jobs",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Regional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=direct_competitor_count",
+        "metric": "direct_competitor_count",
+        "presentation": "mobile",
+        "rank": "高到低第 1",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "3",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Regional direct categories: [\"restaurant\"].Overture is a compiled place inventory with mixed upstream freshness; count is a screening proxy, not an authoritative business registry.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=direct_competitor_count",
+        "metric": "direct_competitor_count",
+        "presentation": "mobile",
+        "rank": "高到低第 2",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "1",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明MTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=regional_rail_station_count",
+        "metric": "regional_rail_station_count",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明MTA static GTFS represents scheduled stations, not observed service, reliability, ridership, or unique passengers.NJT Port Jervis/Pascack Valley, PATH and CTtransit feeds are not included because their credential or license gates were not accepted on the user's behalf.No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=regional_rail_station_count",
+        "metric": "regional_rail_station_count",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Overture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+        "metric": "regional_transit_poi_count",
+        "presentation": "mobile",
+        "rank": "高到低第 1",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "0",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Overture transit-place categories are a compiled POI proxy, not an operator-authoritative station inventory.Records can be duplicated, stale, incompletely categorized, or absent; this metric does not measure schedules, service frequency, accessibility, reliability, or ridership.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=regional_transit_poi_count",
+        "metric": "regional_transit_poi_count",
+        "presentation": "mobile",
+        "rank": "高到低第 1",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "0",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Weighted neighborhood summary; not an individual or household attribute.这里是已发布统计摘要的加权平均，不等于将地区原始数据合并后得到的中位数。无法计算：ACS population weights 缺少一个或多个必要地区的记录。SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=median_household_income",
+        "metric": "median_household_income",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制参与计算的来源快照：2. acs_2024_5yr / synthetic-inputs-acs_2024_5yr — 下载时间：2026-11-01T12:30:29.372760+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | tiger_bg_2024 / synthetic-inputs-tiger_bg_2024 — 下载时间：2026-11-01T12:30:29.363202+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。计算说明Weighted neighborhood summary; not an individual or household attribute.这里是已发布统计摘要的加权平均，不等于将地区原始数据合并后得到的中位数。SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=median_household_income",
+        "metric": "median_household_income",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "$60,000",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明Privacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_b1875870b407432f94d3fd50c8e269ba/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+        "metric": "historical_transaction_case_count",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_b1875870b407432f94d3fd50c8e269ba",
+        "value": "—",
+        "visible": true
+      },
+      {
+        "detail": "来源日期与限制来源日期不可用 (MISSING); 当前有效性未评估。计算说明Privacy-minimized cases combine positive-amount rolling-sale and ACRIS deed records, deduplicated by tax lot, date and rounded amount.They are public real-property records, not business acquisitions, current valuations, legal conclusions, or property-type-matched comparables.Names, parties, street and unit addresses, contact details, and personal profiles are excluded.该来源仅覆盖纽约五区；跨州站点显示为不可用，而不是把边界外无记录解释为零。No completed source snapshot; absent records are not observed zero.SYNTHETIC_DEMO",
+        "evidence": "/api/site/site_629b21ec5eba46a396b7224551f3e842/evidence?catchment=500m&metric_id=historical_transaction_case_count",
+        "metric": "historical_transaction_case_count",
+        "presentation": "mobile",
+        "rank": "来源或计算口径不完整或不一致，未排序。",
+        "site": "site_629b21ec5eba46a396b7224551f3e842",
+        "value": "—",
+        "visible": true
+      }
+    ],
+    "job": "analysis_7dab4808bb7844619d304e3236a9f2f3",
+    "language": "zh-CN",
+    "mismatches": [],
+    "passed": true,
+    "resultScrollWidth": 259,
+    "resultWidth": 259,
+    "viewport": {
+      "height": 480,
+      "width": 320
+    }
+  },
+  "page": {
+    "checks": {
+      "fullTaskIdentityFits": true,
+      "languageControlFits": true,
+      "pageFits": true
+    },
+    "documentWidth": 305,
+    "passed": true,
+    "scrollWidth": 305,
+    "taskIdentity": "analysis_7dab4808bb7844619d304e3236a9f2f3",
+    "taskScrollWidth": 285,
+    "taskWidth": 285,
+    "viewport": {
+      "height": 480,
+      "width": 320
+    }
+  },
+  "meta": {
+    "openDetails": 1,
+    "theme": "dark"
+  }
+}
