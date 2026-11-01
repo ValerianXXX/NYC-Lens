@@ -21,7 +21,9 @@ handle = api.CreateFileW(str(database), 0xC0000000, 4, None, 3, 0x80, None)
 if handle == ctypes.c_void_p(-1).value:
     raise ctypes.WinError(ctypes.get_last_error())
 try:
-    ready.write_text(json.dumps({'pid': os.getpid(), 'held': True}), encoding='utf-8')
+    temporary = ready.with_suffix('.pending')
+    temporary.write_text(json.dumps({'pid': os.getpid(), 'held': True}), encoding='utf-8')
+    temporary.replace(ready)
     until = time.monotonic() + 10
     while not release.exists() and time.monotonic() < until:
         time.sleep(.01)

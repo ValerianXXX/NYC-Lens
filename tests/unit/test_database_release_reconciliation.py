@@ -39,7 +39,10 @@ def test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_fa
     holders, timers, calls = [], [], []
     def stopped_worker(*args, **kwargs):
         calls.append(1)
-        child = subprocess.Popen([sys.executable, str(fixture), str(database), str(ready), str(release)],
+        # The fixture is stdlib-only. Launch the actual interpreter so its
+        # retained handle identifies the process which holds the database,
+        # rather than Windows' additional virtual-environment redirector.
+        child = subprocess.Popen([sys._base_executable, str(fixture), str(database), str(ready), str(release)],
             stdout=subprocess.DEVNULL, stderr=subprocess.PIPE, creationflags=subprocess.CREATE_NO_WINDOW)
         holders.append(child)
         until = time.monotonic() + 5
