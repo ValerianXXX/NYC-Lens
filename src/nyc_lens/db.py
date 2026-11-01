@@ -31,6 +31,7 @@ CALCULATION_CODE_FILES = (
     "metrics/engine.py",
     "provenance.py",
     "publication_readiness.py",
+    "source_observation.py",
     "spatial/catchments.py",
 )
 

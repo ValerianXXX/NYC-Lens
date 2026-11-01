@@ -45,3 +45,4 @@ jobs:
       - run: python -m pytest tests/unit/test_geojson_completeness.py tests/unit/test_geojson_completeness_recovery.py tests/unit/test_geojson_audit_failure.py
       - run: python -m pytest tests/unit/test_multisnapshot_publication.py tests/unit/test_multisnapshot_publication_recovery.py tests/unit/test_multisnapshot_commit_ack.py tests/unit/test_multisnapshot_cli_outcome.py tests/unit/test_multisnapshot_metric_binding.py
       - run: python -m pytest tests/unit/test_fema_membership.py tests/unit/test_fema_source_identity.py tests/unit/test_fema_response_contract.py tests/unit/test_fema_id_retrieval.py
+      - run: python -m pytest tests/unit/test_comparison_acceptance_scenarios.py tests/unit/test_source_observation.py tests/unit/test_geocoding_ambiguity.py

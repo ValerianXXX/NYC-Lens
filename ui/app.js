@@ -925,7 +925,7 @@ function renderResult(result, selectedCatchment, updateMap = true) {
   const sourceRows = [...uniqueSources.values()].map(([id, metric]) => (
     "<li><span>" + escapeHtml(metricLabel(id)) + "</span><b>" + escapeHtml(metric.source_id)
     + "</b><small>" + escapeHtml(metric.source_year || "") + " · " + escapeHtml(metric.measure_type || "")
-    + " · " + escapeHtml(metric.snapshot_id || "") + "</small></li>"
+    + " · " + escapeHtml(metric.snapshot_id || "") + "</small><small>" + escapeHtml(sourceObservationText(metric)) + "</small></li>"
   )).join("");
   document.querySelector("#sources").innerHTML = "<ul class=\"metric-list\">" + (sourceRows || "<li>" + escapeHtml(t("metric.noData")) + "</li>") + "</ul>";
 
@@ -935,6 +935,21 @@ function renderResult(result, selectedCatchment, updateMap = true) {
   }
   renderDecisionSummary(result, selectedCatchment, metrics);
   renderExports();
+}
+
+function sourceObservationText(metric) {
+  const observation = metric?.source_observation;
+  const copy = (en, zh) => currentLanguage === "zh" ? zh : en;
+  const absent = copy("not recorded", "未记录");
+  if (!observation) return copy("Source dates were not saved with this result; currentness not assessed.", "此结果未保存来源日期；当前有效性未评估。");
+  if (observation.capture_state !== "CAPTURED") {
+    return copy("Source dates unavailable", "来源日期不可用") + " (" + observation.capture_state + "); "
+      + copy("currentness not assessed.", "当前有效性未评估。");
+  }
+  return copy("Retrieved: ", "下载时间：") + (observation.retrieved_at || absent)
+    + " · " + copy("Source reference period: ", "来源覆盖期：")
+    + (observation.reference_start || absent) + " — " + (observation.reference_end || absent)
+    + " · " + copy("Currentness not assessed; these dates do not establish expiry or a source change.", "当前有效性未评估；这些日期不能证明数据已过期或来源已变化。");
 }
 
 function renderComparison(payload) {
@@ -955,7 +970,9 @@ function renderComparison(payload) {
       const rank = "<small>" + escapeHtml(rankable && item && item.high_to_low_rank != null
         ? t("comparison.rank", { rank: item.high_to_low_rank })
         : t(basis ? "comparison.noRank" : "comparison.legacyRank")) + "</small>";
-      return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank + "</td>";
+      return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank
+        + "<details class=\"source-observation\"><summary>" + escapeHtml(currentLanguage === "zh" ? "来源日期与限制" : "Source dates and limits")
+        + "</summary><small>" + escapeHtml(sourceObservationText(item)) + "</small></details></td>";
     }).join("");
     return "<tr><td><strong>" + escapeHtml(site.standardized_address) + "</strong><br><small>"
       + escapeHtml(site.state_abbr || "") + " · County " + escapeHtml(site.county_geoid || "—")

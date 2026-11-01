@@ -80,6 +80,9 @@ function renderAssistantBrief(payload) {
       link.target = '_blank'; link.rel = 'noopener';
       link.textContent = `${index + 1}: ${value.source_id} / ${value.source_year} / ${value.measure_type} / ${assistantCopy('confidence', '置信信息')} ${value.confidence ?? assistantCopy('unmeasured', '未测得')} `;
       line.append(link);
+      const sourceDates = document.createElement('small');
+      sourceDates.textContent = sourceObservationText(value);
+      line.append(sourceDates);
     });
     section.append(line);
   }

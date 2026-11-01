@@ -908,4 +908,9 @@ html[data-theme="dark"] .maplibregl-ctrl-icon { filter:invert(1); }
 .assistant-fields input, .assistant-fields select { padding: 10px; min-width: 0; font: inherit; border: 1px solid #8796aa; border-radius: 7px; }
 #assistant-brief { padding: 16px; overflow-wrap: anywhere; }
 #assistant-brief a { text-decoration: underline; margin-right: 8px; }
+#assistant-brief p > a { display: block; margin-top: 10px; }
+#assistant-brief small { display: block; margin: 4px 0 12px; line-height: 1.5; }
+.source-observation { margin-top: 6px; text-align: left; overflow-wrap: anywhere; }
+.source-observation summary { cursor: pointer; }
+.source-observation[open] { min-width: 170px; }
 @media (max-width: 700px) { .assistant-fields { grid-template-columns: 1fr; } }

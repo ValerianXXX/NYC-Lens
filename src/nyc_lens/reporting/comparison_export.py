@@ -12,6 +12,7 @@ from openpyxl.utils import get_column_letter
 
 from ..comparison import get_comparison
 from ..paths import project_home
+from ..source_observation import observation_columns
 from ..util import new_id, sha256_file, utc_now
 
 
@@ -53,6 +54,7 @@ def _rows(result: dict[str, Any]) -> list[dict[str, Any]]:
                     "comparability": comparison.get("comparability", {}).get("status", "LEGACY_UNVERIFIED"),
                     "comparison_limits": " | ".join(comparison.get("comparability", {}).get("reasons", [])),
                     "percentile_semantics": comparison.get("percentile_semantics", "LEGACY_UNVERIFIED"),
+                    **observation_columns(item),
                 }
             )
     return rows
@@ -169,9 +171,9 @@ def export_comparison_xlsx(conn: duckdb.DuckDBPyConnection, comparison_id: str) 
     for row in detail.iter_rows(min_row=2):
         for cell in row:
             cell.border = Border(bottom=thin)
-            cell.alignment = Alignment(vertical="top", wrap_text=cell.column in {2, 4, 16, 17, 18, 19, 20})
+            cell.alignment = Alignment(vertical="top", wrap_text=True)
     for index, width in enumerate(
-        [34, 28, 30, 55, 16, 22, 18, 15, 18, 28, 38, 24, 30, 14, 16, 65, 38, 24, 65, 45],
+        [34, 28, 30, 55, 16, 22, 18, 15, 18, 28, 38, 24, 30, 14, 16, 65, 38, 24, 65, 45, 26, 34, 34, 24, 24, 24, 26],
         start=1,
     ):
         detail.column_dimensions[get_column_letter(index)].width = width
