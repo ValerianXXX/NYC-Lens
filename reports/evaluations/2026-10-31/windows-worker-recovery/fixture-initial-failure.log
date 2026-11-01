@@ -1,0 +1,51 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\LOCAL_USER\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\LOCAL_USER\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-database-release
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 3 items
+
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True] FAILED [ 33%]
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True] FAILED [ 66%]
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-False] FAILED [100%]
+
+================================== FAILURES ===================================
+_ test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True] _
+tests\unit\test_database_release_reconciliation.py:59: in test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure
+    receipt = execution.execute_bounded_analysis('comparison', request, attempt=attempt)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\analysis_execution.py:122: in execute_bounded_analysis
+    outcome = run_python_worker(WORKER_SCRIPT, [str(directory / "request.json")], limits=limits, cancel=cancel)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_database_release_reconciliation.py:50: in stopped_worker
+    assert json.loads(ready.read_text(encoding='utf-8'))['pid'] == child.pid
+E   AssertionError: assert 32932 == 13704
+E    +  where 13704 = <Popen: returncode: None args: ['C:\\Users\\LOCAL_USER\\Documents\\Codex\\2026-10...>.pid
+_ test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True] _
+tests\unit\test_database_release_reconciliation.py:59: in test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure
+    receipt = execution.execute_bounded_analysis('comparison', request, attempt=attempt)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\analysis_execution.py:122: in execute_bounded_analysis
+    outcome = run_python_worker(WORKER_SCRIPT, [str(directory / "request.json")], limits=limits, cancel=cancel)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_database_release_reconciliation.py:50: in stopped_worker
+    assert json.loads(ready.read_text(encoding='utf-8'))['pid'] == child.pid
+E   AssertionError: assert 25776 == 8920
+E    +  where 8920 = <Popen: returncode: None args: ['C:\\Users\\LOCAL_USER\\Documents\\Codex\\2026-10...>.pid
+_ test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-False] _
+tests\unit\test_database_release_reconciliation.py:59: in test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure
+    receipt = execution.execute_bounded_analysis('comparison', request, attempt=attempt)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\analysis_execution.py:122: in execute_bounded_analysis
+    outcome = run_python_worker(WORKER_SCRIPT, [str(directory / "request.json")], limits=limits, cancel=cancel)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_database_release_reconciliation.py:50: in stopped_worker
+    assert json.loads(ready.read_text(encoding='utf-8'))['pid'] == child.pid
+E   AssertionError: assert 46836 == 42992
+E    +  where 42992 = <Popen: returncode: None args: ['C:\\Users\\LOCAL_USER\\Documents\\Codex\\2026-10...>.pid
+=========================== short test summary info ===========================
+FAILED tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True]
+FAILED tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True]
+FAILED tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-False]
+============================== 3 failed in 7.62s ==============================

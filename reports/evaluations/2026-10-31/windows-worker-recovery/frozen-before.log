@@ -1,0 +1,36 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\LOCAL_USER\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\LOCAL_USER\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-database-release
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 4 items
+
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True] FAILED [ 25%]
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True] FAILED [ 50%]
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-False] PASSED [ 75%]
+tests/unit/test_windows_worker_identity.py::test_actual_interpreter_is_owned_before_payload_even_with_delayed_assignment FAILED [100%]
+
+================================== FAILURES ===================================
+_ test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True] _
+tests\unit\test_database_release_reconciliation.py:82: in test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure
+    assert receipt.database_cleanup_confirmed, receipt
+E   AssertionError: AnalysisExecution(operation_id='analysis_ebf633f424cc4f15b1807dd9d46f1893', status='CANCELLED', site_ids=['site_caedcee19d344cb1a18098e9e2ff7df1', 'site_762c6b4b3e4d47daaa544f1e51c4fb69'], comparison_ids=['comparison_a7281cf540604ef18e9d8f4044cc13c6'], result=None, process=ProcessOutcome(reason='CANCELLED', returncode=1, pid=None, process_stopped=True, memory_boundary='SYNTHETIC_STOP_RECEIPT', elapsed_seconds=0), database_cleanup_confirmed=False, saved_states={}, database_settings={}, error_code='DATABASE_RECONCILIATION_UNAVAILABLE')
+E   assert False
+E    +  where False = AnalysisExecution(operation_id='analysis_ebf633f424cc4f15b1807dd9d46f1893', status='CANCELLED', site_ids=['site_caedcee19d344cb1a18098e9e2ff7df1', 'site_762c6b4b3e4d47daaa544f1e51c4fb69'], comparison_ids=['comparison_a7281cf540604ef18e9d8f4044cc13c6'], result=None, process=ProcessOutcome(reason='CANCELLED', returncode=1, pid=None, process_stopped=True, memory_boundary='SYNTHETIC_STOP_RECEIPT', elapsed_seconds=0), database_cleanup_confirmed=False, saved_states={}, database_settings={}, error_code='DATABASE_RECONCILIATION_UNAVAILABLE').database_cleanup_confirmed
+_ test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True] _
+tests\unit\test_database_release_reconciliation.py:82: in test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure
+    assert receipt.database_cleanup_confirmed, receipt
+E   AssertionError: AnalysisExecution(operation_id='analysis_888758891e1a4031ac1e8eea17170419', status='TIMED_OUT', site_ids=['site_387088e82a3f419cba878f1256b7d12d', 'site_7b6eb37b3e7e48f9a2bf204429e2aa74'], comparison_ids=['comparison_0f14c0e2729746d187055943ca62687a'], result=None, process=ProcessOutcome(reason='TIMED_OUT', returncode=1, pid=None, process_stopped=True, memory_boundary='SYNTHETIC_STOP_RECEIPT', elapsed_seconds=0), database_cleanup_confirmed=False, saved_states={}, database_settings={}, error_code='DATABASE_RECONCILIATION_UNAVAILABLE')
+E   assert False
+E    +  where False = AnalysisExecution(operation_id='analysis_888758891e1a4031ac1e8eea17170419', status='TIMED_OUT', site_ids=['site_387088e82a3f419cba878f1256b7d12d', 'site_7b6eb37b3e7e48f9a2bf204429e2aa74'], comparison_ids=['comparison_0f14c0e2729746d187055943ca62687a'], result=None, process=ProcessOutcome(reason='TIMED_OUT', returncode=1, pid=None, process_stopped=True, memory_boundary='SYNTHETIC_STOP_RECEIPT', elapsed_seconds=0), database_cleanup_confirmed=False, saved_states={}, database_settings={}, error_code='DATABASE_RECONCILIATION_UNAVAILABLE').database_cleanup_confirmed
+_ test_actual_interpreter_is_owned_before_payload_even_with_delayed_assignment _
+tests\unit\test_windows_worker_identity.py:64: in test_actual_interpreter_is_owned_before_payload_even_with_delayed_assignment
+    assert value['pid'] == assigned[0][1] and member.value, observation
+E   AssertionError: {'actualInterpreter': {'base_prefix': 'C:\\Users\\LOCAL_USER\\AppData\\Local\\Programs\\Python\\Python311', 'executable': 'C:\\Users\\LOCAL_USER\\Documents\\Codex\\2026-10-27\\github-ai-agent-github-valerianxxx-1\\NYC-Lens\\.venv\\Scripts\\python.exe', 'pid': 34932, 'prefix': 'C:\\Users\\LOCAL_USER\\Documents\\Codex\\2026-10-27\\github-ai-agent-github-valerianxxx-1\\NYC-Lens\\.venv'}, 'inOwnedJob': False, 'spawnedPid': 30920}
+E   assert (34932 == 30920)
+=========================== short test summary info ===========================
+FAILED tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True]
+FAILED tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True]
+FAILED tests/unit/test_windows_worker_identity.py::test_actual_interpreter_is_owned_before_payload_even_with_delayed_assignment
+========================= 3 failed, 1 passed in 9.66s =========================

@@ -38,7 +38,7 @@ jobs:
       - run: python -m pip install --upgrade pip
       - run: pip install -e ".[dev,agent]"
       - run: python scripts/verify_fema_observations.py
-      - run: python -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_bounded_analysis.py tests/unit/test_analysis_jobs.py tests/unit/test_legacy_http_analysis.py tests/unit/test_bounded_cli.py tests/unit/test_job_receipt_io.py tests/unit/test_api_error_handling.py
+      - run: python -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_bounded_analysis.py tests/unit/test_analysis_jobs.py tests/unit/test_legacy_http_analysis.py tests/unit/test_bounded_cli.py tests/unit/test_job_receipt_io.py tests/unit/test_api_error_handling.py tests/unit/test_database_release_reconciliation.py tests/unit/test_windows_worker_identity.py tests/unit/test_worker_start_identity.py
       - run: python -m pytest tests/unit/test_external_generation_contract.py tests/unit/test_external_generation_recovery.py tests/unit/test_external_generation_analysis.py tests/unit/test_external_publication_readiness.py tests/unit/test_external_storage.py tests/unit/test_external_storage_long_paths.py tests/unit/test_external_path_boundary.py
       - run: python -m pytest tests/unit/test_socrata_publication.py tests/unit/test_socrata_publication_recovery.py tests/unit/test_socrata_row_limits.py
       - run: python -m pytest tests/unit/test_boundary_publication.py tests/unit/test_boundary_publication_recovery.py
@@ -46,3 +46,20 @@ jobs:
       - run: python -m pytest tests/unit/test_multisnapshot_publication.py tests/unit/test_multisnapshot_publication_recovery.py tests/unit/test_multisnapshot_commit_ack.py tests/unit/test_multisnapshot_cli_outcome.py tests/unit/test_multisnapshot_metric_binding.py
       - run: python -m pytest tests/unit/test_fema_membership.py tests/unit/test_fema_source_identity.py tests/unit/test_fema_response_contract.py tests/unit/test_fema_id_retrieval.py
       - run: python -m pytest tests/unit/test_comparison_acceptance_scenarios.py tests/unit/test_source_observation.py tests/unit/test_geocoding_ambiguity.py
+
+  windows-venv-workers:
+    runs-on: windows-latest
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+      - run: python -m venv .worker-venv
+      - run: ./.worker-venv/Scripts/python.exe -m pip install -e ".[dev,agent]"
+      - run: ./.worker-venv/Scripts/python.exe -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_windows_worker_identity.py tests/unit/test_database_release_reconciliation.py tests/unit/test_worker_start_identity.py tests/unit/test_analysis_jobs.py

@@ -1,0 +1,16 @@
+{
+  "capturedFromRuntime": "ae972a47848e778e3bc6386d621f533c9024d9ba",
+  "holderIdentified": false,
+  "originalLegacyMcpException": "NOT_RETAINED",
+  "event": {
+    "atUtc": "2026-11-01T02:46:17.651582+00:00",
+    "test": "tests/unit/test_analysis_jobs.py::test_http_actual_cancel_and_busy_are_distinct_from_success",
+    "function": "execute_bounded_analysis",
+    "line": 133,
+    "errorType": "IOException",
+    "message": "IO Error: Cannot open file \"C:\\Users\\LOCAL_USER\\AppData\\Local\\Temp\\nyc-path-full-ae972-20261031\\test_http_actual_cancel_and_bu0\\data\\nyc_lens.duckdb\": \u53e6\u4e00\u4e2a\u7a0b\u5e8f\u6b63\u5728\u4f7f\u7528\u6b64\u6587\u4ef6\uff0c\u8fdb\u7a0b\u65e0\u6cd5\u8bbf\u95ee\u3002\r\n",
+    "operationId": "analysis_8af556da2aa34bed840d70779f562118",
+    "database": "C:\\Users\\LOCAL_USER\\AppData\\Local\\Temp\\nyc-path-full-ae972-20261031\\test_http_actual_cancel_and_bu0\\data\\nyc_lens.duckdb",
+    "threadId": 45872
+  }
+}

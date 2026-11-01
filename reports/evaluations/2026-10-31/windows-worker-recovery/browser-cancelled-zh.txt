@@ -1,0 +1,125 @@
+Browser tab: 6, Title: "NYC Lens｜纽约商圈情报", URL: "http://127.0.0.1:8795/".
+1 AXWebArea NYC Lens｜纽约商圈情报, URL: 127.0.0.1:8795/
+	2 link Description: 跳到分析工作台, Value: 127.0.0.1:8795/#workspace
+	3 container
+		4 link Description: NYC Lens, Value: 127.0.0.1:8795/#single-analysis
+		5 container 主要导航
+			6 link Description: 单点分析, Value: 127.0.0.1:8795/#single-analysis
+			7 link Description: 多址比较, Value: 127.0.0.1:8795/#multi-comparison
+			8 link Description: 数据说明, Value: 127.0.0.1:8795/#data-guidance
+		122 text 仅本机运行
+		10 button Description: Switch to English, ID: language-toggle
+		11 checkbox Description: 切换深色模式, Value: 0, ID: theme-toggle
+	12 container 本地分析任务
+		13 heading 本地分析任务, Value: 2, ID: job-title
+			123 text 本地分析任务
+		124 text 已取消。此前完成的子分析仍保留；重新分析会创建新任务。 数据库状态已核对。
+		125 text analysis_8d698ef54b904d05afece103e9c7deb6
+		17 button (disabled) 取消计算, ID: job-cancel
+		18 button 检查原任务状态, ID: job-resume
+	19 container 用自然语言比较两个地址
+		20 heading 用自然语言比较两个地址, Value: 2, ID: assistant-title
+			126 text 用自然语言比较两个地址
+		127 text 将两个地址分别放在引号内。查询前确认正式餐饮业态和直线半径；可选 AI 默认关闭。
+		23 container assistant-form
+			128 text 选址要求
+			25 text entry area (settable) 选址要求, ID: assistant-text, Value: Compare "100 Demo Avenue, Newark, NJ" and "200 Demo Avenue, Newark, NJ" for a restaurant within 500m, focusing on competition, population and rent.
+			26 button 准备比较
+		129 text Demo Avenue 为合成演示地址，仅在演示模式可用。使用本地真实数据时请填写实际地址。
+	28 container 商业选址情报工作台, ID: single-analysis
+		130 text 本地 · 可追溯 · 大纽约
+		30 heading 商业选址情报工作台, Value: 1, ID: analysis-title
+			131 text 商业选址情报工作台
+		32 container analysis-form
+			33 container
+				132 text 地址
+				35 text field (settable) 地址, Value: 1501 Broadway, New York, NY 10036, ID: address
+			36 container
+				133 text 商业类型
+				38 pop up button (collapsed, settable) 商业类型, Value: 正式餐饮, ID: business-type, Secondary Actions: Expand
+					39 menu
+						40 (selected) 正式餐饮
+			41 container
+				134 text 当前查看商圈
+				43 pop up button (collapsed, settable) Description: 当前查看商圈, Value: 10分钟步行, ID: catchment-select, Secondary Actions: Expand
+					44 menu
+						135 500米
+						136 1公里
+						137 (selected) 10分钟步行
+			48 button 开始分析, ID: analyze-button
+		138 text 系统使用本地数据库；首次步行商圈会读取公开 OSM 网络。
+	50 container workspace
+		51 button (collapsed) 筛选与商圈 500米 · 1公里 · 10分钟步行, Secondary Actions: Expand
+			139 text 筛选与商圈
+			140 text 500米 · 1公里 · 10分钟步行
+		54 container 地址与商圈
+			141 text 空间视图
+			56 heading 地址与商圈, Value: 2, ID: map-title
+				142 text 地址与商圈
+			143 text 等待分析
+			59 container Description: 纽约地图与商圈范围, ID: map
+				60 container Map
+				61 container
+					62 button Zoom in
+					63 button Zoom out
+					64 button Reset bearing to north
+					65 container
+						66 button (expanded) Description: Toggle attribution, Secondary Actions: Collapse
+						67 text © OpenStreetMap contributors |
+						68 link Description: MapLibre, Value: maplibre.org/
+			144 text 底图 © OpenStreetMap contributors；商圈几何与结果仅保存在本机。
+		70 container 指标与证据
+			71 tab group 分析内容
+				72 tab (selected, settable, boolean) 概览, Value: 1
+				73 tab (selectable, settable, boolean) 客群, Value: 0
+				74 tab (selectable, settable, boolean) 竞争, Value: 0
+				75 tab (selectable, settable, boolean) 交通, Value: 0
+				76 tab (selectable, settable, boolean) 地产与风险, Value: 0
+				77 tab (selectable, settable, boolean) 数据证据, Value: 0
+			78 heading 指标与证据, Value: 2, ID: detail-title
+				145 text 指标与证据
+			146 text 完成一次分析后显示标准地址、地块、商圈和数据版本。
+			81 container panel-overview
+				82 container
+					83 heading 客群判断, Value: 3
+						147 text 客群判断
+					148 text 分析后显示当前商圈数据。
+				86 container
+					87 heading 游客、健康与环境, Value: 3
+						149 text 游客、健康与环境
+					150 text 分析后显示当前商圈数据。
+		90 container 选址判断摘要
+			151 text 决策阅读
+			92 heading 选址判断摘要, Value: 2, ID: decision-title
+				152 text 选址判断摘要
+			153 text 不生成综合分数
+			95 container decision-empty
+				154 text 等待地点分析
+				155 text 完成分析后，这里会用真实指标归纳地点概览、主要机会、主要风险和证据完整度。
+	98 container 多地址同口径比较, ID: multi-comparison
+		156 text 独立工作流
+		100 heading 多地址同口径比较, Value: 2, ID: comparison-title
+			157 text 多地址同口径比较
+		158 text 只排序原始指标，不判断好坏
+		103 container comparison-form
+			104 container
+				159 text 每行一个公开地址（2至20个）
+				106 text entry area (settable) 每行一个公开地址（2至20个）, ID: comparison-addresses, Value: 100 Supreme Court Drive, Mineola, NY 11501
+920 Broad Street, Newark, NJ 07102
+			107 container
+				160 text 比较商圈
+				109 pop up button (collapsed, settable) 比较商圈, Value: 500米, ID: comparison-catchment, Secondary Actions: Expand
+					110 menu
+						111 250米
+						112 (selected) 500米
+						113 1公里
+			114 button 开始比较, ID: compare-button
+		161 text 比较只展示同一指标的原始值和顺序，不生成未经校准的综合分数。
+		162 text 完成比较后显示人口、岗位、竞争、交通和房地产案例等同口径结果。
+	117 container data-guidance
+		163 text 数据使用边界
+		164 text 区域统计不代表具体个人。ACS 是调查估计并显示误差范围；LODES 统计岗位；游客和客群为模型代理。自动综合评分在真实项目校准前保持关闭。
+	120 container
+		121 text NYC Lens 本地商业情报数据库 · 数据与计算均可追溯
+
+The focused UI element is 1 AXWebArea NYC Lens｜纽约商圈情报, URL: 127.0.0.1:8795/

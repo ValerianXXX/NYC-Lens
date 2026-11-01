@@ -1,0 +1,14 @@
+{
+  "runtime": "deae418552c4e251f665b4a69cbbac5e30f22e27",
+  "startedAtUtc": "2026-11-01T03:20:27.490704+00:00",
+  "status": "COMPLETED",
+  "retainedTestDirectory": "C:\\Users\\LOCAL_USER\\AppData\\Local\\Temp\\nyc-worker-full-deae4-20261031",
+  "failures": [],
+  "instrumentation": "Failure-receipt pytest hook only; no per-frame tracer",
+  "newModelCalls": 0,
+  "scope": "Entire suite including unchanged original, path and worker-recovery cases; no per-frame tracing or test changes",
+  "exitCode": 0,
+  "finishedAtUtc": "2026-11-01T03:46:13.913397+00:00",
+  "sourceUnchanged": true,
+  "deliveryHead": "0b249ae31f4377fbc17763a9203f3d8ed6a8fa42"
+}
