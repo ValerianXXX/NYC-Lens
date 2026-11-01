@@ -202,8 +202,8 @@
     },
     {
       "path": "eight-frozen-before.txt",
-      "sha256": "9b35ef9b1d0a7b835ff374f3c36aa69bce3c99da8b2c510339a4bb09bc6118dd",
-      "bytes": 10603
+      "sha256": "52dc7793eedc4af87a3aa217de13fad6d2495d960caa597894964a26a3d6794e",
+      "bytes": 10456
     },
     {
       "path": "final-full.json",
@@ -212,13 +212,13 @@
     },
     {
       "path": "final-full.txt",
-      "sha256": "b9bcd75041456a6e6a21d8e9ccc8484749d0e77fcac00175235ec23f6e2de9d2",
-      "bytes": 73691
+      "sha256": "7e4708426ddd9542278d256d4d62aa8154f20e778a7c9794d93a0da33f821c70",
+      "bytes": 73077
     },
     {
       "path": "final-related.txt",
-      "sha256": "3f536388824da14b0aae2e00723d2c466ffe09214f1f85e1bd22564f1d4fac1e",
-      "bytes": 3389
+      "sha256": "ff1d6e880229918baf68bc7164536f30c7cb08c2535b48d00a4ecb0c3fe18bd0",
+      "bytes": 3350
     },
     {
       "path": "incomplete-first-full-reason.json",
@@ -232,33 +232,39 @@
     },
     {
       "path": "incomplete-first-full.txt",
-      "sha256": "812ccd889fcc87522e95982425c6a28fc1c6aeb835389e599fb98665e653003d",
-      "bytes": 14623
+      "sha256": "18661e09218d4afa15d8ff963c74703b5c15baba393873d25bbeaab08352b4a5",
+      "bytes": 14501
     },
     {
       "path": "initial-test-authoring-error.txt",
-      "sha256": "c54c9159b370b8ce7be1be595120e531800d83b4c954f49ecac8100e380c8981",
-      "bytes": 1913
+      "sha256": "aa5b5e6c2f8d4411849955484a7144d1f60276a8953e9c0a6a129f5993f293fd",
+      "bytes": 1879
     },
     {
       "path": "nine-frozen-after.txt",
-      "sha256": "2b5ac9274d60ac0a4a89c48699475491ad4393f5a5af0a1cfb037b52b906eb3c",
-      "bytes": 2507
+      "sha256": "502285cfa2574f88df60ed08ce660a766fab2dc040ea1bfb9041a960c189ee71",
+      "bytes": 2483
     },
     {
       "path": "ninth-frozen-before.txt",
-      "sha256": "d2fa5e696006d2dfc40ebbe521310b8d8d7f6fd297c66ae23fb6b8af14ad5a06",
-      "bytes": 1445
+      "sha256": "377fce3cf9debb812080b94bd0af65c716c4b3b3f1257a49b645743956a33fbc",
+      "bytes": 1420
     },
     {
       "path": "ordinary-vintage-before.txt",
-      "sha256": "70085924e30692e599bc31404b95534be217f69610e9077ccd87be69d961e0ad",
-      "bytes": 5202
+      "sha256": "8446867670a1583f9ecefa9c79bf53dc939155145c6a5770cd76e6d57c7e3dbc",
+      "bytes": 5153
     },
     {
       "path": "original-baseline.txt",
-      "sha256": "c8da1f9d617e12e5a7728c073c0df8ef01c0c237ecfac772b28f89519e072b76",
-      "bytes": 5418
+      "sha256": "6a5bf9a1cc71deec34090b2c8d23b85ef1acfe2e8506d662fef8826b8584c332",
+      "bytes": 5369
+    },
+    {
+      "path": "packaging-verification-before.json",
+      "sha256": "1b8b080aa55060c028b72cdaeb671cd0e0ef89c8dfaa3872ec72080219289dd8",
+      "bytes": 742
     }
-  ]
+  ],
+  "logEncoding": "UTF-8 with LF; selected redacted public logs only. Original raw logs retained separately."
 }

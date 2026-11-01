@@ -1,0 +1,10 @@
+{
+  "status": "FAILED_EVIDENCE_HASH_CHECK",
+  "commit": "7b4fd05f987d823423e7b8a57b005d56b3014c1b",
+  "firstMismatch": "eight-frozen-before.txt",
+  "cause": "Selected redacted logs retained CRLF in the working tree, while the existing Git attributes stored LF. The receipt hashed working-tree bytes instead of the committed normalized log bytes.",
+  "correction": "Normalize only these newly packaged text logs to LF and regenerate the manifest, then verify every receipt hash against Git blobs. Original raw observations outside the repository are unchanged. Browser-download CSV/JSON/XLSX and HTML retain exact bytes under their explicit attributes.",
+  "runtimeChanged": false,
+  "historyRewritten": false,
+  "testOutcomeChanged": false
+}
