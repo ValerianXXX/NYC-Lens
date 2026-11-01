@@ -1,0 +1,114 @@
+.sss.................................................................... [ 13%]
+........................................................................ [ 26%]
+........................................................................ [ 39%]
+........................................................................ [ 52%]
+........................................................................ [ 65%]
+........................................................................ [ 78%]
+........................................................................ [ 91%]
+...............................................                          [100%]
+============================== warnings summary ===============================
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_census_comparison_workflow.py: 2 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_metric_input_lineage.py: 10 warnings
+tests/unit/test_metric_lineage_compatibility.py: 8 warnings
+tests/unit/test_metric_source_vintage.py: 4 warnings
+tests/unit/test_spatial.py: 2 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\spatial\catchments.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    point_metric = transform(forward, Point(longitude, latitude))
+
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_census_comparison_workflow.py: 2 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_metric_input_lineage.py: 10 warnings
+tests/unit/test_metric_lineage_compatibility.py: 8 warnings
+tests/unit/test_metric_source_vintage.py: 4 warnings
+tests/unit/test_spatial.py: 2 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\spatial\catchments.py:99: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, point_metric.buffer(distance_m, quad_segs=32))
+
+tests/unit/test_analysis_interruption_integration.py: 2 warnings
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_census_comparison_workflow.py: 2 warnings
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_metric_input_lineage.py: 10 warnings
+tests/unit/test_metric_lineage_compatibility.py: 8 warnings
+tests/unit/test_metric_source_vintage.py: 4 warnings
+tests/unit/test_spatial.py: 3 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\spatial\catchments.py:268: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return float(transform(metric_transform_for_geometry(geometry), geometry).area)
+
+tests/unit/test_analysis_interruption_integration.py: 1 warning
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_census_comparison_workflow.py: 2 warnings
+tests/unit/test_census_ratio_components.py: 1 warning
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_metric_input_lineage.py: 10 warnings
+tests/unit/test_metric_lineage_compatibility.py: 8 warnings
+tests/unit/test_metric_source_vintage.py: 4 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\metrics\engine.py:483: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    catchment_area_m2 = float(transform(metric_transform, geometry).area)
+
+tests/unit/test_analysis_interruption_integration.py: 1 warning
+tests/unit/test_assistant.py: 3 warnings
+tests/unit/test_census_comparison_workflow.py: 2 warnings
+tests/unit/test_census_ratio_components.py: 1 warning
+tests/unit/test_evidence_snapshot_contract.py: 6 warnings
+tests/unit/test_metric_input_lineage.py: 10 warnings
+tests/unit/test_metric_lineage_compatibility.py: 8 warnings
+tests/unit/test_metric_source_vintage.py: 4 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\metrics\engine.py:1994: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric_geometry = transform(metric_transform, geometry)
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-mobile-journey\tests\fixtures\census_scenario.py:27: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    area = transform(metric_transform_for_geometry(geometry), geometry).area
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_input_contract.py::test_context_and_intersection_keep_exact_boundary_identity
+tests/unit/test_census_input_contract.py::test_context_and_intersection_keep_exact_boundary_identity
+tests/unit/test_census_ratio_components.py::test_education_share_requires_all_four_published_components
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\metrics\census.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric = transform(metric_transform, geometry)
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_input_contract.py::test_context_and_intersection_keep_exact_boundary_identity
+tests/unit/test_census_input_contract.py::test_context_and_intersection_keep_exact_boundary_identity
+tests/unit/test_census_input_contract.py::test_context_and_intersection_keep_exact_boundary_identity
+tests/unit/test_census_ratio_components.py::test_education_share_requires_all_four_published_components
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\metrics\census.py:101: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    boundary_metric = transform(metric_transform, geometries[int(index)])
+
+tests/unit/test_geojson_completeness_recovery.py::test_downloaded_empty_geometry_cannot_silently_disappear_above_floor
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\ingest\geographies.py:77: UserWarning: GeoSeries.notna() previously returned False for both missing (None) and empty geometries. Now, it only returns False for missing values. Since the calling GeoSeries contains empty geometries, the result has changed compared to previous versions of GeoPandas.
+  Given a GeoSeries 's', you can use '~s.is_empty & s.notna()' to get back the old behaviour.
+
+  To further ignore this warning, you can do:
+  import warnings; warnings.filterwarnings('ignore', 'GeoSeries.notna', UserWarning)
+    frame = frame.loc[frame.geometry.notna()].copy()
+
+tests/unit/test_spatial.py: 13 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\spatial\catchments.py:246: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    transform(forward, Point(graph.nodes[node]["lon"], graph.nodes[node]["lat"]))
+
+tests/unit/test_spatial.py: 16 warnings
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\spatial\catchments.py:258: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    edge_lines_metric.append(transform(forward, line))
+
+tests/unit/test_spatial.py::test_walk_isochrone_is_network_derived_not_radial
+  <WORKSPACE>\NYC-Lens-mobile-journey\src\nyc_lens\spatial\catchments.py:264: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, polygon_metric)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: <WORKSPACE>\task-artifacts\nyc-mobile-full-20261101.xml -

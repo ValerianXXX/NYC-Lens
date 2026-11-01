@@ -1,0 +1,137 @@
+{
+  "observed_at_utc": "2026-11-01T13:00:16.579310+00:00",
+  "kind": "ACTUAL_BROWSER_DOWNLOAD_VALIDATION",
+  "baseline_json_exact_bytes_preserved": true,
+  "baseline": {
+    "file": "nyc-mobile-baseline-comparison-20261101.json",
+    "bytes": 844726,
+    "sha256": "7ae71a2c21cf77ff82d7a6a69a37577ccab6e950f53394575813396d7ce351b7"
+  },
+  "reports": [
+    {
+      "language": "en",
+      "comparison_id": "comparison_f931bdcd1539482bb96f74204dda4324",
+      "downloads": [
+        {
+          "file": "nyc-mobile-final-en-20261101.json",
+          "bytes": 844726,
+          "sha256": "7ae71a2c21cf77ff82d7a6a69a37577ccab6e950f53394575813396d7ce351b7"
+        },
+        {
+          "file": "nyc-mobile-final-en-20261101.csv",
+          "bytes": 269125,
+          "sha256": "2ab832656427ac88f33b086799b7b470900d8ae65d9d25170854ec7709f46ff1"
+        },
+        {
+          "file": "nyc-mobile-final-en-20261101.xlsx",
+          "bytes": 63896,
+          "sha256": "da04f18df365494c85f6f3c4cecf84e8547b1c594e8fc6a08c6b724962125e77"
+        }
+      ],
+      "csv_rows": 252,
+      "xlsx_detail_rows": 252,
+      "columns_checked": 32,
+      "xlsx_sheets": {
+        "比较概览": [
+          17,
+          6
+        ],
+        "同口径指标": [
+          253,
+          32
+        ],
+        "来源与限制": [
+          53,
+          5
+        ]
+      },
+      "numeric_tolerance_xlsx_only": {
+        "absolute": 1e-08,
+        "relative": 0
+      },
+      "missing_and_metadata": "EXACT",
+      "status": "PASS"
+    },
+    {
+      "language": "zh",
+      "comparison_id": "comparison_d74142c3c22241719945564eae68ed9d",
+      "downloads": [
+        {
+          "file": "nyc-mobile-final-zh-20261101.json",
+          "bytes": 844696,
+          "sha256": "e14ed47a3c9e81fd53360547deb1638fcba0542382f82835f906b5d1004776f2"
+        },
+        {
+          "file": "nyc-mobile-final-zh-20261101.csv",
+          "bytes": 269125,
+          "sha256": "bc2ebe67f42e71f3155ebe055b66eeb0a84fea082be7e968eaf745ea53a4f7a0"
+        },
+        {
+          "file": "nyc-mobile-final-zh-20261101.xlsx",
+          "bytes": 63931,
+          "sha256": "7d4b2c9948937e5a764103a08311ddcdab9e7ef18c768fa00a98e8c3bd755bf7"
+        }
+      ],
+      "csv_rows": 252,
+      "xlsx_detail_rows": 252,
+      "columns_checked": 32,
+      "xlsx_sheets": {
+        "比较概览": [
+          17,
+          6
+        ],
+        "同口径指标": [
+          253,
+          32
+        ],
+        "来源与限制": [
+          53,
+          5
+        ]
+      },
+      "numeric_tolerance_xlsx_only": {
+        "absolute": 1e-08,
+        "relative": 0
+      },
+      "missing_and_metadata": "EXACT",
+      "status": "PASS"
+    }
+  ],
+  "address_mapped_metric_values_preserved": 252,
+  "calculation_version_and_snapshot_set_unchanged": true,
+  "expected_fresh_analysis_differences": [
+    "reversed address/site order and IDs",
+    "new comparison ID",
+    "observation time and retrieval age",
+    "language/request/brief difference direction"
+  ],
+  "income_evidence": {
+    "resolved": 6,
+    "unresolved": 0,
+    "matches_saved_bindings": true,
+    "raw_file_binding": "UNAVAILABLE",
+    "receipt": {
+      "file": "nyc-mobile-browser-income-evidence-20261101.json",
+      "bytes": 5295,
+      "sha256": "9d9c501a8f6b37b74ac3173a7fa01bbde0dec1c7e312755dff7d590be773a5f6"
+    }
+  },
+  "jobs": [
+    {
+      "file": "analysis_7dab4808bb7844619d304e3236a9f2f3.json",
+      "status": "SUCCEEDED",
+      "sha256": "0dce399616e26ae8eab01b231a9a30903ce50a968a5e385a6042555664dd14ca"
+    },
+    {
+      "file": "analysis_7f7fb73abf7541c8aca9a1473ba47d81.json",
+      "status": "SUCCEEDED",
+      "sha256": "fc7b4c6c58b9390ba7130ea4dd838a1f7fbd1274c880f05fe2b84c005e9dc627"
+    }
+  ],
+  "composite_score": null,
+  "new_model_calls": 0,
+  "physical_device_test": false,
+  "independent_human_test": false,
+  "synthetic_data_only": true,
+  "status": "PASS"
+}

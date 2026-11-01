@@ -1,0 +1,315 @@
+{
+  "recorded_at_utc": "2026-11-01T13:04:06.187195+00:00",
+  "baseline_commit": "dfaf74139ba4c4f05adc4ec1575916b06025b024",
+  "runtime_commit": "5f729ae65dfd4f3ace08b53ce3837c06eb74a8d9",
+  "frozen_initial_protocol_probe": "99904fb",
+  "first_ui_commit": "e8bed51",
+  "frozen_followup_probe": "c1be581",
+  "scope": "Actual browser interaction over the unchanged local engine and isolated synthetic Census fixture",
+  "browser": {
+    "provider": "ChatGPT in-app browser",
+    "actual_page_interactions": true,
+    "viewports_css_pixels": [
+      [
+        390,
+        844
+      ],
+      [
+        390,
+        640
+      ],
+      [
+        320,
+        640
+      ],
+      [
+        320,
+        480
+      ],
+      [
+        1280,
+        900
+      ]
+    ],
+    "languages": [
+      "en",
+      "zh"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ],
+    "map_markers": 2,
+    "evidence_links_visible_per_comparison": 14,
+    "native_phone": false,
+    "touch": false,
+    "screen_reader": false,
+    "independent_human": false,
+    "temporary_viewport_restored": true,
+    "owned_test_tabs_closed": true,
+    "owned_fixture_server_stopped": true,
+    "saved_results_retained": true
+  },
+  "before_after": {
+    "390_result_width_scroll": {
+      "before": [
+        329,
+        1131
+      ],
+      "after": [
+        329,
+        329
+      ]
+    },
+    "320_document_width_scroll": {
+      "before": [
+        305,
+        334
+      ],
+      "after": [
+        305,
+        305
+      ]
+    },
+    "unchanged_display_fields": 56,
+    "unchanged_saved_json_bytes": true,
+    "cross_language_address_mapped_metric_values": 252,
+    "differences": [
+      -2,
+      2
+    ]
+  },
+  "complete_native_suite": {
+    "runtime": "5f729ae65dfd4f3ace08b53ce3837c06eb74a8d9",
+    "tests": 551,
+    "passed": 548,
+    "skipped": 3,
+    "failures": 0,
+    "errors": 0,
+    "seconds": 738.354,
+    "exit_code": 0,
+    "skip_details": [
+      {
+        "test": "tests.integration.test_local_system.test_three_public_samples_have_complete_core_outputs",
+        "reason": "Run nyc-lens refresh and nyc-lens samples first."
+      },
+      {
+        "test": "tests.integration.test_local_system.test_evidence_ids_resolve_to_standardized_records",
+        "reason": "Run nyc-lens refresh and nyc-lens samples first."
+      },
+      {
+        "test": "tests.integration.test_local_system.test_api_sections_and_evidence_endpoint_expose_current_domains_and_lineage",
+        "reason": "Run nyc-lens refresh and nyc-lens samples first."
+      }
+    ],
+    "raw_junit_sha256": "2babecb22259e3a92ace4b4562eee4fa3aed7d97f8d7c70443ce8ee1de46701f"
+  },
+  "related_ui_contracts": {
+    "baseline_passed": 3,
+    "final_passed": 3
+  },
+  "hosted_checks": "RECORDED_SEPARATELY_ON_DRAFT_PR_NOT_INFERRED_FROM_LOCAL_RESULTS",
+  "download_validation": "download-verification.json",
+  "new_provider_calls": 0,
+  "retained_harness_failures": [
+    "probe string invocation syntax",
+    "uninvoked function expression",
+    "old seeded UI copy served",
+    "JSON key-order parity false; named-field correction retained"
+  ],
+  "retained_product_failures": [
+    "clipped narrow comparison",
+    "long task identity page overflow"
+  ],
+  "remaining_limits": [
+    "synthetic data only; full regional dataset unavailable",
+    "physical-device, touch, screen-reader and independent-user acceptance untested",
+    "no new model or Hermes/MCP Apps client trial",
+    "some calculation notes remain English in Chinese mode",
+    "raw-file binding unavailable for synthetic records",
+    "no standalone wheel installation or deployment validation"
+  ],
+  "data_migration": "NONE",
+  "dependency_change": "NONE",
+  "production_action": "NONE",
+  "rollback": "Reviewed UI revert including asset query versions; preserve database and saved results.",
+  "published_text_processing": "Redact local workspace, home and host; normalize LF and trailing whitespace.",
+  "source_git_blob_sha256": {
+    "ui/app.js": "ecca95d0d2182c9a88649376ad7e824a1d577c8c8ee125cdcac3406f1588087c",
+    "ui/styles.css": "19e294009a71ef5e321e4c2c7df5efb56e136243965ffaf464fee01a75f511b1",
+    "ui/index.html": "7d1db951ec4be3815df79ab8a4c3c03684f3b4badf58cdfb43a3539ec11a3bc7",
+    "scripts/probe_mobile_comparison.js": "26caf8b7c8174ae81eaac13a65c0591205aff5d6b502c0e089e5ab06c259cf34",
+    "scripts/probe_mobile_page.js": "b8b8c1c6678ec540faf4402c369f88174f03a234b8a3ca4c3585e62a42d2dd79",
+    "tests/fixtures/browser_analysis_server.py": "070d8ae1726ca92baff2ea8536671cf2ccad16026c7b11572cb59a1bd7121372"
+  },
+  "evidence_files": [
+    {
+      "file": "baseline.png",
+      "sha256": "143c3a5121d444d5fd5d1143422991dfbbbd5b2cd799befbf8be4f8d21f08992",
+      "bytes": 32678,
+      "original_local_file": "nyc-mobile-baseline-result-20261101.png",
+      "original_sha256": "143c3a5121d444d5fd5d1143422991dfbbbd5b2cd799befbf8be4f8d21f08992"
+    },
+    {
+      "file": "final-zh.png",
+      "sha256": "c8dda2433f3bfb016e00de1a8105d8b78f2c39c8a776116e1469a67a54a50044",
+      "bytes": 34928,
+      "original_local_file": "nyc-mobile-final-zh-20261101.png",
+      "original_sha256": "c8dda2433f3bfb016e00de1a8105d8b78f2c39c8a776116e1469a67a54a50044"
+    },
+    {
+      "file": "final-en-evidence.png",
+      "sha256": "f36ffe08b550d3379b57a20d82521a13c3d60164648ba6f41fe895358570d498",
+      "bytes": 30166,
+      "original_local_file": "nyc-mobile-final-en-evidence-20261101.png",
+      "original_sha256": "f36ffe08b550d3379b57a20d82521a13c3d60164648ba6f41fe895358570d498"
+    },
+    {
+      "file": "short-zh-dark.png",
+      "sha256": "f51ea454ccdd39516b158fb1a91473dd3538c95d5e30adbf4469039bfec6dfe8",
+      "bytes": 18952,
+      "original_local_file": "nyc-mobile-short-zh-dark-20261101.png",
+      "original_sha256": "f51ea454ccdd39516b158fb1a91473dd3538c95d5e30adbf4469039bfec6dfe8"
+    },
+    {
+      "file": "baseline-layout.json",
+      "sha256": "ac615f41b62bced2545e53af5283ee1c671acd578d063120dd53b4d283940cb8",
+      "bytes": 393,
+      "original_local_file": "nyc-mobile-baseline-layout-20261101.json",
+      "original_sha256": "ab68627d3b56c856d3efdfc23b95bd7d86d1c6d1d431c58cc69a73010fbd78fd"
+    },
+    {
+      "file": "probe-before.json",
+      "sha256": "abbbab053a3f3f6add413256b34d1617fba059f3aae7e53a2b859a6352c3a9ca",
+      "bytes": 615,
+      "original_local_file": "nyc-mobile-probe-before-20261101.json",
+      "original_sha256": "172faeebb96787112425f67748ac25578a520e011588928229d12b988c40a8a8"
+    },
+    {
+      "file": "probe-first-implementation.json",
+      "sha256": "752ed82eaf9052191fe8608c0993edf1e1c81473237f7c11e2bb79349fef5c8f",
+      "bytes": 26736,
+      "original_local_file": "nyc-mobile-probe-first-implementation-20261101.json",
+      "original_sha256": "02656cf721c31d04f51d0070b171510a3b5990ffa4662628e88d54a5070089c7"
+    },
+    {
+      "file": "display-parity-correction.json",
+      "sha256": "97febc8131e0bf1b1eeb8a541c24d6a92d591a7e84647d4122fe5ea3d7f2d321",
+      "bytes": 288,
+      "original_local_file": "nyc-mobile-display-parity-followup-20261101.json",
+      "original_sha256": "19755d1d86e6f75aebd71e6cb2a64c8f03205e9b1fab1bf2b8e1bba4b2f17269"
+    },
+    {
+      "file": "probe-320-before-identity-fix.json",
+      "sha256": "c36118bef7bad680f2015457d21f1495b92e320cff50154843e32a16ecfe75ee",
+      "bytes": 26689,
+      "original_local_file": "nyc-mobile-probe-320-en-20261101.json",
+      "original_sha256": "4f0db342ce98770f9e7725295a8853273b0c311b2f8e07eea324184b0f7762f4"
+    },
+    {
+      "file": "page-overflow-before.json",
+      "sha256": "79e91c06dfd7d66ac0e8696169889acd69807b8cdb374b9aeecb179d3f8e8e26",
+      "bytes": 343,
+      "original_local_file": "nyc-mobile-page-overflow-before-20261101.json",
+      "original_sha256": "0081583934c241b5d0801f28e2c5e5ff759653fa7f36fe97eaf138e212a3d212"
+    },
+    {
+      "file": "page-overflow-after.json",
+      "sha256": "bf7bd24e22d840e6d106fb46ab56532e3b5fb8ea47ba3d9982d9b0b7da8b17f8",
+      "bytes": 340,
+      "original_local_file": "nyc-mobile-page-overflow-after-20261101.json",
+      "original_sha256": "368ca7509d67caff97dacd325e55b6aef3ad27b353274634643ae3e968d73c47"
+    },
+    {
+      "file": "probe-final-320-en.json",
+      "sha256": "0df76ac194797b26fe571d549076d979bd89705a4f7745a78065cd1493ff151d",
+      "bytes": 26690,
+      "original_local_file": "nyc-mobile-probe-final-320-en-20261101.json",
+      "original_sha256": "5bf6aa67b4349d55803aa6d081c25b4198be4565f54015901520e73fa01b4722"
+    },
+    {
+      "file": "probe-desktop-en.json",
+      "sha256": "e1749d0ff73b534225ac75a8595e90d3bb5cb028720fe7155b32cb7315a4d33d",
+      "bytes": 26693,
+      "original_local_file": "nyc-mobile-probe-desktop-en-20261101.json",
+      "original_sha256": "6f1199c32a766530f1796be1becb8980e5f2d2d01885454f316a0dace23fa691"
+    },
+    {
+      "file": "probe-390-zh.json",
+      "sha256": "0c4074cf362ea6a38397b9308324354d082bd25f771d950678f9d976e0080db7",
+      "bytes": 26529,
+      "original_local_file": "nyc-mobile-probe-390-zh-20261101.json",
+      "original_sha256": "e50a7680cc8ecf1624391b7827de583c4012bee9c48596190b6e66265ea0956c"
+    },
+    {
+      "file": "probe-short-zh-dark.json",
+      "sha256": "0493c6e177a31d06fb3af93161c8939abccb01a5b156ee85d06b16da7d9158d2",
+      "bytes": 27597,
+      "original_local_file": "nyc-mobile-short-zh-dark-20261101.json",
+      "original_sha256": "e387e152b118cc3135591750d610263433c385b4ddc75f736ea3a910455ad669"
+    },
+    {
+      "file": "harness-observations.json",
+      "sha256": "84aa998aabea142a9a825c4d614a34553ff097aa9fd62aef6a66b2e462bddfeb",
+      "bytes": 1153,
+      "original_local_file": "nyc-mobile-harness-observations-20261101.json",
+      "original_sha256": "84aa998aabea142a9a825c4d614a34553ff097aa9fd62aef6a66b2e462bddfeb"
+    },
+    {
+      "file": "download-verification.json",
+      "sha256": "9e6571960971b9f1b96c3427e0adb47f710c6b30aed1bb6ca2ea9dec260f6227",
+      "bytes": 3920,
+      "original_local_file": "nyc-mobile-download-verification-20261101.json",
+      "original_sha256": "9e6571960971b9f1b96c3427e0adb47f710c6b30aed1bb6ca2ea9dec260f6227"
+    },
+    {
+      "file": "income-evidence.json",
+      "sha256": "1b164610aff52407b82047230ef0d2d6d88f0dc11b6f74bd5f0fadb1ad955ad1",
+      "bytes": 5296,
+      "original_local_file": "nyc-mobile-browser-income-evidence-20261101.json",
+      "original_sha256": "9d9c501a8f6b37b74ac3173a7fa01bbde0dec1c7e312755dff7d590be773a5f6"
+    },
+    {
+      "file": "final-ui.json",
+      "sha256": "0f51bfd3c42a9abaa577e8aa03e8a45b3c24e910d8b44ae2fb2a24a9a1013843",
+      "bytes": 1328,
+      "original_local_file": "nyc-mobile-final-ui-20261101.json",
+      "original_sha256": "06f692ec6c004972a0b50548204405b07ee20879789987c0152460df57d4fd72"
+    },
+    {
+      "file": "initial-ui-copy.json",
+      "sha256": "9272247b910543a213acd12b089dc59238522af342b3c4ac805d14a0ff96476c",
+      "bytes": 4986,
+      "original_local_file": "nyc-mobile-ui-copy-receipt-20261101.json",
+      "original_sha256": "b76228831c05c1e6a897cf3dd520a3c207179ef8d907a7a59ec57cd920cc47e3"
+    },
+    {
+      "file": "identity-ui-copy.json",
+      "sha256": "fd4113c07e300c24d6371721994c02d93dc96c157096860cc5a42120b4257cd0",
+      "bytes": 4937,
+      "original_local_file": "nyc-mobile-overflow-copy-receipt-20261101.json",
+      "original_sha256": "144960a9d76d1bc60f17c6e4c8575e504a34b43395c2caa77b2c0d64ad82cdf4"
+    },
+    {
+      "file": "native-full.txt",
+      "sha256": "f734e0bf0807b5fc1938079b1c2d4ca5ea0cebb27931e6d81884e04482ebfb7e",
+      "bytes": 10151,
+      "original_local_file": "nyc-mobile-full-20261101.txt",
+      "original_sha256": "cbdbe67bf38b11c642442ef505c5ad68721903f7d1785aa76595730fa2c05115"
+    },
+    {
+      "file": "baseline-ui-contracts.txt",
+      "sha256": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236",
+      "bytes": 80,
+      "original_local_file": "nyc-mobile-baseline-ui-20261101.txt",
+      "original_sha256": "a1ff7b18c450107a2b647ba9a8ab650d70cebe1a13a13684583ac4450ea9425a"
+    },
+    {
+      "file": "final-ui-contracts.txt",
+      "sha256": "cf426ab35f3b06fccef8290fde5325d90af130a79da1d1752031518df77c4236",
+      "bytes": 80,
+      "original_local_file": "nyc-mobile-related-ui-20261101.txt",
+      "original_sha256": "a1ff7b18c450107a2b647ba9a8ab650d70cebe1a13a13684583ac4450ea9425a"
+    }
+  ]
+}

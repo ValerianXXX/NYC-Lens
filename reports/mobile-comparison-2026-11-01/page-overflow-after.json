@@ -1,0 +1,17 @@
+{
+  "checks": {
+    "fullTaskIdentityFits": true,
+    "languageControlFits": true,
+    "pageFits": true
+  },
+  "documentWidth": 305,
+  "passed": true,
+  "scrollWidth": 305,
+  "taskIdentity": "analysis_7f7fb73abf7541c8aca9a1473ba47d81",
+  "taskScrollWidth": 285,
+  "taskWidth": 285,
+  "viewport": {
+    "height": 640,
+    "width": 320
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "checks": {
+    "actualReportLinks": true,
+    "groupedMobilePresentation": false,
+    "noDuplicateVisibleValues": false,
+    "noHorizontalMobileResultOverflow": false,
+    "sameFourteenBoundValues": false,
+    "sevenMetricGroups": false
+  },
+  "comparisonHref": "/api/comparison/comparison_f931bdcd1539482bb96f74204dda4324/report?format=json",
+  "documentOverflow": false,
+  "items": [],
+  "job": "analysis_7f7fb73abf7541c8aca9a1473ba47d81",
+  "language": "en",
+  "mismatches": [],
+  "passed": false,
+  "resultScrollWidth": 1131,
+  "resultWidth": 329,
+  "viewport": {
+    "height": 844,
+    "width": 390
+  }
+}

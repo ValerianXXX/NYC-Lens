@@ -984,6 +984,33 @@ function calculationNoteText(warning) {
   return text;
 }
 
+function comparisonItemContent(item, basis, site, metricId, catchment) {
+  const rankable = basis && ["COMPARABLE", "PARTIAL_COMPARABLE"].includes(basis.status);
+  const rank = "<small class=\"metric-rank\">" + escapeHtml(rankable && item && item.high_to_low_rank != null
+    ? t("comparison.rank", { rank: item.high_to_low_rank })
+    : t(basis ? "comparison.noRank" : "comparison.legacyRank")) + "</small>";
+  const evidenceLabel = currentLanguage === "zh" ? "查看输入证据" : "View input evidence";
+  const evidence = item ? "<small><a target=\"_blank\" rel=\"noopener\" aria-label=\""
+    + escapeHtml(metricLabel(metricId) + " / " + site.standardized_address + " / " + evidenceLabel)
+    + "\" href=\"/api/site/" + encodeURIComponent(site.site_id)
+    + "/evidence?catchment=" + encodeURIComponent(catchment)
+    + "&amp;metric_id=" + encodeURIComponent(metricId) + "\">" + escapeHtml(evidenceLabel) + "</a></small>" : "";
+  const notes = Array.isArray(item?.warnings) && item.warnings.length
+    ? "<small><strong>" + escapeHtml(currentLanguage === "zh" ? "计算说明" : "Calculation notes")
+      + "</strong></small><ul>" + item.warnings.map((warning) => "<li><small>"
+      + escapeHtml(calculationNoteText(warning)) + "</small></li>").join("") + "</ul>" : "";
+  return "<div class=\"comparison-item\" data-metric-id=\"" + escapeHtml(metricId)
+    + "\" data-site-id=\"" + escapeHtml(site.site_id) + "\"><b class=\"metric-value\">"
+    + escapeHtml(formatMetric(item)) + "</b>" + rank + evidence
+    + "<details class=\"source-observation\"><summary>" + escapeHtml(currentLanguage === "zh" ? "来源日期与限制" : "Source dates and limits")
+    + "</summary><small>" + escapeHtml(sourceObservationText(item)) + "</small>" + notes + "</details></div>";
+}
+
+function comparisonSiteContext(site) {
+  return escapeHtml(site.state_abbr || "") + " · " + (currentLanguage === "zh" ? "县 " : "County ")
+    + escapeHtml(site.county_geoid || "—") + " · " + escapeHtml(t("comparison.missing", { count: site.missing_data.length }));
+}
+
 function renderComparison(payload) {
   const metricIds = [
     "resident_population", "daytime_jobs", "direct_competitor_count", "regional_rail_station_count",
@@ -993,31 +1020,19 @@ function renderComparison(payload) {
   metricIds.forEach((id) => {
     payload.metric_comparisons[id].values.forEach((item) => valuesByMetricAndSite.set(id + "|" + item.site_id, item));
   });
-  const header = metricIds.map((id) => "<th>" + escapeHtml(metricLabel(id)) + "</th>").join("");
+  const itemContent = (site, id) => comparisonItemContent(valuesByMetricAndSite.get(id + "|" + site.site_id),
+    payload.metric_comparisons[id].comparability, site, id, payload.comparison_catchment);
+  const header = metricIds.map((id) => "<th scope=\"col\">" + escapeHtml(metricLabel(id)) + "</th>").join("");
   const body = payload.sites.map((site) => {
-    const cells = metricIds.map((id) => {
-      const item = valuesByMetricAndSite.get(id + "|" + site.site_id);
-      const basis = payload.metric_comparisons[id].comparability;
-      const rankable = basis && ["COMPARABLE", "PARTIAL_COMPARABLE"].includes(basis.status);
-      const rank = "<small>" + escapeHtml(rankable && item && item.high_to_low_rank != null
-        ? t("comparison.rank", { rank: item.high_to_low_rank })
-        : t(basis ? "comparison.noRank" : "comparison.legacyRank")) + "</small>";
-      const evidence = item ? "<small><a target=\"_blank\" rel=\"noopener\" href=\"/api/site/"
-        + encodeURIComponent(site.site_id) + "/evidence?catchment=" + encodeURIComponent(payload.comparison_catchment)
-        + "&amp;metric_id=" + encodeURIComponent(id) + "\">"
-        + escapeHtml(currentLanguage === "zh" ? "查看输入证据" : "View input evidence") + "</a></small>" : "";
-      const notes = Array.isArray(item?.warnings) && item.warnings.length
-        ? "<small><strong>" + escapeHtml(currentLanguage === "zh" ? "计算说明" : "Calculation notes")
-          + "</strong></small><ul>" + item.warnings.map((warning) => "<li><small>"
-          + escapeHtml(calculationNoteText(warning)) + "</small></li>").join("") + "</ul>" : "";
-      return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank + evidence
-        + "<details class=\"source-observation\"><summary>" + escapeHtml(currentLanguage === "zh" ? "来源日期与限制" : "Source dates and limits")
-        + "</summary><small>" + escapeHtml(sourceObservationText(item)) + "</small>" + notes + "</details></td>";
-    }).join("");
-    return "<tr><td><strong>" + escapeHtml(site.standardized_address) + "</strong><br><small>"
-      + escapeHtml(site.state_abbr || "") + " · County " + escapeHtml(site.county_geoid || "—")
-      + " · " + escapeHtml(t("comparison.missing", { count: site.missing_data.length })) + "</small></td>" + cells + "</tr>";
+    const cells = metricIds.map((id) => "<td>" + itemContent(site, id) + "</td>").join("");
+    return "<tr><th scope=\"row\"><strong>" + escapeHtml(site.standardized_address) + "</strong><br><small>"
+      + comparisonSiteContext(site) + "</small></th>" + cells + "</tr>";
   }).join("");
+  const mobileCards = metricIds.map((id) => "<section class=\"comparison-metric-card\" aria-label=\""
+    + escapeHtml(metricLabel(id)) + "\"><h3>" + escapeHtml(metricLabel(id)) + "</h3><div class=\"comparison-site-grid\">"
+    + payload.sites.map((site) => "<article><h4>" + escapeHtml(site.standardized_address)
+      + "</h4><small class=\"comparison-site-context\">" + comparisonSiteContext(site) + "</small>"
+      + itemContent(site, id) + "</article>").join("") + "</div></section>").join("");
   const result = document.querySelector("#comparison-result");
   result.classList.remove("empty");
   const translatedWarnings = {
@@ -1030,8 +1045,9 @@ function renderComparison(payload) {
   const warning = payload.warnings?.length
     ? payload.warnings.map(value => currentLanguage === "zh" ? translatedWarnings[value] || value : value).join(" ")
     : t("comparison.warning");
-  result.innerHTML = "<table class=\"comparison-table\"><thead><tr><th>" + escapeHtml(t("comparison.address"))
-    + "</th>" + header + "</tr></thead><tbody>" + body + "</tbody></table><p class=\"map-note\">" + escapeHtml(warning) + "</p>";
+  result.innerHTML = "<table class=\"comparison-table\"><thead><tr><th scope=\"col\">" + escapeHtml(t("comparison.address"))
+    + "</th>" + header + "</tr></thead><tbody>" + body + "</tbody></table>"
+    + "<div class=\"comparison-mobile\">" + mobileCards + "</div><p class=\"map-note\">" + escapeHtml(warning) + "</p>";
   const exports = document.querySelector("#comparison-exports");
   exports.hidden = false;
   exports.innerHTML = ["json", "csv", "xlsx"].map((format) => (

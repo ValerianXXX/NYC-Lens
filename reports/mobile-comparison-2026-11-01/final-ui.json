@@ -1,0 +1,13 @@
+{
+  "comparison": "/api/comparison/comparison_d74142c3c22241719945564eae68ed9d/report?format=json",
+  "height": 844,
+  "job": "analysis_7dab4808bb7844619d304e3236a9f2f3",
+  "language": "zh-CN",
+  "mapContext": "比较 2 个地址 · 500米 · 合成演示",
+  "markers": 2,
+  "openDetails": 0,
+  "theme": "light",
+  "unmet": "决策差异与待补证据合成演示数据。 高低不等于更好；未生成综合评分。直接竞争者: 第一地址减第二地址 = 2 locations. 1: overture_places / SYNTHETIC 2026 / synthetic_fixture / 置信信息 未测得 下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。2: overture_places / SYNTHETIC 2026 / synthetic_fixture / 置信信息 未测得 下载时间：2026-11-01T12:30:27.955097+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。常住人口: 来源缺失或口径不可比挂牌租金: 来源缺失或口径不可比仍需核对的要求：比较 \"100 Demo Avenue, Newark, NJ\" 和 \"200 Demo Avenue, Newark, NJ\"，用于全服务餐厅，500米范围，重点关注竞争、人口和租金。",
+  "visibleEvidenceLinks": 14,
+  "width": 390
+}
