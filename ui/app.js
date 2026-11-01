@@ -975,7 +975,11 @@ function renderComparison(payload) {
       const rank = "<small>" + escapeHtml(rankable && item && item.high_to_low_rank != null
         ? t("comparison.rank", { rank: item.high_to_low_rank })
         : t(basis ? "comparison.noRank" : "comparison.legacyRank")) + "</small>";
-      return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank
+      const evidence = item ? "<small><a target=\"_blank\" rel=\"noopener\" href=\"/api/site/"
+        + encodeURIComponent(site.site_id) + "/evidence?catchment=" + encodeURIComponent(payload.comparison_catchment)
+        + "&amp;metric_id=" + encodeURIComponent(id) + "\">"
+        + escapeHtml(currentLanguage === "zh" ? "查看输入证据" : "View input evidence") + "</a></small>" : "";
+      return "<td><b>" + escapeHtml(formatMetric(item)) + "</b>" + rank + evidence
         + "<details class=\"source-observation\"><summary>" + escapeHtml(currentLanguage === "zh" ? "来源日期与限制" : "Source dates and limits")
         + "</summary><small>" + escapeHtml(sourceObservationText(item)) + "</small></details></td>";
     }).join("");

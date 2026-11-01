@@ -261,7 +261,7 @@ def _analyze_site_impl(
                 metric.warnings = [*(metric.warnings or []), "No completed source snapshot; absent records are not observed zero."]
             binding = lineage_capture.capture(metric)
             all_bindings[f'{catchment_type}:{metric.metric_id}'] = binding
-            align_metric_snapshot(metric, binding)
+            align_metric_snapshot(metric, binding, source_observations)
             if binding['unresolved_ids'] or binding['unverified_source_snapshots']:
                 metric.warnings = [*(metric.warnings or []), 'Some declared inputs lack an active identity or a verified completed source ingestion; source confirmation is required.']
             if synthetic:

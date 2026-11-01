@@ -6,6 +6,7 @@ from typing import Any
 import duckdb
 
 from .record_identity import LINEAGE_TABLE_IDS
+from .source_observation import SourceObservationCapture
 from .util import json_dumps
 
 
@@ -70,10 +71,16 @@ class MetricLineageCapture:
             'limitation': 'Bindings cover the evidence IDs declared by the calculation; they do not establish that every implicit weighting, geometry or benchmark input was declared.'}
 
 
-def align_metric_snapshot(metric: Any, binding: dict[str, Any]) -> None:
-    """A scalar source summary may name only its actual declared input version."""
+def align_metric_snapshot(metric: Any, binding: dict[str, Any], observations: SourceObservationCapture) -> None:
+    """Rebind source snapshot/vintage labels without replacing computed periods."""
     if not metric.snapshot_id or not binding['records'] or metric.source_id in (None, 'derived'):
         return
     snapshots = {r['snapshot_id'] for r in binding['records'] if r['source_id'] == metric.source_id}
     if snapshots:
+        anchor_vintage = observations.capture(metric.source_id, metric.snapshot_id).get('vintage')
+        # Some measures declare a calculation period (for example a rolling
+        # transaction range). Only replace a label inherited from the catalogue.
+        if metric.source_year and metric.source_year == anchor_vintage:
+            vintages = [observations.capture(metric.source_id, snapshot).get('vintage') for snapshot in snapshots]
+            metric.source_year = ' / '.join(sorted(set(vintages))) if all(vintages) else None
         metric.snapshot_id = next(iter(snapshots)) if len(snapshots) == 1 else None
