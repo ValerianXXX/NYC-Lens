@@ -208,7 +208,11 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                         filename=f"sfha_{county_geoid}_{offset:07d}.geojson",
                         run_id=run_id,
                         params={
-                            **common_params,
+                            # These exact IDs were selected with the county and
+                            # SFHA filters. Reapplying spatial predicates can
+                            # fail on the live service. Validate every returned
+                            # ID and SFHA flag, then recheck the full selection.
+                            "f": "geojson",
                             "outFields": OUT_FIELDS,
                             "returnGeometry": "true",
                             "outSR": "4326",
@@ -240,6 +244,7 @@ def refresh_fema_sfha(conn: duckdb.DuckDBPyConnection) -> dict[str, Any]:
                         "schema": {column: str(dtype) for column, dtype in boundaries.dtypes.items()},
                         "warnings": [
                             f"County-envelope query basis: {county_geoid}; exact CSA union clipping applied after download.",
+                            "Geometry chunks retrieve explicit IDs selected by the county envelope and SFHA filter; returned membership and SFHA flags are checked locally.",
                             "ArcGIS retrieval uses 5-decimal coordinate precision and a 0.00001-degree maximum allowable offset (approximately one metre) to bound transfer size.",
                             "SFHA_TF='T' only; current NFHL screening geometry, not an insurance or engineering determination.",
                         ],
