@@ -47,6 +47,7 @@ jobs:
       - run: python -m pytest tests/unit/test_fema_membership.py tests/unit/test_fema_source_identity.py tests/unit/test_fema_response_contract.py tests/unit/test_fema_id_retrieval.py
       - run: python -m pytest tests/unit/test_comparison_acceptance_scenarios.py tests/unit/test_source_observation.py tests/unit/test_geocoding_ambiguity.py
       - run: python -m pytest tests/unit/test_metric_input_lineage.py tests/unit/test_metric_lineage_compatibility.py tests/unit/test_metric_source_vintage.py tests/unit/test_evidence_snapshot_contract.py
+      - run: python -m pytest tests/unit/test_census_input_contract.py tests/unit/test_census_input_failures.py tests/unit/test_census_ratio_components.py tests/unit/test_census_comparison_workflow.py
 
   windows-venv-workers:
     runs-on: windows-latest
