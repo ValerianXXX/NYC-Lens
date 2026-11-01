@@ -1,0 +1,442 @@
+2026-11-01T03:17:31.2835795Z Current runner version: '2.338.2'
+2026-11-01T03:17:31.2853753Z ##[group]Runner Image Provisioner
+2026-11-01T03:17:31.2854705Z Hosted Compute Agent
+2026-11-01T03:17:31.2855163Z Version: 20261021.618
+2026-11-01T03:17:31.2855666Z Commit: 21505ad2541d5be6135ed84fc33697146cf75b8e
+2026-11-01T03:17:31.2856191Z Build Date: 2026-10-21T00:45:21Z
+2026-11-01T03:17:31.2856693Z Worker ID: {8e936064-06a4-46b1-919a-5889e25e9855}
+2026-11-01T03:17:31.2857220Z Region: centralus
+2026-11-01T03:17:31.2857598Z Cloud: Azure
+2026-11-01T03:17:31.2857966Z ##[endgroup]
+2026-11-01T03:17:31.2858931Z ##[group]Operating System
+2026-11-01T03:17:31.2859395Z Microsoft Windows Server 2025
+2026-11-01T03:17:31.2859843Z 10.0.26100
+2026-11-01T03:17:31.2860201Z Datacenter
+2026-11-01T03:17:31.2860582Z ##[endgroup]
+2026-11-01T03:17:31.2860972Z ##[group]Runner Image
+2026-11-01T03:17:31.2861388Z Image: windows-2025-vs2026
+2026-11-01T03:17:31.2861823Z Version: 20261030.294.1
+2026-11-01T03:17:31.2863558Z Included Software: https://github.com/actions/runner-images/blob/win25-vs2026/20261030.294/images/windows/Windows2025-VS2026-Readme.md
+2026-11-01T03:17:31.2864721Z Image Release: https://github.com/actions/runner-images/releases/tag/win25-vs2026%2F20261030.294
+2026-11-01T03:17:31.2865257Z ##[endgroup]
+2026-11-01T03:17:31.2865879Z ##[group]GITHUB_TOKEN Permissions
+2026-11-01T03:17:31.2867268Z Contents: read
+2026-11-01T03:17:31.2867582Z Metadata: read
+2026-11-01T03:17:31.2867871Z ##[endgroup]
+2026-11-01T03:17:31.2869398Z Secret source: Actions
+2026-11-01T03:17:31.2869938Z Cache mode: write
+2026-11-01T03:17:31.2870425Z Prepare workflow directory
+2026-11-01T03:17:31.3086972Z Prepare all required actions
+2026-11-01T03:17:31.3118934Z Getting action download info
+2026-11-01T03:17:31.5144331Z Download action repository 'actions/checkout@v7' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-11-01T03:17:31.5914311Z Download action repository 'actions/setup-python@v7' (SHA:6d4fd22b20465ccc0f7354476588e8df7c9ca0e0)
+2026-11-01T03:17:32.0649771Z Complete job name: windows-venv-workers (3.12)
+2026-11-01T03:17:32.1820838Z ##[group]Run actions/checkout@v7
+2026-11-01T03:17:32.1821521Z with:
+2026-11-01T03:17:32.1821750Z   repository: ValerianXXX/NYC-Lens
+2026-11-01T03:17:32.1823931Z   token: ***
+2026-11-01T03:17:32.1824147Z   ssh-strict: true
+2026-11-01T03:17:32.1824366Z   ssh-user: git
+2026-11-01T03:17:32.1824588Z   persist-credentials: true
+2026-11-01T03:17:32.1824831Z   clean: true
+2026-11-01T03:17:32.1825064Z   sparse-checkout-cone-mode: true
+2026-11-01T03:17:32.1825325Z   fetch-depth: 1
+2026-11-01T03:17:32.1825537Z   fetch-tags: false
+2026-11-01T03:17:32.1825759Z   show-progress: true
+2026-11-01T03:17:32.1825979Z   lfs: false
+2026-11-01T03:17:32.1826185Z   submodules: false
+2026-11-01T03:17:32.1826407Z   set-safe-directory: true
+2026-11-01T03:17:32.1826666Z   allow-unsafe-pr-checkout: false
+2026-11-01T03:17:32.1827010Z ##[endgroup]
+2026-11-01T03:17:32.2844427Z Syncing repository: ValerianXXX/NYC-Lens
+2026-11-01T03:17:32.2845506Z ##[group]Getting Git version info
+2026-11-01T03:17:32.2845845Z Working directory is 'D:\a\NYC-Lens\NYC-Lens'
+2026-11-01T03:17:32.3336042Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-01T03:17:32.6140014Z git version 2.56.0.windows.4
+2026-11-01T03:17:32.6180692Z ##[endgroup]
+2026-11-01T03:17:32.6192914Z Temporarily overriding HOME='D:\a\_temp\feb82040-eb3d-4568-b7b3-c517f2bd9924' before making global git config changes
+2026-11-01T03:17:32.6193614Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-01T03:17:32.6199394Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NYC-Lens\NYC-Lens
+2026-11-01T03:17:32.6672079Z Deleting the contents of 'D:\a\NYC-Lens\NYC-Lens'
+2026-11-01T03:17:32.6675581Z ##[group]Determining repository object format
+2026-11-01T03:17:32.6677203Z ##[endgroup]
+2026-11-01T03:17:32.6677733Z ##[group]Initializing the repository
+2026-11-01T03:17:32.6683819Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\NYC-Lens\NYC-Lens
+2026-11-01T03:17:32.7427912Z Initialized empty Git repository in D:/a/NYC-Lens/NYC-Lens/.git/
+2026-11-01T03:17:32.7466384Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/ValerianXXX/NYC-Lens
+2026-11-01T03:17:32.7963933Z ##[endgroup]
+2026-11-01T03:17:32.7964651Z ##[group]Disabling automatic garbage collection
+2026-11-01T03:17:32.7970236Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-01T03:17:32.8247915Z ##[endgroup]
+2026-11-01T03:17:32.8248810Z ##[group]Setting up auth
+2026-11-01T03:17:32.8249459Z Removing SSH command configuration
+2026-11-01T03:17:32.8254113Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-01T03:17:32.8515128Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-01T03:17:34.0583356Z Removing HTTP extra header
+2026-11-01T03:17:34.0590853Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-01T03:17:34.0863684Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-01T03:17:34.5284988Z Removing includeIf entries pointing to credentials config files
+2026-11-01T03:17:34.5293734Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-01T03:17:34.5561783Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-01T03:17:34.9528351Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-01T03:17:34.9821909Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NYC-Lens/NYC-Lens/.git.path D:\a\_temp\git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:17:35.0099460Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/NYC-Lens/NYC-Lens/.git/worktrees/*.path D:\a\_temp\git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:17:35.0411523Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:17:35.0677086Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:17:35.0943084Z ##[endgroup]
+2026-11-01T03:17:35.0943647Z ##[group]Fetching the repository
+2026-11-01T03:17:35.0951482Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +df64c3e61725378b9dbe53e68429670b16df0616:refs/remotes/pull/17/merge
+2026-11-01T03:17:36.3212373Z From https://github.com/ValerianXXX/NYC-Lens
+2026-11-01T03:17:36.3213259Z  * [new ref]         df64c3e61725378b9dbe53e68429670b16df0616 -> pull/17/merge
+2026-11-01T03:17:36.3247123Z ##[endgroup]
+2026-11-01T03:17:36.3247952Z ##[group]Determining the checkout info
+2026-11-01T03:17:36.3248461Z ##[endgroup]
+2026-11-01T03:17:36.3256640Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-01T03:17:36.3684097Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-01T03:17:36.3956275Z ##[group]Checking out the ref
+2026-11-01T03:17:36.3962532Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/17/merge
+2026-11-01T03:17:36.4991882Z Note: switching to 'refs/remotes/pull/17/merge'.
+2026-11-01T03:17:36.4992258Z
+2026-11-01T03:17:36.4992489Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-01T03:17:36.4993001Z changes and commit them, and you can discard any commits you make in this
+2026-11-01T03:17:36.4993440Z state without impacting any branches by switching back to a branch.
+2026-11-01T03:17:36.4993738Z
+2026-11-01T03:17:36.4993897Z If you want to create a new branch to retain commits you create, you may
+2026-11-01T03:17:36.4994191Z do so (now or later) by using -c with the switch command. Example:
+2026-11-01T03:17:36.4994420Z
+2026-11-01T03:17:36.4994578Z   git switch -c <new-branch-name>
+2026-11-01T03:17:36.4994690Z
+2026-11-01T03:17:36.4994782Z Or undo this operation with:
+2026-11-01T03:17:36.4994907Z
+2026-11-01T03:17:36.4994996Z   git switch -
+2026-11-01T03:17:36.4995141Z
+2026-11-01T03:17:36.4995488Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-01T03:17:36.4995726Z
+2026-11-01T03:17:36.4995949Z HEAD is now at df64c3e Merge 0b249ae31f4377fbc17763a9203f3d8ed6a8fa42 into 83fd881310202fc6f375df62630de3fdf2417b3d
+2026-11-01T03:17:36.5049108Z ##[endgroup]
+2026-11-01T03:17:36.5393686Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-01T03:17:36.5637205Z df64c3e61725378b9dbe53e68429670b16df0616
+2026-11-01T03:17:36.6065015Z ##[group]Run actions/setup-python@v7
+2026-11-01T03:17:36.6065370Z with:
+2026-11-01T03:17:36.6065550Z   python-version: 3.12
+2026-11-01T03:17:36.6065733Z   cache: pip
+2026-11-01T03:17:36.6065888Z   check-latest: false
+2026-11-01T03:17:36.6068595Z   token: ***
+2026-11-01T03:17:36.6068876Z   mirror: https://raw.githubusercontent.com/actions/python-versions/main
+2026-11-01T03:17:36.6069211Z   update-environment: true
+2026-11-01T03:17:36.6069410Z   allow-prereleases: false
+2026-11-01T03:17:36.6069600Z   freethreaded: false
+2026-11-01T03:17:36.6069772Z ##[endgroup]
+2026-11-01T03:17:36.7033971Z ##[group]Installed versions
+2026-11-01T03:17:36.7167759Z Successfully set up CPython (3.12.10)
+2026-11-01T03:17:36.7168298Z ##[endgroup]
+2026-11-01T03:17:38.9592454Z pip cache is not found
+2026-11-01T03:17:38.9852507Z ##[group]Run python -m venv .worker-venv
+2026-11-01T03:17:38.9852821Z [36;1mpython -m venv .worker-venv[0m
+2026-11-01T03:17:39.0511467Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-01T03:17:39.0511706Z env:
+2026-11-01T03:17:39.0511883Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:39.0512170Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-01T03:17:39.0512423Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:39.0512651Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:39.0512873Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:39.0513064Z ##[endgroup]
+2026-11-01T03:17:42.6729261Z ##[group]Run ./.worker-venv/Scripts/python.exe -m pip install -e ".[dev,agent]"
+2026-11-01T03:17:42.6729655Z [36;1m./.worker-venv/Scripts/python.exe -m pip install -e ".[dev,agent]"[0m
+2026-11-01T03:17:42.6777993Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-01T03:17:42.6778209Z env:
+2026-11-01T03:17:42.6778372Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:42.6778770Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-01T03:17:42.6779021Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:42.6779242Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:42.6779461Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:17:42.6779640Z ##[endgroup]
+2026-11-01T03:17:43.9807065Z Obtaining file:///D:/a/NYC-Lens/NYC-Lens
+2026-11-01T03:17:43.9829959Z   Installing build dependencies: started
+2026-11-01T03:17:46.8137248Z   Installing build dependencies: finished with status 'done'
+2026-11-01T03:17:46.8151719Z   Checking if build backend supports build_editable: started
+2026-11-01T03:17:47.0295562Z   Checking if build backend supports build_editable: finished with status 'done'
+2026-11-01T03:17:47.0315942Z   Getting requirements to build editable: started
+2026-11-01T03:17:47.2489374Z   Getting requirements to build editable: finished with status 'done'
+2026-11-01T03:17:47.2513831Z   Preparing editable metadata (pyproject.toml): started
+2026-11-01T03:17:47.4857142Z   Preparing editable metadata (pyproject.toml): finished with status 'done'
+2026-11-01T03:17:47.7685031Z Collecting duckdb<2,>=1.3 (from nyc-lens==0.2.0)
+2026-11-01T03:17:47.8382573Z   Downloading duckdb-1.5.6-cp312-cp312-win_amd64.whl.metadata (4.2 kB)
+2026-11-01T03:17:47.9196323Z Collecting fastapi<1,>=0.115 (from nyc-lens==0.2.0)
+2026-11-01T03:17:47.9363261Z   Downloading fastapi-0.162.0-py3-none-any.whl.metadata (26 kB)
+2026-11-01T03:17:47.9990757Z Collecting geopandas<2,>=1.0 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.0162846Z   Downloading geopandas-1.2.0-py3-none-any.whl.metadata (2.0 kB)
+2026-11-01T03:17:48.0904823Z Collecting h3<5,>=4.1 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.1095712Z   Downloading h3-4.5.0-cp312-cp312-win_amd64.whl.metadata (17 kB)
+2026-11-01T03:17:48.1606922Z Collecting httpx<1,>=0.27 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.1797231Z   Downloading httpx-0.28.1-py3-none-any.whl.metadata (7.1 kB)
+2026-11-01T03:17:48.2294316Z Collecting jinja2<4,>=3.1 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.2517556Z   Downloading jinja2-3.1.6-py3-none-any.whl.metadata (2.9 kB)
+2026-11-01T03:17:48.3063957Z Collecting networkx<4,>=3.4 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.3227422Z   Downloading networkx-3.7-py3-none-any.whl.metadata (6.7 kB)
+2026-11-01T03:17:48.3853081Z Collecting openpyxl<4,>=3.1 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.4019272Z   Downloading openpyxl-3.1.5-py2.py3-none-any.whl.metadata (2.5 kB)
+2026-11-01T03:17:48.5109103Z Collecting pandas<3,>=2.2 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.5291327Z   Downloading pandas-2.3.3-cp312-cp312-win_amd64.whl.metadata (19 kB)
+2026-11-01T03:17:48.6278830Z Collecting pyarrow<23,>=18 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.6456531Z   Downloading pyarrow-22.0.0-cp312-cp312-win_amd64.whl.metadata (3.3 kB)
+2026-11-01T03:17:48.7039744Z Collecting pypdf<7,>=5 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.7222665Z   Downloading pypdf-6.21.4-py3-none-any.whl.metadata (7.6 kB)
+2026-11-01T03:17:48.8202530Z Collecting pydantic<3,>=2.10 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.8371414Z   Downloading pydantic-2.14.2-py3-none-any.whl.metadata (137 kB)
+2026-11-01T03:17:48.9596210Z Collecting pyproj<4,>=3.7 (from nyc-lens==0.2.0)
+2026-11-01T03:17:48.9778727Z   Downloading pyproj-3.8.0-cp312-cp312-win_amd64.whl.metadata (40 kB)
+2026-11-01T03:17:49.0333378Z Collecting python-dotenv<2,>=1.0 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.0506616Z   Downloading python_dotenv-1.2.4-py3-none-any.whl.metadata (29 kB)
+2026-11-01T03:17:49.1088747Z Collecting pyyaml<7,>=6 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.1286096Z   Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl.metadata (2.4 kB)
+2026-11-01T03:17:49.2429906Z Collecting shapely<3,>=2.0 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.2954526Z   Downloading shapely-2.2.0-cp312-cp312-win_amd64.whl.metadata (6.8 kB)
+2026-11-01T03:17:49.5385837Z Collecting typer<1,>=0.15 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.5561161Z   Downloading typer-0.27.3-py3-none-any.whl.metadata (16 kB)
+2026-11-01T03:17:49.6410704Z Collecting uvicorn<1,>=0.34 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.6577181Z   Downloading uvicorn-0.54.0-py3-none-any.whl.metadata (6.6 kB)
+2026-11-01T03:17:49.7155327Z Collecting mcp==2.3.0 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.7322810Z   Downloading mcp-2.3.0-py3-none-any.whl.metadata (6.6 kB)
+2026-11-01T03:17:49.7942934Z Collecting pytest<9,>=8.3 (from nyc-lens==0.2.0)
+2026-11-01T03:17:49.8105207Z   Downloading pytest-8.4.2-py3-none-any.whl.metadata (7.7 kB)
+2026-11-01T03:17:50.0916610Z Collecting pytest-cov<8,>=6 (from nyc-lens==0.2.0)
+2026-11-01T03:17:50.1080543Z   Downloading pytest_cov-7.1.0-py3-none-any.whl.metadata (32 kB)
+2026-11-01T03:17:50.1672680Z Collecting anyio>=4.9 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.1838511Z   Downloading anyio-4.15.1-py3-none-any.whl.metadata (4.7 kB)
+2026-11-01T03:17:50.2284046Z Collecting httpx2>=2.10.0 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.2445015Z   Downloading httpx2-2.16.0-py3-none-any.whl.metadata (10 kB)
+2026-11-01T03:17:50.4593502Z Collecting jsonschema>=4.20.0 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.4770982Z   Downloading jsonschema-4.26.0-py3-none-any.whl.metadata (7.6 kB)
+2026-11-01T03:17:50.5217037Z Collecting mcp-types==2.3.0 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.5381192Z   Downloading mcp_types-2.3.0-py3-none-any.whl.metadata (1.9 kB)
+2026-11-01T03:17:50.5882244Z Collecting opentelemetry-api>=1.28.0 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.6042075Z   Downloading opentelemetry_api-1.45.2-py3-none-any.whl.metadata (1.4 kB)
+2026-11-01T03:17:50.6690271Z Collecting pyjwt>=2.10.1 (from pyjwt[crypto]>=2.10.1->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.6855361Z   Downloading pyjwt-2.15.1-py3-none-any.whl.metadata (3.5 kB)
+2026-11-01T03:17:50.7387192Z Collecting python-multipart>=0.0.9 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.7545041Z   Downloading python_multipart-0.0.33-py3-none-any.whl.metadata (6.3 kB)
+2026-11-01T03:17:50.8037381Z Collecting pywin32>=311 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.8217098Z   Downloading pywin32-312-cp312-cp312-win_amd64.whl.metadata (11 kB)
+2026-11-01T03:17:50.8754466Z Collecting sse-starlette>=3.0.0 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.8923133Z   Downloading sse_starlette-3.6.0-py3-none-any.whl.metadata (15 kB)
+2026-11-01T03:17:50.9493694Z Collecting starlette>=0.27 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:50.9655969Z   Downloading starlette-1.10.0-py3-none-any.whl.metadata (6.6 kB)
+2026-11-01T03:17:51.0170014Z Collecting typing-extensions>=4.13.0 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:51.0337936Z   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+2026-11-01T03:17:51.0830886Z Collecting typing-inspection>=0.4.1 (from mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:51.1004596Z   Downloading typing_inspection-0.4.4-py3-none-any.whl.metadata (2.6 kB)
+2026-11-01T03:17:51.1674387Z Collecting annotated-doc>=0.0.2 (from fastapi<1,>=0.115->nyc-lens==0.2.0)
+2026-11-01T03:17:51.1833188Z   Downloading annotated_doc-0.0.5-py3-none-any.whl.metadata (6.5 kB)
+2026-11-01T03:17:51.3262460Z Collecting numpy>=2 (from geopandas<2,>=1.0->nyc-lens==0.2.0)
+2026-11-01T03:17:51.3470013Z   Downloading numpy-2.5.4-cp312-cp312-win_amd64.whl.metadata (6.6 kB)
+2026-11-01T03:17:51.5872252Z Collecting packaging (from geopandas<2,>=1.0->nyc-lens==0.2.0)
+2026-11-01T03:17:51.5885846Z   Using cached packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+2026-11-01T03:17:51.6582169Z Collecting pyogrio>=0.8 (from geopandas<2,>=1.0->nyc-lens==0.2.0)
+2026-11-01T03:17:51.6751560Z   Downloading pyogrio-0.13.0-cp311-abi3-win_amd64.whl.metadata (6.0 kB)
+2026-11-01T03:17:51.8028443Z Collecting certifi (from httpx<1,>=0.27->nyc-lens==0.2.0)
+2026-11-01T03:17:51.8191029Z   Downloading certifi-2026.10.23-py3-none-any.whl.metadata (2.5 kB)
+2026-11-01T03:17:51.9464812Z Collecting httpcore==1.* (from httpx<1,>=0.27->nyc-lens==0.2.0)
+2026-11-01T03:17:51.9631514Z   Downloading httpcore-1.0.9-py3-none-any.whl.metadata (21 kB)
+2026-11-01T03:17:52.3486009Z Collecting idna (from httpx<1,>=0.27->nyc-lens==0.2.0)
+2026-11-01T03:17:52.3681515Z   Downloading idna-3.20-py3-none-any.whl.metadata (7.2 kB)
+2026-11-01T03:17:52.7007452Z Collecting h11>=0.16 (from httpcore==1.*->httpx<1,>=0.27->nyc-lens==0.2.0)
+2026-11-01T03:17:52.7171156Z   Downloading h11-0.16.0-py3-none-any.whl.metadata (8.3 kB)
+2026-11-01T03:17:52.8337502Z Collecting MarkupSafe>=2.0 (from jinja2<4,>=3.1->nyc-lens==0.2.0)
+2026-11-01T03:17:52.8501213Z   Downloading markupsafe-3.0.4-cp312-cp312-win_amd64.whl.metadata (2.8 kB)
+2026-11-01T03:17:52.8977539Z Collecting et-xmlfile (from openpyxl<4,>=3.1->nyc-lens==0.2.0)
+2026-11-01T03:17:52.9139686Z   Downloading et_xmlfile-2.0.0-py3-none-any.whl.metadata (2.7 kB)
+2026-11-01T03:17:52.9655923Z Collecting python-dateutil>=2.8.2 (from pandas<3,>=2.2->nyc-lens==0.2.0)
+2026-11-01T03:17:52.9818223Z   Downloading python_dateutil-3.0.0-py2.py3-none-any.whl.metadata (8.2 kB)
+2026-11-01T03:17:53.0454084Z Collecting pytz>=2020.1 (from pandas<3,>=2.2->nyc-lens==0.2.0)
+2026-11-01T03:17:53.0614934Z   Downloading pytz-2026.6-py2.py3-none-any.whl.metadata (22 kB)
+2026-11-01T03:17:53.1061128Z Collecting tzdata>=2022.7 (from pandas<3,>=2.2->nyc-lens==0.2.0)
+2026-11-01T03:17:53.1268924Z   Downloading tzdata-2026.6-py2.py3-none-any.whl.metadata (1.4 kB)
+2026-11-01T03:17:53.1723089Z Collecting annotated-types>=0.6.0 (from pydantic<3,>=2.10->nyc-lens==0.2.0)
+2026-11-01T03:17:53.1884276Z   Downloading annotated_types-0.8.0-py3-none-any.whl.metadata (15 kB)
+2026-11-01T03:17:53.5914339Z Collecting pydantic-core==2.50.2 (from pydantic<3,>=2.10->nyc-lens==0.2.0)
+2026-11-01T03:17:53.6099220Z   Downloading pydantic_core-2.50.2-cp312-cp312-win_amd64.whl.metadata (6.7 kB)
+2026-11-01T03:17:53.6633115Z Collecting colorama>=0.4 (from pytest<9,>=8.3->nyc-lens==0.2.0)
+2026-11-01T03:17:53.6789972Z   Downloading colorama-0.4.6-py2.py3-none-any.whl.metadata (17 kB)
+2026-11-01T03:17:53.7316221Z Collecting iniconfig>=1 (from pytest<9,>=8.3->nyc-lens==0.2.0)
+2026-11-01T03:17:53.7476007Z   Downloading iniconfig-2.3.1-py3-none-any.whl.metadata (2.8 kB)
+2026-11-01T03:17:53.7943945Z Collecting pluggy<2,>=1.5 (from pytest<9,>=8.3->nyc-lens==0.2.0)
+2026-11-01T03:17:53.8104364Z   Downloading pluggy-1.7.0-py3-none-any.whl.metadata (5.0 kB)
+2026-11-01T03:17:53.8658413Z Collecting pygments>=2.7.2 (from pytest<9,>=8.3->nyc-lens==0.2.0)
+2026-11-01T03:17:53.8814666Z   Downloading pygments-2.21.0-py3-none-any.whl.metadata (2.5 kB)
+2026-11-01T03:17:54.1215882Z Collecting coverage>=7.10.6 (from coverage[toml]>=7.10.6->pytest-cov<8,>=6->nyc-lens==0.2.0)
+2026-11-01T03:17:54.1396764Z   Downloading coverage-7.17.0-cp312-cp312-win_amd64.whl.metadata (8.3 kB)
+2026-11-01T03:17:54.1939362Z Collecting shellingham>=1.3.0 (from typer<1,>=0.15->nyc-lens==0.2.0)
+2026-11-01T03:17:54.2229931Z   Downloading shellingham-1.5.4-py2.py3-none-any.whl.metadata (3.5 kB)
+2026-11-01T03:17:54.2849113Z Collecting rich>=13.8.0 (from typer<1,>=0.15->nyc-lens==0.2.0)
+2026-11-01T03:17:54.3019896Z   Downloading rich-15.0.0-py3-none-any.whl.metadata (18 kB)
+2026-11-01T03:17:54.3544443Z Collecting click>=7.0 (from uvicorn<1,>=0.34->nyc-lens==0.2.0)
+2026-11-01T03:17:54.3705143Z   Downloading click-8.5.0-py3-none-any.whl.metadata (2.6 kB)
+2026-11-01T03:17:54.4623092Z Collecting httpcore2==2.16.0 (from httpx2>=2.10.0->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:54.4782892Z   Downloading httpcore2-2.16.0-py3-none-any.whl.metadata (27 kB)
+2026-11-01T03:17:54.5286335Z Collecting truststore>=0.10 (from httpx2>=2.10.0->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:54.5455677Z   Downloading truststore-0.10.5-py3-none-any.whl.metadata (4.5 kB)
+2026-11-01T03:17:54.5991198Z Collecting attrs>=22.2.0 (from jsonschema>=4.20.0->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:54.6151302Z   Downloading attrs-26.1.0-py3-none-any.whl.metadata (8.8 kB)
+2026-11-01T03:17:54.6665172Z Collecting jsonschema-specifications>=2023.03.6 (from jsonschema>=4.20.0->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:54.6825626Z   Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl.metadata (2.9 kB)
+2026-11-01T03:17:54.7390524Z Collecting referencing>=0.28.4 (from jsonschema>=4.20.0->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:54.7556597Z   Downloading referencing-0.37.0-py3-none-any.whl.metadata (2.8 kB)
+2026-11-01T03:17:54.9729254Z Collecting rpds-py>=0.25.0 (from jsonschema>=4.20.0->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:54.9932004Z   Downloading rpds_py-2026.9.1-cp312-cp312-win_amd64.whl.metadata (4.2 kB)
+2026-11-01T03:17:55.1369430Z Collecting cryptography>=3.4.0 (from pyjwt[crypto]>=2.10.1->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:55.1536885Z   Downloading cryptography-50.0.2-cp311-abi3-win_amd64.whl.metadata (4.4 kB)
+2026-11-01T03:17:55.2045399Z Collecting six>=1.6 (from python-dateutil>=2.8.2->pandas<3,>=2.2->nyc-lens==0.2.0)
+2026-11-01T03:17:55.2227549Z   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+2026-11-01T03:17:55.2816296Z Collecting markdown-it-py>=2.2.0 (from rich>=13.8.0->typer<1,>=0.15->nyc-lens==0.2.0)
+2026-11-01T03:17:55.2977489Z   Downloading markdown_it_py-4.2.0-py3-none-any.whl.metadata (7.4 kB)
+2026-11-01T03:17:55.4187755Z Collecting cffi>=2.0.0 (from cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:55.4352705Z   Downloading cffi-2.1.1-cp312-cp312-win_amd64.whl.metadata (2.6 kB)
+2026-11-01T03:17:55.4822991Z Collecting mdurl~=0.1 (from markdown-it-py>=2.2.0->rich>=13.8.0->typer<1,>=0.15->nyc-lens==0.2.0)
+2026-11-01T03:17:55.4991687Z   Downloading mdurl-0.1.2-py3-none-any.whl.metadata (1.6 kB)
+2026-11-01T03:17:55.5800391Z Collecting pycparser (from cffi>=2.0.0->cryptography>=3.4.0->pyjwt[crypto]>=2.10.1->mcp==2.3.0->nyc-lens==0.2.0)
+2026-11-01T03:17:55.5964374Z   Downloading pycparser-3.12-py3-none-any.whl.metadata (9.7 kB)
+2026-11-01T03:17:55.6330052Z Downloading mcp-2.3.0-py3-none-any.whl (368 kB)
+2026-11-01T03:17:55.6807641Z Downloading mcp_types-2.3.0-py3-none-any.whl (69 kB)
+2026-11-01T03:17:55.7187691Z Downloading duckdb-1.5.6-cp312-cp312-win_amd64.whl (13.2 MB)
+2026-11-01T03:17:55.9157669Z    ---------------------------------------- 13.2/13.2 MB 68.8 MB/s eta 0:00:00
+2026-11-01T03:17:55.9320538Z Downloading fastapi-0.162.0-py3-none-any.whl (148 kB)
+2026-11-01T03:17:55.9662443Z Downloading geopandas-1.2.0-py3-none-any.whl (368 kB)
+2026-11-01T03:17:55.9995671Z Downloading h3-4.5.0-cp312-cp312-win_amd64.whl (806 kB)
+2026-11-01T03:17:56.0206653Z    --------------------------------------- 806.1/806.1 kB 36.3 MB/s eta 0:00:00
+2026-11-01T03:17:56.0366553Z Downloading httpx-0.28.1-py3-none-any.whl (73 kB)
+2026-11-01T03:17:56.0699013Z Downloading httpcore-1.0.9-py3-none-any.whl (78 kB)
+2026-11-01T03:17:56.0978952Z Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+2026-11-01T03:17:56.1287246Z Downloading networkx-3.7-py3-none-any.whl (2.1 MB)
+2026-11-01T03:17:56.1600719Z    ---------------------------------------- 2.1/2.1 MB 60.6 MB/s eta 0:00:00
+2026-11-01T03:17:56.1755297Z Downloading openpyxl-3.1.5-py2.py3-none-any.whl (250 kB)
+2026-11-01T03:17:56.2150007Z Downloading pandas-2.3.3-cp312-cp312-win_amd64.whl (11.0 MB)
+2026-11-01T03:17:56.3379442Z    ---------------------------------------- 11.0/11.0 MB 97.6 MB/s eta 0:00:00
+2026-11-01T03:17:56.3558797Z Downloading pyarrow-22.0.0-cp312-cp312-win_amd64.whl (28.0 MB)
+2026-11-01T03:17:56.7724303Z    ---------------------------------------- 28.0/28.0 MB 68.3 MB/s eta 0:00:00
+2026-11-01T03:17:56.7884896Z Downloading pydantic-2.14.2-py3-none-any.whl (490 kB)
+2026-11-01T03:17:56.8240508Z Downloading pydantic_core-2.50.2-cp312-cp312-win_amd64.whl (2.3 MB)
+2026-11-01T03:17:56.8584713Z    ---------------------------------------- 2.3/2.3 MB 64.2 MB/s eta 0:00:00
+2026-11-01T03:17:56.8745856Z Downloading pypdf-6.21.4-py3-none-any.whl (410 kB)
+2026-11-01T03:17:57.2433576Z Downloading pyproj-3.8.0-cp312-cp312-win_amd64.whl (6.7 MB)
+2026-11-01T03:17:57.3217820Z    ---------------------------------------- 6.7/6.7 MB 82.7 MB/s eta 0:00:00
+2026-11-01T03:17:57.3375863Z Downloading pytest-8.4.2-py3-none-any.whl (365 kB)
+2026-11-01T03:17:57.3702870Z Downloading pytest_cov-7.1.0-py3-none-any.whl (22 kB)
+2026-11-01T03:17:57.4032677Z Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+2026-11-01T03:17:57.4409418Z Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+2026-11-01T03:17:57.4992393Z Downloading shapely-2.2.0-cp312-cp312-win_amd64.whl (1.8 MB)
+2026-11-01T03:17:57.5312106Z    ---------------------------------------- 1.8/1.8 MB 49.3 MB/s eta 0:00:00
+2026-11-01T03:17:57.5475039Z Downloading typer-0.27.3-py3-none-any.whl (123 kB)
+2026-11-01T03:17:57.5810508Z Downloading uvicorn-0.54.0-py3-none-any.whl (87 kB)
+2026-11-01T03:17:57.6137487Z Downloading annotated_doc-0.0.5-py3-none-any.whl (5.3 kB)
+2026-11-01T03:17:57.6412286Z Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+2026-11-01T03:17:57.6716137Z Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+2026-11-01T03:17:57.7007846Z Downloading click-8.5.0-py3-none-any.whl (125 kB)
+2026-11-01T03:17:57.7316590Z Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+2026-11-01T03:17:57.7647408Z Downloading coverage-7.17.0-cp312-cp312-win_amd64.whl (228 kB)
+2026-11-01T03:17:57.8004458Z Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+2026-11-01T03:17:57.8307257Z Downloading httpx2-2.16.0-py3-none-any.whl (97 kB)
+2026-11-01T03:17:57.8653514Z Downloading httpcore2-2.16.0-py3-none-any.whl (85 kB)
+2026-11-01T03:17:57.8981260Z Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-11-01T03:17:57.9306108Z Downloading iniconfig-2.3.1-py3-none-any.whl (7.6 kB)
+2026-11-01T03:17:57.9616370Z Downloading jsonschema-4.26.0-py3-none-any.whl (90 kB)
+2026-11-01T03:17:57.9940189Z Downloading markupsafe-3.0.4-cp312-cp312-win_amd64.whl (14 kB)
+2026-11-01T03:17:58.0224681Z Downloading numpy-2.5.4-cp312-cp312-win_amd64.whl (12.6 MB)
+2026-11-01T03:17:58.1379319Z    ---------------------------------------- 12.6/12.6 MB 111.9 MB/s eta 0:00:00
+2026-11-01T03:17:58.1548544Z Downloading opentelemetry_api-1.45.2-py3-none-any.whl (60 kB)
+2026-11-01T03:17:58.1686140Z Using cached packaging-26.3-py3-none-any.whl (129 kB)
+2026-11-01T03:17:58.1845853Z Downloading pluggy-1.7.0-py3-none-any.whl (27 kB)
+2026-11-01T03:17:58.2173671Z Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+2026-11-01T03:17:58.3972766Z    ---------------------------------------- 1.3/1.3 MB 5.7 MB/s eta 0:00:00
+2026-11-01T03:17:58.4135528Z Downloading pyjwt-2.15.1-py3-none-any.whl (33 kB)
+2026-11-01T03:17:58.4449136Z Downloading pyogrio-0.13.0-cp311-abi3-win_amd64.whl (23.8 MB)
+2026-11-01T03:17:58.7371575Z    ---------------------------------------- 23.8/23.8 MB 79.3 MB/s eta 0:00:00
+2026-11-01T03:17:58.7535028Z Downloading python_dateutil-3.0.0-py2.py3-none-any.whl (94 kB)
+2026-11-01T03:17:58.7828548Z Downloading python_multipart-0.0.33-py3-none-any.whl (32 kB)
+2026-11-01T03:17:58.8113491Z Downloading pytz-2026.6-py2.py3-none-any.whl (506 kB)
+2026-11-01T03:17:58.8569910Z Downloading pywin32-312-cp312-cp312-win_amd64.whl (6.9 MB)
+2026-11-01T03:17:58.9575340Z    ---------------------------------------- 6.9/6.9 MB 70.8 MB/s eta 0:00:00
+2026-11-01T03:17:58.9737596Z Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+2026-11-01T03:17:59.0078283Z Downloading shellingham-1.5.4-py2.py3-none-any.whl (9.8 kB)
+2026-11-01T03:17:59.0439439Z Downloading sse_starlette-3.6.0-py3-none-any.whl (17 kB)
+2026-11-01T03:17:59.0748605Z Downloading starlette-1.10.0-py3-none-any.whl (80 kB)
+2026-11-01T03:17:59.1047033Z Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+2026-11-01T03:17:59.1343742Z Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+2026-11-01T03:17:59.1669687Z Downloading tzdata-2026.6-py2.py3-none-any.whl (348 kB)
+2026-11-01T03:17:59.2134556Z Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+2026-11-01T03:17:59.2472375Z Downloading et_xmlfile-2.0.0-py3-none-any.whl (18 kB)
+2026-11-01T03:17:59.2780098Z Downloading attrs-26.1.0-py3-none-any.whl (67 kB)
+2026-11-01T03:17:59.3120460Z Downloading cryptography-50.0.2-cp311-abi3-win_amd64.whl (3.8 MB)
+2026-11-01T03:17:59.3741067Z    ---------------------------------------- 3.8/3.8 MB 56.5 MB/s eta 0:00:00
+2026-11-01T03:17:59.3905564Z Downloading jsonschema_specifications-2025.9.1-py3-none-any.whl (18 kB)
+2026-11-01T03:17:59.4219289Z Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+2026-11-01T03:17:59.4547187Z Downloading referencing-0.37.0-py3-none-any.whl (26 kB)
+2026-11-01T03:17:59.4858332Z Downloading rpds_py-2026.9.1-cp312-cp312-win_amd64.whl (222 kB)
+2026-11-01T03:17:59.5166296Z Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+2026-11-01T03:17:59.5470923Z Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+2026-11-01T03:17:59.5787830Z Downloading cffi-2.1.1-cp312-cp312-win_amd64.whl (185 kB)
+2026-11-01T03:17:59.8060807Z Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+2026-11-01T03:17:59.8524035Z Downloading pycparser-3.12-py3-none-any.whl (62 kB)
+2026-11-01T03:18:00.0611690Z Building wheels for collected packages: nyc-lens
+2026-11-01T03:18:00.0638804Z   Building editable for nyc-lens (pyproject.toml): started
+2026-11-01T03:18:00.3123306Z   Building editable for nyc-lens (pyproject.toml): finished with status 'done'
+2026-11-01T03:18:00.3139561Z   Created wheel for nyc-lens: filename=nyc_lens-0.2.0-0.editable-py3-none-any.whl size=7751 sha256=f181966893aa3bba8c6d29ce9cd070c40697ca630905b373beffab0bc94a5738
+2026-11-01T03:18:00.3140715Z   Stored in directory: C:\Users\runneradmin\AppData\Local\Temp\pip-ephem-wheel-cache-6ueyk2in\wheels\90\e0\4e\124f0fe71bc33bc48dbd46944117f1134b4c903ea41372d654
+2026-11-01T03:18:00.3179290Z Successfully built nyc-lens
+2026-11-01T03:18:00.3999557Z Installing collected packages: pytz, tzdata, typing-extensions, truststore, six, shellingham, rpds-py, pyyaml, pywin32, python-multipart, python-dotenv, pypdf, pyjwt, pygments, pycparser, pyarrow, pluggy, packaging, numpy, networkx, mdurl, MarkupSafe, iniconfig, idna, h3, h11, et-xmlfile, duckdb, coverage, colorama, click, certifi, attrs, annotated-types, annotated-doc, uvicorn, typing-inspection, shapely, referencing, python-dateutil, pytest, pyproj, pyogrio, pydantic-core, opentelemetry-api, openpyxl, markdown-it-py, jinja2, httpcore2, httpcore, cffi, anyio, starlette, rich, pytest-cov, pydantic, pandas, jsonschema-specifications, httpx2, httpx, cryptography, typer, sse-starlette, mcp-types, jsonschema, geopandas, fastapi, nyc-lens, mcp
+2026-11-01T03:18:15.5822268Z Successfully installed MarkupSafe-3.0.4 annotated-doc-0.0.5 annotated-types-0.8.0 anyio-4.15.1 attrs-26.1.0 certifi-2026.10.23 cffi-2.1.1 click-8.5.0 colorama-0.4.6 coverage-7.17.0 cryptography-50.0.2 duckdb-1.5.6 et-xmlfile-2.0.0 fastapi-0.162.0 geopandas-1.2.0 h11-0.16.0 h3-4.5.0 httpcore-1.0.9 httpcore2-2.16.0 httpx-0.28.1 httpx2-2.16.0 idna-3.20 iniconfig-2.3.1 jinja2-3.1.6 jsonschema-4.26.0 jsonschema-specifications-2025.9.1 markdown-it-py-4.2.0 mcp-2.3.0 mcp-types-2.3.0 mdurl-0.1.2 networkx-3.7 numpy-2.5.4 nyc-lens-0.2.0 openpyxl-3.1.5 opentelemetry-api-1.45.2 packaging-26.3 pandas-2.3.3 pluggy-1.7.0 pyarrow-22.0.0 pycparser-3.12 pydantic-2.14.2 pydantic-core-2.50.2 pygments-2.21.0 pyjwt-2.15.1 pyogrio-0.13.0 pypdf-6.21.4 pyproj-3.8.0 pytest-8.4.2 pytest-cov-7.1.0 python-dateutil-3.0.0 python-dotenv-1.2.4 python-multipart-0.0.33 pytz-2026.6 pywin32-312 pyyaml-6.0.3 referencing-0.37.0 rich-15.0.0 rpds-py-2026.9.1 shapely-2.2.0 shellingham-1.5.4 six-1.17.0 sse-starlette-3.6.0 starlette-1.10.0 truststore-0.10.5 typer-0.27.3 typing-extensions-4.16.0 typing-inspection-0.4.4 tzdata-2026.6 uvicorn-0.54.0
+2026-11-01T03:18:15.7980784Z
+2026-11-01T03:18:15.7982126Z [notice] A new release of pip is available: 25.0.1 -> 26.2.2
+2026-11-01T03:18:15.7982675Z [notice] To update, run: D:\a\NYC-Lens\NYC-Lens\.worker-venv\Scripts\python.exe -m pip install --upgrade pip
+2026-11-01T03:18:16.3122092Z ##[group]Run ./.worker-venv/Scripts/python.exe -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_windows_worker_identity.py tests/unit/test_database_release_reconciliation.py tests/unit/test_worker_start_identity.py tests/unit/test_analysis_jobs.py
+2026-11-01T03:18:16.3123650Z [36;1m./.worker-venv/Scripts/python.exe -m pytest tests/unit/test_bounded_process.py tests/unit/test_bounded_process_guard_failure.py tests/unit/test_windows_worker_identity.py tests/unit/test_database_release_reconciliation.py tests/unit/test_worker_start_identity.py tests/unit/test_analysis_jobs.py[0m
+2026-11-01T03:18:16.3181767Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-01T03:18:16.3181973Z env:
+2026-11-01T03:18:16.3182147Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:18:16.3182409Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-01T03:18:16.3182717Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:18:16.3182939Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:18:16.3183153Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-01T03:18:16.3183348Z ##[endgroup]
+2026-11-01T03:18:38.9783248Z .............................                                            [100%]
+2026-11-01T03:18:38.9783498Z 29 passed in 21.41s
+2026-11-01T03:18:39.3917528Z Post job cleanup.
+2026-11-01T03:18:39.5361981Z [command]"C:\Program Files\Git\usr\bin\tar.exe" --posix -cf cache.tzst --exclude cache.tzst -P -C D:/a/NYC-Lens/NYC-Lens --files-from manifest.txt --force-local --use-compress-program "zstd -T0"
+2026-11-01T03:18:41.0844252Z Sent 53477376 of 128245935 (41.7%), 51.1 MBs/sec
+2026-11-01T03:18:42.0882229Z Sent 126091264 of 128245935 (98.3%), 60.0 MBs/sec
+2026-11-01T03:18:42.3583272Z Sent 128245935 of 128245935 (100.0%), 53.8 MBs/sec
+2026-11-01T03:18:42.5546857Z Cache saved with the key: setup-python-Windows-x64-python-3.12.10-pip-4b6b6b6cf16dcd80a8fbee1a7fbb736940470242401d80735cd80bf82601061f
+2026-11-01T03:18:42.5781329Z Post job cleanup.
+2026-11-01T03:18:42.6956152Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-01T03:18:42.7204754Z git version 2.56.0.windows.4
+2026-11-01T03:18:42.7251563Z Temporarily overriding HOME='D:\a\_temp\2212a8d8-bc07-40ee-8032-4f40020b65be' before making global git config changes
+2026-11-01T03:18:42.7252237Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-01T03:18:42.7258418Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\NYC-Lens\NYC-Lens
+2026-11-01T03:18:42.7526097Z Removing SSH command configuration
+2026-11-01T03:18:42.7534935Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-01T03:18:42.7815798Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-01T03:18:43.1891097Z Removing HTTP extra header
+2026-11-01T03:18:43.1898983Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-01T03:18:43.2174528Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-01T03:18:43.6316854Z Removing includeIf entries pointing to credentials config files
+2026-11-01T03:18:43.6327758Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-01T03:18:43.6570256Z includeif.gitdir:D:/a/NYC-Lens/NYC-Lens/.git.path
+2026-11-01T03:18:43.6570586Z includeif.gitdir:D:/a/NYC-Lens/NYC-Lens/.git/worktrees/*.path
+2026-11-01T03:18:43.6570801Z includeif.gitdir:/github/workspace/.git.path
+2026-11-01T03:18:43.6571038Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-01T03:18:43.6607167Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NYC-Lens/NYC-Lens/.git.path
+2026-11-01T03:18:43.6849090Z D:\a\_temp\git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:18:43.6891877Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NYC-Lens/NYC-Lens/.git.path D\:\\a\\_temp\\git\-credentials\-fa52174a\-ea2f\-422d\-b3f2\-7a666a789860\.config
+2026-11-01T03:18:43.7209595Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/NYC-Lens/NYC-Lens/.git/worktrees/*.path
+2026-11-01T03:18:43.7453853Z D:\a\_temp\git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:18:43.7489399Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/NYC-Lens/NYC-Lens/.git/worktrees/*.path D\:\\a\\_temp\\git\-credentials\-fa52174a\-ea2f\-422d\-b3f2\-7a666a789860\.config
+2026-11-01T03:18:43.7765964Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-01T03:18:43.8003103Z /github/runner_temp/git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:18:43.8035647Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-fa52174a\-ea2f\-422d\-b3f2\-7a666a789860\.config
+2026-11-01T03:18:43.8309173Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-01T03:18:43.8543756Z /github/runner_temp/git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config
+2026-11-01T03:18:43.8576623Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-fa52174a\-ea2f\-422d\-b3f2\-7a666a789860\.config
+2026-11-01T03:18:43.8858513Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-01T03:18:44.3084753Z Removing credentials config 'D:\a\_temp\git-credentials-fa52174a-ea2f-422d-b3f2-7a666a789860.config'
+2026-11-01T03:18:44.3238753Z Cleaning up orphan processes
+

@@ -1,0 +1,105 @@
+{
+  "observedAtUtc": "2026-11-01T03:47:37.372892+00:00",
+  "runtime": "deae418552c4e251f665b4a69cbbac5e30f22e27",
+  "testedDelivery": "0b249ae31f4377fbc17763a9203f3d8ed6a8fa42",
+  "testedMerge": "df64c3e61725378b9dbe53e68429670b16df0616",
+  "completeLocal": {
+    "status": "PASS",
+    "passed": 511,
+    "skipped": 3,
+    "warnings": 91,
+    "seconds": 1544.48,
+    "sourceUnchanged": true,
+    "priorFailuresRetained": true
+  },
+  "hosted": {
+    "status": "ALL_FIVE_PASS",
+    "run": 41268574010,
+    "jobs": [
+      124736439313,
+      124736439358,
+      124736439414,
+      124736439209,
+      124736439348
+    ],
+    "linux": {
+      "passed": 505,
+      "skipped": 9,
+      "warnings": 91,
+      "seconds": 433.95
+    },
+    "windowsGroups": [
+      84,
+      49,
+      43,
+      49,
+      50,
+      29,
+      58,
+      27
+    ],
+    "actualVenv": {
+      "3.11": {
+        "passed": 29,
+        "seconds": 21.94
+      },
+      "3.12": {
+        "passed": 29,
+        "seconds": 21.41
+      },
+      "3.13": {
+        "passed": 29,
+        "seconds": 23.03
+      }
+    }
+  },
+  "artifacts": [
+    {
+      "path": "complete-local.log",
+      "sha256": "9e0e2f0d4af5973878c3f0c19f154cbd4fb880b7d8a642096c6685f05df3ff66",
+      "rawSha256": "ed7055630eff377720f83954a341179d5f56c905cb617659eaf70eb4bb413a14",
+      "accountPathsRedacted": true
+    },
+    {
+      "path": "complete-local-observation.json",
+      "sha256": "6f2bdb39951d92d766fc430f40a1b06041a00b1d80d4c53212b24f2dd85aa0d1",
+      "rawSha256": "5fe68231272f8331a1686b21c4b1c22eceaf63eea132f6fdab0f12407dd9392f",
+      "accountPathsRedacted": true
+    },
+    {
+      "path": "hosted-124736439313.log",
+      "sha256": "c06d8e3ccd5c9313d3d15fe4c9ee3c52b0b3af3a9d7b8d9267dc6a0f7fb65b09",
+      "rawSha256": "018ea35ac7381f59931002c17161b7a11f9cba98cf4b1a13f71860502e9bc4f6",
+      "accountPathsRedacted": true
+    },
+    {
+      "path": "hosted-124736439358.log",
+      "sha256": "e084c389477b8025b2930e7f412d1f567580f9d3f3df767fbe80a2b3632aaaee",
+      "rawSha256": "0221b7489fee4e5d3353ebddd06d061f39641c38a929fe8519d94d6d566bec00",
+      "accountPathsRedacted": true
+    },
+    {
+      "path": "hosted-124736439414.log",
+      "sha256": "d93bf46a427d19a715ae94aa05a445656c68ab0df32d0ca8f2905b5cf890b369",
+      "rawSha256": "4c99f62be98905edea11fdc37ef2fcd3f1754b86fb0dfa0b17b00985bb4aa3f3",
+      "accountPathsRedacted": true
+    },
+    {
+      "path": "hosted-124736439209.log",
+      "sha256": "6b288beca3edcb25780355c8060c84448e3d14ae304c82614ee4e98ddbe9335f",
+      "rawSha256": "2a32cd7963494a1acc9614423e35a37503182916c6407f8db17fbe294e81de98",
+      "accountPathsRedacted": true
+    },
+    {
+      "path": "hosted-124736439348.log",
+      "sha256": "de12416eb69ecbda66e9a3f2027c5d725b47e85380d097fa953a31489c12b611",
+      "rawSha256": "062450dbef9b974588994578feb01bc38cf186fbcd538016e3f3122cf8e48808",
+      "accountPathsRedacted": true
+    }
+  ],
+  "newModelCalls": 0,
+  "realHermesClient": false,
+  "fullRegionalData": false,
+  "productionDeployment": false,
+  "wholeGoalComplete": false
+}

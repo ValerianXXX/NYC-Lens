@@ -44,8 +44,14 @@ The runtime is `deae418552c4e251f665b4a69cbbac5e30f22e27`.
 | File-sharing cases | A real separate process holds a real synthetic DuckDB file with native Windows sharing rules. The analysis-worker outcome is explicitly a test double; these three cases alone are not end-to-end cancellation acceptance. |
 | Related application checks | 80 passed, 461.39 s. Actual worker, HTTP cancellation, the installed MCP SDK's in-process client cancellation, CLI, recovery and three invalid-start checks. This set excludes the four frozen cases above. |
 | Actual desktop browser | Prepare and confirm two synthetic addresses, wait for the second actual query, cancel, reload, switch to Chinese and check the same task. First child remains readable (HTTP 200); incomplete comparison is unavailable (existing HTTP 503 contract). One saved job remains; no automatic retry. Database states are `SUCCEEDED / CANCELLED / CANCELLED`, cleanup is confirmed, and owned worker directories are gone. |
-| Complete local regression | Not yet accepted for this repair. Earlier failures remain recorded in the path milestone. |
-| Hosted compatibility | The workflow now includes actual venv workers on Python 3.11, 3.12 and 3.13, plus the existing Linux/full and Windows contract jobs. A configured matrix is not a passing result. |
+| Complete local regression | 511 passed, 3 skipped, 91 warnings in 1544.48 s, with runtime/test sources unchanged. The preceding runtime's 503 passed / 1 failed / 3 skipped result remains retained; its actual HTTP cancellation failure passes here. |
+| Hosted compatibility | All five jobs passed at merge `df64c3e61725378b9dbe53e68429670b16df0616`. Linux: 505 passed / 9 skipped / 91 warnings. Windows contract groups: 84, 49, 43, 49, 50, 29, 58 and 27 passed. Actual venvs: 29 passed each on Python 3.11 (21.94 s), 3.12 (21.41 s) and 3.13 (23.03 s). These groups overlap and must not be summed as independent coverage. |
+
+[Terminal verification and redacted logs](../reports/evaluations/2026-10-31/windows-worker-recovery/terminal-verification.json)
+record the completed local run and [hosted run 41268574010](https://github.com/ValerianXXX/NYC-Lens/actions/runs/41268574010).
+The original verification receipt preserves its earlier pending snapshot. These
+terminal results bind to delivery `0b249ae31f4377fbc17763a9203f3d8ed6a8fa42` and
+runtime `deae418552c4e251f665b4a69cbbac5e30f22e27`; the evidence update changes documentation only.
 
 The first fixture attempt had three PID-identity setup failures. The corrected
 fixture explicitly launched its stdlib-only file holder with the base interpreter,

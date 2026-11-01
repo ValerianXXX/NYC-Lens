@@ -257,7 +257,9 @@
   ],
   "artifactVerification": {
     "hashesChecked": 26,
-    "relativeLinksChecked": 39,
+    "relativeLinksChecked": 40,
     "accountPathsRedacted": true
-  }
+  },
+  "terminalVerification": "terminal-verification.json",
+  "snapshotNote": "The initial pending states above are historical; terminal-verification.json records the completed results."
 }
