@@ -1,0 +1,3 @@
+Browser tab: 10, Title: "127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=direct_competitor_count", URL: "http://127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=direct_competitor_count".
+There has been no change in the accessibility tree.
+The focused UI element is 0 AXWebArea 127.0.0.1:8790/api/site/site_0b7d661fc97043d2ba94929e22d185e0/evidence?catchment=500m&metric_id=direct_competitor_count

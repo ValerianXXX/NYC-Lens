@@ -1,0 +1,274 @@
+Browser tab: 9, Title: "NYC Lens｜纽约商圈情报", URL: "http://127.0.0.1:8790/".
+1 AXWebArea NYC Lens｜纽约商圈情报, URL: 127.0.0.1:8790/
+	2 link Description: 跳到分析工作台, Value: 127.0.0.1:8790/#workspace
+	3 container
+		4 link Description: NYC Lens, Value: 127.0.0.1:8790/#single-analysis
+		5 container 主要导航
+			6 link Description: 单点分析, Value: 127.0.0.1:8790/#single-analysis
+			7 link Description: 多址比较, Value: 127.0.0.1:8790/#multi-comparison
+			8 link Description: 数据说明, Value: 127.0.0.1:8790/#data-guidance
+		159 text 仅本机运行
+		10 button Description: Switch to English, ID: language-toggle
+		11 checkbox Description: 切换深色模式, Value: 0, ID: theme-toggle
+	12 container 本地分析任务
+		13 heading 本地分析任务, Value: 2, ID: job-title
+			160 text 本地分析任务
+		326 text 分析完成。证据及导出指向已保存的结果。
+		327 text analysis_f3830a4e8b5045bf8dd1d835f52a658f
+		16 button (disabled) 取消计算, ID: job-cancel
+		17 button 检查原任务状态, ID: job-resume
+	18 container 用自然语言比较两个地址
+		19 heading 用自然语言比较两个地址, Value: 2, ID: assistant-title
+			162 text 用自然语言比较两个地址
+		163 text 将两个地址分别放在引号内。查询前确认正式餐饮业态和直线半径；可选 AI 默认关闭。
+		22 container assistant-form
+			164 text 选址要求
+			24 text entry area (settable) 选址要求, Value: 比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，在500米范围开正式餐饮，关注竞争、人口和租金。, ID: assistant-text
+			25 button 准备比较
+		328 text 比较已完成。请查看下方证据及待补资料。
+		122 container assistant-draft
+			123 container
+				166 text 第一地址
+				125 text field (settable) 第一地址, Value: 100 Demo Avenue, Newark, NJ, ID: assistant-first
+			126 container
+				167 text 第二地址
+				128 text field (settable) 第二地址, Value: 200 Demo Avenue, Newark, NJ, ID: assistant-second
+			129 container
+				168 text 商业类型
+				131 pop up button (collapsed, settable) 商业类型, Value: 正式餐饮, ID: assistant-business, Secondary Actions: Expand
+					132 menu
+						133 请选择支持的业态
+						134 (selected) 正式餐饮
+			135 container
+				169 text 直线半径
+				137 pop up button (collapsed, settable) 直线半径, Value: 500 m, ID: assistant-radius, Secondary Actions: Expand
+					138 menu
+						139 250 m
+						140 (selected) 500 m
+						141 1 km
+			142 button 确认并比较
+	27 container 商业选址情报工作台, ID: single-analysis
+		170 text 本地 · 可追溯 · 大纽约
+		29 heading 商业选址情报工作台, Value: 1, ID: analysis-title
+			171 text 商业选址情报工作台
+		31 container analysis-form
+			32 container
+				172 text 地址
+				34 text field (settable) 地址, Value: 1501 Broadway, New York, NY 10036, ID: address
+			35 container
+				173 text 商业类型
+				37 pop up button (collapsed, settable) 商业类型, Value: 正式餐饮, ID: business-type, Secondary Actions: Expand
+					38 menu
+						39 (selected) 正式餐饮
+			40 container
+				174 text 当前查看商圈
+				42 pop up button (collapsed, settable) Description: 当前查看商圈, Value: 10分钟步行, ID: catchment-select, Secondary Actions: Expand
+					43 menu
+						175 500米
+						176 1公里
+						177 (selected) 10分钟步行
+			47 button 开始分析, ID: analyze-button
+		178 text 系统使用本地数据库；首次步行商圈会读取公开 OSM 网络。
+	49 container workspace
+		50 button (collapsed) 筛选与商圈 500米 · 1公里 · 10分钟步行, Secondary Actions: Expand
+			179 text 筛选与商圈
+			180 text 500米 · 1公里 · 10分钟步行
+		53 container 地址与商圈
+			181 text 空间视图
+			55 heading 地址与商圈, Value: 2, ID: map-title
+				182 text 地址与商圈
+			329 text 比较 2 个地址 · 500米 · 合成演示
+			58 container Description: 纽约地图与商圈范围, ID: map
+				147 container
+					148 container Map
+					330 container Map marker
+						331 image
+					332 container Map marker
+						333 image
+				60 container
+					61 button Zoom in
+					62 button Zoom out
+					63 button Reset bearing to north
+					64 container
+						65 button (expanded) Description: Toggle attribution, Secondary Actions: Collapse
+						66 text © OpenStreetMap contributors | 
+						67 link Description: MapLibre, Value: maplibre.org/
+			184 text 底图 © OpenStreetMap contributors；商圈几何与结果仅保存在本机。
+		69 container 指标与证据
+			70 tab group 分析内容
+				71 tab (selected, settable, boolean) 概览, Value: 1
+				72 tab (selectable, settable, boolean) 客群, Value: 0
+				73 tab (selectable, settable, boolean) 竞争, Value: 0
+				74 tab (selectable, settable, boolean) 交通, Value: 0
+				75 tab (selectable, settable, boolean) 地产与风险, Value: 0
+				76 tab (selectable, settable, boolean) 数据证据, Value: 0
+			77 heading 指标与证据, Value: 2, ID: detail-title
+				185 text 指标与证据
+			186 text 完成一次分析后显示标准地址、地块、商圈和数据版本。
+			80 container panel-overview
+				81 container
+					82 heading 客群判断, Value: 3
+						187 text 客群判断
+					188 text 分析后显示当前商圈数据。
+				85 container
+					86 heading 游客、健康与环境, Value: 3
+						189 text 游客、健康与环境
+					190 text 分析后显示当前商圈数据。
+		89 container 选址判断摘要
+			191 text 决策阅读
+			91 heading 选址判断摘要, Value: 2, ID: decision-title
+				192 text 选址判断摘要
+			193 text 不生成综合分数
+			94 container decision-empty
+				194 text 等待地点分析
+				195 text 完成分析后，这里会用真实指标归纳地点概览、主要机会、主要风险和证据完整度。
+	97 container 多地址同口径比较, ID: multi-comparison
+		196 text 独立工作流
+		99 heading 多地址同口径比较, Value: 2, ID: comparison-title
+			197 text 多地址同口径比较
+		198 text 只排序原始指标，不判断好坏
+		102 container comparison-form
+			103 container
+				199 text 每行一个公开地址（2至20个）
+				105 text entry area (settable) 每行一个公开地址（2至20个）, ID: comparison-addresses, Value: 100 Demo Avenue, Newark, NJ
+200 Demo Avenue, Newark, NJ
+			106 container
+				200 text 比较商圈
+				108 pop up button (collapsed, settable) 比较商圈, Value: 500米, ID: comparison-catchment, Secondary Actions: Expand
+					109 menu
+						110 250米
+						111 (selected) 500米
+						112 1公里
+			113 button 开始比较, ID: compare-button
+		334 text 比较完成：2 个地址、126 项指标；可比性及缺失信息见下方。未生成综合评分。
+		154 container Description: 导出比较结果, ID: comparison-exports
+			335 link Description: JSON, Value: 127.0.0.1:8790/api/comparison/comparison_a7b74501682e49cead8b1186aa3427a8/report?format=json
+			336 link Description: CSV, Value: 127.0.0.1:8790/api/comparison/comparison_a7b74501682e49cead8b1186aa3427a8/report?format=csv
+			337 link Description: XLSX, Value: 127.0.0.1:8790/api/comparison/comparison_a7b74501682e49cead8b1186aa3427a8/report?format=xlsx
+		158 container comparison-result
+			338 table
+				339 row
+					340 cell
+						341 text 地址
+					342 cell
+						343 text 常住人口
+					344 cell
+						345 text 白天岗位
+					346 cell
+						347 text 直接竞争者
+					348 cell
+						349 text 区域铁路站点
+					350 cell
+						351 text 区域交通设施代理
+					352 cell
+						353 text 家庭收入中位数
+					354 cell
+						355 text 历史公开交易案例
+				356 row
+					357 cell
+						358 text 100 Demo Avenue, Newark, NJ
+						359 text NJ · County 34013 · 缺失 110
+					360 cell
+						361 text —
+						362 text 来源或计算口径不完整或不一致，未排序。
+						363 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=resident_population
+						364 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							365 text 来源日期与限制
+					366 cell
+						367 text —
+						368 text 来源或计算口径不完整或不一致，未排序。
+						369 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=daytime_jobs
+						370 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							371 text 来源日期与限制
+					372 cell
+						373 text 1
+						374 text 来源或计算口径不完整或不一致，未排序。
+						375 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=direct_competitor_count
+						376 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							377 text 来源日期与限制
+					378 cell
+						379 text —
+						380 text 来源或计算口径不完整或不一致，未排序。
+						381 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=regional_rail_station_count
+						382 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							383 text 来源日期与限制
+					384 cell
+						385 text 0
+						386 text 高到低第 1
+						387 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=regional_transit_poi_count
+						388 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							389 text 来源日期与限制
+					390 cell
+						391 text —
+						392 text 来源或计算口径不完整或不一致，未排序。
+						393 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=median_household_income
+						394 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							395 text 来源日期与限制
+					396 cell
+						397 text —
+						398 text 来源或计算口径不完整或不一致，未排序。
+						399 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_db3a5bf7aa814ec6ad5bd0511ec919b4/evidence?catchment=500m&metric_id=historical_transaction_case_count
+						400 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							401 text 来源日期与限制
+				402 row
+					403 cell
+						404 text 200 Demo Avenue, Newark, NJ
+						405 text NJ · County 34013 · 缺失 110
+					406 cell
+						407 text —
+						408 text 来源或计算口径不完整或不一致，未排序。
+						409 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=resident_population
+						410 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							411 text 来源日期与限制
+					412 cell
+						413 text —
+						414 text 来源或计算口径不完整或不一致，未排序。
+						415 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=daytime_jobs
+						416 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							417 text 来源日期与限制
+					418 cell
+						419 text 3
+						420 text 来源或计算口径不完整或不一致，未排序。
+						421 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=direct_competitor_count
+						422 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							423 text 来源日期与限制
+					424 cell
+						425 text —
+						426 text 来源或计算口径不完整或不一致，未排序。
+						427 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=regional_rail_station_count
+						428 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							429 text 来源日期与限制
+					430 cell
+						431 text 0
+						432 text 高到低第 1
+						433 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=regional_transit_poi_count
+						434 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							435 text 来源日期与限制
+					436 cell
+						437 text —
+						438 text 来源或计算口径不完整或不一致，未排序。
+						439 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=median_household_income
+						440 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							441 text 来源日期与限制
+					442 cell
+						443 text —
+						444 text 来源或计算口径不完整或不一致，未排序。
+						445 link Description: 查看输入证据, Value: 127.0.0.1:8790/api/site/site_184752151d5f489b8944df8696e801ac/evidence?catchment=500m&metric_id=historical_transaction_case_count
+						446 button (collapsed) 来源日期与限制, Secondary Actions: Expand
+							447 text 来源日期与限制
+			448 text 各行仅比较同一指标的原始值；高低排序不代表更优、推荐、因果关系或适用性。 由于缺少经批准的真实项目校准集，NYC Lens 不生成综合选址评分。 不同辖区的数据覆盖可能不同；每个值均保留来源、年份、置信信息、缺失项和警示。 批内百分位只描述本次提交的少量地址，不是全市或区域基准。 来源快照、单位、年份、测量口径或计算版本缺失或不一致时，不进行排序和差值计算。
+			449 container assistant-brief
+				450 heading 决策差异与待补证据, Value: 3
+					451 text 决策差异与待补证据
+				452 text 合成演示数据。 高低不等于更好；未生成综合评分。
+				453 text 常住人口: 来源缺失或口径不可比
+				454 text 直接竞争者: 来源缺失或口径不可比
+				455 text 挂牌租金: 来源缺失或口径不可比
+				456 text 仍需核对的要求：比较“100 Demo Avenue, Newark, NJ”和“200 Demo Avenue, Newark, NJ”，在500米范围开正式餐饮，关注竞争、人口和租金。
+	116 container data-guidance
+		324 text 数据使用边界
+		325 text 区域统计不代表具体个人。ACS 是调查估计并显示误差范围；LODES 统计岗位；游客和客群为模型代理。自动综合评分在真实项目校准前保持关闭。
+	119 container
+		120 text NYC Lens 本地商业情报数据库 · 数据与计算均可追溯
+
+The focused UI element is 1 AXWebArea NYC Lens｜纽约商圈情报, URL: 127.0.0.1:8790/

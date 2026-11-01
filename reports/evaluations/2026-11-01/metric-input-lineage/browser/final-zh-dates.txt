@@ -1,0 +1,8 @@
+Browser tab: 9, Title: "NYC Lens｜纽约商圈情报", URL: "http://127.0.0.1:8790/".
+The following is a diff from the previous accessibility tree with ~ and + representing changed and added elements, respectively. Removed elements are summarized by ID range.
+Removed element IDs: 422-423
++						457 container
++							458 button (expanded) 来源日期与限制, Secondary Actions: Collapse
++								459 text 来源日期与限制
++							460 text 参与计算的来源快照：2. overture_places / synthetic-part-2 — 下载时间：2026-11-01T08:39:57.045223+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。 | overture_places / synthetic-places-v1 — 下载时间：2026-11-01T08:39:56.940553+00:00 · 来源覆盖期：未记录 — 未记录 · 当前有效性未评估；这些日期不能证明数据已过期或来源已变化。
+The focused UI element is 458 button (expanded) 来源日期与限制, Secondary Actions: Collapse

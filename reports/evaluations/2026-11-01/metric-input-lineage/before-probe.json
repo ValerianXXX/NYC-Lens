@@ -1,0 +1,76 @@
+{
+  "mode": "REAL_ENGINE_SYNTHETIC_DATABASE",
+  "sourceHead": "2106362009d8197c7cbe680f49b5afedf50f4608",
+  "observations": [
+    {
+      "address": "100 Demo Avenue, Newark, NJ",
+      "activeInputRows": [
+        [
+          "synthetic-poi-0-0",
+          "synthetic-places-v1"
+        ]
+      ],
+      "metricBasis": {
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-part-2",
+        "source_year": "SYNTHETIC part 2",
+        "unit": "locations",
+        "measure_type": "synthetic_fixture"
+      },
+      "totalEvidenceIds": 1,
+      "unresolved": 1,
+      "evidence": [
+        {
+          "entity_id": "synthetic-poi-0-0",
+          "snapshot_id": null,
+          "lineage_status": "UNRESOLVED_IN_ANALYSIS_SNAPSHOT"
+        }
+      ]
+    },
+    {
+      "address": "200 Demo Avenue, Newark, NJ",
+      "activeInputRows": [
+        [
+          "synthetic-poi-1-0",
+          "synthetic-places-part-2"
+        ],
+        [
+          "synthetic-poi-1-1",
+          "synthetic-places-v1"
+        ],
+        [
+          "synthetic-poi-1-2",
+          "synthetic-places-v1"
+        ]
+      ],
+      "metricBasis": {
+        "source_id": "overture_places",
+        "snapshot_id": "synthetic-places-part-2",
+        "source_year": "SYNTHETIC part 2",
+        "unit": "locations",
+        "measure_type": "synthetic_fixture"
+      },
+      "totalEvidenceIds": 3,
+      "unresolved": 2,
+      "evidence": [
+        {
+          "entity_id": "synthetic-poi-1-0",
+          "snapshot_id": "synthetic-places-part-2",
+          "lineage_status": "RESOLVED"
+        },
+        {
+          "entity_id": "synthetic-poi-1-1",
+          "snapshot_id": null,
+          "lineage_status": "UNRESOLVED_IN_ANALYSIS_SNAPSHOT"
+        },
+        {
+          "entity_id": "synthetic-poi-1-2",
+          "snapshot_id": null,
+          "lineage_status": "UNRESOLVED_IN_ANALYSIS_SNAPSHOT"
+        }
+      ]
+    }
+  ],
+  "newModelCalls": 0,
+  "realLocationConclusions": false
+}

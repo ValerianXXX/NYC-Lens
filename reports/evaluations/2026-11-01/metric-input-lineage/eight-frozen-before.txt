@@ -1,0 +1,147 @@
+FFFFFFFF                                                                 [100%]
+================================== FAILURES ===================================
+____ test_actual_input_snapshot_replaces_unrelated_newer_catalogue_anchor _____
+
+saved_split_source = (<_duckdb.DuckDBPyConnection object at 0x000001DEC2D80EF0>, {'assistant': {'brief': {'composite_score': None, 'differe... 'business_type': 'full_service_restaurant', 'calculation_version_id': 'calc_353a4a73b8a94b85bd2ac5acc10a4624', ...})])
+
+    def test_actual_input_snapshot_replaces_unrelated_newer_catalogue_anchor(saved_split_source):
+        conn, _, sites = saved_split_source
+        assert metric(sites[0][1])['value'] == 1
+>       assert metric(sites[0][1])['snapshot_id'] == 'synthetic-places-v1'
+E       AssertionError: assert 'synthetic-part-2' == 'synthetic-places-v1'
+E         
+E         - synthetic-places-v1
+E         + synthetic-part-2
+
+tests\unit\test_metric_input_lineage.py:49: AssertionError
+__ test_multisnapshot_records_are_all_resolved_without_old_identity_versions __
+
+saved_split_source = (<_duckdb.DuckDBPyConnection object at 0x000001DEC30192F0>, {'assistant': {'brief': {'composite_score': None, 'differe... 'business_type': 'full_service_restaurant', 'calculation_version_id': 'calc_a5925b6dd4c44dd8b0767b9048029b4c', ...})])
+
+    def test_multisnapshot_records_are_all_resolved_without_old_identity_versions(saved_split_source):
+        conn, _, sites = saved_split_source
+        assert metric(sites[1][1])['value'] == 3
+        response = evidence(conn, sites[1][0])
+>       assert response['unresolved_in_page'] == 0
+E       assert 2 == 0
+
+tests\unit\test_metric_input_lineage.py:60: AssertionError
+_ test_saved_bindings_do_not_follow_later_ingestion_or_repair_missing_lineage _
+
+saved_split_source = (<_duckdb.DuckDBPyConnection object at 0x000001DEC3032470>, {'assistant': {'brief': {'composite_score': None, 'differe... 'business_type': 'full_service_restaurant', 'calculation_version_id': 'calc_35281015a103461a97a212b065e0dbda', ...})])
+
+    def test_saved_bindings_do_not_follow_later_ingestion_or_repair_missing_lineage(saved_split_source):
+        conn, _, sites = saved_split_source
+        site = sites[1][0]
+        before = evidence(conn, site)
+        conn.execute("UPDATE poi SET snapshot_id='synthetic-later' WHERE poi_id='synthetic-poi-1-0'")
+        conn.execute("""INSERT INTO standardized_record VALUES ('synthetic-later-row','poi','synthetic-poi-1-0',
+            'overture_places','synthetic-later','later-copy','synthetic-v3',now())""")
+        assert evidence(conn, site)['evidence'] == before['evidence']
+        conn.execute("DELETE FROM standardized_record WHERE entity_id='synthetic-poi-1-0' AND snapshot_id='synthetic-part-2'")
+        response = evidence(conn, site)
+>       assert response['unresolved_in_page'] == 1
+E       assert 3 == 1
+
+tests\unit\test_metric_input_lineage.py:80: AssertionError
+_____________ test_evidence_pages_retain_every_bound_record_once ______________
+
+saved_split_source = (<_duckdb.DuckDBPyConnection object at 0x000001DEC42A4470>, {'assistant': {'brief': {'composite_score': None, 'differe... 'business_type': 'full_service_restaurant', 'calculation_version_id': 'calc_faeaf357acc94267a749967c6da66b90', ...})])
+
+    def test_evidence_pages_retain_every_bound_record_once(saved_split_source):
+        conn, _, sites = saved_split_source
+        pages = [evidence(conn, sites[1][0], limit=1, offset=i) for i in range(3)]
+>       assert all(p['total_evidence_ids'] == 3 and p['total_evidence_records'] == 3 for p in pages)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_metric_input_lineage.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+.0 = <list_iterator object at 0x000001DEC43D3130>
+
+>   assert all(p['total_evidence_ids'] == 3 and p['total_evidence_records'] == 3 for p in pages)
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'total_evidence_records'
+
+tests\unit\test_metric_input_lineage.py:89: KeyError
+________ test_comparison_and_export_retain_all_input_source_snapshots _________
+
+saved_split_source = (<_duckdb.DuckDBPyConnection object at 0x000001DED0533D30>, {'assistant': {'brief': {'composite_score': None, 'differe... 'business_type': 'full_service_restaurant', 'calculation_version_id': 'calc_8ede1a299a3d4343ae3dc9672f02cb75', ...})])
+
+    def test_comparison_and_export_retain_all_input_source_snapshots(saved_split_source):
+        _, comparison, sites = saved_split_source
+        row = comparison['metric_comparisons']['direct_competitor_count']
+>       assert row['comparability']['status'] == 'INCOMPARABLE'
+E       AssertionError: assert 'COMPARABLE' == 'INCOMPARABLE'
+E         
+E         - INCOMPARABLE
+E         ? --
+E         + COMPARABLE
+
+tests\unit\test_metric_input_lineage.py:98: AssertionError
+___________ test_different_mixed_snapshot_sets_cannot_share_a_rank ____________
+
+    def test_different_mixed_snapshot_sets_cannot_share_a_rank():
+        base = {'value': 4.0, 'unit': 'locations', 'source_id': 'source', 'snapshot_id': None,
+                'source_year': '2026', 'measure_type': 'count', 'calculation_version_id': 'same-version'}
+        a, b = deepcopy(base), deepcopy(base)
+        for item, snapshots in ((a, ['a', 'b']), (b, ['a', 'c'])):
+            item['evidence_binding'] = {'schema': 'METRIC_INPUT_BINDINGS_V1', 'records': [], 'unresolved_ids': [],
+                'source_snapshots': [{'source_id': 'source', 'snapshot_id': s} for s in snapshots]}
+        assert comparison_basis([a, b])['status'] == 'INCOMPARABLE'
+>       assert 'different_source_snapshots' in comparison_basis([a, b])['reasons']
+E       AssertionError: assert 'different_source_snapshots' in ['MISSING_SNAPSHOT_ID']
+
+tests\unit\test_metric_input_lineage.py:116: AssertionError
+___ test_secondary_weight_source_is_retained_without_promoting_old_lineage ____
+
+tmp_path = WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-112/test_secondary_weight_source_i0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001DED0848490>
+
+    def test_secondary_weight_source_is_retained_without_promoting_old_lineage(tmp_path, monkeypatch):
+>       from nyc_lens.metric_lineage import MetricLineageCapture
+E       ModuleNotFoundError: No module named 'nyc_lens.metric_lineage'
+
+tests\unit\test_metric_input_lineage.py:120: ModuleNotFoundError
+_________ test_lineage_without_an_active_typed_input_stays_unresolved _________
+
+tmp_path = WindowsPath('C:/Users/10418/AppData/Local/Temp/pytest-of-10418/pytest-112/test_lineage_without_an_active0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001DEC46F7290>
+
+    def test_lineage_without_an_active_typed_input_stays_unresolved(tmp_path, monkeypatch):
+>       from nyc_lens.metric_lineage import MetricLineageCapture
+E       ModuleNotFoundError: No module named 'nyc_lens.metric_lineage'
+
+tests\unit\test_metric_input_lineage.py:142: ModuleNotFoundError
+============================== warnings summary ===============================
+tests/unit/test_metric_input_lineage.py: 10 warnings
+  <WORKSPACE>\NYC-Lens-metric-lineage\src\nyc_lens\spatial\catchments.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    point_metric = transform(forward, Point(longitude, latitude))
+
+tests/unit/test_metric_input_lineage.py: 10 warnings
+  <WORKSPACE>\NYC-Lens-metric-lineage\src\nyc_lens\spatial\catchments.py:99: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, point_metric.buffer(distance_m, quad_segs=32))
+
+tests/unit/test_metric_input_lineage.py: 10 warnings
+  <WORKSPACE>\NYC-Lens-metric-lineage\src\nyc_lens\spatial\catchments.py:268: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return float(transform(metric_transform_for_geometry(geometry), geometry).area)
+
+tests/unit/test_metric_input_lineage.py: 10 warnings
+  <WORKSPACE>\NYC-Lens-metric-lineage\src\nyc_lens\metrics\engine.py:749: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    catchment_area_m2 = float(transform(metric_transform, geometry).area)
+
+tests/unit/test_metric_input_lineage.py: 10 warnings
+  <WORKSPACE>\NYC-Lens-metric-lineage\src\nyc_lens\metrics\engine.py:2245: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric_geometry = transform(metric_transform, geometry)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/unit/test_metric_input_lineage.py::test_actual_input_snapshot_replaces_unrelated_newer_catalogue_anchor
+FAILED tests/unit/test_metric_input_lineage.py::test_multisnapshot_records_are_all_resolved_without_old_identity_versions
+FAILED tests/unit/test_metric_input_lineage.py::test_saved_bindings_do_not_follow_later_ingestion_or_repair_missing_lineage
+FAILED tests/unit/test_metric_input_lineage.py::test_evidence_pages_retain_every_bound_record_once
+FAILED tests/unit/test_metric_input_lineage.py::test_comparison_and_export_retain_all_input_source_snapshots
+FAILED tests/unit/test_metric_input_lineage.py::test_different_mixed_snapshot_sets_cannot_share_a_rank
+FAILED tests/unit/test_metric_input_lineage.py::test_secondary_weight_source_is_retained_without_promoting_old_lineage
+FAILED tests/unit/test_metric_input_lineage.py::test_lineage_without_an_active_typed_input_stays_unresolved
+8 failed, 50 warnings in 13.31s
