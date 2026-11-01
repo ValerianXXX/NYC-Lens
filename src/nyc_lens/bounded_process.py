@@ -37,6 +37,22 @@ class ProcessOutcome:
     elapsed_seconds: float
 
 
+def _worker_interpreter(environment: dict[str, str]) -> str:
+    if os.name != "nt" or sys.prefix == sys.base_prefix:
+        return sys.executable
+    # CPython's Windows venv executable is a redirector. Its interpreter can
+    # exist before the redirector is assigned to our Job, so tracking only the
+    # redirector can miss the process that owns DuckDB. Use CPython's existing
+    # launcher handoff to retain the venv while directly owning that interpreter.
+    if sys.implementation.name != "cpython":
+        raise RuntimeError("WORKER_INTERPRETER_UNSUPPORTED")
+    base = Path(getattr(sys, "_base_executable", ""))
+    if not base.is_absolute() or not base.is_file():
+        raise RuntimeError("WORKER_INTERPRETER_UNAVAILABLE")
+    environment["__PYVENV_LAUNCHER__"] = sys.executable
+    return str(base)
+
+
 def run_python_worker(script: Path, arguments: list[str], *, limits: ProcessLimits,
                       cancel: threading.Event | None = None) -> ProcessOutcome:
     """Run a trusted local script behind a start gate and wait for actual exit.
@@ -55,8 +71,8 @@ def run_python_worker(script: Path, arguments: list[str], *, limits: ProcessLimi
         raise ValueError("A trusted worker file and string arguments are required")
     environment = dict(os.environ)
     environment.update(OPENBLAS_NUM_THREADS="1", OMP_NUM_THREADS="1", MKL_NUM_THREADS="1")
-    command = [sys.executable, "-m", "nyc_lens.worker_bootstrap", "--memory-mb", str(limits.memory_mb),
-               "--parent-pid", str(os.getpid()), "--script", str(script), *arguments]
+    command = [_worker_interpreter(environment), "-m", "nyc_lens.worker_bootstrap", "--memory-mb", str(limits.memory_mb),
+               "--parent-pid", str(os.getpid()), "--python-prefix", sys.prefix, "--script", str(script), *arguments]
     job = WindowsJob(limits.memory_mb * 1024 * 1024) if os.name == "nt" else None
     process = None
     job_assigned = False
@@ -67,7 +83,7 @@ def run_python_worker(script: Path, arguments: list[str], *, limits: ProcessLimi
         if job:
             job.assign(process.pid)
             job_assigned = True
-        process.stdin.write(b"RUN\n")
+        process.stdin.write(f"RUN {process.pid}\n".encode("ascii"))
         process.stdin.flush()
         process.stdin.close()
         reason = "EXITED"

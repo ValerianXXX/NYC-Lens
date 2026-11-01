@@ -17,6 +17,7 @@ from .analyze import get_site
 from .bounded_process import ProcessLimits, ProcessOutcome, run_python_worker
 from .comparison import get_comparison
 from .database_admission import database_admission
+from .database_release import wait_for_database_release
 from .execution_context import DatabaseLimits
 from .paths import database_path, project_home
 from .util import new_id
@@ -127,9 +128,10 @@ def execute_bounded_analysis(operation: str, request: dict, *, cancel: threading
             status = outcome.reason if outcome.reason in {"CANCELLED", "TIMED_OUT"} else "FAILED"
             result, states, cleanup = None, {}, False
             error_code = "WORKER_STOPPED" if status != "FAILED" else "WORKER_RESULT_UNAVAILABLE"
-            # The worker has exited and released DuckDB's file lock. Open only
-            # the captured database, not a possibly changed process environment.
+            # Worker exit and database availability are separate observations.
+            # Open only the captured database, not a changed process environment.
             try:
+                wait_for_database_release(database)
                 with duckdb.connect(str(database)) as conn:
                     conn.execute("SET TimeZone='UTC'")
                     if outcome.returncode == 0 and response.get("status") == "SUCCEEDED":
