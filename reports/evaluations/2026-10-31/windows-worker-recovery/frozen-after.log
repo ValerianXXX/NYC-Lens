@@ -1,0 +1,14 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- C:\Users\LOCAL_USER\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: C:\Users\LOCAL_USER\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-database-release
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 4 items
+
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-True] PASSED [ 25%]
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[TIMED_OUT-True] PASSED [ 50%]
+tests/unit/test_database_release_reconciliation.py::test_stopped_attempt_waits_for_transient_sharing_but_preserves_persistent_failure[CANCELLED-False] PASSED [ 75%]
+tests/unit/test_windows_worker_identity.py::test_actual_interpreter_is_owned_before_payload_even_with_delayed_assignment PASSED [100%]
+
+============================== 4 passed in 9.24s ==============================

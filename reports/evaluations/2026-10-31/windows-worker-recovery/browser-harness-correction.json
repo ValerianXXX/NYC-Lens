@@ -1,0 +1,10 @@
+{
+  "firstHarness": "verify-nyc-worker-recovery-browser-20261031.py",
+  "expectedHttp": 409,
+  "actualHttp": 503,
+  "actualCode": "ANALYSIS_RESULT_NOT_READY",
+  "productCodeChanged": false,
+  "correction": "Use the existing unavailable-result HTTP contract, additionally assert error code and absence of result",
+  "sourceEvidence": "analysis_jobs.result raises JobUnavailableError; the existing API handler and test_analysis_jobs expect 503 for the unavailable result",
+  "newSyntheticAnalysisStarted": false
+}

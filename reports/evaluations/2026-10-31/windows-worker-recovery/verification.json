@@ -1,0 +1,263 @@
+{
+  "schema": 1,
+  "observedAtUtc": "2026-11-01T03:16:14.942872+00:00",
+  "branch": "codex/nyc-database-release-20261031",
+  "base": "83fd881310202fc6f375df62630de3fdf2417b3d",
+  "runtime": "deae418552c4e251f665b4a69cbbac5e30f22e27",
+  "frozenTests": "6fdd0527c9d85c3d8569761aa5423fad2822e68f",
+  "frozenTestsUnchanged": true,
+  "initialFixtureCommit": "55a7b0ed6751a4108ed722bf6de5f2bbdd2b212a",
+  "correctedFixtureCommit": "6bd3af1ec8317f99abde289623354b0af698234c",
+  "environment": {
+    "platform": "Windows",
+    "python": "3.11.3",
+    "virtualEnvironment": true,
+    "duckdb": "1.5.6"
+  },
+  "before": {
+    "passed": 1,
+    "failed": 3,
+    "seconds": 9.66
+  },
+  "after": {
+    "passed": 4,
+    "seconds": 9.24
+  },
+  "related": {
+    "passed": 80,
+    "seconds": 461.39,
+    "overlapsFrozen": false
+  },
+  "browser": {
+    "status": "PASS",
+    "data": "SYNTHETIC",
+    "faultInjectedSecondActualQuery": true,
+    "actualUI": true,
+    "actualHttp": true,
+    "actualOwnedWorker": true,
+    "independentHuman": false,
+    "newModelCalls": 0
+  },
+  "completeLocalSuite": {
+    "status": "QUEUED_AFTER_PRIOR_COMPLETE_RUN",
+    "runtime": "deae418552c4e251f665b4a69cbbac5e30f22e27",
+    "nativeSession": 43441,
+    "sourceUnchangedRequired": true,
+    "assertionsAndBudgetsUnchanged": true,
+    "harness": "Ordinary pytest execution with failure-receipt hook; no per-frame tracing"
+  },
+  "hostedCompatibility": {
+    "status": "PENDING",
+    "configured": [
+      "Linux full suite",
+      "Windows contract groups",
+      "Windows actual venv Python 3.11",
+      "Windows actual venv Python 3.12",
+      "Windows actual venv Python 3.13"
+    ]
+  },
+  "unsignedWheel": {
+    "name": "nyc_lens-0.2.0-py3-none-any.whl",
+    "bytes": 292251,
+    "sha256": "701b37446d6c37612844da8a18a45231423ba4bfdd60db7fc08caf5233e07cc3",
+    "changedPackagedFilesMatch": 4,
+    "dependenciesInstalled": false,
+    "productionRelease": false
+  },
+  "newModelCalls": 0,
+  "performanceGainClaimed": false,
+  "externalDeployment": false,
+  "schemaMigration": false,
+  "limitations": [
+    "Prior full failures retained; exact original MCP holder unidentified",
+    "Complete repaired local/hosted acceptance pending",
+    "No real Hermes-client run or independent-user acceptance",
+    "Network filesystems and third-party Windows Python distributions unverified",
+    "Missing complete real regional data",
+    "No production deployment"
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/nyc_lens/bounded_process.py",
+      "sha256": "f707e1a1a4c152ac0b2672bc3e18a4962572e600b78c25b7068cecc0b82c18d7",
+      "gitBlobSha256": "f707e1a1a4c152ac0b2672bc3e18a4962572e600b78c25b7068cecc0b82c18d7"
+    },
+    {
+      "path": "src/nyc_lens/worker_bootstrap.py",
+      "sha256": "cbdd4e23fb6ef16740a77c45f68ca273da3a514463ad840002953f286357458d",
+      "gitBlobSha256": "cbdd4e23fb6ef16740a77c45f68ca273da3a514463ad840002953f286357458d"
+    },
+    {
+      "path": "src/nyc_lens/analysis_execution.py",
+      "sha256": "447cf04d9ce29b98b024fb54158a30ca1b807cdbf0413a7cdf71ee922212a7e0",
+      "gitBlobSha256": "447cf04d9ce29b98b024fb54158a30ca1b807cdbf0413a7cdf71ee922212a7e0"
+    },
+    {
+      "path": "src/nyc_lens/database_release.py",
+      "sha256": "e8bca74e209a862d351d69cfcf944bf4d9d02af62553250af565cea0f02e4780",
+      "gitBlobSha256": "e8bca74e209a862d351d69cfcf944bf4d9d02af62553250af565cea0f02e4780"
+    },
+    {
+      "path": "tests/fixtures/held_database_file.py",
+      "sha256": "994406f3080ae39ca1455ad4f9bef193451fdfacc9052eb572593c8ba667b65e",
+      "gitBlobSha256": "994406f3080ae39ca1455ad4f9bef193451fdfacc9052eb572593c8ba667b65e"
+    },
+    {
+      "path": "tests/fixtures/worker_identity.py",
+      "sha256": "9bfbcc94e89ebb5cb4b1d775bd1e3a431169cc5f45acfbb60bae8550912b40bb",
+      "gitBlobSha256": "9bfbcc94e89ebb5cb4b1d775bd1e3a431169cc5f45acfbb60bae8550912b40bb"
+    },
+    {
+      "path": "tests/unit/test_database_release_reconciliation.py",
+      "sha256": "ff2e45653e6e6e2143db261d419de853bab1cdafb7be11b7827c26591b202545",
+      "gitBlobSha256": "ff2e45653e6e6e2143db261d419de853bab1cdafb7be11b7827c26591b202545"
+    },
+    {
+      "path": "tests/unit/test_windows_worker_identity.py",
+      "sha256": "f656f70d8946032286b0519542448c54d249954b95fff9e2dfa4248e8cb86df0",
+      "gitBlobSha256": "f656f70d8946032286b0519542448c54d249954b95fff9e2dfa4248e8cb86df0"
+    },
+    {
+      "path": "tests/unit/test_worker_start_identity.py",
+      "sha256": "139f5f34a74766d692ced158514e5825610cfa7fa48b0d69a3aa3dd7a39d6ccc",
+      "gitBlobSha256": "139f5f34a74766d692ced158514e5825610cfa7fa48b0d69a3aa3dd7a39d6ccc"
+    },
+    {
+      "path": ".github/workflows/tests.yml",
+      "sha256": "c2df53baf8287f2fdd9705d5bcfe62c69df19ae34dd1f09d9e6dd7b0c1782f15",
+      "gitBlobSha256": "c2df53baf8287f2fdd9705d5bcfe62c69df19ae34dd1f09d9e6dd7b0c1782f15"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "fixture-initial-failure.log",
+      "sourceName": "nyc-database-release-before-20261031.log",
+      "rawSha256": "79cd05fabdaf5e00924e49936e62efe92af61ba95619d1e7b963098b67754b1e",
+      "sha256": "35a2cceb7889815cf44cc8fbcbb1978f22de2b5196248a3fbca784fa14c1fd35",
+      "bytes": 4751,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "fixture-correction-failure.log",
+      "sourceName": "nyc-database-release-corrected-before-20261031.log",
+      "rawSha256": "2baee456a7302fdc618306f6b69e723cf76534eb1585d4b0921cf0f4cca1314f",
+      "sha256": "e8804cd04fe9558b5f529aa5fa4501ee2f05551f986d5735b3cd6978c0c72eb6",
+      "bytes": 5964,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "frozen-before.log",
+      "sourceName": "nyc-database-release-final-before-20261031.log",
+      "rawSha256": "4cd823c2d0fc2a5fa57c303f28e2cd4189c36466e9a80be9dfeccc932a5f32a6",
+      "sha256": "e36c4b65d0c4b2f361465f52fa14e03d9979746f018f275b21b4639d7136f843",
+      "bytes": 5493,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "frozen-after.log",
+      "sourceName": "nyc-database-release-after-20261031.log",
+      "rawSha256": "f39a6b717b3c89138086ee5dd67e0dc32ec9337f2cd4335073dbdc0dde7086ae",
+      "sha256": "6124cf38f7075805d8e391c2e893a12f6f04282bfc4e2ef929f42fd423a0adf7",
+      "bytes": 1207,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "related.log",
+      "sourceName": "nyc-database-release-related-20261031.log",
+      "rawSha256": "292cefcc1e3ebd40ae2ab119ba66068076292fcfdb894f48e32bc80d8fc13c52",
+      "sha256": "ec79761322a00a1156e655c0d0d0ea1f6363883504d136a3293a804980fdec94",
+      "bytes": 10261,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "wheel-build.log",
+      "sourceName": "nyc-worker-recovery-wheel-build-20261031.log",
+      "rawSha256": "185aabdddb9bf87e24f5ff9679d562dd41a2c3749ab66f62df4b440c627995db",
+      "sha256": "b7a7b29ec10a70b39449a255394e1c41ed19504b7d52da3c717cbb9c12a94806",
+      "bytes": 976,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-verification.json",
+      "sourceName": "nyc-worker-recovery-browser-verification-20261031.json",
+      "rawSha256": "a9e7e7d0f34b489d0130aa043862c796b1e6f9224d60c9962ded4976a2ddfd2c",
+      "sha256": "ab71d75acf52cb1ce1b682b8bcbe8edeae6e87522cf4a3f9c543fe73ac0c67ce",
+      "bytes": 2428,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-cancelled-zh.txt",
+      "sourceName": "nyc-worker-recovery-browser-zh-20261031.txt",
+      "rawSha256": "74bcdb3818c391157d547d789a3773e05d3f1757ae24b4e8c4666fd9be67a1b9",
+      "sha256": "796aa5084b968e9c448ebe208fa167b24a93093fa95bb6a94df2f6f1a913634b",
+      "bytes": 6506,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-harness-correction.json",
+      "sourceName": "nyc-worker-browser-verification-harness-correction-20261031.json",
+      "rawSha256": "47416154f4e2e62a243e22b52839d708a5ea720d7c8d5a0a06e8048c10813881",
+      "sha256": "b143699f42b83b87cb11b1904f6c541711316e1d6378f0cad625c7f9001c8374",
+      "bytes": 512,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-first-verifier.py",
+      "sourceName": "verify-nyc-worker-recovery-browser-20261031.py",
+      "rawSha256": "e5574a57b93a558f607e00ae85e485c09fbd5b7dd9ea1c5eca6640918477d3fa",
+      "sha256": "e5574a57b93a558f607e00ae85e485c09fbd5b7dd9ea1c5eca6640918477d3fa",
+      "bytes": 3362,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-corrected-verifier.py",
+      "sourceName": "verify-nyc-worker-recovery-browser-v2-20261031.py",
+      "rawSha256": "7473695ca9951287dcda4d3325a16b108ab7a2f42aa6c1a58693d7971f9846bf",
+      "sha256": "6a4e1f4b615d993ac14b039abab9b2b49cb1c3f7248d689de10fb25f80194093",
+      "bytes": 3471,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-server-stopped.json",
+      "sourceName": "nyc-worker-recovery-browser-stopped-20261031.json",
+      "rawSha256": "aa4ef79536f2af09c6cc2551c565086b4964df93176461e2954c547501b2270d",
+      "sha256": "faa32f98d83f99fb4c13ca15e0b13ce1f976a4814c8143fcab3598511c54e3f8",
+      "bytes": 153,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "browser-cancelled-zh.jpg",
+      "sourceName": "nyc-worker-recovery-browser-zh-20261031.jpg",
+      "rawSha256": "cb3c49f99c9d72c17dd14951d676aef93f2c410adc9a91b7c61ce317cb4e41f8",
+      "sha256": "cb3c49f99c9d72c17dd14951d676aef93f2c410adc9a91b7c61ce317cb4e41f8",
+      "bytes": 70729,
+      "transformation": "None"
+    },
+    {
+      "path": "actual-ownership-before.json",
+      "sourceName": "worker-ownership-observation.json",
+      "rawSha256": "c1807c969dbeb74289f09183c556d8a4b499494030466232c31297f6bfa3c823",
+      "sha256": "7a9d9c25c326116c2c5acab3e75bc575e591c593fb164853ace371fadde74e5e",
+      "bytes": 430,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "actual-ownership-after.json",
+      "sourceName": "worker-ownership-observation.json",
+      "rawSha256": "114026352cae517f0ffba15ceb0dc3fc1a0f88640f2208928fce02937f4e6557",
+      "sha256": "c5e14d271921f6208ee08bab3b1b1222c54ac4f287a432874a701c10d05cd7a8",
+      "bytes": 427,
+      "transformation": "Account path redacted; line endings/trailing spaces normalized"
+    },
+    {
+      "path": "preceding-http-sharing-observation.json",
+      "sha256": "1a35a072ba5a70bcd3f9ef1460d956b62cf88ff643b755b464746668980ae5ef",
+      "transformation": "Account path redacted; copied one already retained event from the still-running preceding full suite"
+    }
+  ],
+  "artifactVerification": {
+    "hashesChecked": 26,
+    "relativeLinksChecked": 39,
+    "accountPathsRedacted": true
+  }
+}

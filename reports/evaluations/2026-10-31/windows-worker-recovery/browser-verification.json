@@ -1,0 +1,80 @@
+{
+  "observedAtUtc": "2026-11-01T03:12:49.312211+00:00",
+  "runtime": "deae418552c4e251f665b4a69cbbac5e30f22e27",
+  "classification": "ACTUAL_BROWSER_HTTP_AND_WORKER_WITH_SYNTHETIC_DATA_AND_TEST_INJECTED_LONG_QUERY",
+  "actions": [
+    "Prepare quoted-address request",
+    "Confirm business/scope",
+    "Wait for second actual query marker",
+    "Click Cancel",
+    "Reload page",
+    "Switch to Chinese",
+    "Check original task"
+  ],
+  "receipt": {
+    "schema": 1,
+    "job_id": "analysis_8d698ef54b904d05afece103e9c7deb6",
+    "operation": "assistant_comparison",
+    "status": "CANCELLED",
+    "request_sha256": "3400f864ebfb10b899af6626282fa78efc9298c182c9c1ce48023cc880451ddb",
+    "site_ids": [
+      "site_e5c4b6809d124beab00c519945dc954e",
+      "site_2c746f1fde554593b4f40048b0024215"
+    ],
+    "comparison_ids": [
+      "comparison_650cf0e7b53e4f2194edf67e6bc2837d"
+    ],
+    "created_at": "2026-11-01 03:11:12.862053+00:00",
+    "completed_at": "2026-11-01 03:11:23.453500+00:00",
+    "result_id": null,
+    "process": {
+      "reason": "CANCELLED",
+      "returncode": 1,
+      "pid": 34932,
+      "process_stopped": true,
+      "memory_boundary": "WINDOWS_JOB_COMMITTED_MEMORY",
+      "elapsed_seconds": 10.344
+    },
+    "database_cleanup_confirmed": true,
+    "saved_states": {
+      "site_e5c4b6809d124beab00c519945dc954e": "SUCCEEDED",
+      "site_2c746f1fde554593b4f40048b0024215": "CANCELLED",
+      "comparison_650cf0e7b53e4f2194edf67e6bc2837d": "CANCELLED"
+    },
+    "error_code": "WORKER_STOPPED",
+    "database_settings": {}
+  },
+  "receiptSha256": "dbba767986acb592e4f6325a6e998a4d4d54bb274aacd36d113f0da2a03a87e3",
+  "receiptUnchangedAfterReads": true,
+  "retainedChildHttp": 200,
+  "incompleteComparisonHttp": 503,
+  "siteStates": [
+    [
+      "site_e5c4b6809d124beab00c519945dc954e",
+      "SUCCEEDED"
+    ],
+    [
+      "site_2c746f1fde554593b4f40048b0024215",
+      "CANCELLED"
+    ]
+  ],
+  "comparisonStates": [
+    [
+      "comparison_650cf0e7b53e4f2194edf67e6bc2837d",
+      "CANCELLED",
+      "[\"site_e5c4b6809d124beab00c519945dc954e\"]"
+    ]
+  ],
+  "jobCount": 1,
+  "workerDirectoriesRemaining": 0,
+  "automaticRetry": false,
+  "independentHuman": false,
+  "newModelCalls": 0,
+  "limitations": [
+    "One desktop browser",
+    "No real geographic data",
+    "No independent users",
+    "Fault-injected computation"
+  ],
+  "screenshot": "nyc-worker-recovery-browser-zh-20261031.jpg"
+}

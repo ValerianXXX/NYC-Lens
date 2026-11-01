@@ -6,12 +6,13 @@ Try the bilingual requirements → two-address confirmation → analysis → map
 
 Ambiguous address matches require correction. Results retain source snapshots, retrieval dates, reference periods, calculation versions and explicit missingness. Dates alone do not establish that a source is current or expired.
 
-Web, HTTP, CLI and MCP analysis share bounded workers and durable task receipts. An intermittent Windows cancellation-cleanup failure remains under investigation; a successful process stop is not sufficient proof of database cleanup. Twelve synthetic comparison scenarios and actual desktop-browser report downloads have passed, while full-data, mobile/device, independent-user and customer outcomes remain unverified.
+Web, HTTP, CLI and MCP analysis share bounded workers and durable task receipts. Windows virtual environments now supervise the actual interpreter; recovery separately confirms database availability and preserves completed child results. Four frozen failure cases, 80 related checks and an actual browser cancellation/reload exercise pass locally. Complete regression and hosted venv compatibility for this repair remain pending; earlier failures are retained. Twelve synthetic comparison scenarios and desktop-browser report downloads also passed. Full-data, mobile/device, independent-user and customer outcomes remain unverified.
 
 Recent data work adds retained Parquet generations and atomic publication for the covered source adapters, bounded response/count/ID checks, and Windows long-path handling for external generations and their manifests. These controls preserve raw evidence and prior publications; they do not establish complete upstream data. Other adapters and every-metric provenance still need validation.
 
 - [Comparison scenarios, browser evidence and limits](docs/comparison-scenarios-2026-10-31.md)
 - [Windows path repair, observed failures and rollback](docs/windows-external-paths-2026-10-31.md)
+- [Windows worker ownership, cancellation recovery and verification limits](docs/windows-worker-recovery-2026-10-31.md)
 - [Hermes/configuration](docs/natural-language-comparison-2026-10-27.md), [worker limits](docs/bounded-cli-analysis-2026-10-30.md) and [generation backup/restore](docs/external-generations-2026-10-31.md)
 - [Source refresh](docs/socrata-publication-2026-10-31.md), [geographic download checks](docs/geojson-completeness-2026-10-31.md), [multi-file publication](docs/multisnapshot-publication-2026-10-31.md) and [FEMA observations](docs/fema-membership-2026-10-31.md)
 
