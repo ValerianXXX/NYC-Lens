@@ -1,0 +1,22 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- $WORKSPACE\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: $PROJECT_ROOT
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 12 items
+
+tests/unit/test_comparison_acceptance_scenarios.py::test_confirmed_two_address_workflow_preserves_maps_evidence_missingness_and_exports[english-complete] PASSED [  8%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_confirmed_two_address_workflow_preserves_maps_evidence_missingness_and_exports[chinese-complete] PASSED [ 16%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_missing_or_unsupported_requirements_do_not_start_analysis[one-address] PASSED [ 25%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_missing_or_unsupported_requirements_do_not_start_analysis[duplicate-address] PASSED [ 33%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_missing_or_unsupported_requirements_do_not_start_analysis[three-addresses] PASSED [ 41%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_missing_or_unsupported_requirements_do_not_start_analysis[unsupported-business] PASSED [ 50%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_walking_requirement_remains_unresolved_after_explicit_radial_confirmation PASSED [ 58%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_ambiguous_official_format_matches_are_retained_without_choosing_the_first PASSED [ 66%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_failed_source_is_missing_instead_of_an_observed_zero PASSED [ 75%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_old_observation_exposes_retrieval_and_reference_period_without_claiming_expiry PASSED [ 83%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_mixed_units_cannot_produce_a_rank_or_decision_difference PASSED [ 91%]
+tests/unit/test_comparison_acceptance_scenarios.py::test_saved_report_observations_do_not_change_when_the_catalog_changes PASSED [100%]
+
+======================= 12 passed in 114.89s (0:01:54) ========================

@@ -14,6 +14,7 @@ from openpyxl.utils import get_column_letter
 from ..analyze import get_site
 from ..config import metrics_config
 from ..paths import project_home
+from ..source_observation import observation_columns
 from ..util import json_dumps, new_id, sha256_file, utc_now
 
 
@@ -53,6 +54,7 @@ def _flatten_metrics(result: dict[str, Any]) -> list[dict[str, Any]]:
                     "geography_type": metric.get("geography_type"),
                     "geography_id": metric.get("geography_id"),
                     "warnings": " | ".join(metric.get("warnings") or []),
+                    **observation_columns(metric),
                 }
             )
     return rows
@@ -189,8 +191,8 @@ def export_xlsx(conn: duckdb.DuckDBPyConnection, site_id: str) -> Path:
     for row in metrics_sheet.iter_rows(min_row=2):
         for cell in row:
             cell.border = Border(bottom=thin)
-            cell.alignment = Alignment(vertical="top", wrap_text=cell.column in {2, 13, 14})
-    for index, width in enumerate([16, 34, 14, 22, 14, 20, 22, 18, 28, 12, 16, 22, 20, 45], start=1):
+            cell.alignment = Alignment(vertical="top", wrap_text=True)
+    for index, width in enumerate([16, 34, 28, 16, 22, 18, 18, 28, 38, 24, 30, 14, 16, 24, 24, 65, 26, 34, 34, 24, 24, 24, 26], start=1):
         metrics_sheet.column_dimensions[get_column_letter(index)].width = width
     if "value" in headers:
         value_col = headers.index("value") + 1

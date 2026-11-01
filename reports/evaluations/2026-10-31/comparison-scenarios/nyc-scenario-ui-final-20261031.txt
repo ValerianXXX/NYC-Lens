@@ -1,0 +1,13 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- $WORKSPACE\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: $PROJECT_ROOT
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 3 items
+
+tests/unit/test_ui_contract.py::test_ui_has_unique_ids_and_preserves_functional_mount_points PASSED [ 33%]
+tests/unit/test_ui_contract.py::test_every_static_interface_string_has_chinese_and_english_copy PASSED [ 66%]
+tests/unit/test_ui_contract.py::test_ui_supports_dark_theme_and_responsive_reflow PASSED [100%]
+
+============================== 3 passed in 0.30s ==============================

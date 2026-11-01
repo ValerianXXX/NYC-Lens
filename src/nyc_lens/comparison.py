@@ -73,6 +73,7 @@ def _metric_comparisons(
                     "source_id": metric.get("source_id"),
                     "snapshot_id": metric.get("snapshot_id"),
                     "source_year": metric.get("source_year"),
+                    "source_observation": metric.get("source_observation"),
                     "measure_type": metric.get("measure_type"),
                     "confidence": metric.get("confidence"),
                     "margin_of_error": metric.get("margin_of_error"),

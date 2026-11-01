@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import os
 import time
+from pathlib import Path
 from typing import Any
 
 import duckdb
@@ -11,7 +12,7 @@ import httpx
 from ..config import get_source, geographies_config
 from ..db import begin_run, finish_run
 from ..provenance import save_bytes_snapshot
-from ..util import json_dumps
+from ..util import json_dumps, sha256_file
 from ..ingest.common import register_table_lineage
 
 
@@ -22,6 +23,47 @@ COUNTY_TO_BOROUGH = {
     "36081": "Queens",
     "36085": "Staten Island",
 }
+
+UNIQUE_MATCH_METHOD = "census-unique-match-v1"
+
+
+def _unique_match(payload: Any, address: str) -> dict[str, Any]:
+    result = payload.get("result") if isinstance(payload, dict) else None
+    matches = result.get("addressMatches") if isinstance(result, dict) else None
+    if not isinstance(matches, list) or any(not isinstance(match, dict) for match in matches):
+        raise ValueError("ADDRESS_MATCH_RESPONSE_INVALID: Census addressMatches must be a list of matches")
+    if not matches:
+        raise ValueError(f"No official Census Geocoder match for: {address}")
+    if len(matches) != 1:
+        raise ValueError(
+            "ADDRESS_MATCH_AMBIGUOUS: Multiple locations matched. Add the street number, city and ZIP code, "
+            "then confirm the corrected address / 地址匹配到多个地点，请补全门牌、城市和邮编后重新确认。"
+        )
+    return matches[0]
+
+
+def _legacy_cache_is_unique(conn: duckdb.DuckDBPyConnection, cached: dict[str, Any]) -> bool:
+    """Old releases cached the first match. Recheck retained full response bytes."""
+    row = conn.execute(
+        "SELECT raw_path, sha256 FROM dataset_snapshot WHERE snapshot_id=? AND source_id='census_geocoder'",
+        [cached.get("snapshot_id")],
+    ).fetchone()
+    if not row or not row[0] or not row[1]:
+        return False
+    try:
+        path = Path(row[0])
+        if not path.is_file() or path.stat().st_size > 8 * 1024 * 1024 or sha256_file(path) != row[1]:
+            return False
+        payload = json.loads(path.read_bytes())
+    except (OSError, ValueError):
+        return False
+    # A known ambiguous old response must ask for correction, not silently
+    # fetch until the service happens to return a different answer.
+    match = _unique_match(payload, cached["original_input"])
+    coordinates = match.get("coordinates") or {}
+    return (coordinates.get("x") == cached["longitude"]
+            and coordinates.get("y") == cached["latitude"]
+            and match.get("matchedAddress") == cached["standardized_address"])
 
 
 def _regional_fields(county_geoid: str | None) -> dict[str, str | None]:
@@ -87,7 +129,7 @@ def geocode_address(
                    state_fips, state_abbr, county_geoid, county_name,
                    region_code, region_name, subregion, zipcode,
                    longitude, latitude, bbl, bin, census_tract, census_block,
-                   geocoder, match_status, confidence, snapshot_id
+                   geocoder, match_status, confidence, snapshot_id, source_id, method_version
             FROM address WHERE lower(original_input)=lower(?) AND match_status='MATCH'
             ORDER BY retrieved_at DESC LIMIT 1
             """,
@@ -99,7 +141,7 @@ def geocode_address(
                 "state_fips", "state_abbr", "county_geoid", "county_name",
                 "region_code", "region_name", "subregion", "zipcode",
                 "longitude", "latitude", "bbl", "bin", "census_tract", "census_block",
-                "geocoder", "match_status", "confidence", "snapshot_id",
+                "geocoder", "match_status", "confidence", "snapshot_id", "source_id", "method_version",
             ]
             cached = dict(zip(keys, row))
             inferred_county = cached.get("county_geoid") or str(cached.get("census_tract") or cached.get("census_block") or "")[:5]
@@ -107,7 +149,10 @@ def geocode_address(
                 inferred = _regional_fields(inferred_county)
                 for key, value in inferred.items():
                     cached[key] = cached.get(key) or value
-            return cached
+            if (cached.get("source_id") != "census_geocoder"
+                    or cached.get("method_version") == UNIQUE_MATCH_METHOD
+                    or _legacy_cache_is_unique(conn, cached)):
+                return cached
     source_id = "census_geocoder"
     run_id = begin_run(conn, source_id, "geocode")
     source = get_source(source_id)
@@ -159,11 +204,7 @@ def geocode_address(
             http_status=response.status_code,
         )
         payload = response.json()
-        matches = payload.get("result", {}).get("addressMatches", [])
-        if not matches:
-            finish_run(conn, run_id, "SUCCEEDED_WITH_WARNINGS", request_count=1, downloaded_bytes=snapshot.byte_size, warnings=["No address match returned."])
-            raise ValueError(f"No official Census Geocoder match for: {address}")
-        match = matches[0]
+        match = _unique_match(payload, address)
         coordinates = match["coordinates"]
         longitude = float(coordinates["x"])
         latitude = float(coordinates["y"])
@@ -208,7 +249,7 @@ def geocode_address(
             "geography_type": "address",
             "geography_id": block.get("GEOID"),
             "measure_type": "administrative_record",
-            "method_version": "0.2.0",
+            "method_version": UNIQUE_MATCH_METHOD,
         }
         conn.execute("DELETE FROM address WHERE address_id=?", [address_id])
         conn.execute(

@@ -12,6 +12,7 @@ from .analysis_state import record_site_failure
 from .execution_context import allocate_identity, result_json
 from .db import calculation_version
 from .publication_readiness import require_ready_external_publications
+from .source_observation import SourceObservationCapture
 from .entities.buildings import fetch_building_for_address
 from .entities.parcels import fetch_parcel_for_address
 from .geocoding.service import geocode_address
@@ -158,6 +159,7 @@ def _analyze_site_impl(
     h3_cell = _ensure_h3_cell(conn, longitude, latitude)
     calculation_id = calculation_version(conn)
     now = utc_now()
+    source_observations = SourceObservationCapture(conn, observed_at=now)
     snapshot_set: dict[str, list[str]] = {}
     conn.execute(
         """
@@ -251,7 +253,9 @@ def _analyze_site_impl(
             if synthetic:
                 metric.warnings = [*(metric.warnings or []), "SYNTHETIC_DEMO"]
                 if metric.snapshot_id:
-                    metric.source_year = "SYNTHETIC 2026"
+                    observation = source_observations.capture(metric.source_id, metric.snapshot_id)
+                    vintage = observation.get("vintage")
+                    metric.source_year = str(vintage) if vintage and str(vintage).startswith("SYNTHETIC") else "SYNTHETIC (reference year not recorded)"
                     metric.measure_type = "synthetic_fixture"
                     metric.confidence = None
         if is_nyc:
@@ -274,6 +278,7 @@ def _analyze_site_impl(
                 "source_id": metric.source_id,
                 "snapshot_id": metric.snapshot_id,
                 "source_year": metric.source_year,
+                "source_observation": source_observations.capture(metric.source_id, metric.snapshot_id),
                 "measure_type": metric.measure_type,
                 "confidence": metric.confidence,
                 "margin_of_error": metric.margin_of_error,
