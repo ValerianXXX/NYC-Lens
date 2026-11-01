@@ -1,0 +1,20 @@
+{
+  "validatedAtUtc": "2026-11-01T00:54:55.444774+00:00",
+  "status": "REAL_PUBLIC_RESPONSES_REPLAYED_THROUGH_CANDIDATE_VALIDATORS",
+  "transportObservation": "Six original real requests: one metadata and five bounded queries; no retries",
+  "requestedFeatureCount": 5,
+  "validatedGeometryCount": 5,
+  "serverMaxRecordCount": 2000,
+  "candidateChunkSize": 500,
+  "sameBeforeAfterMembership": true,
+  "distinctGlobalIds": 5,
+  "distinctGfids": 1,
+  "fullRegionalIngestion": false,
+  "stableUpstreamSnapshot": false,
+  "locationConclusion": false,
+  "newModelCalls": 0,
+  "sourceFiles": {
+    "src/nyc_lens/ingest/fema_query.py": "035f4bf32800a041992f098ca2a75dd75ada9a09032e2f30813f7ba0bc6bef19",
+    "src/nyc_lens/ingest/source_response.py": "1f332a2cc7378e21060eeb173dade780f087c879f04880512df3855131c2eded"
+  }
+}

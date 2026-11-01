@@ -1,0 +1,34 @@
+FFFFFF                                                                   [100%]
+================================== FAILURES ===================================
+_ test_incomplete_or_changed_source_cannot_publish_above_the_floor[dropped_member-10500-COMPLETENESS_OBJECT_ID_MISMATCH] _
+tests\unit\test_fema_membership.py:85: in test_incomplete_or_changed_source_cannot_publish_above_the_floor
+    with pytest.raises(ValueError, match=code):
+E   Failed: DID NOT RAISE <class 'ValueError'>
+_ test_incomplete_or_changed_source_cannot_publish_above_the_floor[repeated_page-11000-COMPLETENESS_OBJECT_ID_MISMATCH] _
+tests\unit\test_fema_membership.py:85: in test_incomplete_or_changed_source_cannot_publish_above_the_floor
+    with pytest.raises(ValueError, match=code):
+E   Failed: DID NOT RAISE <class 'ValueError'>
+_ test_incomplete_or_changed_source_cannot_publish_above_the_floor[changed_membership-10500-COMPLETENESS_UPSTREAM_OBJECT_IDS_CHANGED] _
+tests\unit\test_fema_membership.py:85: in test_incomplete_or_changed_source_cannot_publish_above_the_floor
+    with pytest.raises(ValueError, match=code):
+E   Failed: DID NOT RAISE <class 'ValueError'>
+_ test_incomplete_or_changed_source_cannot_publish_above_the_floor[wrong_filter-10500-FEMA_SFHA_FILTER_MISMATCH] _
+tests\unit\test_fema_membership.py:85: in test_incomplete_or_changed_source_cannot_publish_above_the_floor
+    with pytest.raises(ValueError, match=code):
+E   Failed: DID NOT RAISE <class 'ValueError'>
+_ test_incomplete_or_changed_source_cannot_publish_above_the_floor[transfer_limit-10500-COMPLETENESS_TRANSFER_LIMIT] _
+tests\unit\test_fema_membership.py:85: in test_incomplete_or_changed_source_cannot_publish_above_the_floor
+    with pytest.raises(ValueError, match=code):
+E   Failed: DID NOT RAISE <class 'ValueError'>
+__ test_exact_membership_accepts_shuffled_responses_and_binds_every_control ___
+tests\unit\test_fema_membership.py:99: in test_exact_membership_accepts_shuffled_responses_and_binds_every_control
+    coverage = result["response_coverage"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   KeyError: 'response_coverage'
+=========================== short test summary info ===========================
+FAILED tests/unit/test_fema_membership.py::test_incomplete_or_changed_source_cannot_publish_above_the_floor[dropped_member-10500-COMPLETENESS_OBJECT_ID_MISMATCH]
+FAILED tests/unit/test_fema_membership.py::test_incomplete_or_changed_source_cannot_publish_above_the_floor[repeated_page-11000-COMPLETENESS_OBJECT_ID_MISMATCH]
+FAILED tests/unit/test_fema_membership.py::test_incomplete_or_changed_source_cannot_publish_above_the_floor[changed_membership-10500-COMPLETENESS_UPSTREAM_OBJECT_IDS_CHANGED]
+FAILED tests/unit/test_fema_membership.py::test_incomplete_or_changed_source_cannot_publish_above_the_floor[wrong_filter-10500-FEMA_SFHA_FILTER_MISMATCH]
+FAILED tests/unit/test_fema_membership.py::test_incomplete_or_changed_source_cannot_publish_above_the_floor[transfer_limit-10500-COMPLETENESS_TRANSFER_LIMIT]
+FAILED tests/unit/test_fema_membership.py::test_exact_membership_accepts_shuffled_responses_and_binds_every_control

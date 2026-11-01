@@ -1,0 +1,1125 @@
+{
+  "observedAtUtc": "2026-11-01T01:31:41.778991+00:00",
+  "attempts": [
+    {
+      "attempt": 1,
+      "originalLocalReceiptSha256": "40bcacb750f0d265ac40a2c8b6af2fdbf4bcdbf797d010576cd3a78575dbde16",
+      "sourceCommit": "f62e3ace65840580077c676480d71581e0e9e90e",
+      "startedAtUtc": "2026-11-01T01:05:57.681967+00:00",
+      "finishedAtUtc": "2026-11-01T01:08:21.923432+00:00",
+      "status": "INCOMPLETE",
+      "failure": {
+        "type": "ReadTimeout",
+        "message": "The read operation timed out"
+      },
+      "limits": {
+        "maxHttpRequests": 512,
+        "maxDecodedBytes": 2000000000,
+        "networkSeconds": 900
+      },
+      "elapsedSeconds": 144.23400000005495,
+      "decodedBytes": 35443908,
+      "requests": [
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+          "startedAtUtc": "2026-11-01T01:06:09.083680+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 60213,
+          "sha256": "a38cd0a855dad20876017347ae728e000cfcb606d8e90a6dc1e8d5a6c37f8579",
+          "parametersSha256": "c27c56f38f6cfba7ee6333e932e231efffd0d6c31ef7c51d24e3b4d6c0c94d89",
+          "kind": "metadata",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:09.307693+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "de1dd2b26dad7b9885591fd4d531c4cdb2e934c10a9b654d9d29cd155f8000ab",
+          "parametersSha256": "ac05a9f45cc1ca83c221ddc72360c16acf5b61c47fbd60f4b60f5c1fc7470de6",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:09.449691+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 13456,
+          "sha256": "dd367ca13aba58a958e46d003ca623cfe0494492bd3b122c9587f78f91ae8e62",
+          "parametersSha256": "e09247dafbb11f2d82f1a9af291cf2f51c3ceb6162c7eff634a291d372a1f638",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:09.613854+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 622990,
+          "sha256": "cc92cb921e4eba45ea7e3e541ebdc67cbf98a8e5ffc7a73072fcb87955f4e59c",
+          "parametersSha256": "9bbc87e997cce3db08c519db024eb313d2afb25705702d8305479b5795a8c3c6",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:11.165262+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 685370,
+          "sha256": "d910700b1886f8c8eab797382d5c91c2f37c7cc55c38265df61c96bf57df5320",
+          "parametersSha256": "7ca4269edca5be33991f7a533615541d73192f2b6c47700ec70b33e5d17bfd20",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:12.699724+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1073377,
+          "sha256": "69ff79cc9b997a6fa072c7a14b6faec84aad3030674ad2e1bd73dfe5f8ea77a1",
+          "parametersSha256": "16d02d1a3390954cc65187fb4bd1ed11a723fbeaca3056c24d312c94b03bf4a5",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:14.563779+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 597854,
+          "sha256": "411a0b0decd02cc6c6ffdd1cf21c8539585b8d4cfa75d21adf9f55aba8ff0968",
+          "parametersSha256": "f9764c40dfa9ad267573e89d6cb16cb6f79f94aa80285183de4a1bed88e173fb",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:15.298160+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 341251,
+          "sha256": "8f94fa51b18ec241d74e6219db3a9d2d8a0e53666d046f5714b21becd8aee12e",
+          "parametersSha256": "7371b3f945c1c0229fb61da8039f4f02f5c76c737b0f19819de1de5b9e06ca0f",
+          "kind": "geometry",
+          "requestedIds": 70
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:15.733717+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "0e0ccf8164e9f264d043096b96b5d29572db64c06e7e7e736e757f04f361a5a7",
+          "parametersSha256": "87e9a3b5d26c9d09233aab088a1890d1750ac93052259879e3f7a38f961d70aa",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:16.240924+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 39194,
+          "sha256": "6784e5688424d4ac958e798b15b60f4104134fa9ff0df2d1a9a3971a4d78c47f",
+          "parametersSha256": "db163efe1154f249b71f6a1c9c41a1b836cd943a3b108bac3f5f9d0969759c12",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:16.750940+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 580036,
+          "sha256": "2035fe34b66f45f6e777cec14a551ef7cf4f2e123a9e0828d0b94b55e53bb58a",
+          "parametersSha256": "99650d1736e914368f2e3b5ee1f70b91a6e9f48b883be10fec9dfe35ea7e2fef",
+          "kind": "geometry",
+          "requestedIds": 500
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:18.835335+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 750694,
+          "sha256": "1fefb5441fdc0a2e8e4b5b070982972f10705f15e3579a16df4b59fcd48538b0",
+          "parametersSha256": "8b461b2c1a41957111811c0d307433f3da6d611dc91412d4bdecd7f0699b6d61",
+          "kind": "geometry",
+          "requestedIds": 497
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:21.095297+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 868847,
+          "sha256": "312a4e8082d6bc46361a0a4522b3fd136204329e8e4b5bb709a968296d328aba",
+          "parametersSha256": "1f35965d7e700f5bf2e8483e0828087e6e2dee95c050777d7e391e5cbb4d422f",
+          "kind": "geometry",
+          "requestedIds": 451
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:23.202849+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 537347,
+          "sha256": "09a2c2836ecbcb6f51a2080700ada9b862e574875676c9a24c1e0fac80f47f21",
+          "parametersSha256": "6a415f9e513e4237b3c1f78e5fa4b4680ba812b88ecd3f5ddbcdc320057ee4b2",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:24.995831+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 670965,
+          "sha256": "41888fceb9d457dda1a518985890a09c2c89fff37718b996fa76f762107a544a",
+          "parametersSha256": "c0f340dca9192c51182a309ee4959d33af383a1c080f82efe8129e9f60b49f64",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:26.576861+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 589703,
+          "sha256": "f5704f09a18def6472282d5f2508e82097f30cf8981f3462356439966dfbe554",
+          "parametersSha256": "0fec15037fb7d301b3465352667967b822e7c06c0331ab1f77c7884d370c255d",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:28.152090+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 756619,
+          "sha256": "b691d9fa869dffc22bd415672c4c7296078cf9164c68c09bbee80153df27c70a",
+          "parametersSha256": "dcf37d6c69ac013ca4a97bb0b42d48c171118b242e1cea9b4c5e7a83ea51b0d5",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:29.906092+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 556676,
+          "sha256": "42b4c6415c6a27b864434c66dfdd9a114221fe5f14e30dbfd47a59600e8e86d9",
+          "parametersSha256": "fff3175a611d74a8f74d86208a9da4b2bcddf67597b08174c6d17f7881494016",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:31.457694+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 632519,
+          "sha256": "400d71149aea9a70dbfabc84f8a1c6e84987cad7d1b42909a98ad5bc1d4979e5",
+          "parametersSha256": "3201a73e352a9829362c5bc3397425591bb76c642201b60dcc53e048386d13f3",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:33.268745+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1462345,
+          "sha256": "83d11c14bd779b54b6c9bbcac32a07301a29cd6d7030c8ccac2e8bde6cb94d74",
+          "parametersSha256": "6cd016df35376a3f0d7a12b16fbae3dc7b81df78add9a4f59c69cef5f6ccd3cf",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:35.582033+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 632454,
+          "sha256": "af16c9d6a8f29daf02f9a3fbbe66462a3b0072b494433e21d44b8dd1937005de",
+          "parametersSha256": "d1a7525124e3917949f1802ab41b1759c2494174a395181e64948775cc6c7ba0",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:37.501079+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 511349,
+          "sha256": "e155220691b51a4a340b285c33d73d068e658d39144e51c5dd1762b46dd6c5b5",
+          "parametersSha256": "0d356cee51796f75eb2cc8291443ddd09a2eb5ada63b8a088ff066622e7f563e",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:38.980128+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 423923,
+          "sha256": "8202ee7dca451b87e52fb452f486164304f0e0f151bd1f0c1a32391f6f8728d7",
+          "parametersSha256": "4fea31dd3d10b5aa2ff9a7d07a7ebddc5edd2c1406076bf8b770d86ac4eef3bb",
+          "kind": "geometry",
+          "requestedIds": 111
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:39.879447+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "c47e41d583640158b33f50dbfdc4d3fee2e67434497f1223d67d69d0a83b0d76",
+          "parametersSha256": "e99bf8d9cfc857413d35d3c13e6ea94decc8358340744fd49d3af9dbbaa004f7",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:40.946938+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 46850,
+          "sha256": "6db221c1901503e6b7578b174aff1904b8785e29c2986ffcc665e2405d619bbd",
+          "parametersSha256": "b52b4f8109eb53003d793fb62cc124fa5e7af5b5d70db5e77c162be696fbba24",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:41.828970+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 724621,
+          "sha256": "ba2fc2f3c152fedc6c617c063c9de6c53fa44e017ceea9acc00dfc3b28461ce0",
+          "parametersSha256": "2e50e2cabf21630ba6ff53b4653e8f11943eb1403afb15fe07f21afd946f8bf3",
+          "kind": "geometry",
+          "requestedIds": 459
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:44.126187+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 906429,
+          "sha256": "6525f098f0a74e87be5c99d58d6a94d79b482e2e5c4357b38a60843f13e775a1",
+          "parametersSha256": "6ef394d7f388cde82b763be456cc9202b4fa606e9966d50fd0d643662827846b",
+          "kind": "geometry",
+          "requestedIds": 373
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:46.490891+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 384716,
+          "sha256": "230d6000c598e85ac760b3313e2f40356ac42340e6a74ed2fec2e71d5027d690",
+          "parametersSha256": "5d5bb30dced2283874116260f381fa66f35291e9b4504ae5314768bec5ed4009",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:48.159451+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 291691,
+          "sha256": "b63e9103464169fa351e929ba92e79fb38063577e5a2d87a5448b7e4e2fb716e",
+          "parametersSha256": "83908faf95eef066545eb385c0caf30d682c156ab44c1c48901d70914da3e612",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:49.754159+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1173243,
+          "sha256": "7666036f28327fb5301904a6acc9492aec7f6725cbf440d090b7bdbd98f353f8",
+          "parametersSha256": "cc5562573815891bc752596554f56400cd9424ff3e007268d8013ab0d8788fe1",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:52.807254+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 239650,
+          "sha256": "e2fd8d6e86d14c1bb2591610673e09b7113ab03a977e811f44b4e8609487799d",
+          "parametersSha256": "59ee4bf34c09a7aeb5db79259e4ae8c517fe8abd02e07a5a372442da3f4fed89",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:54.350304+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 412070,
+          "sha256": "d6ce26e2352685bb422e8276c5e592502c3021a9dbdef67311992f566e461758",
+          "parametersSha256": "cad0e3e809a50d5cc640ddc1e5d61fe48822c3787554af62c57b8f783aff645b",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:55.957117+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 246919,
+          "sha256": "575dc97a96cd703fc7762756e4a2c2f7338d809767f47399fab5c7fcd34ea974",
+          "parametersSha256": "cbcf73174c943199de12f22238003bbea705548f793c84cef28264bf594df7a5",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:57.363270+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 430690,
+          "sha256": "a6f28e70c9822796ab2f92299f84da78864cb00855b7b1e86a3185574e660940",
+          "parametersSha256": "7f48131304f6bd883e198871e77ccbd84b9def0d1d5ce85ce39bd23794b554c5",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:06:59.039108+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 260482,
+          "sha256": "ea87ae89a7474f85f0e121a25480e580f9bd471e7f5141a89b728e78a4ba257c",
+          "parametersSha256": "b68efcf0b2cb7a5998cfc2641888e15f6b0bd38f0d43b2c0aa885d3cf290e458",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:00.443837+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1372814,
+          "sha256": "4c6203a7cfc8ac253142911c457c184a279808d9e779d62e54fbd2e95d535cc1",
+          "parametersSha256": "05d313c2970be35ed3e4890024d08381868ce2504544817304db31bcce62ef55",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:03.066113+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 528736,
+          "sha256": "48499399947a360cfbd54b4eae1a71b6bc797d8de216cf4a66dbbb3cb2ee701e",
+          "parametersSha256": "6650041304056be3abc28bcce068bb84e294449b22d767ebebf7d1b6006af1e4",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:04.702494+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 303758,
+          "sha256": "e4e9beb97d3d1054efc4e8d70fa2705f4771e2b7e07511ab943d299582926aa9",
+          "parametersSha256": "29ec389634242f7455fa7eff3fbbac47f140eeee50ff0a08d4a7d83a49f91701",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:06.066050+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 460148,
+          "sha256": "167305107da9293a43b1c04bdbdf0ad67c1d08d6447c7eab9e7bffa6830d812b",
+          "parametersSha256": "f3500bf1ea01a7ee513b33554b5eb90a9d8f8faa5bed5d23313820b6352c24ec",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:07.929819+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 479104,
+          "sha256": "e30d6c254f2b88619cb405807ca20088b30093b690f3b54a3ff2e97523270489",
+          "parametersSha256": "c07d60b643c8ea2bbb23a2171e4dbc610eb11df1bd0b81879f345d5a5bb3892b",
+          "kind": "geometry",
+          "requestedIds": 230
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:09.230376+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "a0ce66ce65a155b3c31097fbcf5b1093376640b67a9261540e636e495a2e05b4",
+          "parametersSha256": "214cdb293f581047798ed42144b281cfc7b14a4e4b11e49f653615720baf73b9",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:09.714325+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 12330,
+          "sha256": "3829c4b97fb2b6eb490cd18a8ab88577ac76c04fa5e93a6810e07b36a225fc01",
+          "parametersSha256": "50600d9c01a8099afd9362156d00b8d1a35c08ed7fc788e13338afc2dd40a3fb",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:10.099217+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 655801,
+          "sha256": "41ab66ab92c78832a5dcbdeabf4e6608cae696ee9bb02db29645ca3c7974ccff",
+          "parametersSha256": "756813355c0f9095cb134262926b55843f0c619914c55dd9e07628621fb1eecb",
+          "kind": "geometry",
+          "requestedIds": 459
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:12.428923+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 983659,
+          "sha256": "3aa8b1b7cc7bca8b730ed99abeacbce0f3775933605f3344c0052aae4bce3a39",
+          "parametersSha256": "bb4918a74cedccdf6a125026a8273fa54b52cace87d9802c315f18c6ae92578f",
+          "kind": "geometry",
+          "requestedIds": 457
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:15.063532+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 532458,
+          "sha256": "ce7a41d5baae36590e272803a605b919331528447f427dcfe133579ec27942e9",
+          "parametersSha256": "b5121d6c10e2144a6d7161578873622697930fc2ee1c09789f916c9be7aa3930",
+          "kind": "geometry",
+          "requestedIds": 379
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:16.787478+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1339726,
+          "sha256": "b9ee2ad3216e5656ac1e74cd679461674843961eb89b20f3a519e879d67ed126",
+          "parametersSha256": "1d527950cba29217ee620f65ebd2da81da994e6ff8237856902c0e4d0a51db98",
+          "kind": "geometry",
+          "requestedIds": 299
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:19.506749+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 13,
+          "sha256": "73c6c36c9d18f9e7b9ee501c77a214aaf94a2bb331fcebd52a2b383618aa917e",
+          "parametersSha256": "7c3489b236880b71a1420e235122287b4c052328f33e8e36597232b25d8f1021",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:19.664754+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1069,
+          "sha256": "efcdf0c510e5cdcc8b6b9d8423620fa27af801ac3ea3699334bf8733ebcb3c15",
+          "parametersSha256": "424e11f2ded7e86130e8e33de10f78fbdf61a4c5110ce3cca8151fc66ba125d5",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:19.833761+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1367464,
+          "sha256": "1751d03c25b9b74ae00429d20c86ee525a2e4ad310c1d68c593afae0ba05018d",
+          "parametersSha256": "54ba956e30aae0c97121090a72e2b4b0cccb4caa55f22c9996411d88feccd0cd",
+          "kind": "geometry",
+          "requestedIds": 136
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:21.678942+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "6e3450778984e010cec48fbc09c98ab19912eb676a9f3651e8d9c0bfeaddd16f",
+          "parametersSha256": "ae2388d793169f3d502e99cbf307489eef8dab1e0efaef5cfc634013beca24cb",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:22.284957+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 11607,
+          "sha256": "90fdad1424a65ee2b8dc6abd9400354ba81d761aa78f99f6ef2253a09cb7f243",
+          "parametersSha256": "501ac9af65f4137a095676ce376fb104f3e1f88db096197e85a9174c26e4435b",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:22.958979+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 2025246,
+          "sha256": "827aef1cc1ceaa5990cab7267053e72e781a16e5d98801eb4093127ca10bf81e",
+          "parametersSha256": "565a42d32ea709d45a338fb297d10bcaaf3e2ba02f36a148bbd6065858a1c057",
+          "kind": "geometry",
+          "requestedIds": 500
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:27.520056+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 2178490,
+          "sha256": "2c6cb4e116041ec3c7c6d1bb80ab4c0cac518a94fc55414ee8299ff3bcf51f94",
+          "parametersSha256": "b5d1b561240d41aa98077f2584ec11f9a58dd584cb3780adfcc384045303ff3c",
+          "kind": "geometry",
+          "requestedIds": 457
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:34.316897+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 3735359,
+          "sha256": "7935b7881b3cf5953fddcfc84fcc7a8decadb9c117c536ef5ced8ccc490d10c1",
+          "parametersSha256": "77aa690e28026bcf406e8ded8ab873ef632e993d7363234cb05b7a69252b6a49",
+          "kind": "geometry",
+          "requestedIds": 394
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:45.757739+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 691357,
+          "sha256": "0baa57e8abf36f7fbe25dc5366baf49522d74d180148add46e4ebde21e82f10f",
+          "parametersSha256": "1e98697827811613bcd058ae3e9d232fb981705cc6cb0595927a910ab53bae73",
+          "kind": "geometry",
+          "requestedIds": 228
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:47.066205+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "b3dc0c53ca3ae54c6124087973e47eb4e6f2706862c8ef4ef72ac66b0933a95f",
+          "parametersSha256": "cd1db076f0dc106c6d51400e7f5ba33fabc960a9a5d1d250bbea3c7b9e40607d",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:47.619267+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 21889,
+          "sha256": "85dd69074d8c09b061f44647b0401ccd76fc3d0db70b0de60b2bed30723e7717",
+          "parametersSha256": "6211a27cbd0370e335818b5ef1e64363dc23de415f38f6ed2d047e955e6f9f53",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:47.924272+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1218253,
+          "sha256": "7e62bb248eaa07b6bfa6b7fc3d98ff8773e6c050ad08d54d0670ddafaf63a891",
+          "parametersSha256": "d183f79abdecf185cf757eb54e5eda89214f6aecb4468e06bc76541bd1e59b20",
+          "kind": "geometry",
+          "requestedIds": 457
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:07:51.529099+00:00",
+          "httpStatus": null,
+          "bodyComplete": false,
+          "bytes": 0,
+          "sha256": null,
+          "parametersSha256": "affa10e18065d92f1337b258904db74afb157edb787e711696d2cac0324f6615",
+          "kind": "geometry",
+          "requestedIds": 446
+        }
+      ],
+      "ingestionRuns": [
+        [
+          "omb_2023_cbsa_delineation",
+          "SUCCEEDED",
+          1,
+          143798,
+          31
+        ],
+        [
+          "tiger_county_2024",
+          "SUCCEEDED",
+          1,
+          83913260,
+          31
+        ],
+        [
+          "fema_nfhl_special_flood_hazard_areas",
+          "FAILED",
+          59,
+          35443908,
+          0
+        ]
+      ],
+      "boundaryCounts": [
+        [
+          "tiger_county_2024",
+          31
+        ]
+      ],
+      "snapshotCount": 60,
+      "rawInputsAndDatabaseKeptLocally": true,
+      "censusAdapters": "Exact previously downloaded official bytes replayed; no additional Census HTTP requests",
+      "activeFemaPolygons": 0
+    },
+    {
+      "attempt": 2,
+      "originalLocalReceiptSha256": "9beeea2f836aea2f02e3723e223891261d4d922f88c9c2a65bf91640e7bcb06a",
+      "sourceCommit": "f62e3ace65840580077c676480d71581e0e9e90e",
+      "startedAtUtc": "2026-11-01T01:11:33.077724+00:00",
+      "finishedAtUtc": "2026-11-01T01:12:54.430751+00:00",
+      "status": "INCOMPLETE",
+      "failure": {
+        "type": "HTTPStatusError",
+        "message": "Server error '500 ' for url 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?where=SFHA_TF%3D%27T%27&geometry=-73.368811%2C41.01788%2C-72.999547%2C41.391711&geometryType=esriGeometryEnvelope&inSR=4326&spatialRel=esriSpatialRelIntersects&f=geojson&outFields=OBJECTID%2CDFIRM_ID%2CFLD_AR_ID%2CFLD_ZONE%2CZONE_SUBTY%2CSFHA_TF%2CGFID%2CGlobalID&returnGeometry=true&outSR=4326&geometryPrecision=5&maxAllowableOffset=1e-05&objectIds=23264131%2C23264138%2C23264139%2C23264140%2C23264141%2C23264151%2C23264160%2C23264161%2C23264162%2C23264165%2C23264166%2C23264169%2C23264188%2C23264191%2C23264193%2C23264194%2C23264195%2C23264200%2C23264202%2C23264204%2C23264226%2C23264229%2C23264232%2C23264234%2C23264248%2C23264263%2C23264266%2C23264274%2C23264295%2C23264296%2C23264320%2C23264321%2C23264325%2C23264329%2C23264332%2C23264338%2C23264341%2C23264348%2C23264352%2C23264359%2C23264360%2C23264361%2C23264362%2C23264369%2C23264376%2C23264385%2C23264389%2C23264390%2C23264400%2C23264401%2C23264407%2C23264408%2C23264438%2C23264440%2C23264441%2C23264447%2C23264451%2C23264452%2C23264468%2C23264474%2C23264475%2C23264478%2C23264484%2C23264486%2C23264517%2C23264519%2C23264532%2C23264533%2C23264536%2C23264544%2C23264560%2C23264569%2C23264578%2C23264593%2C23264601%2C23264623%2C23264628%2C23264633%2C23264641%2C23264648%2C23264658%2C23264660%2C23264661%2C23264662%2C23264670%2C23264674%2C23264683%2C23264685%2C23264689%2C23264692%2C23264694%2C23264695%2C23264698%2C23264699%2C23264707%2C23264729%2C23264733%2C23264735%2C23264741%2C23264742%2C23264743%2C23264752%2C23264756%2C23264759%2C23264761%2C23264771%2C23264772%2C23264773%2C23264774%2C23264775%2C23264788%2C23264789%2C23264790%2C23264793%2C23264797%2C23264807%2C23264809%2C23264815%2C23264819%2C23264828%2C23264831%2C23264832%2C23264845%2C23264852%2C23264875%2C23264876%2C23264887%2C23264890%2C23264894%2C23264895%2C23264905%2C23264911%2C23264914%2C23264932%2C23264934%2C23264936%2C23264940%2C23264944%2C23264954%2C23264966%2C23264967%2C23264972%2C23264987%2C23264989%2C23264993%2C23264994%2C23265003%2C23265005%2C23265015%2C23265017%2C23265032%2C23265034%2C23265035%2C23265039%2C23265040%2C23265041%2C23265042%2C23265044%2C23265045%2C23265049%2C23265054%2C23265060%2C23265068%2C23265078%2C23265079%2C23265081%2C23265088%2C23265095%2C23265099%2C23265103%2C23265105%2C23265111%2C23265112%2C23265114%2C23265115%2C23265116%2C23265122%2C23265124%2C23265127%2C23265134%2C23265138%2C23265157%2C23265161%2C23265162%2C23265166%2C23265173%2C23265178%2C23265180%2C23265186%2C23265187%2C23265192%2C23265193%2C23265194%2C23265196%2C23265201%2C23265207%2C23265209%2C23265214%2C23265215%2C23265220%2C23265223%2C23265226%2C23265228%2C23265233%2C23265249%2C23265250%2C23265264%2C23265267%2C23265272%2C23265273%2C23265274%2C23265286%2C23265296%2C23265297%2C23265303%2C23265305%2C23265312%2C23265317%2C23265318%2C23265321%2C23265331%2C23265332%2C23265336%2C23265339%2C23265344%2C23265349%2C23265351%2C23265354%2C23265357%2C23265369%2C23265370%2C23265384%2C23265402%2C23265404%2C23265415%2C23265423%2C23265425%2C23265428%2C23265435%2C23265441%2C23265443%2C23265447%2C23265454%2C23265458%2C23265461%2C23265463%2C23265482%2C23265489%2C23265490%2C23265495%2C23265498%2C23265504%2C23265511%2C23265513%2C23265518%2C23265529%2C23265535%2C23265537%2C23265560%2C23265563%2C23265573%2C23265580%2C23265582%2C23265597%2C23265612%2C23265620%2C23265624%2C23265625%2C23265630%2C23265633%2C23265642%2C23265646%2C23265657%2C23265659%2C23265661%2C23265671%2C23265678%2C23265685%2C23265686%2C23265687%2C23265688%2C23265714%2C23265717%2C23265718%2C23265720%2C23265727%2C23265732%2C23265739%2C23265746%2C23265754%2C23265756%2C23265759%2C23265766%2C23265777%2C23265783%2C23265786%2C23265791%2C23265793%2C23265795%2C23265804%2C23265805%2C23265807%2C23265817%2C23265822%2C23265825%2C23265829%2C23265830%2C23265831%2C23265835%2C23265841%2C23265844%2C23265846%2C23265870%2C23265885%2C23265887%2C23265890%2C23265891%2C23265895%2C23265896%2C23265901%2C23265903%2C23265907%2C23265917%2C23265918%2C23265919%2C23265923%2C23265925%2C23265928%2C23265930%2C23265968%2C23265969%2C23265970%2C23265977%2C23265980%2C23265983%2C23265990%2C23265991%2C23265992%2C23265997%2C23265998%2C23266009%2C23266011%2C23266012%2C23266019%2C23266028%2C23266032%2C23266033%2C23266037%2C23266042%2C23266074%2C23266078%2C23266105%2C23266106%2C23266108%2C23266114'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+      },
+      "limits": {
+        "maxHttpRequests": 453,
+        "maxDecodedBytes": 1964556092,
+        "networkSeconds": 900
+      },
+      "elapsedSeconds": 81.35900000005495,
+      "decodedBytes": 73683,
+      "requests": [
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+          "startedAtUtc": "2026-11-01T01:11:44.065089+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 60213,
+          "sha256": "a38cd0a855dad20876017347ae728e000cfcb606d8e90a6dc1e8d5a6c37f8579",
+          "parametersSha256": "c27c56f38f6cfba7ee6333e932e231efffd0d6c31ef7c51d24e3b4d6c0c94d89",
+          "kind": "metadata",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:11:44.303304+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "de1dd2b26dad7b9885591fd4d531c4cdb2e934c10a9b654d9d29cd155f8000ab",
+          "parametersSha256": "ac05a9f45cc1ca83c221ddc72360c16acf5b61c47fbd60f4b60f5c1fc7470de6",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:11:44.456949+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 13456,
+          "sha256": "dd367ca13aba58a958e46d003ca623cfe0494492bd3b122c9587f78f91ae8e62",
+          "parametersSha256": "e09247dafbb11f2d82f1a9af291cf2f51c3ceb6162c7eff634a291d372a1f638",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:11:44.699125+00:00",
+          "httpStatus": 500,
+          "bodyComplete": false,
+          "bytes": 0,
+          "sha256": null,
+          "parametersSha256": "9bbc87e997cce3db08c519db024eb313d2afb25705702d8305479b5795a8c3c6",
+          "kind": "geometry",
+          "requestedIds": 355
+        }
+      ],
+      "ingestionRuns": [
+        [
+          "omb_2023_cbsa_delineation",
+          "SUCCEEDED",
+          1,
+          143798,
+          31
+        ],
+        [
+          "tiger_county_2024",
+          "SUCCEEDED",
+          1,
+          83913260,
+          31
+        ],
+        [
+          "fema_nfhl_special_flood_hazard_areas",
+          "FAILED",
+          4,
+          73683,
+          0
+        ]
+      ],
+      "boundaryCounts": [
+        [
+          "tiger_county_2024",
+          31
+        ]
+      ],
+      "snapshotCount": 5,
+      "rawInputsAndDatabaseKeptLocally": true,
+      "censusAdapters": "Exact previously downloaded official bytes replayed; no additional Census HTTP requests",
+      "activeFemaPolygons": 0
+    },
+    {
+      "attempt": 3,
+      "originalLocalReceiptSha256": "d4db93d7c46213997072b33e8067a487a12653378b84c6499a33c1f72f5d53d5",
+      "sourceCommit": "67b1ee372dd6acfb97b9bae81edb89ea812829d5",
+      "startedAtUtc": "2026-11-01T01:23:42.803662+00:00",
+      "finishedAtUtc": "2026-11-01T01:23:55.522227+00:00",
+      "status": "INCOMPLETE",
+      "failure": {
+        "type": "FileNotFoundError",
+        "message": "[Errno 2] No such file or directory: '<WORKSPACE>\\\\task-artifacts\\\\nyc-public-fema-acceptance-attempt3-20261031\\\\data\\\\raw\\\\fema_nfhl_special_flood_hazard_areas\\\\sfha-09120-members-0000000\\\\20261101T012354.906205Z\\\\sfha_09120_0000000.geojson.part'"
+      },
+      "limits": {
+        "maxHttpRequests": 448,
+        "maxDecodedBytes": 1963859419,
+        "networkSeconds": 900
+      },
+      "elapsedSeconds": 12.719000000040978,
+      "decodedBytes": 73683,
+      "requests": [
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+          "startedAtUtc": "2026-11-01T01:23:54.082541+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 60213,
+          "sha256": "07307fdb1f45aa19772e2a0821fb3c61eacbdad5c8c57047d6a8673fd27b4a58",
+          "parametersSha256": "c27c56f38f6cfba7ee6333e932e231efffd0d6c31ef7c51d24e3b4d6c0c94d89",
+          "kind": "metadata",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:23:54.543195+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "de1dd2b26dad7b9885591fd4d531c4cdb2e934c10a9b654d9d29cd155f8000ab",
+          "parametersSha256": "ac05a9f45cc1ca83c221ddc72360c16acf5b61c47fbd60f4b60f5c1fc7470de6",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:23:54.692207+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 13456,
+          "sha256": "dd367ca13aba58a958e46d003ca623cfe0494492bd3b122c9587f78f91ae8e62",
+          "parametersSha256": "e09247dafbb11f2d82f1a9af291cf2f51c3ceb6162c7eff634a291d372a1f638",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:23:54.909206+00:00",
+          "httpStatus": 200,
+          "bodyComplete": false,
+          "bytes": 0,
+          "sha256": null,
+          "parametersSha256": "6bc0c5113ae201c3d94c99d0234b486d367e14883a97aaaed1dd2b9686ffe658",
+          "kind": "geometry",
+          "requestedIds": 355
+        }
+      ],
+      "ingestionRuns": [
+        [
+          "omb_2023_cbsa_delineation",
+          "SUCCEEDED",
+          1,
+          143798,
+          31
+        ],
+        [
+          "tiger_county_2024",
+          "SUCCEEDED",
+          1,
+          83913260,
+          31
+        ],
+        [
+          "fema_nfhl_special_flood_hazard_areas",
+          "FAILED",
+          4,
+          73683,
+          0
+        ]
+      ],
+      "boundaryCounts": [
+        [
+          "tiger_county_2024",
+          31
+        ]
+      ],
+      "snapshotCount": 5,
+      "rawInputsAndDatabaseKeptLocally": true,
+      "censusAdapters": "Exact previously downloaded official bytes replayed; no additional Census HTTP requests",
+      "activeFemaPolygons": 0
+    },
+    {
+      "attempt": 4,
+      "originalLocalReceiptSha256": "df4918dd31b8782793cc08c68b1c6ca89f6ba0273d91f4378481f9c1f4af4371",
+      "sourceCommit": "67b1ee372dd6acfb97b9bae81edb89ea812829d5",
+      "startedAtUtc": "2026-11-01T01:26:05.930690+00:00",
+      "finishedAtUtc": "2026-11-01T01:27:34.752342+00:00",
+      "status": "INCOMPLETE",
+      "failure": {
+        "type": "HTTPStatusError",
+        "message": "Server error '500 ' for url 'https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query?f=geojson&outFields=OBJECTID%2CDFIRM_ID%2CFLD_AR_ID%2CFLD_ZONE%2CZONE_SUBTY%2CSFHA_TF%2CGFID%2CGlobalID&returnGeometry=true&outSR=4326&geometryPrecision=5&maxAllowableOffset=1e-05&objectIds=23264174%2C23264176%2C23264179%2C23264180%2C23264181%2C23264182%2C23264188%2C23264191%2C23264193%2C23264194%2C23264195%2C23264196%2C23264197%2C23264198%2C23264200%2C23264202%2C23264204%2C23264206%2C23264211%2C23264212%2C23264213%2C23264215%2C23264221%2C23264224%2C23264225%2C23264226%2C23264227%2C23264228%2C23264229%2C23264230%2C23264231%2C23264232%2C23264234%2C23264235%2C23264240%2C23264256%2C23264259%2C23264260%2C23264261%2C23264263%2C23264268%2C23264269%2C23264270%2C23264271%2C23264274%2C23264277%2C23264279%2C23264281%2C23264285%2C23264286%2C23264289%2C23264290%2C23264292%2C23264293%2C23264295%2C23264296%2C23264300%2C23264303%2C23264304%2C23264305%2C23264306%2C23264308%2C23264310%2C23264311%2C23264320%2C23264321%2C23264325%2C23264326%2C23264327%2C23264329%2C23264331%2C23264332%2C23264333%2C23264336%2C23264338%2C23264340%2C23264341%2C23264342%2C23264346%2C23264347%2C23264348%2C23264352%2C23264354%2C23264356%2C23264357%2C23264359%2C23264360%2C23264361%2C23264362%2C23264367%2C23264369%2C23264374%2C23264376%2C23264380%2C23264381%2C23264382%2C23264386%2C23264389%2C23264390%2C23264396%2C23264398%2C23264401%2C23264404%2C23264405%2C23264406%2C23264411%2C23264412%2C23264415%2C23264418%2C23264421%2C23264422%2C23264425%2C23264431%2C23264432%2C23264434%2C23264438%2C23264439%2C23264440%2C23264441%2C23264447%2C23264448%2C23264453%2C23264458%2C23264465%2C23264468%2C23264469%2C23264471%2C23264472%2C23264475%2C23264476%2C23264478%2C23264479%2C23264480%2C23264483%2C23264484%2C23264486%2C23264488%2C23264492%2C23264494%2C23264495%2C23264496%2C23264504%2C23264514%2C23264517%2C23264519%2C23264520%2C23264523%2C23264526%2C23264528%2C23264529%2C23264532%2C23264533%2C23264534%2C23264536%2C23264538%2C23264540%2C23264544%2C23264547%2C23264551%2C23264553%2C23264554%2C23264555%2C23264556%2C23264560%2C23264569%2C23264574%2C23264575%2C23264578%2C23264579%2C23264583%2C23264584%2C23264592%2C23264593%2C23264601%2C23264618%2C23264622%2C23264623%2C23264626%2C23264628%2C23264633%2C23264635%2C23264636%2C23264637%2C23264641%2C23264644%2C23264648%2C23264649%2C23264650%2C23264651%2C23264655%2C23264656%2C23264658%2C23264660%2C23264661%2C23264662%2C23264663%2C23264665%2C23264666%2C23264667%2C23264670%2C23264676%2C23264678%2C23264682%2C23264683%2C23264684%2C23264685%2C23264687%2C23264689%2C23264692%2C23264694%2C23264695%2C23264698%2C23264699%2C23264712%2C23264716%2C23264721%2C23264729%2C23264731%2C23264735%2C23264744%2C23264747%2C23264750%2C23264752%2C23264755%2C23264756%2C23264759%2C23264761%2C23264764%2C23264765%2C23264766%2C23264771%2C23264773%2C23264774%2C23264775%2C23264778%2C23264779%2C23264780%2C23264781%2C23264782%2C23264786%2C23264788%2C23264789%2C23264792%2C23264793%2C23264797%2C23264803%2C23264806%2C23264807%2C23264809%2C23264814%2C23264815%2C23264818%2C23264826%2C23264828%2C23264831%2C23264832%2C23264835%2C23264836%2C23264838%2C23264839%2C23264843%2C23264845%2C23264847%2C23264848%2C23264858%2C23264859%2C23264860%2C23264862%2C23264864%2C23264866%2C23264869%2C23264871%2C23264873%2C23264876%2C23264878%2C23264885%2C23264887%2C23264888%2C23264890%2C23264893%2C23264894%2C23264895%2C23264898%2C23264901%2C23264902%2C23264903%2C23264905%2C23264906%2C23264911%2C23264914%2C23264922%2C23264925%2C23264926%2C23264929%2C23264930%2C23264932%2C23264933%2C23264935%2C23264936%2C23264937%2C23264940%2C23264944%2C23264949%2C23264954%2C23264956%2C23264958%2C23264959%2C23264966%2C23264967%2C23264969%2C23264972%2C23264973%2C23264977%2C23264978%2C23264979%2C23264982%2C23264983%2C23264984%2C23264987%2C23264988%2C23264989%2C23264996%2C23264998%2C23264999%2C23265001%2C23265003%2C23265005%2C23265007%2C23265009%2C23265011%2C23265015%2C23265017%2C23265019%2C23265022%2C23265027%2C23265028%2C23265029%2C23265031%2C23265032%2C23265037%2C23265039%2C23265040%2C23265043%2C23265044%2C23265045%2C23265046%2C23265048%2C23265049%2C23265051%2C23265054%2C23265056%2C23265057%2C23265059%2C23265060%2C23265061'\nFor more information check: https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500"
+      },
+      "limits": {
+        "maxHttpRequests": 444,
+        "maxDecodedBytes": 1963785736,
+        "networkSeconds": 900
+      },
+      "elapsedSeconds": 88.82800000009593,
+      "decodedBytes": 5633310,
+      "requests": [
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+          "startedAtUtc": "2026-11-01T01:26:16.936171+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 60213,
+          "sha256": "07307fdb1f45aa19772e2a0821fb3c61eacbdad5c8c57047d6a8673fd27b4a58",
+          "parametersSha256": "c27c56f38f6cfba7ee6333e932e231efffd0d6c31ef7c51d24e3b4d6c0c94d89",
+          "kind": "metadata",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:17.144185+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "de1dd2b26dad7b9885591fd4d531c4cdb2e934c10a9b654d9d29cd155f8000ab",
+          "parametersSha256": "ac05a9f45cc1ca83c221ddc72360c16acf5b61c47fbd60f4b60f5c1fc7470de6",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:17.269181+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 13456,
+          "sha256": "dd367ca13aba58a958e46d003ca623cfe0494492bd3b122c9587f78f91ae8e62",
+          "parametersSha256": "e09247dafbb11f2d82f1a9af291cf2f51c3ceb6162c7eff634a291d372a1f638",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:17.474185+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 622990,
+          "sha256": "cc92cb921e4eba45ea7e3e541ebdc67cbf98a8e5ffc7a73072fcb87955f4e59c",
+          "parametersSha256": "6bc0c5113ae201c3d94c99d0234b486d367e14883a97aaaed1dd2b9686ffe658",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:19.383874+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 685370,
+          "sha256": "d910700b1886f8c8eab797382d5c91c2f37c7cc55c38265df61c96bf57df5320",
+          "parametersSha256": "7779683d3f4aebd934ad4bb147951272d15f84628b92b28dcc7ccca6fc59841d",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:21.250838+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 1073377,
+          "sha256": "69ff79cc9b997a6fa072c7a14b6faec84aad3030674ad2e1bd73dfe5f8ea77a1",
+          "parametersSha256": "7ffaaa9747932ffa48b7d4a7fab78f3067f129b433e06635ea4ce12976675c91",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:24.100125+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 597854,
+          "sha256": "411a0b0decd02cc6c6ffdd1cf21c8539585b8d4cfa75d21adf9f55aba8ff0968",
+          "parametersSha256": "4809e995e0c706d54815502e80caa9487f6fffdfa36082b740ee8ba3e07b261f",
+          "kind": "geometry",
+          "requestedIds": 355
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:25.264483+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 341251,
+          "sha256": "8f94fa51b18ec241d74e6219db3a9d2d8a0e53666d046f5714b21becd8aee12e",
+          "parametersSha256": "83e0bf9a98e53bfbb5906b98f5aedb75e532c442e5ffd7c15fca03743f0814e7",
+          "kind": "geometry",
+          "requestedIds": 70
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:25.896498+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 14,
+          "sha256": "0e0ccf8164e9f264d043096b96b5d29572db64c06e7e7e736e757f04f361a5a7",
+          "parametersSha256": "87e9a3b5d26c9d09233aab088a1890d1750ac93052259879e3f7a38f961d70aa",
+          "kind": "count",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:26.391512+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 39194,
+          "sha256": "6784e5688424d4ac958e798b15b60f4104134fa9ff0df2d1a9a3971a4d78c47f",
+          "parametersSha256": "db163efe1154f249b71f6a1c9c41a1b836cd943a3b108bac3f5f9d0969759c12",
+          "kind": "ids",
+          "requestedIds": null
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:26.953649+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 580036,
+          "sha256": "2035fe34b66f45f6e777cec14a551ef7cf4f2e123a9e0828d0b94b55e53bb58a",
+          "parametersSha256": "351aa18ed13f6527390ab03cd4976a02d03fc7417465a128fd23e89303e01c3c",
+          "kind": "geometry",
+          "requestedIds": 500
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:29.417822+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 750694,
+          "sha256": "1fefb5441fdc0a2e8e4b5b070982972f10705f15e3579a16df4b59fcd48538b0",
+          "parametersSha256": "b40d5f527a779f14d8795531e233cc6b17bdac99b452f1db913bff113237f257",
+          "kind": "geometry",
+          "requestedIds": 497
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:31.923336+00:00",
+          "httpStatus": 200,
+          "bodyComplete": true,
+          "bytes": 868847,
+          "sha256": "312a4e8082d6bc46361a0a4522b3fd136204329e8e4b5bb709a968296d328aba",
+          "parametersSha256": "5550c13d297f3df5d5bbd674defa47fb17f92ff277726a120fea8b39204a6660",
+          "kind": "geometry",
+          "requestedIds": 451
+        },
+        {
+          "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28/query",
+          "startedAtUtc": "2026-11-01T01:26:34.356350+00:00",
+          "httpStatus": 500,
+          "bodyComplete": false,
+          "bytes": 0,
+          "sha256": null,
+          "parametersSha256": "519cf59108986f718940232d3be03cfe2f13f15dd398781aa7daf3a929b3087b",
+          "kind": "geometry",
+          "requestedIds": 355
+        }
+      ],
+      "ingestionRuns": [
+        [
+          "omb_2023_cbsa_delineation",
+          "SUCCEEDED",
+          1,
+          143798,
+          31
+        ],
+        [
+          "tiger_county_2024",
+          "SUCCEEDED",
+          1,
+          83913260,
+          31
+        ],
+        [
+          "fema_nfhl_special_flood_hazard_areas",
+          "FAILED",
+          14,
+          5633310,
+          0
+        ]
+      ],
+      "boundaryCounts": [
+        [
+          "tiger_county_2024",
+          31
+        ]
+      ],
+      "snapshotCount": 15,
+      "rawInputsAndDatabaseKeptLocally": true,
+      "censusAdapters": "Exact previously downloaded official bytes replayed; no additional Census HTTP requests",
+      "activeFemaPolygons": 0
+    }
+  ],
+  "campaignIncludingSingleIdDiagnostic": {
+    "requests": 82,
+    "decodedBytes": 41847574,
+    "requestLimit": 512,
+    "decodedByteLimit": 2000000000,
+    "automaticRetries": false
+  },
+  "separateEarlierTinyProbeRequests": 6,
+  "separateActualCensusDownloads": 2,
+  "regionalAcceptance": "INCOMPLETE",
+  "modelCalls": 0,
+  "productionChanges": 0,
+  "processing": "Compact request fields and canonical parameter hashes; personal local paths replaced; full original local receipts retained and hashed"
+}

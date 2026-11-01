@@ -1,0 +1,81 @@
+{
+  "observedAtUtc": "2026-11-01T00:42:20.349956+00:00",
+  "url": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28",
+  "parameters": {
+    "f": "json"
+  },
+  "requestLimit": 1,
+  "byteLimit": 2000000,
+  "credentials": false,
+  "productionCatalogChanged": false,
+  "status": 200,
+  "finalUrl": "https://hazards.fema.gov/arcgis/rest/services/public/NFHL/MapServer/28?f=json",
+  "bytes": 60213,
+  "sha256": "217a61bbf81aa87380b8441b749e3810b1ff39746299d073ee22a52b830ae4c9",
+  "metadataSummary": {
+    "name": "Flood Hazard Zones",
+    "type": "Feature Layer",
+    "geometryType": "esriGeometryPolygon",
+    "maxRecordCount": 2000,
+    "objectIdField": null,
+    "supportedQueryFormats": "JSON, geoJSON, PBF",
+    "capabilities": "Map,Query,Data",
+    "advancedQueryCapabilities": {
+      "useStandardizedQueries": true,
+      "supportsStatistics": true,
+      "supportsPercentileStatistics": true,
+      "supportsHavingClause": true,
+      "supportsOrderBy": true,
+      "supportsDistinct": true,
+      "supportsCountDistinct": true,
+      "supportsPagination": true,
+      "supportsLod": false,
+      "supportsQueryWithLodSR": false,
+      "supportsTrueCurve": true,
+      "supportsQueryWithDatumTransformation": true,
+      "supportsReturningQueryExtent": true,
+      "supportsQueryWithDistance": true,
+      "supportsSqlExpression": true,
+      "supportsTimeRelation": true,
+      "supportsSqlFormat": false,
+      "supportsQueryAnalytic": true
+    },
+    "editingInfo": null
+  },
+  "objectIdFields": [
+    {
+      "name": "OBJECTID",
+      "type": "esriFieldTypeOID",
+      "alias": "OBJECTID",
+      "domain": null
+    }
+  ],
+  "fieldNames": [
+    "GFID",
+    "OBJECTID",
+    "DFIRM_ID",
+    "VERSION_ID",
+    "FLD_AR_ID",
+    "STUDY_TYP",
+    "FLD_ZONE",
+    "ZONE_SUBTY",
+    "SFHA_TF",
+    "STATIC_BFE",
+    "V_DATUM",
+    "DEPTH",
+    "LEN_UNIT",
+    "VELOCITY",
+    "VEL_UNIT",
+    "AR_REVERT",
+    "AR_SUBTRV",
+    "BFE_REVERT",
+    "DEP_REVERT",
+    "DUAL_ZONE",
+    "SOURCE_CIT",
+    "SHAPE",
+    "GlobalID",
+    "SHAPE.STArea()",
+    "SHAPE.STLength()"
+  ],
+  "hasUpstreamError": false
+}

@@ -1,0 +1,13 @@
+........................................................................ [ 55%]
+.........................................................                [100%]
+============================== warnings summary ===============================
+tests/unit/test_geojson_completeness_recovery.py::test_downloaded_empty_geometry_cannot_silently_disappear_above_floor
+  <WORKSPACE>\NYC-Lens-fema-membership\src\nyc_lens\ingest\geographies.py:77: UserWarning: GeoSeries.notna() previously returned False for both missing (None) and empty geometries. Now, it only returns False for missing values. Since the calling GeoSeries contains empty geometries, the result has changed compared to previous versions of GeoPandas.
+  Given a GeoSeries 's', you can use '~s.is_empty & s.notna()' to get back the old behaviour.
+
+  To further ignore this warning, you can do:
+  import warnings; warnings.filterwarnings('ignore', 'GeoSeries.notna', UserWarning)
+    frame = frame.loc[frame.geometry.notna()].copy()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+129 passed, 1 warning in 484.28s (0:08:04)

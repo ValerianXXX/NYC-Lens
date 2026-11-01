@@ -1,0 +1,53 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+___ test_exact_id_retrieval_survives_service_rejection_of_combined_filters ____
+
+database = (<_duckdb.DuckDBPyConnection object at 0x0000023EB1BBACB0>, WindowsPath('<USER_HOME>/AppData/Local/Temp/pytest-of-<USER>/pytest-104/test_exact_id_retrieval_surviv0'))
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x0000023EB202A750>
+
+    def test_exact_id_retrieval_survives_service_rejection_of_combined_filters(database, monkeypatch):
+        conn, _ = database
+        calls = install_response_fixture(monkeypatch)
+        underlying = fema.download_snapshot
+
+        def download(conn, *, params=None, **kwargs):
+            if "objectIds" in (params or {}) and any(
+                key in params for key in ("where", "geometry", "geometryType", "inSR", "spatialRel")
+            ):
+                return save_bytes_snapshot(conn, source_id=kwargs["source_id"],
+                    vintage=kwargs["vintage"], filename=kwargs["filename"],
+                    content=json.dumps({"error": {"code": 500, "message": "Synthetic service query failure"}}).encode(),
+                    source_url=kwargs["url"], run_id=kwargs["run_id"],
+                    query={"synthetic": True, "params": params}, content_type="application/json",
+                    warnings=["Synthetic service response; not an actual current FEMA failure."], http_status=200)
+            return underlying(conn, params=params, **kwargs)
+
+        monkeypatch.setattr(fema, "download_snapshot", download)
+>       result = fema.refresh_fema_sfha(conn)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests\unit\test_fema_id_retrieval.py:33:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src\nyc_lens\ingest\fema.py:224: in refresh_fema_sfha
+    features = checked_page(read_snapshot_response(snapshot, max_bytes=PAGE_BYTES), requested,
+src\nyc_lens\ingest\fema_query.py:103: in checked_page
+    features = exact_feature_membership(payload, "OBJECTID", requested)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\ingest\source_response.py:70: in exact_feature_membership
+    features = polygon_features(payload)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\ingest\source_response.py:44: in polygon_features
+    no_error_or_limit(payload)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+payload = {'error': {'code': 500, 'message': 'Synthetic service query failure'}}
+
+    def no_error_or_limit(payload: Any) -> None:
+        if not isinstance(payload, dict) or "error" in payload:
+>           raise CompletenessError("COMPLETENESS_UPSTREAM_ERROR")
+E           nyc_lens.ingest.source_response.CompletenessError: COMPLETENESS_UPSTREAM_ERROR
+
+src\nyc_lens\ingest\source_response.py:34: CompletenessError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_fema_id_retrieval.py::test_exact_id_retrieval_survives_service_rejection_of_combined_filters
+1 failed in 5.78s

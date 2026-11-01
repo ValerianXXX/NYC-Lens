@@ -1,0 +1,42 @@
+{
+  "startedAtUtc": "2026-11-01T01:00:50.558822+00:00",
+  "requestLimit": 2,
+  "maximumDecodedBytes": 122000000,
+  "retries": 0,
+  "redirectsFollowed": false,
+  "databaseChanged": false,
+  "modelCalls": 0,
+  "sources": [
+    {
+      "sourceId": "omb_2023_cbsa_delineation",
+      "filename": "list1_2023.xlsx.response",
+      "url": "https://www2.census.gov/programs-surveys/metro-micro/geographies/reference-files/2023/delineation-files/list1_2023.xlsx",
+      "maxBytes": 2000000,
+      "checkedAtUtc": "2026-11-01T01:00:50.877830+00:00",
+      "httpStatus": 200,
+      "contentType": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "etag": null,
+      "lastModified": "Fri, 04 Aug 2023 14:36:17 GMT",
+      "status": "DOWNLOADED",
+      "bytesRetained": 143798,
+      "sha256": "952c4b1e78acbb54e6ec9412434b7602fedacbf021736351a63c181bdb753629",
+      "seconds": 0.20300000009592623
+    },
+    {
+      "sourceId": "tiger_county_2024",
+      "filename": "tl_2024_us_county.zip.response",
+      "url": "https://www2.census.gov/geo/tiger/TIGER2024/COUNTY/tl_2024_us_county.zip",
+      "maxBytes": 120000000,
+      "checkedAtUtc": "2026-11-01T01:00:51.080839+00:00",
+      "httpStatus": 200,
+      "contentType": "application/zip",
+      "etag": null,
+      "lastModified": "Fri, 27 Jun 2025 20:01:24 GMT",
+      "status": "DOWNLOADED",
+      "bytesRetained": 83913260,
+      "sha256": "04e668d3502757c837c13444730547cd967f28a2c49aeffb873d1792ab2cb97b",
+      "seconds": 2.577999999979511
+    }
+  ],
+  "finishedAtUtc": "2026-11-01T01:00:53.665208+00:00"
+}
