@@ -1,0 +1,218 @@
+{
+  "observed_at_utc": "2026-11-01T10:57:34.943154+00:00",
+  "baseline_commit": "71f1760fc91046a2e52e57a7ee9e194aef1241aa",
+  "runtime_commit": "32ca46710edf16c55210530000547785e3876575",
+  "mode": "DETERMINISTIC_LOCAL_COMPUTATION_WITH_SYNTHETIC_INPUTS",
+  "same_input_comparison": {
+    "n": 8,
+    "value_correct_before": 4,
+    "value_correct_after": 8,
+    "value_and_declared_evidence_correct_before": 0,
+    "value_and_declared_evidence_correct_after": 8,
+    "fixture_and_evaluator_unchanged": true
+  },
+  "full_local": {
+    "passed": 548,
+    "skipped": 3,
+    "warnings": 232,
+    "seconds": 706.57,
+    "source_unchanged": true,
+    "skip_reason": "Original full local database/sample prerequisites unavailable"
+  },
+  "related": {
+    "passed": 49,
+    "seconds": 49.29
+  },
+  "existing_ui_contracts": {
+    "passed": 3,
+    "seconds": 0.07
+  },
+  "browser": {
+    "english_and_chinese_confirmation": true,
+    "two_markers_rendered": true,
+    "reload_reused_saved_result": true,
+    "new_diagnostic_visible_in_both_languages": true,
+    "final_chinese_after_runtime_commit": true,
+    "actual_downloads": [
+      "json",
+      "csv",
+      "xlsx"
+    ],
+    "rows_per_table": 252,
+    "population": [
+      300,
+      null
+    ],
+    "weighted_income": [
+      60000,
+      null
+    ],
+    "income_input_records": 6,
+    "unresolved_record_bindings": 0,
+    "raw_file_binding": "UNAVAILABLE_SYNTHETIC_INPUTS"
+  },
+  "package_build": {
+    "initial_attempt": "FAILED_MISSING_DECLARED_BUILD_TOOLS",
+    "isolated_recovery": "PASS",
+    "setuptools": "80.10.2",
+    "wheel": "0.48.0",
+    "packaging": "26.3",
+    "artifact": "nyc_lens-0.2.0-py3-none-any.whl",
+    "sha256": "7153fec5582933fa7b8f4f6b21e70979254cd4594d6f0a58f29e3d33bcab9ac0",
+    "new_module_engine_and_fingerprint_bytes_match": true,
+    "standalone_installation_verified": false
+  },
+  "hosted_checks": "PENDING_AT_LOCAL_RECEIPT",
+  "new_provider_calls": 0,
+  "independent_human_acceptance": false,
+  "mobile_device_acceptance": false,
+  "whole_regional_data_acceptance": false,
+  "whole_metric_lineage_acceptance": false,
+  "methodology_recalibrated": false,
+  "production_or_migration_performed": false,
+  "product_dependency_or_configuration_change": false,
+  "source_git_blobs": [
+    {
+      "path": "src/nyc_lens/metrics/census.py",
+      "git_blob_sha256": "07e3f25a6ceadb7273f2edf8c0aad4ab557eb195bf3641ffebefb6b221151b92"
+    },
+    {
+      "path": "src/nyc_lens/metrics/engine.py",
+      "git_blob_sha256": "ecc6a2fa2787eb6bfb5976c8d7266816260c8c4c1c711515e9f969d4d8c6e697"
+    },
+    {
+      "path": "src/nyc_lens/db.py",
+      "git_blob_sha256": "c98a5d84871d327bd355b92cedd883ab91a96d65526e81d57a1ef4c50df72c6e"
+    },
+    {
+      "path": "tests/unit/test_census_input_contract.py",
+      "git_blob_sha256": "5822550296e762f4e0e8ab08d7c5c3556c7762400495109c926331cea78f9345"
+    },
+    {
+      "path": "tests/unit/test_census_input_failures.py",
+      "git_blob_sha256": "14a5143c99ae1213531d2cb6ca75db88886c7a1484592a65f8e8270f589f8e6e"
+    },
+    {
+      "path": "tests/unit/test_census_ratio_components.py",
+      "git_blob_sha256": "f0e56fb5b3f598d766407fab0025372b7fcd994e7a7a1ac1384b9754c2491b63"
+    },
+    {
+      "path": "tests/unit/test_census_comparison_workflow.py",
+      "git_blob_sha256": "8e353f573e4e7d8257bd3defad955e9b4fdd5ff2755581cf7ba54713b9c9a309"
+    },
+    {
+      "path": "tests/fixtures/census_scenario.py",
+      "git_blob_sha256": "8987e8326b3aa82e997ba75b0d9883c0d737d54e75b70ccdf895388636d4c197"
+    },
+    {
+      "path": "scripts/evaluate_census_inputs.py",
+      "git_blob_sha256": "9266521adacd63001cd3fe45dbe5f735dcc3d97416639e9c79290ab8499be31a"
+    },
+    {
+      "path": "ui/app.js",
+      "git_blob_sha256": "d24d67077fac9556375164cf76261dda43c79fb46fee6bc028f0bdf45e7edf16"
+    },
+    {
+      "path": "ui/index.html",
+      "git_blob_sha256": "e0cfeee0de5e13d15c5b00ffc33b1e7fe07020c77369cc21c1b3053ef878ddce"
+    }
+  ],
+  "files": [
+    {
+      "path": ".gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "browser-en.png",
+      "bytes": 83565,
+      "sha256": "2d40268b7ad3fcb6e0843d5c0b9f12fb2ceca45fd220fb0833557e2835f1c8c5"
+    },
+    {
+      "path": "browser-final-evidence.json",
+      "bytes": 5296,
+      "sha256": "5e79412b7045c773bc1079884d1ad1f09ede5cd05af8e9e71b6ee91411b93779"
+    },
+    {
+      "path": "browser-final-zh-exports.json",
+      "bytes": 1521,
+      "sha256": "0b9f55b33e3852499e13788671dc6a52c15133fb43c1a849cd3524ed7371cbb6"
+    },
+    {
+      "path": "browser-initial-en-exports.json",
+      "bytes": 1523,
+      "sha256": "e53514f675a67075634af6f486a161c8882a4bfbc5899f8ced7e12e44d3e7637"
+    },
+    {
+      "path": "browser-zh.png",
+      "bytes": 83446,
+      "sha256": "8f58a813dbc380f6f0cfabf26de3c6d9ea5931659ebefb9c254a555e08dc1b8a"
+    },
+    {
+      "path": "build-environment.txt",
+      "bytes": 742,
+      "sha256": "018ea82d7820ad246b5e9d808a0d590f1fb5d64acf77db84a88fb1125614bd37"
+    },
+    {
+      "path": "contracts-before.txt",
+      "bytes": 6440,
+      "sha256": "d315bc84929a54670869b6a68cffe87c5a725341e2865943b1cf28ffbf4f9b47"
+    },
+    {
+      "path": "full-observation.json",
+      "bytes": 878,
+      "sha256": "e45402ae50d43fbf4954ace9906f5aa620ab5b79275a7167f357b38479026496"
+    },
+    {
+      "path": "full.txt",
+      "bytes": 79328,
+      "sha256": "25aa5461bd54d92329e8a8b3314653d6ef70980519f599f4494764dd1e172fbb"
+    },
+    {
+      "path": "invalid-inputs-before.txt",
+      "bytes": 5626,
+      "sha256": "df1cbdb449cb0c1ef447010219e1453e6e782fcfefbb20354f094da37a57794a"
+    },
+    {
+      "path": "partial-ratio-before.txt",
+      "bytes": 4607,
+      "sha256": "eb87ff7412ecc51a47b6fdc540f8623cef952ed079bde011a9c5bbf0bc914524"
+    },
+    {
+      "path": "probe-after.json",
+      "bytes": 3756,
+      "sha256": "52addd05b136f56a7e6a6561f811f7104d0169ab1acb11c02dd93e96826c2360"
+    },
+    {
+      "path": "probe-before.json",
+      "bytes": 3402,
+      "sha256": "b520187e5e67f16554f2325b4b8d9678d57ef1c0724d812c82d4be597bdb4f44"
+    },
+    {
+      "path": "related.txt",
+      "bytes": 6639,
+      "sha256": "36f8266416e681c92327f544e81de1e6a9ad797d0386b59322b6dbbf82fd6388"
+    },
+    {
+      "path": "ui-contract.txt",
+      "bytes": 98,
+      "sha256": "f21802e5e24571b06b077e416af1539fdce6ad55b407e03af6af45b03968cb3b"
+    },
+    {
+      "path": "wheel-initial.txt",
+      "bytes": 2243,
+      "sha256": "1ddd4c9f0aadc19933676aa6957d356d14afeed88d0f0fbac7b493f3afbab0ba"
+    },
+    {
+      "path": "wheel-recovered.txt",
+      "bytes": 834,
+      "sha256": "5c0ef182af7fe0946ea0c35fd12b3f36d7e557cd29e6171372ec08e41897a4ee"
+    },
+    {
+      "path": "workflow-initial-float-equality.txt",
+      "bytes": 7228,
+      "sha256": "298eaf6e996f10a8f2c7cbe955f59bc10b462bca847a039279a8f711158a1b87"
+    }
+  ],
+  "public_text_copy_normalization": "Workspace/home/host identifiers redacted; LF endings and trailing whitespace normalized. Original observations remain unchanged locally."
+}

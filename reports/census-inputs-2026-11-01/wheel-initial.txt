@@ -1,0 +1,36 @@
+Processing <WORKSPACE>\nyc-lens-census-inputs
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'error'
+  error: subprocess-exited-with-error
+
+  × Preparing metadata (pyproject.toml) did not run successfully.
+  │ exit code: 1
+  ╰─> [15 lines of output]
+      <WORKSPACE>\NYC-Lens\.venv\Lib\site-packages\setuptools\config\pyprojecttoml.py:108: _BetaConfiguration: Support for `[tool.setuptools]` in `pyproject.toml` is still *beta*.
+        warnings.warn(msg, _BetaConfiguration)
+      running dist_info
+      creating <HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info
+      writing <HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\PKG-INFO
+      writing dependency_links to <HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\dependency_links.txt
+      writing entry points to <HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\entry_points.txt
+      writing requirements to <HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\requires.txt
+      writing top-level names to <HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\top_level.txt
+      writing manifest file '<HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\SOURCES.txt'
+      reading manifest file '<HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\SOURCES.txt'
+      adding license file 'LICENSE'
+      writing manifest file '<HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens.egg-info\SOURCES.txt'
+      creating '<HOME>\AppData\Local\Temp\pip-modern-metadata-z8tpul3j\nyc_lens-0.2.0.dist-info'
+      error: invalid command 'bdist_wheel'
+      [end of output]
+
+  note: This error originates from a subprocess, and is likely not a problem with pip.
+error: metadata-generation-failed
+
+× Encountered error while generating package metadata.
+╰─> See above for output.
+
+note: This is an issue with the package mentioned above, not pip.
+hint: See above for details.
+
+[notice] A new release of pip available: 22.3.1 -> 26.2.2
+[notice] To update, run: <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe -m pip install --upgrade pip

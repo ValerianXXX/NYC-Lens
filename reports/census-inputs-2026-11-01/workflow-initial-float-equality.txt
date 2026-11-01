@@ -1,0 +1,78 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <WORKSPACE>\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <WORKSPACE>\NYC-Lens-census-inputs
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 4 items
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results FAILED [ 25%]
+tests/unit/test_census_comparison_workflow.py::test_weighted_summary_resolves_actual_population_and_geometry PASSED [ 50%]
+tests/unit/test_census_comparison_workflow.py::test_health_includes_both_geometry_layers_in_saved_binding PASSED [ 75%]
+tests/unit/test_census_comparison_workflow.py::test_export_retains_weight_sources_and_missing_field_explanation PASSED [100%]
+
+================================== FAILURES ===================================
+__________ test_complete_and_incomplete_sites_keep_distinct_results ___________
+tests\unit\test_census_comparison_workflow.py:36: in test_complete_and_incomplete_sites_keep_distinct_results
+    assert [r['value'] for r in values['median_household_income']['values']] == [60000, None]
+E   assert [59999.99999999999, None] == [60000, None]
+E
+E     At index 0 diff: 59999.99999999999 != 60000
+E
+E     Full diff:
+E       [
+E     -     60000,
+E     +     59999.99999999999,
+E           None,
+E       ]
+============================== warnings summary ===============================
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\tests\fixtures\census_scenario.py:27: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    area = transform(metric_transform_for_geometry(geometry), geometry).area
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\spatial\catchments.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    point_metric = transform(forward, Point(longitude, latitude))
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\spatial\catchments.py:99: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return transform(reverse, point_metric.buffer(distance_m, quad_segs=32))
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\spatial\catchments.py:268: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    return float(transform(metric_transform_for_geometry(geometry), geometry).area)
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\metrics\engine.py:491: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    catchment_area_m2 = float(transform(metric_transform, geometry).area)
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\metrics\census.py:98: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric = transform(metric_transform, geometry)
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\metrics\census.py:101: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    boundary_metric = transform(metric_transform, geometries[int(index)])
+
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+  <WORKSPACE>\NYC-Lens-census-inputs\src\nyc_lens\metrics\engine.py:2002: DeprecationWarning: The 'shapely.ops.transform()' function is deprecated. Use 'shapely.transform()' or 'shapely.transform_coordseq()' instead. See https://shapely.readthedocs.io/en/latest/manual.html#shapely.ops.transform for more details.
+    target_metric_geometry = transform(metric_transform, geometry)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED tests/unit/test_census_comparison_workflow.py::test_complete_and_incomplete_sites_keep_distinct_results
+================== 1 failed, 3 passed, 22 warnings in 6.16s ===================

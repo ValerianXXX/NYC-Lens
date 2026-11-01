@@ -1,0 +1,15 @@
+Collecting setuptools==80.10.2
+  Using cached setuptools-80.10.2-py3-none-any.whl (1.1 MB)
+Collecting wheel==0.48.0
+  Using cached wheel-0.48.0-py3-none-any.whl (33 kB)
+Collecting packaging>=24.0
+  Using cached packaging-26.3-py3-none-any.whl (129 kB)
+Installing collected packages: setuptools, packaging, wheel
+  Attempting uninstall: setuptools
+    Found existing installation: setuptools 65.5.0
+    Uninstalling setuptools-65.5.0:
+      Successfully uninstalled setuptools-65.5.0
+Successfully installed packaging-26.3 setuptools-80.10.2 wheel-0.48.0
+
+[notice] A new release of pip available: 22.3.1 -> 26.2.2
+[notice] To update, run: <WORKSPACE>\task-artifacts\nyc-census-build-env-20261101\Scripts\python.exe -m pip install --upgrade pip

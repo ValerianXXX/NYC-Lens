@@ -1,0 +1,97 @@
+FFFFFF                                                                   [100%]
+================================== FAILURES ===================================
+______________ test_missing_uncertainty_is_not_reported_as_zero _______________
+
+inputs = (<_duckdb.DuckDBPyConnection object at 0x000001B1DD24F370>,    geography_id  fraction  intersection_area_m2  boundary_...      50.0             100.0          b0
+1  340130002001      0.25                  25.0             100.0          b1)
+
+    def test_missing_uncertainty_is_not_reported_as_zero(inputs):
+        conn, weights = inputs
+        population(conn)
+        conn.execute("UPDATE census_estimate SET margin_of_error=NULL WHERE census_estimate_id='p1'")
+        value, margin, _, _ = engine._acs_aggregate(conn, weights, 'B01003_001')
+        assert value == 100
+>       assert margin is None
+E       assert 2.0 is None
+
+tests\unit\test_census_input_failures.py:14: AssertionError
+____________ test_unusable_count_is_not_a_complete_population[inf] ____________
+
+inputs = (<_duckdb.DuckDBPyConnection object at 0x000001B1DD1D1430>,    geography_id  fraction  intersection_area_m2  boundary_...      50.0             100.0          b0
+1  340130002001      0.25                  25.0             100.0          b1)
+value = inf
+
+    @pytest.mark.parametrize('value', [float('inf'), float('nan'), -1])
+    def test_unusable_count_is_not_a_complete_population(inputs, value):
+        conn, weights = inputs
+        population(conn)
+        conn.execute("UPDATE census_estimate SET estimate=? WHERE census_estimate_id='p1'", [value])
+>       assert engine._acs_aggregate(conn, weights, 'B01003_001')[0] is None
+E       assert inf is None
+
+tests\unit\test_census_input_failures.py:22: AssertionError
+____________ test_unusable_count_is_not_a_complete_population[nan] ____________
+
+inputs = (<_duckdb.DuckDBPyConnection object at 0x000001B1DE31BD30>,    geography_id  fraction  intersection_area_m2  boundary_...      50.0             100.0          b0
+1  340130002001      0.25                  25.0             100.0          b1)
+value = nan
+
+    @pytest.mark.parametrize('value', [float('inf'), float('nan'), -1])
+    def test_unusable_count_is_not_a_complete_population(inputs, value):
+        conn, weights = inputs
+        population(conn)
+        conn.execute("UPDATE census_estimate SET estimate=? WHERE census_estimate_id='p1'", [value])
+>       assert engine._acs_aggregate(conn, weights, 'B01003_001')[0] is None
+E       assert 50.0 is None
+
+tests\unit\test_census_input_failures.py:22: AssertionError
+____________ test_unusable_count_is_not_a_complete_population[-1] _____________
+
+inputs = (<_duckdb.DuckDBPyConnection object at 0x000001B1DD24DF70>,    geography_id  fraction  intersection_area_m2  boundary_...      50.0             100.0          b0
+1  340130002001      0.25                  25.0             100.0          b1)
+value = -1
+
+    @pytest.mark.parametrize('value', [float('inf'), float('nan'), -1])
+    def test_unusable_count_is_not_a_complete_population(inputs, value):
+        conn, weights = inputs
+        population(conn)
+        conn.execute("UPDATE census_estimate SET estimate=? WHERE census_estimate_id='p1'", [value])
+>       assert engine._acs_aggregate(conn, weights, 'B01003_001')[0] is None
+E       assert 49.75 is None
+
+tests\unit\test_census_input_failures.py:22: AssertionError
+_________ test_duplicate_intersecting_geography_does_not_double_count _________
+
+inputs = (<_duckdb.DuckDBPyConnection object at 0x000001B1DD25A430>,    geography_id  fraction  intersection_area_m2  boundary_...      50.0             100.0          b0
+1  340130002001      0.25                  25.0             100.0          b1)
+
+    def test_duplicate_intersecting_geography_does_not_double_count(inputs):
+        conn, weights = inputs
+        population(conn)
+        import pandas as pd
+        duplicate = pd.concat([weights, weights.iloc[[0]]], ignore_index=True)
+>       assert engine._acs_aggregate(conn, duplicate, 'B01003_001')[0] is None
+E       assert 150.0 is None
+
+tests\unit\test_census_input_failures.py:30: AssertionError
+_________ test_tract_denominator_requires_every_intersecting_boundary _________
+
+inputs = (<_duckdb.DuckDBPyConnection object at 0x000001B1DD24DD70>,    geography_id  fraction  intersection_area_m2  boundary_...      50.0             100.0          b0
+1  340130002001      0.25                  25.0             100.0          b1)
+
+    def test_tract_denominator_requires_every_intersecting_boundary(inputs):
+        conn, weights = inputs
+        estimate(conn, 'ct0', T0, 400, 'B15003_001', 'tract')
+        estimate(conn, 'ct1', T1, 300, 'B15003_001', 'tract')
+        conn.execute("DELETE FROM geo_boundary WHERE boundary_id='b1'")
+>       assert engine._acs_aggregate(conn, weights, 'B15003_001')[0] is None
+E       assert 100.0 is None
+
+tests\unit\test_census_input_failures.py:38: AssertionError
+=========================== short test summary info ===========================
+FAILED tests/unit/test_census_input_failures.py::test_missing_uncertainty_is_not_reported_as_zero
+FAILED tests/unit/test_census_input_failures.py::test_unusable_count_is_not_a_complete_population[inf]
+FAILED tests/unit/test_census_input_failures.py::test_unusable_count_is_not_a_complete_population[nan]
+FAILED tests/unit/test_census_input_failures.py::test_unusable_count_is_not_a_complete_population[-1]
+FAILED tests/unit/test_census_input_failures.py::test_duplicate_intersecting_geography_does_not_double_count
+FAILED tests/unit/test_census_input_failures.py::test_tract_denominator_requires_every_intersecting_boundary
