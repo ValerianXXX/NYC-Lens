@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "frozen_on": "2026-10-31",
+  "data": "Original synthetic records only; no real location or customer conclusion",
+  "model_calls": 0,
+  "independent_users": 0,
+  "cases": [
+    {"id": "english-complete", "level": "local HTTP plus real owned analysis worker", "task": "Prepare, explicitly confirm and export a two-address restaurant comparison; inspect map geometry and evidence"},
+    {"id": "chinese-complete", "level": "local HTTP plus real owned analysis worker", "task": "Complete the equivalent Chinese task; preserve missing population and rent rather than inventing values"},
+    {"id": "one-address", "level": "local HTTP planning", "task": "Require a second address without starting analysis"},
+    {"id": "duplicate-address", "level": "local HTTP planning", "task": "Reject a comparison of the same address twice"},
+    {"id": "three-addresses", "level": "local HTTP planning", "task": "Ask the user to choose two rather than silently dropping an address"},
+    {"id": "unsupported-business", "level": "local HTTP planning", "task": "Do not represent a coffee-shop task as a supported full-service restaurant analysis"},
+    {"id": "walking-requirement", "level": "local HTTP plus real owned analysis worker", "task": "Retain an unmet walking-time requirement when the user explicitly confirms a radial comparison"},
+    {"id": "ambiguous-geocoder", "level": "actual adapter with synthetic HTTP transport", "task": "Do not silently accept the first of two official-format address matches; retain the response and require a more precise address"},
+    {"id": "missing-source", "level": "local HTTP plus real owned analysis worker", "task": "Withhold a source-dependent count when no completed snapshot is available"},
+    {"id": "old-source-observation", "level": "local HTTP plus real owned analysis worker", "task": "Expose an old retrieval date and historical source period; do not label retrieval age as proof of expiry or changed data"},
+    {"id": "incomparable-units", "level": "comparison and decision-brief contract", "task": "Do not subtract or rank values with different units"},
+    {"id": "frozen-report-observation", "level": "local HTTP plus real owned analysis worker", "task": "A saved report retains source observation metadata captured at analysis, even after catalog metadata changes"}
+  ],
+  "limits": ["These are not twelve independent human trials", "Geocoder ambiguity and mixed-unit cases have their stated contract scopes", "Browser actions, live providers and complete-data acceptance are recorded separately"]
+}
