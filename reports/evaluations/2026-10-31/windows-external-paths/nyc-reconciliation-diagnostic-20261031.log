@@ -1,0 +1,15 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 4 items
+
+tests/unit/test_analysis_jobs.py::test_actual_mcp_client_cancellation_stops_worker[2026-07-28] PASSED [ 25%]
+tests/unit/test_analysis_jobs.py::test_actual_mcp_client_cancellation_stops_worker[legacy] PASSED [ 50%]
+tests/unit/test_legacy_http_analysis.py::test_timeout_is_saved_recoverable_and_not_automatically_retried PASSED [ 75%]
+tests/unit/test_external_generation_contract.py::test_source_moving_region_replaces_the_whole_source_once PASSED [100%]
+
+============================= 4 passed in 50.53s ==============================
+{"head": "6862e4aef7037771570cbaa2650fb1d9732195a1", "startedAtUtc": "2026-11-01T02:33:00.621861+00:00", "status": "COMPLETED", "retainedTestDirectory": "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-reconcile-diag-20261031", "failures": [], "scope": "Original assertions, filtered passive Python exception trace, synthetic data only", "exitCode": 0, "finishedAtUtc": "2026-11-01T02:33:53.557755+00:00", "sourceUnchanged": true}

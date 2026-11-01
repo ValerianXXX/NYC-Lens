@@ -1,0 +1,16 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 6 items
+
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_replacement_preserves_reader_hashes_and_source_proof[ascii] PASSED [ 16%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_replacement_preserves_reader_hashes_and_source_proof[\u6750\u6599's folder] PASSED [ 33%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_failed_publication_retains_prior_catalog_and_bytes[ascii] PASSED [ 50%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_failed_publication_retains_prior_catalog_and_bytes[\u6750\u6599's folder] PASSED [ 66%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_quoted_parquet_path_round_trips_through_real_duckdb[ascii] PASSED [ 83%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_quoted_parquet_path_round_trips_through_real_duckdb[\u6750\u6599's folder] PASSED [100%]
+
+============================== 6 passed in 9.04s ==============================

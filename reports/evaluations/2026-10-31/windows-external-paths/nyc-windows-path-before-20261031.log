@@ -1,0 +1,192 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation
+configfile: pyproject.toml
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 6 items
+
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_replacement_preserves_reader_hashes_and_source_proof[ascii] ERROR [ 16%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_replacement_preserves_reader_hashes_and_source_proof[\u6750\u6599's folder] ERROR [ 33%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_failed_publication_retains_prior_catalog_and_bytes[ascii] ERROR [ 50%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_failed_publication_retains_prior_catalog_and_bytes[\u6750\u6599's folder] ERROR [ 66%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_quoted_parquet_path_round_trips_through_real_duckdb[ascii] ERROR [ 83%]
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_quoted_parquet_path_round_trips_through_real_duckdb[\u6750\u6599's folder] ERROR [100%]
+
+=================================== ERRORS ====================================
+_ ERROR at setup of test_long_generation_replacement_preserves_reader_hashes_and_source_proof[ascii] _
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_replaceme0\\ascii\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_0ee89089fc1b4f2b8eb94103acef22a6'
+
+During handling of the above exception, another exception occurred:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:32: in long_database
+    with duckdb.connect(str(path)) as conn:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:34: in long_database
+    storage.ensure_external_storage(conn)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:288: in ensure_external_storage
+    rebuild_external_catalog(conn, table_name)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:430: in rebuild_external_catalog
+    manifest_root = manifest_root or _generation_root(table_name)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:215: in _generation_root
+    result.mkdir(parents=True, exist_ok=False)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1121: in mkdir
+    self.mkdir(mode, parents=False, exist_ok=exist_ok)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_replaceme0\\ascii\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_0ee89089fc1b4f2b8eb94103acef22a6'
+_ ERROR at setup of test_long_generation_replacement_preserves_reader_hashes_and_source_proof[\u6750\u6599's folder] _
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_replaceme1\\材料's folder\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_28bcc8c4aff045c19f524c1a15e96688"
+
+During handling of the above exception, another exception occurred:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:32: in long_database
+    with duckdb.connect(str(path)) as conn:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:34: in long_database
+    storage.ensure_external_storage(conn)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:288: in ensure_external_storage
+    rebuild_external_catalog(conn, table_name)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:430: in rebuild_external_catalog
+    manifest_root = manifest_root or _generation_root(table_name)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:215: in _generation_root
+    result.mkdir(parents=True, exist_ok=False)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1121: in mkdir
+    self.mkdir(mode, parents=False, exist_ok=exist_ok)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_replaceme1\\材料's folder\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_28bcc8c4aff045c19f524c1a15e96688"
+_ ERROR at setup of test_long_generation_failed_publication_retains_prior_catalog_and_bytes[ascii] _
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_failed_pu0\\ascii\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_1f96951730bd40a18a6d541ff9bfbc1f'
+
+During handling of the above exception, another exception occurred:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:32: in long_database
+    with duckdb.connect(str(path)) as conn:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:34: in long_database
+    storage.ensure_external_storage(conn)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:288: in ensure_external_storage
+    rebuild_external_catalog(conn, table_name)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:430: in rebuild_external_catalog
+    manifest_root = manifest_root or _generation_root(table_name)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:215: in _generation_root
+    result.mkdir(parents=True, exist_ok=False)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1121: in mkdir
+    self.mkdir(mode, parents=False, exist_ok=exist_ok)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_failed_pu0\\ascii\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_1f96951730bd40a18a6d541ff9bfbc1f'
+_ ERROR at setup of test_long_generation_failed_publication_retains_prior_catalog_and_bytes[\u6750\u6599's folder] _
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_failed_pu1\\材料's folder\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_c91d87bc058f420f9c91def028543ecc"
+
+During handling of the above exception, another exception occurred:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:32: in long_database
+    with duckdb.connect(str(path)) as conn:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:34: in long_database
+    storage.ensure_external_storage(conn)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:288: in ensure_external_storage
+    rebuild_external_catalog(conn, table_name)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:430: in rebuild_external_catalog
+    manifest_root = manifest_root or _generation_root(table_name)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:215: in _generation_root
+    result.mkdir(parents=True, exist_ok=False)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1121: in mkdir
+    self.mkdir(mode, parents=False, exist_ok=exist_ok)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_generation_failed_pu1\\材料's folder\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_c91d87bc058f420f9c91def028543ecc"
+_ ERROR at setup of test_long_quoted_parquet_path_round_trips_through_real_duckdb[ascii] _
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_quoted_parquet_path_0\\ascii\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_31c7198a9c0c461a9e5cb3dfc2a94235'
+
+During handling of the above exception, another exception occurred:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:32: in long_database
+    with duckdb.connect(str(path)) as conn:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:34: in long_database
+    storage.ensure_external_storage(conn)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:288: in ensure_external_storage
+    rebuild_external_catalog(conn, table_name)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:430: in rebuild_external_catalog
+    manifest_root = manifest_root or _generation_root(table_name)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:215: in _generation_root
+    result.mkdir(parents=True, exist_ok=False)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1121: in mkdir
+    self.mkdir(mode, parents=False, exist_ok=exist_ok)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: '<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_quoted_parquet_path_0\\ascii\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_31c7198a9c0c461a9e5cb3dfc2a94235'
+_ ERROR at setup of test_long_quoted_parquet_path_round_trips_through_real_duckdb[\u6750\u6599's folder] _
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_quoted_parquet_path_1\\材料's folder\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_fd864fe2c1c443339eb44622681f121b"
+
+During handling of the above exception, another exception occurred:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:32: in long_database
+    with duckdb.connect(str(path)) as conn:
+NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py:34: in long_database
+    storage.ensure_external_storage(conn)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:288: in ensure_external_storage
+    rebuild_external_catalog(conn, table_name)
+NYC-Lens-reconciliation\src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:430: in rebuild_external_catalog
+    manifest_root = manifest_root or _generation_root(table_name)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+NYC-Lens-reconciliation\src\nyc_lens\storage.py:215: in _generation_root
+    result.mkdir(parents=True, exist_ok=False)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1121: in mkdir
+    self.mkdir(mode, parents=False, exist_ok=exist_ok)
+..\..\..\..\AppData\Local\Programs\Python\Python311\Lib\pathlib.py:1116: in mkdir
+    os.mkdir(self, mode)
+E   FileNotFoundError: [WinError 3] 系统找不到指定的路径。: "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-path-before-20261031\\test_long_quoted_parquet_path_1\\材料's folder\\hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh\\data\\standardized\\_external_generations\\building\\generation_fd864fe2c1c443339eb44622681f121b"
+=========================== short test summary info ===========================
+ERROR NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_replacement_preserves_reader_hashes_and_source_proof[ascii]
+ERROR NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_replacement_preserves_reader_hashes_and_source_proof[\u6750\u6599's folder]
+ERROR NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_failed_publication_retains_prior_catalog_and_bytes[ascii]
+ERROR NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_generation_failed_publication_retains_prior_catalog_and_bytes[\u6750\u6599's folder]
+ERROR NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_quoted_parquet_path_round_trips_through_real_duckdb[ascii]
+ERROR NYC-Lens-reconciliation\tests\unit\test_external_storage_long_paths.py::test_long_quoted_parquet_path_round_trips_through_real_duckdb[\u6750\u6599's folder]
+============================== 6 errors in 5.49s ==============================

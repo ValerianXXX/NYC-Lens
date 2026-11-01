@@ -1,0 +1,187 @@
+{
+  "schema": 1,
+  "observedAtUtc": "2026-11-01T02:49:04.568186+00:00",
+  "branch": "codex/nyc-windows-external-paths-20261031",
+  "base": "6862e4aef7037771570cbaa2650fb1d9732195a1",
+  "frozen": "4a91f643a1000462d848e15a1b94e2065a2d9dc2",
+  "runtime": "ae972a47848e778e3bc6386d621f533c9024d9ba",
+  "frozenTestUnchanged": true,
+  "environment": {
+    "os": "Windows",
+    "python": "3.11.3",
+    "duckdb": "1.5.6",
+    "pytest": "8.4.2"
+  },
+  "before": {
+    "passed": 0,
+    "setupErrors": 6,
+    "seconds": 5.49,
+    "meaning": "One unsupported long-path boundary prevents six cases from reaching assertions"
+  },
+  "after": {
+    "passed": 6,
+    "seconds": 9.04
+  },
+  "related": {
+    "passed": 66,
+    "warnings": 30,
+    "seconds": 91.7,
+    "overlapWithFrozenSix": 0
+  },
+  "previousCandidateFull": {
+    "runtime": "0effac1ac58af1fbc4a4def7df99cf62d3aefa20",
+    "passed": 486,
+    "failed": 3,
+    "skipped": 3,
+    "seconds": 1684.06,
+    "sourceUnchanged": true,
+    "hostedRun": "https://github.com/ValerianXXX/NYC-Lens/actions/runs/41264890176",
+    "hostedLinux": {
+      "passed": 487,
+      "skipped": 5,
+      "seconds": 429.62
+    },
+    "hostedWindowsGroups": [
+      77,
+      34,
+      43,
+      49,
+      50,
+      29,
+      58,
+      27
+    ]
+  },
+  "currentFull": {
+    "status": "RUNNING_WITH_OBSERVED_FAILURE",
+    "failureSnapshot": "observed-cancellation-failure.json",
+    "meaning": "HTTP cancellation encountered database file-sharing failure after confirmed worker stop; path repair does not resolve it"
+  },
+  "packaging": {
+    "kind": "Offline source wheel; no publication",
+    "sha256": "89b290683d5fa1a1a4cb4bc0bcafecd4dc095f6ec339c54b51779d2537847839",
+    "bytes": 290612,
+    "changedRuntimeFilesCompared": 5,
+    "packagedRuntimeMatches": true,
+    "dependencyInstallation": false
+  },
+  "logs": [
+    {
+      "path": "nyc-windows-path-before-20261031.log",
+      "sha256": "0438721ad3907eb9f772a026fecbe74941dd1303c0f0c3e36d526c3756d83a9c",
+      "originalSha256": "49eddc6e88f4104d5e3dcb9cac3d4f6a8f624063a4073ba166f8c149441b7742",
+      "redaction": "Local account path redacted; line endings/trailing spaces normalized; original bytes/hash retained locally"
+    },
+    {
+      "path": "nyc-windows-path-after-20261031.log",
+      "sha256": "0ac10c09a8325efdc5d123323ea9d20572ad4636fc013c16f5fddc444c5e8e87",
+      "originalSha256": "c05e1c587b05a8e6eac1956b37b0a2e4df5f927bd8961666fdcad79ff850c0e8",
+      "redaction": "Local account path redacted; line endings/trailing spaces normalized; original bytes/hash retained locally"
+    },
+    {
+      "path": "nyc-windows-path-related-20261031.log",
+      "sha256": "84d3c245769d15ae6178d1f8d8011120b5ff804fc37c9563b50110b2f51083e0",
+      "originalSha256": "ad2a3f7189c5c8d71c02e4cf028ea59c459e0f9c5205deac20ae3324bfc2622d",
+      "redaction": "Local account path redacted; line endings/trailing spaces normalized; original bytes/hash retained locally"
+    },
+    {
+      "path": "nyc-scenario-full-20261031.log",
+      "sha256": "f7d1de1073264144adeaeb81bd4e244284f82a075b982091da0a201697e888d5",
+      "originalSha256": "acecb4baa86a25ba81a95b7ba946f1e1599106738ee7df6bde00e8b78fb94bb3",
+      "redaction": "Local account path redacted; line endings/trailing spaces normalized; original bytes/hash retained locally"
+    },
+    {
+      "path": "nyc-reconciliation-diagnostic-20261031.log",
+      "sha256": "957bf063ee7e17d0a1380431efeca4e3bcc631760c7ad9af9ca8c21b0f87768f",
+      "originalSha256": "4d98b7b6bd24c86d17aab9379254f5d6a384c4836e7a5ac70725e95f000af059",
+      "redaction": "Local account path redacted; line endings/trailing spaces normalized; original bytes/hash retained locally"
+    },
+    {
+      "path": "nyc-reconciliation-collected-20261031.log",
+      "sha256": "cb0706ab9d11613d9e7693bd8786f980c2c7e3c243fa59d5a6baab95d00f8068",
+      "originalSha256": "10b82990f9d84f1655f70912305c0ff32eb908bb341be69162aaff26decfc566",
+      "redaction": "Local account path redacted; line endings/trailing spaces normalized; original bytes/hash retained locally"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "src/nyc_lens/db.py",
+      "sha256": "ba6114ac216824159e5d1aaec5b8428705d4657300f3bdd89a09531ae6846175"
+    },
+    {
+      "path": "src/nyc_lens/paths.py",
+      "sha256": "238000d97ce21aa5a49eea4c98eb8824d651f22f9c407ea045562790b59e26d4"
+    },
+    {
+      "path": "src/nyc_lens/publication_readiness.py",
+      "sha256": "a61d3e7e3d47c357faa05967dffd375ed9e18e16af1bcf94d3f475395dbc3cbc"
+    },
+    {
+      "path": "src/nyc_lens/storage.py",
+      "sha256": "ba4c8b32c23e8a181222fc054f7e6cd00f5ccdd6a990f7c77bf68e62c03e7595"
+    },
+    {
+      "path": "src/nyc_lens/util.py",
+      "sha256": "4881509c9dfdee939aabcba26b942b3595d0c45ad54dbba1cf7b9105020262ac"
+    },
+    {
+      "path": "tests/unit/test_external_storage_long_paths.py",
+      "sha256": "59c7a225763e4beeb699e04b1178b3384fd6659b0d923411df3b54fa23a93f86"
+    },
+    {
+      "path": "tests/unit/test_external_path_boundary.py",
+      "sha256": "f06700052ac10a1e764e8c6f2bdb498d090446ce209e9f8d5d1d3885cec8951d"
+    },
+    {
+      "path": ".github/workflows/tests.yml",
+      "sha256": "4a27ba737c4ba7e352f39ac18085285db3f638ebad529153c85a9b44116ecec9"
+    },
+    {
+      "path": "README.md",
+      "sha256": "6f311c9bf5061ea9ef519f29cb4616b15706cd35532850e69d0f2c8fb47dbcc3"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "sha256": "24f27fd0c2481a0611642e26d2c04380d5995bbbc2544b040a8288d853256468"
+    },
+    {
+      "path": "docs/windows-external-paths-2026-10-31.md",
+      "sha256": "87188773be1d09b720b20382d95cccd382acde2c8aba84594e339879546a3d3a"
+    }
+  ],
+  "newModelCalls": 0,
+  "aiGainMeasured": false,
+  "productionDeployment": false,
+  "schemaMigration": false,
+  "registryChange": false,
+  "dependenciesChanged": false,
+  "remaining": [
+    "Intermittent Windows cancellation cleanup; immediate HTTP exception now captured, original MCP exception unavailable",
+    "Timeout test observed no rows created before its deadline in previous full run",
+    "Complete current candidate regression and hosted checks",
+    "UNC/network share, every export/migration path, independent machine and full regional data acceptance"
+  ],
+  "references": [
+    {
+      "url": "https://learn.microsoft.com/windows/win32/fileio/maximum-file-path-limitation",
+      "verifiedAtUtc": "2026-11-01"
+    },
+    {
+      "url": "https://github.com/duckdb/duckdb/issues/20384",
+      "verifiedAtUtc": "2026-11-01"
+    },
+    {
+      "url": "https://github.com/duckdb/duckdb/pull/20983",
+      "verifiedAtUtc": "2026-11-01"
+    },
+    {
+      "url": "https://github.com/duckdb/duckdb/issues/24767",
+      "verifiedAtUtc": "2026-11-01"
+    }
+  ],
+  "wholeGoalComplete": false,
+  "artifactVerification": {
+    "fileHashesChecked": 17,
+    "relativeLinksChecked": 36
+  }
+}

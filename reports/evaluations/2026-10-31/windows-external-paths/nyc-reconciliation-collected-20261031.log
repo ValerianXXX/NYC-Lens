@@ -1,0 +1,34 @@
+============================= test session starts =============================
+platform win32 -- Python 3.11.3, pytest-8.4.2, pluggy-1.7.0 -- <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens\.venv\Scripts\python.exe
+cachedir: .pytest_cache
+rootdir: <LOCAL_USER>\Documents\Codex\2026-10-27\github-ai-agent-github-valerianxxx-1\NYC-Lens-reconciliation
+configfile: pyproject.toml
+testpaths: tests
+plugins: anyio-4.15.1, cov-7.1.0
+collecting ... collected 492 items / 488 deselected / 4 selected
+
+tests/unit/test_analysis_jobs.py::test_actual_mcp_client_cancellation_stops_worker[2026-07-28] PASSED [ 25%]
+tests/unit/test_analysis_jobs.py::test_actual_mcp_client_cancellation_stops_worker[legacy] PASSED [ 50%]
+tests/unit/test_external_generation_contract.py::test_source_moving_region_replaces_the_whole_source_once FAILED [ 75%]
+tests/unit/test_legacy_http_analysis.py::test_timeout_is_saved_recoverable_and_not_automatically_retried PASSED [100%]
+
+================================== FAILURES ===================================
+__________ test_source_moving_region_replaces_the_whole_source_once ___________
+tests\unit\test_external_generation_contract.py:166: in test_source_moving_region_replaces_the_whole_source_once
+    assert publish(conn, frame("new", 2), region="greater_nyc") == (1, 2)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests\unit\test_external_generation_contract.py:31: in publish
+    return storage.replace_source_from_relation(conn, table_name="building", source_id=source,
+src\nyc_lens\publication.py:53: in wrapped
+    return function(conn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\storage.py:574: in replace_source_from_relation
+    entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src\nyc_lens\storage.py:358: in _write_source_partitions
+    conn.execute(
+E   _duckdb.IOException: IO Error: Cannot open file "<LOCAL_USER>/AppData/Local/Temp/nyc-reconcile-collected-20261031/test_source_moving_region_repl0/data/standardized/_external_generations/building/generation_866936c266004ea7806786101e051c30/region=greater_nyc/source=fixture_buildings/year=2026/part-00000.parquet": 系统找不到指定的路径。
+=========================== short test summary info ===========================
+FAILED tests/unit/test_external_generation_contract.py::test_source_moving_region_replaces_the_whole_source_once
+================ 1 failed, 3 passed, 488 deselected in 59.59s =================
+{"head": "6862e4aef7037771570cbaa2650fb1d9732195a1", "startedAtUtc": "2026-11-01T02:35:20.259786+00:00", "status": "COMPLETED", "retainedTestDirectory": "<LOCAL_USER>\\AppData\\Local\\Temp\\nyc-reconcile-collected-20261031", "failures": [{"test": "tests/unit/test_external_generation_contract.py::test_source_moving_region_replaces_the_whole_source_once", "phase": "call", "receipts": [], "failure": "tests\\unit\\test_external_generation_contract.py:166: in test_source_moving_region_replaces_the_whole_source_once\n    assert publish(conn, frame(\"new\", 2), region=\"greater_nyc\") == (1, 2)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\ntests\\unit\\test_external_generation_contract.py:31: in publish\n    return storage.replace_source_from_relation(conn, table_name=\"building\", source_id=source,\nsrc\\nyc_lens\\publication.py:53: in wrapped\n    return function(conn, *args, **kwargs)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\nyc_lens\\storage.py:574: in replace_source_from_relation\n    entries = _write_source_partitions(conn, spec, relation, source_id, staged_source)\n              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc\\nyc_lens\\storage.py:358: in _write_source_partitions\n    conn.execute(\nE   _duckdb.IOException: IO Error: Cannot open file \"<LOCAL_USER>/AppData/Local/Temp/nyc-reconcile-collected-20261031/test_source_moving_region_repl0/data/standardized/_external_generations/building/generation_866936c266004ea7806786101e051c30/region=greater_nyc/source=fixture_buildings/year=2026/part-00000.parquet\": \u7cfb\u7edf\u627e\u4e0d\u5230\u6307\u5b9a\u7684\u8def\u5f84\u3002"}], "scope": "Original assertions, filtered passive Python exception trace, synthetic data only", "exitCode": 1, "finishedAtUtc": "2026-11-01T02:36:22.579999+00:00", "sourceUnchanged": true}
